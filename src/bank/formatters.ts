@@ -1,6 +1,16 @@
 import _ from 'lodash';
-import { IIncome, ISavings } from './interfaces';
+import * as I from './interfaces';
 
+
+export const labelSavings = (saving: string) => {
+  const labels = {
+    'P': 'Principal',
+    'I': 'Interest',
+    'T': 'Total'
+  };
+
+  return _.get(labels, saving, 'N/A');
+}
 
 const formatYear = (months: number[], value?: any) => {
   return _(months).reduce((acc: any, m) => {
@@ -9,8 +19,8 @@ const formatYear = (months: number[], value?: any) => {
   }, {});
 };
 
-export const formatIncome = (income_data: any, headers: any): IIncome => {
-  let result: IIncome = {};
+export const formatIncome = (income_data: any, headers: any): I.IIncome => {
+  let result: I.IIncome = {};
   
   let years = _.range(headers.firstYear, new Date().getFullYear() + 1);
 
@@ -32,7 +42,7 @@ export const formatIncome = (income_data: any, headers: any): IIncome => {
 }
 
 export const formatSavings = (data: any, headers: any) => {
-  let result: ISavings = {};
+  let result: I.ISavings = {};
   let years = _.range(headers.firstYear, new Date().getFullYear() + 1);
 
   _(years).each((y, idx) => {
@@ -51,3 +61,31 @@ export const formatSavings = (data: any, headers: any) => {
 
   return result;
 }
+
+export const savingsInputs = (savings: I.ISavingsHeader[], hidden: {}) => {
+
+  // const hidden = filter ? this.savingsHeadersHidden : {}
+
+  // return FinanceHelpers.savingsInputs(this.savingsHeaders, filter ? this.savingsHeadersHidden : {});
+  return _(savings)
+    .map((header) => {
+      let headers: [{id: string, type: string, types: string[]}] = [{
+        id: header.id, type: 'P', types: []
+      }];
+      if (header.interest) _.each(['I', 'T'], (t) => headers.push({id: header.id, type: t, types: []})); 
+      _.each(headers, (item) => { 
+        _.each(headers, (h) => {
+          item.types.push(h.type)
+        });
+      });
+      return headers;
+    })
+    .flatMap()
+    .filter(header => !_.get(hidden, [header.id, header.type], false))
+    .value();
+
+}
+
+// const savingsInputs = (savings, hidden) => {
+  
+// }

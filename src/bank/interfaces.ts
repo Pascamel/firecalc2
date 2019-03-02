@@ -6,6 +6,10 @@ export interface IIncome {
   }
 }
 
+export interface IIncomeHeader {
+
+}
+
 export interface ISavings {
   [year: string]: {
     [month: string]: {
@@ -14,4 +18,11 @@ export interface ISavings {
       }
     }
   }
+}
+
+export interface ISavingsHeader {
+  id: string,
+  interest: boolean,
+  type: string,
+  types: string[]
 }

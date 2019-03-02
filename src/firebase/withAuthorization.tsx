@@ -21,7 +21,7 @@ export const withAuthorization = (condition: any) => (Component: any) => {
     public render() {
       return (
         <AuthUserContext.Consumer>
-          {authUser => (authUser ? <Component /> : null)}
+          {authUser => (authUser ? <Component {...this.props} /> : null)}
         </AuthUserContext.Consumer>
       );
     }
