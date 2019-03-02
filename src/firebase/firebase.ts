@@ -1,6 +1,7 @@
-import * as firebase from "firebase/app";
-import "firebase/auth";
-import "firebase/database";
+import * as firebase from 'firebase/app';
+import 'firebase/auth';
+import 'firebase/database';
+import 'firebase/firestore';
 
 
 // REACT_APP_API_KEY=
@@ -31,3 +32,4 @@ if (!firebase.apps.length) {
 
 export const auth = firebase.auth();
 export const db = firebase.database();
+export const firestore = firebase.firestore();

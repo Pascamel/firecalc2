@@ -1,6 +1,6 @@
 import * as React from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
-import * as routes from "../constants/routes";
+import * as ROUTES from "../constants/routes";
 import { firebase } from "../firebase";
 import { withAuthentication } from "../firebase/withAuthentication";
 import { Account } from "../pages/Account";
@@ -10,6 +10,12 @@ import { PasswordForget } from "../pages/PasswordForget";
 import { SignIn } from "../pages/SignIn";
 import { SignUp } from "../pages/SignUp";
 import Navigation from "./Navigation";
+
+import AdminPage from '../pages/Admin';
+import HeadersPage from '../pages/Headers';
+import RevenuesPage from '../pages/Revenues';
+import SavingsPage from '../pages/Savings';
+import { MonthPage } from '../pages/Month';
 
 class AppComponent extends React.Component {
   constructor(props: any) {
@@ -33,18 +39,18 @@ class AppComponent extends React.Component {
       <BrowserRouter>
         <div>
           <Navigation />
-          <hr />
           <Switch>
-            <Route exact={true} path={routes.HOME} component={Landing} />
-            <Route exact={true} path={routes.SIGN_UP} component={SignUp} />
-            <Route exact={true} path={routes.SIGN_IN} component={SignIn} />
-            <Route
-              exact={true}
-              path={routes.PASSWORD_FORGET}
-              component={PasswordForget}
-            />
-            <Route exact={true} path={routes.HOME} component={Home} />
-            <Route exact={true} path={routes.ACCOUNT} component={Account} />
+            <Route exact={true} path={ROUTES.HOME} component={Landing} />
+            <Route exact={true} path={ROUTES.SIGN_UP} component={SignUp} />
+            <Route exact={true} path={ROUTES.SIGN_IN} component={SignIn} />
+            <Route exact={true} path={ROUTES.PASSWORD_FORGET} component={PasswordForget} />
+            <Route exact={true} path={ROUTES.HOME} component={Home} />
+            <Route exact={true} path={ROUTES.ACCOUNT} component={Account} />
+            <Route path={ROUTES.ADMIN} component={AdminPage} />
+            <Route path={ROUTES.HEADERS} component={HeadersPage} />
+            <Route path={ROUTES.REVENUES} component={RevenuesPage} />
+            <Route path={ROUTES.SAVINGS} component={SavingsPage} />
+            <Route path={ROUTES.MONTH} component={MonthPage} />
           </Switch>
         </div>
       </BrowserRouter>

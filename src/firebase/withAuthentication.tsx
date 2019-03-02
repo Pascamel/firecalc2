@@ -11,10 +11,7 @@ interface InterfaceState {
 }
 
 export const withAuthentication = (Component: any) => {
-  class WithAuthentication extends React.Component<
-    InterfaceProps,
-    InterfaceState
-  > {
+  class WithAuthentication extends React.Component<InterfaceProps, InterfaceState> {
     constructor(props: any) {
       super(props);
 
