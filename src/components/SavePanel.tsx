@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Row, Col, Container, ButtonGroup, Button } from 'reactstrap';
 // import Display from '../../UI/Display';
-import Helpers from '../helpers';
+import helpers from '../helpers';
 
 
 import { FiltersBtn } from './FiltersBtn';
@@ -54,11 +54,11 @@ export class SavePanel extends Component<ISavePanelProps, ISavePanelState> {
                     </Button>
                   </ButtonGroup>}                
 
-                  <span className={Helpers.showIf(updated, null)}>
+                  <span className={helpers.showIf(updated, null)}>
                     <i className="fa fa-lg fa-exclamation-triangle"></i>
                     Updates have been detected. Save now!
                   </span>
-                  <span className={`title ${Helpers.hideIf(updated, null)}`}>
+                  <span className={`title ${helpers.hideIf(updated)}`}>
                     {label}
                   </span>
 

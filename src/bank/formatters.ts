@@ -69,6 +69,10 @@ export const formatIncomeHeaders = (headers: any) => {
   });
 }
 
+export const formatSavingsHeaders = (headers: any) => {
+  return headers.savings;
+}
+
 export const savingsInputs = (savings: I.ISavingsHeader[], hidden: {}) => {
 
   // const hidden = filter ? this.savingsHeadersHidden : {}
@@ -91,6 +95,41 @@ export const savingsInputs = (savings: I.ISavingsHeader[], hidden: {}) => {
     .filter(header => !_.get(hidden, [header.id, header.type], false))
     .value();
 }
+
+export const formatSavingstaToSave = (savings: I.ISavings) => {
+  let data: any[] = [];
+
+  _.each(savings, (data_year, year) => {
+    _.each(data_year, (data_month, month) => {
+      _.each(data_month, (data_institution, institution) => {
+        _.each(data_institution, (amount, type) => {
+          if (type === 'T') return;
+          if (amount === 0) return;
+
+          data.push({year: parseInt(year), month: parseInt(month), institution: institution, type: type, amount: amount});
+        });
+      });
+    });
+  });
+
+  return data;
+}; 
+
+export const formatIncomeToSave = (income: I.IIncome) => {
+  let data: any[] = [];
+
+  _.each(income, (data_year, year) => {
+    _.each(data_year, (data_month, month) => {
+      _.each(data_month, (amount, institution) => {
+        if (amount === 0) return;
+        
+        data.push({year: parseInt(year), month: parseInt(month), type: institution, amount: amount});
+      })
+    });
+  });
+
+  return data;
+};
 
 // const savingsInputs = (savings, hidden) => {
   

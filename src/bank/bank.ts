@@ -12,18 +12,20 @@ export default class Bank {
     }
   };
 
-  income: IIncome|null;
-  savings: ISavings|null;
+  income: IIncome;
+  savings: ISavings;
   savingsInputs: any;
   savingsInputsHidden: any;
   incomeHeaders: any;
   savingsHeaders: any;
+  incomeYearHeaders: any;
+  savingsYearHeaders: any;
 
   constructor() {
     this.showDecimals = false;
     this.savingsHeadersHidden = {};
-    this.income = null;
-    this.savings = null;
+    this.income = {};
+    this.savings = {};
   }
 
   load = async () => {
@@ -44,7 +46,11 @@ export default class Bank {
     let revenues_data = _.get(revenues, 'data', []);
 
     this.incomeHeaders = formatters.formatIncomeHeaders(headers);
-    this.savingsHeaders = headers.savings;
+    this.savingsHeaders = formatters.formatSavingsHeaders(headers);
+
+
+    this.incomeYearHeaders = {collapsed: {}};
+    this.savingsYearHeaders = _.get(snapshotSavings.data(), 'yearly_data', {collapsed: {}, goals: {}});
 
     this.income = formatters.formatIncome(revenues_data, headers);
     this.savings = formatters.formatSavings(savings_data, headers);
@@ -77,5 +83,49 @@ export default class Bank {
       _.set(this, [index], value);
     }
   };
+
+  saveLocalStorage = () => {
+    // localStorage.setItem('savings_collapsed', JSON.stringify(this.savingsYearHeaders.collapsed));
+    // localStorage.setItem('income_collapsed', JSON.stringify(this.incomeYearHeaders.collapsed));
+    localStorage.setItem('show_decimals', this.showDecimals ? '1' : '0');
+    localStorage.setItem('savings_hidden', JSON.stringify(this.savingsHeadersHidden));
+  };
+
+  saveIncome = async () => {
+    const payload = {
+      last_update: (new Date()).getTime(),
+      data: JSON.parse(JSON.stringify(formatters.formatIncomeToSave(this.income))),
+      yearly_data: JSON.parse(JSON.stringify(this.incomeYearHeaders))
+    };
+
+    try {
+      await firestore.setRevenues(payload);
+      return true;
+    } catch {
+      return false;
+    }
+  };
+
+  saveSavings = async () => {
+    const payload = {
+      last_update: (new Date()).getTime(),
+      data: JSON.parse(JSON.stringify(formatters.formatSavingstaToSave(this.savings))),
+      yearly_data: JSON.parse(JSON.stringify(this.savingsYearHeaders)),
+      hideDecimals: !this.showDecimals
+    };
+
+    try {
+      await firestore.setSavings(payload);
+      return true;
+    } catch {
+      return false;
+    }
+  };
+
+  goalMonth = (month: string, year: string, format: boolean) => 123.45;
+  monthlyGoal = (year: string) => 123.45;
+  goalYearToDate = (month: string, year: string, fomatted: false) => 123.45;
+  savingRateMonth = (year: string, month: string) => 123.45;
+  savingRateYear = (year: string, month: string, formatted: false) => 123.45;
 }
 

@@ -32,7 +32,7 @@ const showIf = (bool: boolean, className: string|null) => {
   return bool ? '' : className;
 };
 
-const hideIf = (bool: boolean, className: string|null) => {
+const hideIf = (bool: boolean, className?: string) => {
   className = className || 'hidden';
 
   return bool ? className : '';

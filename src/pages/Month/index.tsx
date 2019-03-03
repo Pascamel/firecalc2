@@ -9,8 +9,8 @@ import { withAuthorization } from '../../firebase/withAuthorization';
 import { LoadingPanel } from '../../components/LoadingPanel';
 import { SavePanel } from '../../components/SavePanel';
 import helpers from '../../helpers';
-// import MonthChart from './monthChart';
-import MonthFinances from './monthFinances';
+import Finances from './finances';
+import Charts from './charts';
 
 
 interface IProps extends RouteComponentProps<{month: string, year: string}> {
@@ -116,8 +116,8 @@ class MonthPageBase extends Component<IProps, IState> {
             {!loading && <SavePanel label={`${helpers.labelMonth(month)} ${year}`} saveClick={this.saveData} prevMonth={this.prevMonth} nextMonth={this.nextMonth} callback={() => {}} {...this.state} />}
             {!loading && <Container>
               <Row>
-                <MonthFinances {...this.state} callbackSavings={this.updateSavings} callbackIncome={this.updateIncome} />
-                {/* <MonthChart {...this.state} /> */}
+                <Finances {...this.state} callbackSavings={this.updateSavings} callbackIncome={this.updateIncome} />
+                <Charts {...this.state} />
               </Row>
             </Container>}
           </React.Fragment>
