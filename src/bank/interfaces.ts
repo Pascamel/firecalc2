@@ -23,6 +23,9 @@ export interface ISavings {
 export interface ISavingsHeader {
   id: string,
   interest: boolean,
+  label: string,
+  sublabel: string,
+  icon: string,
   type: string,
   types: string[]
 }

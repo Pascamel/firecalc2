@@ -12,9 +12,9 @@ import helpers from '../helpers';
 
 interface IProps {
   amount: number,
-  extraClassName: string,
+  extraClassName?: string,
   ['callback-props']: string[],
-  ['display-if-zero']: boolean,
+  ['display-if-zero']?: boolean,
   ['display-decimals']: boolean,
   callback: (index: string, indexes: string[], amount: any, updatedState: boolean) => void
 }
@@ -37,7 +37,7 @@ export default class FireAmount extends Component<IProps, IState> {
       extraClassName: props.extraClassName || '',
       edit: false, 
       amount: props.amount,
-      inputValue: props.amount.toString(),
+      inputValue: props.amount ? props.amount.toString() : '',
       displayIfZero: props['display-if-zero'] || false
     };
   }
@@ -103,7 +103,7 @@ export default class FireAmount extends Component<IProps, IState> {
         </span>}
         {edit && <input ref={(input) => {if (input != null) input.focus();}}
                         className="form-control"
-                        defaultValue={this.state.amount.toString()} 
+                        defaultValue={this.state.amount ? this.state.amount.toString() : ''} 
                         onChange={(value:React.ChangeEvent<HTMLInputElement>) => this.onChange(value)} 
                         onKeyUp={this.handleKeyUp}  />}
         {/* {edit && <span onClick={this.saveEdit}><i className="fa fa-check"></i></span>} */}

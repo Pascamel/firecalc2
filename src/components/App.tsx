@@ -13,8 +13,8 @@ import Navigation from "./Navigation";
 
 import AdminPage from '../pages/Admin';
 import HeadersPage from '../pages/Headers';
-import RevenuesPage from '../pages/Revenues';
-import SavingsPage from '../pages/Savings';
+import { RevenuesPage } from '../pages/Revenues';
+import { SavingsPage } from '../pages/Savings';
 import { MonthPage } from '../pages/Month';
 
 class AppComponent extends React.Component {

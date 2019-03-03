@@ -14,8 +14,8 @@ interface ISavePanelProps {
   label: string, 
   bank: Bank,
   saveClick: () => void,
-  prevMonth: () => void,
-  nextMonth: () => void,
+  prevMonth?: () => void,
+  nextMonth?: () => void,
   callback: (index: string, indexes: string[], amount: any, updatedState: boolean) => void
 }
 
@@ -54,7 +54,7 @@ export class SavePanel extends Component<ISavePanelProps, ISavePanelState> {
                     </Button>
                   </ButtonGroup>}                
 
-                  <span className={helpers.showIf(updated, null)}>
+                  <span className={helpers.showIf(updated)}>
                     <i className="fa fa-lg fa-exclamation-triangle"></i>
                     Updates have been detected. Save now!
                   </span>

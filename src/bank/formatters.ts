@@ -96,6 +96,70 @@ export const savingsInputs = (savings: I.ISavingsHeader[], hidden: {}) => {
     .value();
 }
 
+const hashHiddenColumns = (hidden: any) => {
+  return _(hidden)
+    .reduce((acc: {[key: string]: number}, value, key) => {
+      const c = _.reduce(value, (acc, v) => acc + (v ? 1 : 0), 0);
+      if (c > 0) acc[key] = c;
+      return acc;
+    }, {});
+}
+
+export const savingsHeadersLine1 = (savings: I.ISavingsHeader[], hidden: {}) => {
+  const h = hashHiddenColumns(hidden);
+
+  return _(savings)
+    .map((header) => {
+      return {
+        label: header.label,
+        icon: header.icon,
+        weight: (header.interest ? 3 : 1) - _.get(h, header.id, 0)
+      };
+    })
+    .filter((header) => header.weight > 0)
+    .groupBy('label')
+    .map((header, key) => {
+      return {
+        label: key,
+        icon: header[0].icon,
+        weight: _.reduce(header, (sum, h) => sum + h.weight, 0)
+      };
+    })
+    .value();
+}
+
+export const savingsHeadersLine2 = (savings: I.ISavingsHeader[], hidden: {}) => {
+  return _(savings)
+    .map((header) => {
+      let headers = [];
+
+      if (!_.get(hidden, [header.id, 'P'], false)) headers.push(header.sublabel || labelSavings('P'));
+
+      if (header.interest) {
+        _.each(['I', 'T'], (t) => {
+          if (!_.get(hidden, [header.id, t], false)) headers.push(labelSavings(t));
+        }); 
+      }
+
+      headers = _.map(headers, (h, idx) => {
+        return {
+          label: h,
+          last: idx === headers.length-1
+        }
+      });
+      return headers;
+    })
+    .flatMap()
+    .value();
+}
+
+const incomeHeaders = (headers: any) => {
+  return _.map(headers.incomes, (h, idx: number) => {
+    h.last = (idx === headers.incomes.length - 1);
+    return h;
+  });
+}
+
 export const formatSavingstaToSave = (savings: I.ISavings) => {
   let data: any[] = [];
 

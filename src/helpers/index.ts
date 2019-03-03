@@ -15,7 +15,7 @@ const percentage = (number: number) => {
   return Number(number).toFixed(2) + '%';     
 };
 
-const goal = (value: number, threshold: number, success: string, danger: string) => {
+const goal = (value: number, threshold: number, success?: string, danger?: string) => {
   success = success || 'table-success';
   danger = danger || 'table-danger';
   
@@ -26,7 +26,7 @@ const roundFloat = (num: number ) => {
   return Math.round((num + 0.00001) * 100) / 100;
 };
 
-const showIf = (bool: boolean, className: string|null) => {
+const showIf = (bool: boolean, className?: string) => {
   className = className || 'hidden';
 
   return bool ? '' : className;
