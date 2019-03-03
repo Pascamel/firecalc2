@@ -8,7 +8,7 @@ import { FiltersBtn } from './FiltersBtn';
 import ButtonDecimals from './DecimalsBtn';
 import { Bank } from '../bank';
 
-interface ISavePanelProps {
+interface IProps {
   updated: boolean, 
   saveInProgress: boolean, 
   label: string, 
@@ -19,11 +19,7 @@ interface ISavePanelProps {
   callback: (index: string, indexes: string[], amount: any, updatedState: boolean) => void
 }
 
-interface ISavePanelState {
-  
-}
-
-export class SavePanel extends Component<ISavePanelProps, ISavePanelState> {
+export class SavePanel extends Component<IProps, {}> {
   render() {
     const { updated, saveInProgress, label, saveClick } = this.props;
 

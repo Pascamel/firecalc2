@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import helpers from '../helpers';
 import * as _ from 'lodash';
 
-interface IFireTDProps {
+interface IProps {
   show?: boolean,
   hide?: boolean,
   goal?: number,
@@ -10,7 +10,7 @@ interface IFireTDProps {
   span?: number
 }
 
-export default class FireTD extends Component<IFireTDProps, {}> {
+export default class FireTD extends Component<IProps, {}> {
   render () {
 
     const classNames = [];

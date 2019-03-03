@@ -2,18 +2,18 @@ import React, { Component } from 'react';
 import { ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import { Bank } from '../bank';
 
-interface IDecimalsBtnProps {
+interface IProps {
   updated: boolean, 
   bank: Bank,
   callback: (index: string, indexes: string[], amount: any, updatedState: boolean) => void
 }
 
-interface IDecimalsBtnState {
+interface IState {
   dropdownOpen: boolean
 }
 
-export default class ButtonDecimals extends Component<IDecimalsBtnProps, IDecimalsBtnState> {
-  constructor(props: IDecimalsBtnProps) {
+export default class ButtonDecimals extends Component<IProps, IState> {
+  constructor(props: IProps) {
     super(props);
 
     this.toggle = this.toggle.bind(this);

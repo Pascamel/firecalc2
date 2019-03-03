@@ -49,13 +49,13 @@ class RevenuesTableBody extends Component<IProps, IState> {
           </td>
           ))}
           <td className={helpers.showIf(this.state.collapsed)}>
-            { bank.totalYearPost(year, true) }
+            { bank.totalYearPost(year) }
           </td>
           <td className={helpers.showIf(this.state.collapsed)}>
-            { bank.totalYearPre(year, true) }
+            { bank.totalYearPre(year) }
           </td>
-          <td className={`${helpers.showIf(this.state.collapsed)} ${helpers.goal(bank.savingRateYear(year, '12', true), 0.5)}`}>
-            { bank.savingRateYear(year, '12', true) }
+          <td className={`${helpers.showIf(this.state.collapsed)} ${helpers.goal(bank.savingRateYear(year, '12'), 0.5)}`}>
+            { bank.savingRateYear(year, '12') }
           </td> 
         </tr> 
 
@@ -72,10 +72,10 @@ class RevenuesTableBody extends Component<IProps, IState> {
           ))}
           <td className={helpers.showIf(bank.totalMonthIncome(year, month[0]) === 0)} colSpan={3}></td>
           <td className={helpers.hideIf(bank.totalMonthIncome(year, month[0]) === 0)}>
-            { bank.totalMonthPost(year, month[0], true) }
+            { bank.totalMonthPost(year, month[0]) }
           </td>
           <td className={helpers.hideIf(bank.totalMonthIncome(year, month[0]) === 0)}>
-            { bank.totalMonthPre(year, month[0], true) }
+            { bank.totalMonthPre(year, month[0]) }
           </td>
           <td className={`${helpers.hideIf(bank.totalMonthIncome(year, month[0]) === 0)} ${helpers.goal(bank.savingRateMonth(year, month[0]), 0.5)}`}>
             { bank.savingRateMonth(year, month[0]) }
@@ -88,10 +88,10 @@ class RevenuesTableBody extends Component<IProps, IState> {
           {bank.incomeHeaders.map((header: any) => (
           <td key={header.id}>{ bank.yearlyIncome(year, header) }</td>
           ))}
-          <td>{ bank.totalYearPost(year, true) }</td>
-          <td>{ bank.totalYearPre(year, true) }</td>
-          <td className={helpers.goal(bank.savingRateYear(year, '12', false), 0.5)}>
-            { bank.savingRateYear(year, '12', true) }
+          <td>{ bank.totalYearPost(year) }</td>
+          <td>{ bank.totalYearPre(year) }</td>
+          <td className={helpers.goal(bank.savingRateYear(year, '12'), 0.5)}>
+            { bank.savingRateYear(year, '12') }
           </td>
         </tr>
       </tbody>

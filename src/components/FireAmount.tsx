@@ -3,12 +3,6 @@ import _ from 'lodash';
 import math from 'mathjs';
 import helpers from '../helpers';
 
-// import Display from '../../UI/Display';
-// import keydown, { Keys, keydownScoped } from 'react-keydown';
-
-// const { ENTER, ESC } = Keys;
-
-// @keydownScoped(ENTER, ESC)
 
 interface IProps {
   amount: number,
@@ -85,8 +79,6 @@ export default class FireAmount extends Component<IProps, IState> {
   handleKeyDown (event: React.KeyboardEvent<HTMLInputElement>) {
     if (!this || !this.state || !this.state.edit) return;
 
-    // if (event.which === ENTER) this.confirmEdit();
-    // if (event.which === ESC) this.cancelEdit();
     if (event.key === 'Enter') this.confirmEdit();
     if (event.key === 'Escape') this.cancelEdit();
   }

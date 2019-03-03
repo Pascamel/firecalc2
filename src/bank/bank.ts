@@ -31,8 +31,6 @@ export default class Bank {
   }
 
   load = async () => {
-    this.loadLocalStorage();
-
     const snapshotHeaders = await firestore.getHeaders();
     const snapshotSavings = await firestore.getSavings();
     const snapshotRevenues = await firestore.getRevenues();
@@ -62,22 +60,28 @@ export default class Bank {
     this.savingsHeadersLine1 = formatters.savingsHeadersLine1(this.savingsHeaders, this.savingsHeadersHidden);
     this.savingsHeadersLine2 = formatters.savingsHeadersLine2(this.savingsHeaders, this.savingsHeadersHidden);
   
+    this.loadLocalStorage();
+    this.calculateTotals();
   }
 
   loadLocalStorage = () => {
-
+    if (!this.savingsYearHeaders.collapsed) this.savingsYearHeaders.collapsed = {};
     _.each(JSON.parse(localStorage.getItem('savings_collapsed') || '{}'), (value, key) => {
-      // this.savingsYearHeaders.collapsed[key] = value;
+      this.savingsYearHeaders.collapsed[key] = value;
     });
+
+    if (!this.incomeYearHeaders.collapsed) this.incomeYearHeaders.collapsed = {};
     _.each(JSON.parse(localStorage.getItem('income_collapsed') || '{}'), (value, key) => {
-      // this.incomeYearHeaders.collapsed[key] = value;
+      this.incomeYearHeaders.collapsed[key] = value;
     });
+
     _.each(JSON.parse(localStorage.getItem('savings_hidden') || '{}'), (value, key) => {
       if (!this.savingsHeadersHidden[key]) this.savingsHeadersHidden[key] = {};
       _.each(value, (v, t) => {
         this.savingsHeadersHidden[key][t] = v;
       });
     });
+
     this.showDecimals = (parseInt(localStorage.getItem('show_decimals') || '1') > 0);
   };
 
@@ -91,8 +95,8 @@ export default class Bank {
   };
 
   saveLocalStorage = () => {
-    // localStorage.setItem('savings_collapsed', JSON.stringify(this.savingsYearHeaders.collapsed));
-    // localStorage.setItem('income_collapsed', JSON.stringify(this.incomeYearHeaders.collapsed));
+    localStorage.setItem('savings_collapsed', JSON.stringify(this.savingsYearHeaders.collapsed));
+    localStorage.setItem('income_collapsed', JSON.stringify(this.incomeYearHeaders.collapsed));
     localStorage.setItem('show_decimals', this.showDecimals ? '1' : '0');
     localStorage.setItem('savings_hidden', JSON.stringify(this.savingsHeadersHidden));
   };
@@ -128,26 +132,30 @@ export default class Bank {
     }
   };
 
-  goalMonth = (month: string, year: string, format: boolean) => 123.45;
+  goalMonth = (month: string, year: string) => 123.45;
   monthlyGoal = (year: string) => 123.45;
-  goalYearToDate = (month: string, year: string, fomatted: boolean) => 123.45;
+  goalYearToDate = (month: string, year: string) => 123.45;
   savingRateMonth = (year: string, month: string) => 123.45;
-  savingRateYear = (year: string, month: string, formatted: boolean) => 123.45;
-  startOfYearAmount = (year: string, formatted: boolean) => 123.45;
-  totalInstitution = (year: string, institution: string, type: string, formatted: boolean) => 123.45;
-  totalHolding = (month: string, year: string, formatted: boolean) => 123.45;
+  savingRateYear = (year: string, month: string) => 123.45;
+  startOfYearAmount = (year: string) => 123.45;
+  totalInstitution = (year: string, institution: string, type: string) => 123.45;
+  totalHolding = (month: string, year: string) => 123.45;
 
   totalMonthInstitution = (year: string, month: string, institution: string) => 123.45;
-  totalMonthSavings = (month: string, year: string, type: string, formatted: boolean) => 123.45;
+  totalMonthSavings = (month: string, year: string, type: string) => 123.45;
 
-  grandTotalInstitution = (institution: string, type: string, formatted: boolean) => 123.45;
+  grandTotalInstitution = (institution: string, type: string) => 123.45;
   grandTotalHolding = () => 123.45;
 
   yearlyIncome = (year: string, header: string) => 123.45;
-  totalYearPost = (year: string, formatted: boolean) => 123.45;
-  totalYearPre = (year: string, formatted: boolean) => 123.45;
+  totalYearPost = (year: string) => 123.45;
+  totalYearPre = (year: string) => 123.45;
   totalMonthIncome = (year: string, month: string) => 123.45;
-  totalMonthPost = (year: string, month: string, formatted: boolean) => 123.45;
-  totalMonthPre = (year: string, month: string, formatted: boolean) => 123.45;
+  totalMonthPost = (year: string, month: string) => 123.45;
+  totalMonthPre = (year: string, month: string) => 123.45;
+
+  calculateTotals = () => {
+
+  }
 }
 

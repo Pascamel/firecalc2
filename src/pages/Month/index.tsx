@@ -1,21 +1,17 @@
 import React, { Component} from 'react';
 import { Container, Row } from 'reactstrap';
 import { RouteComponentProps } from "react-router-dom";
+import { withAuthorization } from '../../firebase/withAuthorization';
 import * as ROUTES from "../../constants/routes";
 import { Bank } from '../../bank';
-import { AuthUserContext } from '../../firebase/AuthUserContext';
-import { withAuthorization } from '../../firebase/withAuthorization';
-
+import helpers from '../../helpers';
 import { LoadingPanel } from '../../components/LoadingPanel';
 import { SavePanel } from '../../components/SavePanel';
-import helpers from '../../helpers';
 import Finances from './finances';
 import Charts from './charts';
 
 
-interface IProps extends RouteComponentProps<{month: string, year: string}> {
-
-}
+interface IProps extends RouteComponentProps<{month: string, year: string}> {}
 
 interface IState {
   bank: Bank,
@@ -41,16 +37,10 @@ class MonthPageBase extends Component<IProps, IState> {
   }
 
   componentDidMount () {
-    console.log('mount props', this.props)
     let bank = this.state.bank;
     this.state.bank.load().then(() => {
       this.setState({bank: this.state.bank, loading: false});
-      console.log(bank);
-      console.log('income')
-      console.log(bank.income);
-      console.log('savings')
-      console.log(bank.savings);
-    });  //.catch(() -> {});
+    });
   }
 
   prevMonth = () => {
@@ -94,35 +84,31 @@ class MonthPageBase extends Component<IProps, IState> {
   }
 
   saveData = () => {
-    // this.setState({saveInProgress: true});
-    // this.state.bank.saveSavings().then(() => {
-    //   this.state.bank.saveIncome().then((saved) => {
-    //     this.setState({
-    //       updated: !saved, 
-    //       saveInProgress: false
-    //     });
-    //   }).catch((error) => {});
-    // }).catch((error) => {});
+    this.setState({saveInProgress: true});
+    this.state.bank.saveSavings().then(() => {
+      this.state.bank.saveIncome().then((saved) => {
+        this.setState({
+          updated: !saved, 
+          saveInProgress: false
+        });
+      }).catch((error) => {});
+    }).catch((error) => {});
   }
 
   render() {
     const { loading, month, year /*, error*/ } = this.state;
 
     return (
-      <AuthUserContext.Consumer>
-        {authUser => (
-          <React.Fragment>
-            {loading && <LoadingPanel />}
-            {!loading && <SavePanel label={`${helpers.labelMonth(month)} ${year}`} saveClick={this.saveData} prevMonth={this.prevMonth} nextMonth={this.nextMonth} callback={() => {}} {...this.state} />}
-            {!loading && <Container>
-              <Row>
-                <Finances {...this.state} callbackSavings={this.updateSavings} callbackIncome={this.updateIncome} />
-                <Charts {...this.state} />
-              </Row>
-            </Container>}
-          </React.Fragment>
-        )}
-      </AuthUserContext.Consumer>
+      <React.Fragment>
+        {loading && <LoadingPanel />}
+        {!loading && <SavePanel label={`${helpers.labelMonth(month)} ${year}`} saveClick={this.saveData} prevMonth={this.prevMonth} nextMonth={this.nextMonth} callback={() => {}} {...this.state} />}
+        {!loading && <Container>
+          <Row>
+            <Finances {...this.state} callbackSavings={this.updateSavings} callbackIncome={this.updateIncome} />
+            <Charts {...this.state} />
+          </Row>
+        </Container>}
+      </React.Fragment>
     )
   }
 }
@@ -130,5 +116,3 @@ class MonthPageBase extends Component<IProps, IState> {
 const authCondition = (authUser: firebase.User) => !!authUser;
 
 export const MonthPage = withAuthorization(authCondition)(MonthPageBase);
-// export const withAuthorization(authCondition)(MonthPage);
-

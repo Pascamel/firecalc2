@@ -63,21 +63,17 @@ class SavingsPageBase extends Component<IProps, IState> {
 
     
     return (
-      <AuthUserContext.Consumer>
-        {authUser => (
-          <React.Fragment>
-            {loading && <LoadingPanel />}
-            {!loading && <SavePanel label="Savings" updated={updated} saveClick={this.saveData} callback={this.updateValue} {...this.state} />}
-            {!loading && <Container>
-              <Row>
-                <Col>
-                  <Table {...this.state} callback={this.updateValue} />
-                </Col>
-              </Row>
-            </Container>}
-          </React.Fragment>
-        )}
-      </AuthUserContext.Consumer>
+      <React.Fragment>
+        {loading && <LoadingPanel />}
+        {!loading && <SavePanel label="Savings" updated={updated} saveClick={this.saveData} callback={this.updateValue} {...this.state} />}
+        {!loading && <Container>
+          <Row>
+            <Col>
+              <Table {...this.state} callback={this.updateValue} />
+            </Col>
+          </Row>
+        </Container>}
+      </React.Fragment>
     );
   }
 }

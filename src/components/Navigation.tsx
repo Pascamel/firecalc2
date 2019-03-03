@@ -13,58 +13,22 @@ import {
   NavLink,
   UncontrolledDropdown
 } from 'reactstrap';
-// import { Link } from "react-router-dom";
 import * as ROUTES from "../constants/routes";
 import { AuthUserContext } from "../firebase/AuthUserContext";
 import { SignOutLink } from "./SignOutLink";
 import { auth } from '../firebase';
 
 
-
-// const NavigationAuth = () => (
-//   <ul>
-//     <li>
-//       <Link to={routes.LANDING}>Landing</Link>
-//     </li>
-//     <li>
-//       <Link to={routes.HOME}>Home</Link>
-//     </li>
-//     <li>
-//       <Link to={routes.ACCOUNT}>Account</Link>
-//     </li>
-//     <li>
-//       <SignOutButton />
-//     </li>
-//   </ul>
-// );
-
-// const NavigationNonAuth = () => (
-//   <ul>
-//     <li>
-//       <Link to={routes.LANDING}>Landing</Link>
-//     </li>
-//     <li>
-//       <Link to={routes.SIGN_IN}>Sign In</Link>
-//     </li>
-//   </ul>
-// );
-
-// export const Navigation = () => (
-//   <AuthUserContext.Consumer>
-//     {authUser => (authUser ? <NavigationAuth /> : <NavigationNonAuth />)}
-//   </AuthUserContext.Consumer>
-// );
-
-interface INavigationAuthProps {
+interface IProps {
   authUser: firebase.User|null
 }
 
-interface INavigationAuthState {
+interface IState {
   isOpen: boolean
 }
 
-class NavigationAuth extends Component<INavigationAuthProps, INavigationAuthState> {
-  constructor(props: INavigationAuthProps) {
+class NavigationAuth extends Component<IProps, IState> {
+  constructor(props: IProps) {
     super(props);
 
     this.toggle = this.toggle.bind(this);
@@ -116,9 +80,6 @@ class NavigationAuth extends Component<INavigationAuthProps, INavigationAuthStat
                     <DropdownMenu right>
                       <DropdownItem tag="a" href={ROUTES.ACCOUNT} >Account</DropdownItem>
                       <DropdownItem divider />
-                      <DropdownItem tag="span" onClick={auth.doSignOut}>
-                        Test
-                      </DropdownItem>
                       <DropdownItem tag="a" href="">
                         <SignOutLink />
                       </DropdownItem>
@@ -134,16 +95,8 @@ class NavigationAuth extends Component<INavigationAuthProps, INavigationAuthStat
   }
 }
 
-interface INavigationNonAuthProps {
-  // isOpen: boolean
-}
-
-interface INavigationNonAuthState {
-  isOpen: boolean
-}
-
-class NavigationNonAuth extends Component<INavigationNonAuthProps, INavigationNonAuthState> {
-  constructor(props: INavigationNonAuthProps) {
+class NavigationNonAuth extends Component<{}, IState> {
+  constructor(props: IProps) {
     super(props);
 
     this.toggle = this.toggle.bind(this);

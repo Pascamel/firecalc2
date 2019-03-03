@@ -17,7 +17,7 @@ export default class Footer extends Component<IProps, IState> {
           <td><i className="fa fa-university"></i></td>
           {bank.savingsInputsHidden.map((amount: any, key: number) => (
           <td className="table-warning" key={key}>
-            { bank.grandTotalInstitution(amount.id, amount.type, true) }
+            { bank.grandTotalInstitution(amount.id, amount.type) }
           </td>
           ))}
           <td>Total</td>

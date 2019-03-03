@@ -1,19 +1,13 @@
 import React, { Component } from 'react';
 import { Container, Row, Col } from 'reactstrap';
-import { compose } from 'recompose';
-
-import Table from './table';
+import { withAuthorization } from '../../firebase/withAuthorization';
 import { LoadingPanel } from '../../components/LoadingPanel';
 import { SavePanel } from '../../components/SavePanel';
-// import ErrorPanel from '../UI/ErrorPanel';
 import { Bank } from '../../bank';
-import { AuthUserContext } from '../../firebase/AuthUserContext';
-import { withAuthorization } from '../../firebase/withAuthorization';
+import Table from './table';
 
 
-interface IProps {
-
-}
+interface IProps {}
 
 interface IState {
   bank: Bank,
@@ -63,24 +57,19 @@ class RevenuePageBase extends Component<IProps, IState> {
 
   render() {
     const { loading, updated } = this.state;
-
     
     return (
-      <AuthUserContext.Consumer>
-        {authUser => (
-          <React.Fragment>
-            {loading && <LoadingPanel />}
-            {!loading && <SavePanel label="Revenues" updated={updated} saveClick={this.saveData} callback={this.updateValue} {...this.state} />}
-            {!loading && <Container>
-              <Row>
-                <Col>
-                  <Table {...this.state} callback={this.updateValue} />
-                </Col>
-              </Row>
-            </Container>}
-          </React.Fragment>
-        )}
-      </AuthUserContext.Consumer>
+      <React.Fragment>
+        {loading && <LoadingPanel />}
+        {!loading && <SavePanel label="Revenues" updated={updated} saveClick={this.saveData} callback={this.updateValue} {...this.state} />}
+        {!loading && <Container>
+          <Row>
+            <Col>
+              <Table {...this.state} callback={this.updateValue} />
+            </Col>
+          </Row>
+        </Container>}
+      </React.Fragment>
     );
   }
 }
