@@ -62,6 +62,13 @@ export const formatSavings = (data: any, headers: any) => {
   return result;
 }
 
+export const formatIncomeHeaders = (headers: any) => {
+  return _.map(headers.incomes, (h, idx: number) => {
+    h.last = (idx === headers.incomes.length - 1);
+    return h;
+  });
+}
+
 export const savingsInputs = (savings: I.ISavingsHeader[], hidden: {}) => {
 
   // const hidden = filter ? this.savingsHeadersHidden : {}
@@ -83,7 +90,6 @@ export const savingsInputs = (savings: I.ISavingsHeader[], hidden: {}) => {
     .flatMap()
     .filter(header => !_.get(hidden, [header.id, header.type], false))
     .value();
-
 }
 
 // const savingsInputs = (savings, hidden) => {

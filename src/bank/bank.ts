@@ -16,6 +16,7 @@ export default class Bank {
   savings: ISavings|null;
   savingsInputs: any;
   savingsInputsHidden: any;
+  incomeHeaders: any;
   savingsHeaders: any;
 
   constructor() {
@@ -42,6 +43,7 @@ export default class Bank {
     let savings_data = _.get(savings, 'data', []);
     let revenues_data = _.get(revenues, 'data', []);
 
+    this.incomeHeaders = formatters.formatIncomeHeaders(headers);
     this.savingsHeaders = headers.savings;
 
     this.income = formatters.formatIncome(revenues_data, headers);
@@ -65,6 +67,15 @@ export default class Bank {
       });
     });
     this.showDecimals = (parseInt(localStorage.getItem('show_decimals') || '1') > 0);
+  };
+
+  updateValue = (index: string, indexes: string[], value: number) => {
+    if (indexes.length > 0) {
+      _.set(this, _.concat([index], indexes), value);
+      // _.set(this[index], indexes, value);
+    } else {
+      _.set(this, [index], value);
+    }
   };
 }
 
