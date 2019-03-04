@@ -45,7 +45,11 @@ export default class Body extends Component<IProps, IState> {
               { year }
             </span>
             <span>
-              Begins at <b>{ bank.startOfYearAmount(year) }</b> - Goal is&nbsp;
+              Begins at <b>
+                <StaticAmount bank={bank}>
+                  { bank.startOfYearAmount[year] }
+                </StaticAmount>
+              </b> - Goal is&nbsp;
               <FireAmount amount={_.get(bank, ['savingsYearHeaders', 'goals', year])}
                           extraClassName="bold"
                           display-decimals={bank.showDecimals}
@@ -95,7 +99,10 @@ export default class Body extends Component<IProps, IState> {
                         display-decimals={bank.showDecimals}
                         callback-props={['savings', year, month[0], amount.id, amount.type]} 
                         callback={callback} />}
-            {amount.type === 'T' && bank && bank.totalMonthInstitution(year, month[0], amount.id)}
+            {amount.type === 'T' && 
+            <StaticAmount bank={bank}>
+              {bank.totalMonthInstitution[year][month[0]][amount.id]}
+            </StaticAmount>}
           </td>
           ))}
           <td>
@@ -128,7 +135,9 @@ export default class Body extends Component<IProps, IState> {
           <td><i className="fa fa-calendar-plus-o"></i></td>
           {bank.savingsInputsHidden.map((amount: any, idx: number) => (
           <td key={idx}>
-            { bank.totalInstitution[year][amount.id][amount.type] }
+            <StaticAmount bank={bank}>
+              { bank.totalInstitution[year][amount.id][amount.type] }
+            </StaticAmount>
           </td>
           ))}
           <td>Total</td>
