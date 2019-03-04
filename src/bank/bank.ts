@@ -34,6 +34,8 @@ export default class Bank {
   goalYearToDate: any;
   totalInstitution: any;
   monthlyGoal: any;
+  grandTotalInstitution: any;
+  grandTotalHolding: any;
 
   constructor() {
     this.showDecimals = false;
@@ -151,21 +153,12 @@ export default class Bank {
     }
   };
 
-  // goalMonth = (month: string, year: string) => 123.45;
-  // monthlyGoal = (year: string) => 123.45;
-  // goalYearToDate = (month: string, year: string) => 123.45;
   savingRateMonth = (year: string, month: string) => 123.45;
   savingRateYear = (year: string, month: string) => 123.45;
   startOfYearAmount = (year: string) => 123.45;
-  // totalInstitution = (year: string, institution: string, type: string) => 123.45;
-  // totalHolding = (month: string, year: string) => 123.45;
-
+  
   totalMonthInstitution = (year: string, month: string, institution: string) => 123.45;
-  // totalMonthSavings = (month: string, year: string, type: string) => 123.45;
-
-  grandTotalInstitution = (institution: string, type: string) => 123.45;
-  grandTotalHolding = () => 123.45;
-
+  
   yearlyIncome = (year: string, header: string) => 123.45;
   totalYearPost = (year: string) => 123.45;
   totalYearPre = (year: string) => 123.45;
@@ -181,6 +174,7 @@ export default class Bank {
     this.goalYearToDate = {};
     this.totalInstitution = {};
     this.monthlyGoal = {};
+    this.grandTotalInstitution = {};
 
     _.each(this.savings, (year_data, year) => {
 
@@ -194,7 +188,6 @@ export default class Bank {
       const goal_year = _.get(this.savingsYearHeaders, ['goals', year], 0);
 
       this.monthlyGoal[year] = (goal_year - start_of_year) /  _.keys(this.savings[year]).length;
-  
 
       _.each(year_data, (month_data, month) => {
 
@@ -228,25 +221,27 @@ export default class Bank {
             this.totalInstitution[year][header.id][header.type] = _.reduce(this.savings[year], (v, i) => v + _.get(i, [header.id, header.type], 0), 0);
           }
         });
-          // const idxYear = _(this.savings).keys().indexOf(year);
-          // let value = 0;
-          // if (idxYear < 0) {
-          //   value = 0;
-          // } else if (type === 'T') {
-          //   value =  _.reduce(['P', 'I'], (v, i) => v + this.totalInstitution(year, institution, i, false), 0);
-          // } else {
-          //   value = _.reduce(this.savings[year], (v, i) => v + _.get(i, [institution, type], 0), 0);
-          // }
-      
-          
-        // };
-
-
       });
     });
-    
 
-    
+    // grandTotalInstitution = (institution: string, type: string) => 123.45;
+    _.each(this.savingsInputs, (header: any) => {
+      if (!this.grandTotalInstitution[header.id]) this.grandTotalInstitution[header.id] = {};
+      if (header.type === 'T') {
+        const value = _.reduce(['P', 'I'], (v, i) => v + this.grandTotalInstitution[header.id][i], 0);
+        this.grandTotalInstitution[header.id][header.type] = value;
+      } else {
+        const sp = (header.type === 'P' && _.findIndex(this.savingsInputs, (o: any) => { return o.id === header.id; }) === 0) ? this.startingCapital : 0;
+        const ti = _(this.savings).keys().reduce((acc, year) => acc + this.totalInstitution[year][header.id][header.type], 0);
+        this.grandTotalInstitution[header.id][header.type] = sp + ti;
+      }
+    });
+
+    // grandTotalHolding = () => 123.45;  
+    const year: any = _(this.savings).keys().last();
+    const month: any = _(this.savings[year]).keys().last();
+
+    this.grandTotalHolding = this.totalHolding[year][month];  
 
     // monthlyGoal = (year: string) => 123.45;
     // goalYearToDate = (month: string, year: string) => 123.45;
@@ -257,9 +252,6 @@ export default class Bank {
     // totalHolding = (month: string, year: string) => 123.45;
 
     // totalMonthInstitution = (year: string, month: string, institution: string) => 123.45;    
-
-    // grandTotalInstitution = (institution: string, type: string) => 123.45;
-    // grandTotalHolding = () => 123.45;
 
     // yearlyIncome = (year: string, header: string) => 123.45;
     // totalYearPost = (year: string) => 123.45;

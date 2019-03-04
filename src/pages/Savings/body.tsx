@@ -51,7 +51,11 @@ export default class Body extends Component<IProps, IState> {
                           display-decimals={bank.showDecimals}
                           callback-props={['savingsYearHeaders', 'goals', year]}
                           callback={callback} />
-              &nbsp;({ bank.monthlyGoal[year] }/mo)
+              &nbsp;(
+              <StaticAmount bank={bank}>
+                { bank.monthlyGoal[year] }
+              </StaticAmount>
+              /mo)
             </span>
           </FireTD>
           {bank.savingsInputsHidden.map((amount: any, idx: number) => (
