@@ -42,6 +42,32 @@ const labelMonth = (m: string) => {
   return moment().month(parseInt(m) - 1).format('MMMM');
 }
 
+const prevMonth = (year: string, month: string) => {
+  let m = parseInt(month);
+  let y = parseInt(year);
+
+  m -= 1;
+  if (m < 1) {
+    m = 12;
+    y--;
+  }
+
+  return {year: y.toString(), month: m.toString()};
+}
+
+const nextMonth = (year: string, month: string) => {
+  let m = parseInt(month);
+  let y = parseInt(year);
+
+  m += 1;
+  if (m > 12) {
+    m = 1;
+    y++;
+  }
+
+  return {year: y.toString(), month: m.toString()};
+}
+
 export default {
   amount, 
   percentage,
@@ -49,5 +75,7 @@ export default {
   roundFloat,
   showIf,
   hideIf,
-  labelMonth
+  labelMonth,
+  prevMonth,
+  nextMonth
 };

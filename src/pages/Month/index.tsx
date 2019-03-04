@@ -44,31 +44,17 @@ class MonthPageBase extends Component<IProps, IState> {
   }
 
   prevMonth = () => {
-    let month = parseInt(this.state.month);
-    let year = parseInt(this.state.year);
+    const { year, month } = helpers.prevMonth(this.state.year, this.state.month)
+    const route = ROUTES.MONTH.replace(':year', year).replace(':month', month);
 
-    month -= 1;
-    if (month < 1) {
-      month = 12;
-      year--;
-    }
-
-    const route = ROUTES.MONTH.replace(':year', year.toString()).replace(':month', month.toString());
     this.props.history.push(route);
     this.setState({month: month.toString(), year: year.toString()});
   }
 
   nextMonth = () => {
-    let month = parseInt(this.state.month);
-    let year = parseInt(this.state.year);
-
-    month += 1;
-    if (month > 12) {
-      month = 1;
-      year++;
-    }
-
-    const route = ROUTES.MONTH.replace(':year', year.toString()).replace(':month', month.toString());
+    const { year, month } = helpers.nextMonth(this.state.year, this.state.month)
+    const route = ROUTES.MONTH.replace(':year', year).replace(':month', month);
+    
     this.props.history.push(route);
     this.setState({month: month.toString(), year: year.toString()});
   }

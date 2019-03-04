@@ -194,7 +194,6 @@ export const formatIncomeToSave = (income: I.IIncome) => {
 
   return data;
 };
-
 // const savingsInputs = (savings, hidden) => {
   
 // }

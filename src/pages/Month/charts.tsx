@@ -27,13 +27,13 @@ export default class Charts extends Component<IProps, IState> {
         <Col>
           <Alert color="secondary">
             <Progress label="Month"
-                      result={bank.goalMonth(month, year)} 
-                      goal={bank.monthlyGoal(year)} 
-                      percentage={this.clean_pct(bank.goalMonth(month, year) / bank.monthlyGoal(year))} />
+                      result={bank.goalMonth[year][month]}
+                      goal={bank.monthlyGoal[year]} 
+                      percentage={this.clean_pct(bank.goalMonth[year][month] / bank.monthlyGoal[year])} />
             <Progress label="Year"
-                      result={bank.goalYearToDate(month, year)} 
-                      goal={parseInt(month) * bank.monthlyGoal(year)} 
-                      percentage={this.clean_pct(bank.goalYearToDate(month, year) / bank.monthlyGoal(year) / parseInt(month)) } />
+                      result={bank.goalYearToDate[year][month]} 
+                      goal={parseInt(month) * bank.monthlyGoal[year]} 
+                      percentage={this.clean_pct(bank.goalYearToDate[year][month] / bank.monthlyGoal[year] / parseInt(month)) } />
             <Row>
               <Doughnut savingRate={bank.savingRateMonth(year, month)} />
               <Doughnut savingRate={bank.savingRateYear(year, month)} />

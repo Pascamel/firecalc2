@@ -3,6 +3,7 @@ import _ from 'lodash';
 
 import FireAmount from '../../components/FireAmount';
 import FireTD from '../../components/fireTD';
+import StaticAmount from '../../components/staticAmount';
 import { Bank } from '../../bank';
 import helpers from '../../helpers';
 
@@ -50,25 +51,31 @@ export default class Body extends Component<IProps, IState> {
                           display-decimals={bank.showDecimals}
                           callback-props={['savingsYearHeaders', 'goals', year]}
                           callback={callback} />
-              &nbsp;({ bank.monthlyGoal(year) }/mo)
+              &nbsp;({ bank.monthlyGoal[year] }/mo)
             </span>
           </FireTD>
           {bank.savingsInputsHidden.map((amount: any, idx: number) => (
           <FireTD show={this.state.collapsed} key={idx}>
-            { bank.totalInstitution(year, amount.id, amount.type) }
+            <StaticAmount bank={bank}>
+              { bank.totalInstitution[year][amount.id][amount.type] }
+            </StaticAmount>
           </FireTD>
           ))}
           <FireTD show={this.state.collapsed}>
             Total
           </FireTD>
           <FireTD show={this.state.collapsed}>
-            { bank.totalHolding('12', this.props.year) }
+            <StaticAmount bank={bank}>
+              { bank.totalHolding[this.props.year]['12'] }
+            </StaticAmount>
           </FireTD>
           <FireTD show={this.state.collapsed}>
             {year}
           </FireTD>
-          <FireTD show={this.state.collapsed} goal={bank.goalYearToDate('12', this.props.year)} threshold={0}>
-            { bank.goalYearToDate('12', year) }
+          <FireTD show={this.state.collapsed} goal={bank.goalYearToDate[year]['12']} threshold={0}>
+            <StaticAmount bank={bank}>
+              { bank.goalYearToDate[year]['12'] }
+            </StaticAmount>
           </FireTD>
           <FireTD show={this.state.collapsed} goal={bank.savingRateYear(year, '12')} threshold={0.5}>
             { bank.savingRateYear(year, '12') }
@@ -87,18 +94,28 @@ export default class Body extends Component<IProps, IState> {
             {amount.type === 'T' && bank && bank.totalMonthInstitution(year, month[0], amount.id)}
           </td>
           ))}
-          <td>{ bank.totalMonthSavings(month[0], year, 'T') }</td>
-          <FireTD show={bank.totalMonthSavings(month[0], year, 'T') === 0} span={4} />
-          <FireTD hide={bank.totalMonthSavings(month[0], year, 'T') === 0}>
-            { bank.totalHolding(month[0], year) }
+          <td>
+            <StaticAmount bank={bank}>
+              { bank.totalMonthSavings[year][month[0]] }
+            </StaticAmount>
+          </td>
+          <FireTD show={bank.totalMonthSavings[year][month[0]] === 0} span={4} />
+          <FireTD hide={bank.totalMonthSavings[year][month[0]] === 0}>
+            <StaticAmount bank={bank}>
+              { bank.totalHolding[year][month[0]] }
+            </StaticAmount>
           </FireTD>
-          <FireTD hide={bank.totalMonthSavings(month[0], year, 'T') === 0} goal={bank.goalMonth(month[0], year)} threshold={0}>
-            { bank.goalMonth(month[0], year) }
+          <FireTD hide={bank.totalMonthSavings[year][month[0]] === 0} goal={bank.goalMonth[year][month[0]]} threshold={0}>
+            <StaticAmount bank={bank}>
+              { bank.goalMonth[year][month[0]] }
+            </StaticAmount>
           </FireTD>
-          <FireTD hide={bank.totalMonthSavings(month[0], year, 'T') === 0} goal={bank.goalYearToDate(month[0], year)} threshold={0}>
-            { bank.goalYearToDate(month[0], year) }
+          <FireTD hide={bank.totalMonthSavings[year][month[0]] === 0} goal={bank.goalYearToDate[year][month[0]]} threshold={0}>
+            <StaticAmount bank={bank}>
+              { bank.goalYearToDate[year][month[0]] }
+            </StaticAmount>
           </FireTD>
-          <FireTD hide={bank.totalMonthSavings(month[0], year, 'T') === 0} goal={bank.savingRateMonth(year, month[0])} threshold={0.5}>
+          <FireTD hide={bank.totalMonthSavings[year][month[0]] === 0} goal={bank.savingRateMonth(year, month[0])} threshold={0.5}>
             { bank.savingRateMonth(year, month[0]) }
           </FireTD>
         </tr>
@@ -107,14 +124,20 @@ export default class Body extends Component<IProps, IState> {
           <td><i className="fa fa-calendar-plus-o"></i></td>
           {bank.savingsInputsHidden.map((amount: any, idx: number) => (
           <td key={idx}>
-            { bank.totalInstitution(year, amount.id, amount.type) }
+            { bank.totalInstitution[year][amount.id][amount.type] }
           </td>
           ))}
           <td>Total</td>
-          <td className="table-warning">{ bank.totalHolding('12', year) }</td>
+          <td className="table-warning">
+            <StaticAmount bank={bank}>
+              { bank.totalHolding[year]['12'] }
+            </StaticAmount>
+          </td>
           <td>Goal</td>
-          <td className={helpers.goal(bank.goalYearToDate('12', year), 0)}>
-            { bank.goalYearToDate('12', year) }
+          <td className={helpers.goal(bank.goalYearToDate[year]['12'], 0)}>
+            <StaticAmount bank={bank}>
+              { bank.goalYearToDate[year]['12'] }
+            </StaticAmount>
           </td>
           <FireTD goal={bank.savingRateYear(year, '12')} threshold={0.5}>
             { bank.savingRateYear(year, '12') }
