@@ -9,10 +9,10 @@ const amount = (number: number, display_if_zero: boolean, show_decimals: boolean
       maximumFractionDigits: show_decimals ? 2 : 0
     }
   );
-};  
+};    
 
 const percentage = (number: number) => {
-  return Number(number).toFixed(2) + '%';     
+  return Number(100 * number).toFixed(2) + '%';     
 };
 
 const goal = (value: number, threshold: number, success?: string, danger?: string) => {

@@ -3,6 +3,7 @@ import { firestore } from '../firebase';
 import { IIncome, ISavings } from './interfaces';
 import * as formatters from './formatters';
 import helpers from '../helpers';
+import { any } from 'prop-types';
 
 
 export default class Bank {
@@ -38,6 +39,15 @@ export default class Bank {
   monthlyGoal: any;
   grandTotalInstitution: any;
   grandTotalHolding: any;
+
+  totalMonthPre: any;
+  totalMonthPost: any;
+  totalMonthIncome: any;
+  totalYearPre: any;
+  totalYearPost: any;
+  yearlyIncome: any;
+  savingRateMonth: any;
+  savingRateYear: any;
 
   constructor() {
     this.showDecimals = false;
@@ -111,10 +121,10 @@ export default class Bank {
   updateValue = (index: string, indexes: string[], value: number) => {
     if (indexes.length > 0) {
       _.set(this, _.concat([index], indexes), value);
-      // _.set(this[index], indexes, value);
     } else {
       _.set(this, [index], value);
     }
+    this.calculateTotals();
   };
 
   saveLocalStorage = () => {
@@ -155,16 +165,6 @@ export default class Bank {
     }
   };
 
-  savingRateMonth = (year: string, month: string) => 123.45;
-  savingRateYear = (year: string, month: string) => 123.45;
-  
-  yearlyIncome = (year: string, header: string) => 123.45;
-  totalYearPost = (year: string) => 123.45;
-  totalYearPre = (year: string) => 123.45;
-  totalMonthIncome = (year: string, month: string) => 123.45;
-  totalMonthPost = (year: string, month: string) => 123.45;
-  totalMonthPre = (year: string, month: string) => 123.45;
-
   calculateTotals = () => {
 
     this.startOfYearAmount = {};
@@ -177,6 +177,15 @@ export default class Bank {
     this.monthlyGoal = {};
     this.grandTotalInstitution = {};
 
+    this.totalMonthPre = {};
+    this.totalMonthPost = {};
+    this.totalMonthIncome = {};
+    this.totalYearPre = {};
+    this.totalYearPost = {};
+    this.yearlyIncome = {};
+    this.savingRateMonth = {};
+    this.savingRateYear = {};
+
     _.each(this.savings, (year_data, year) => {
 
       this.totalMonthSavings[year] = {};
@@ -185,7 +194,12 @@ export default class Bank {
       this.goalYearToDate[year] = {};
       this.totalInstitution[year] = {};
       this.totalMonthInstitution[year] = {};
-      
+      this.totalMonthPre[year] = {};
+      this.totalMonthPost[year] = {};
+      this.totalMonthIncome[year] = {};
+      this.yearlyIncome[year] = {};
+      this.savingRateMonth[year] = {};
+      this.savingRateYear[year] = {};
 
       this.startOfYearAmount[year] = (year === this.firstYear.toString()) ? parseFloat(this.startingCapital) : this.totalHolding[(parseInt(year) - 1)]['12'];
       const goal_year = _.get(this.savingsYearHeaders, ['goals', year], 0);
@@ -199,6 +213,12 @@ export default class Bank {
         } else {
           this.totalInstitution[year][header.id][header.type] = _.reduce(this.savings[year], (v, i) => v + _.get(i, [header.id, header.type], 0), 0);
         }
+      });
+
+      this.totalYearPre[year] = 0;
+      this.totalYearPost[year] = 0; 
+      _.each(this.incomeHeaders, (header: any) => {
+        this.yearlyIncome[year][header.id] = 0;
       });
 
       _.each(year_data, (month_data, month) => {
@@ -231,6 +251,30 @@ export default class Bank {
             this.totalMonthInstitution[year][month][header.id] = _.reduce(['P', 'I'], (acc, t) => acc + _.get(this.savings, [year, month, header.id, t]) || 0, 0)
           }
         });
+
+        this.totalMonthPre[year][month] = 0;
+        this.totalMonthPost[year][month] = 0;
+        this.totalMonthIncome[year][month] = 0;
+
+        _.each(this.incomeHeaders, (header: any) => {
+          const amount: number = _.get(this.income, [year, month, header.id], 0);
+          if (amount === 0) return;
+
+          this.totalMonthPre[year][month] += header.pretax ? (amount / header.count) : 0;
+          this.totalMonthPost[year][month] += header.pretax ? 0 : (amount / header.count);
+          this.totalMonthIncome[year][month] += amount / header.count;  
+
+          this.yearlyIncome[year][header.id] += amount;
+
+          this.totalYearPre[year] += header.pretax ? (amount / header.count) : 0;
+          this.totalYearPost[year] += header.pretax ? 0 : (amount / header.count);
+        });
+
+        const im = this.totalMonthIncome[year][month];
+        this.savingRateMonth[year][month] = (im === 0) ? 0 : ((this.totalMonthSavings[year][month] / im) || 0);
+
+        let iy = _(_.range(1, parseInt(month) + 1)).reduce((sum, m) => sum + _.get(this.totalMonthIncome, [year, m.toString()], 0), 0);
+        this.savingRateYear[year][month] = (iy === 0) ? 0 : ((this.totalHolding[year][month] - this.startOfYearAmount[year]) / iy);      
       });
     });
 
@@ -252,23 +296,6 @@ export default class Bank {
     const month: any = _(this.savings[year]).keys().last();
 
     this.grandTotalHolding = this.totalHolding[year][month];  
-
-    // monthlyGoal = (year: string) => 123.45;
-    // goalYearToDate = (month: string, year: string) => 123.45;
-    // savingRateMonth = (year: string, month: string) => 123.45;
-    // savingRateYear = (year: string, month: string) => 123.45;
-    // startOfYearAmount = (year: string) => 123.45;
-    // totalInstitution = (year: string, institution: string, type: string) => 123.45;
-    // totalHolding = (month: string, year: string) => 123.45;
-
-    // totalMonthInstitution = (year: string, month: string, institution: string) => 123.45;    
-
-    // yearlyIncome = (year: string, header: string) => 123.45;
-    // totalYearPost = (year: string) => 123.45;
-    // totalYearPre = (year: string) => 123.45;
-    // totalMonthIncome = (year: string, month: string) => 123.45;
-    // totalMonthPost = (year: string, month: string) => 123.45;
-    // totalMonthPre = (year: string, month: string) => 123.45;
   }
 }
 

@@ -4,6 +4,7 @@ import FireAmount from '../../components/FireAmount';
 import helpers from '../../helpers';
 import { Bank } from '../../bank';
 import { Tracing } from 'trace_events';
+import { StaticAmount, StaticPercentage } from '../../components/staticAmount';
 
 interface IProps {
   year: string,
@@ -45,17 +46,25 @@ class RevenuesTableBody extends Component<IProps, IState> {
           </td>
           {bank.incomeHeaders.map((header: any) => (
           <td key={header.id} className={helpers.showIf(this.state.collapsed)}>
-            { bank.yearlyIncome(year, header) }
+            <StaticAmount bank={bank} display-zero>
+              { bank.yearlyIncome[year][header.id] }
+            </StaticAmount>
           </td>
           ))}
           <td className={helpers.showIf(this.state.collapsed)}>
-            { bank.totalYearPost(year) }
+            <StaticAmount bank={bank} display-zero>
+              { bank.totalYearPost[year] }
+            </StaticAmount>
           </td>
           <td className={helpers.showIf(this.state.collapsed)}>
-            { bank.totalYearPre(year) }
+            <StaticAmount bank={bank} display-zero>
+              { bank.totalYearPre[year] }
+            </StaticAmount>
           </td>
-          <td className={`${helpers.showIf(this.state.collapsed)} ${helpers.goal(bank.savingRateYear(year, '12'), 0.5)}`}>
-            { bank.savingRateYear(year, '12') }
+          <td className={`${helpers.showIf(this.state.collapsed)} ${helpers.goal(bank.savingRateYear[year]['12'], 0.5)}`}>
+            <StaticPercentage>
+              { bank.savingRateYear[year]['12'] }
+            </StaticPercentage>
           </td> 
         </tr> 
 
@@ -70,15 +79,21 @@ class RevenuesTableBody extends Component<IProps, IState> {
                         callback={callback} />
           </td>
           ))}
-          <td className={helpers.showIf(bank.totalMonthIncome(year, month[0]) === 0)} colSpan={3}></td>
-          <td className={helpers.hideIf(bank.totalMonthIncome(year, month[0]) === 0)}>
-            { bank.totalMonthPost(year, month[0]) }
+          <td className={helpers.showIf(bank.totalMonthIncome[year][month[0]] === 0)} colSpan={3}></td>
+          <td className={helpers.hideIf(bank.totalMonthIncome[year][month[0]] === 0)}>
+            <StaticAmount bank={bank}>
+              { bank.totalMonthPost[year][month[0]] }
+            </StaticAmount>
           </td>
-          <td className={helpers.hideIf(bank.totalMonthIncome(year, month[0]) === 0)}>
-            { bank.totalMonthPre(year, month[0]) }
+          <td className={helpers.hideIf(bank.totalMonthIncome[year][month[0]] === 0)}>
+            <StaticAmount bank={bank}>
+              { bank.totalMonthPre[year][month[0]] }
+            </StaticAmount>
           </td>
-          <td className={`${helpers.hideIf(bank.totalMonthIncome(year, month[0]) === 0)} ${helpers.goal(bank.savingRateMonth(year, month[0]), 0.5)}`}>
-            { bank.savingRateMonth(year, month[0]) }
+          <td className={`${helpers.hideIf(bank.totalMonthIncome[year][month[0]] === 0)} ${helpers.goal(bank.savingRateMonth[year][month[0]], 0.5)}`}>
+            <StaticPercentage>
+              { bank.savingRateMonth[year][month[0]] }
+            </StaticPercentage>
           </td> 
         </tr>
         ))}
@@ -86,12 +101,26 @@ class RevenuesTableBody extends Component<IProps, IState> {
         <tr className={helpers.hideIf(this.state.collapsed)}>
           <td><i className="fa fa-calendar-plus-o"></i></td>
           {bank.incomeHeaders.map((header: any) => (
-          <td key={header.id}>{ bank.yearlyIncome(year, header) }</td>
+          <td key={header.id}>
+            <StaticAmount bank={bank} display-zero>
+              { bank.yearlyIncome[year][header.id] }
+            </StaticAmount>
+          </td>
           ))}
-          <td>{ bank.totalYearPost(year) }</td>
-          <td>{ bank.totalYearPre(year) }</td>
-          <td className={helpers.goal(bank.savingRateYear(year, '12'), 0.5)}>
-            { bank.savingRateYear(year, '12') }
+          <td>
+            <StaticAmount bank={bank} display-zero>
+              { bank.totalYearPost[year] }
+            </StaticAmount>
+          </td>
+          <td>
+            <StaticAmount bank={bank} display-zero>
+              { bank.totalYearPre[year] }
+            </StaticAmount>
+          </td>
+          <td className={helpers.goal(bank.savingRateYear[year]['12'], 0.5)}>
+            <StaticPercentage>
+              { bank.savingRateYear[year]['12'] }
+            </StaticPercentage>
           </td>
         </tr>
       </tbody>

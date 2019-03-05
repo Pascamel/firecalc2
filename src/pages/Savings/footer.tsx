@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Bank } from '../../bank';
-import StaticAmount from '../../components/staticAmount';
+import { StaticAmount, StaticPercentage } from '../../components/staticAmount';
 
 interface IProps {
   bank: Bank
@@ -18,14 +18,14 @@ export default class Footer extends Component<IProps, IState> {
           <td><i className="fa fa-university"></i></td>
           {bank.savingsInputsHidden.map((amount: any, key: number) => (
           <td className="table-warning" key={key}>
-            <StaticAmount bank={bank}>
+            <StaticAmount bank={bank} display-zero>
               { bank.grandTotalInstitution[amount.id][amount.type] }
             </StaticAmount>
           </td>
           ))}
           <td>Total</td>
           <td className="table-warning">
-            <StaticAmount bank={bank}>
+            <StaticAmount bank={bank} display-zero>
               { bank && bank.grandTotalHolding }
             </StaticAmount>
           </td>

@@ -35,8 +35,8 @@ export default class Charts extends Component<IProps, IState> {
                       goal={parseInt(month) * bank.monthlyGoal[year]} 
                       percentage={this.clean_pct(bank.goalYearToDate[year][month] / bank.monthlyGoal[year] / parseInt(month)) } />
             <Row>
-              <Doughnut savingRate={bank.savingRateMonth(year, month)} />
-              <Doughnut savingRate={bank.savingRateYear(year, month)} />
+              <Doughnut savingRate={bank.savingRateMonth[year][month]} />
+              <Doughnut savingRate={bank.savingRateYear[year][month]} />
             </Row>
             <Row className="text-center">
               <Col>Month</Col>
