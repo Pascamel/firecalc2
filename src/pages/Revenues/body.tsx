@@ -75,7 +75,7 @@ class RevenuesTableBody extends Component<IProps, IState> {
           <td key={year + '-' + month[0] + '-' + header.id}>
             <FireAmount amount={month[1][header.id]}
                         display-decimals={bank.showDecimals}
-                        callback-props={['income', year, month[0], 'income', header.id]} 
+                        callback-props={['income', year, month[0], header.id]} 
                         callback={callback} />
           </td>
           ))}

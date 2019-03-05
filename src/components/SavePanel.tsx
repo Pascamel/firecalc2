@@ -12,6 +12,7 @@ interface IProps {
   label: string, 
   bank: Bank,
   saveClick: () => void,
+  cancelChanges: () => void,
   prevMonth?: () => void,
   nextMonth?: () => void,
   callback: (index: string, indexes: string[], amount: any, updatedState: boolean) => void
@@ -19,7 +20,7 @@ interface IProps {
 
 export class SavePanel extends Component<IProps, {}> {
   render() {
-    const { updated, saveInProgress, label, saveClick } = this.props;
+    const { updated, saveInProgress, label, saveClick, cancelChanges } = this.props;
 
     return (
       <Container fluid className={`alert ${updated ? 'alert-warning' : 'alert-light'}`}>
@@ -31,11 +32,11 @@ export class SavePanel extends Component<IProps, {}> {
                 
                   {label === 'Savings' && <ButtonGroup className="pull-left">
                     <FiltersBtn {...this.props} />
-                    <ButtonDecimals {...this.props} />
+                    <DecimalsBtn {...this.props} />
                   </ButtonGroup>}
 
                   {label === 'Revenues' && <ButtonGroup className="pull-left">
-                  <ButtonDecimals {...this.props} />
+                  <DecimalsBtn {...this.props} />
                   </ButtonGroup>}
 
                   {label !== 'Savings' && label !== 'Revenues' && label !== 'Settings' && 
@@ -60,6 +61,10 @@ export class SavePanel extends Component<IProps, {}> {
                     {!saveInProgress && <i className="fa fa-floppy-o"></i>}
                     {saveInProgress && <i className="fa fa-spinner fa-spin"></i>}
                     {saveInProgress ? 'Saving' : 'Save'}
+                  </button>
+
+                  <button className={`btn btn-warning pull-right ${helpers.showIf(updated)}`} onClick={cancelChanges}>
+                    <i className="fa fa-times"></i> Cancel
                   </button>
                 </Col>
               </Row>

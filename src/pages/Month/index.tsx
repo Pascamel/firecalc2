@@ -81,13 +81,27 @@ class MonthPageBase extends Component<IProps, IState> {
     }).catch((error) => {});
   }
 
+  cancelChanges = () => {
+    this.state.bank.load().then(() => {
+      this.setState({
+        updated: false,
+        bank: this.state.bank
+      });
+    });
+  }
+
   render() {
     const { loading, month, year /*, error*/ } = this.state;
 
     return (
       <React.Fragment>
         {loading && <LoadingPanel />}
-        {!loading && <SavePanel label={`${helpers.labelMonth(month)} ${year}`} saveClick={this.saveData} prevMonth={this.prevMonth} nextMonth={this.nextMonth} callback={() => {}} {...this.state} />}
+        {!loading && <SavePanel label={`${helpers.labelMonth(month)} ${year}`} 
+                                saveClick={this.saveData} 
+                                cancelChanges={this.cancelChanges}
+                                prevMonth={this.prevMonth} 
+                                nextMonth={this.nextMonth} 
+                                callback={() => {}} {...this.state} />}
         {!loading && <Container>
           <Row>
             <Finances {...this.state} callbackSavings={this.updateSavings} callbackIncome={this.updateIncome} />

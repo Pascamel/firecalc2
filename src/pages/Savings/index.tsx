@@ -58,6 +58,15 @@ class SavingsPageBase extends Component<IProps, IState> {
     }).catch((error) => {});
   }
 
+  cancelChanges = () => {
+    this.state.bank.load().then(() => {
+      this.setState({
+        updated: false,
+        bank: this.state.bank
+      });
+    });
+  }
+
   render() {
     const { loading, updated } = this.state;
 
@@ -65,7 +74,12 @@ class SavingsPageBase extends Component<IProps, IState> {
     return (
       <React.Fragment>
         {loading && <LoadingPanel />}
-        {!loading && <SavePanel label="Savings" updated={updated} saveClick={this.saveData} callback={this.updateValue} {...this.state} />}
+        {!loading && <SavePanel label="Savings" 
+                                updated={updated} 
+                                saveClick={this.saveData} 
+                                cancelChanges={this.cancelChanges}
+                                callback={this.updateValue} 
+                                {...this.state} />}
         {!loading && <Container>
           <Row>
             <Col>
