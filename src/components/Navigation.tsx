@@ -13,9 +13,9 @@ import {
   NavLink,
   UncontrolledDropdown
 } from 'reactstrap';
-import * as ROUTES from "../constants/routes";
-import { AuthUserContext } from "../firebase/AuthUserContext";
-import { SignOutLink } from "./SignOutLink";
+import * as ROUTES from '../constants/routes';
+import { AuthUserContext } from '../firebase/AuthUserContext';
+import { SignOutLink } from './SignOutLink';
 import { auth } from '../firebase';
 
 

@@ -32,10 +32,15 @@ label {
   }
 }
 
-.alert span {
-  margin: 6px 15px;
+.alert-login span {
+  display: block;
 }
 
+.alert-light {
+  background-color: #f3f3f3;
+  border-color: #f0f0f0;
+
+}
 .loading-spinner {
   text-align: center;
   background: #f5f5f5;
@@ -168,7 +173,7 @@ table.floatThead-table {
   display: none !important;
 }
 
-.alert {
+.alert-save {
   span {
     line-height: 38px;
     margin: 6px 0;

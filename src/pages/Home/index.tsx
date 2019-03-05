@@ -1,7 +1,6 @@
-import * as React from "react";
-import { db } from "../../firebase";
-import { withAuthorization } from "../../firebase/withAuthorization";
-import { UserList } from "./UserList";
+import * as React from 'react';
+import { withAuthorization } from '../../firebase/withAuthorization';
+import { UserList } from './UserList';
 
 class HomeComponent extends React.Component {
   constructor(props: any) {
@@ -10,12 +9,6 @@ class HomeComponent extends React.Component {
     this.state = {
       users: null
     };
-  }
-
-  public componentDidMount() {
-    db.onceGetUsers().then(snapshot =>
-      this.setState(() => ({ users: snapshot.val() }))
-    );
   }
 
   public render() {

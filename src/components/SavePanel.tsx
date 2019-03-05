@@ -23,7 +23,7 @@ export class SavePanel extends Component<IProps, {}> {
     const { updated, saveInProgress, label, saveClick, cancelChanges } = this.props;
 
     return (
-      <Container fluid className={`alert ${updated ? 'alert-warning' : 'alert-light'}`}>
+      <Container fluid className={`alert alert-save ${updated ? 'alert-warning' : 'alert-light'}`}>
         <Row>
           <Col>
             <Container>

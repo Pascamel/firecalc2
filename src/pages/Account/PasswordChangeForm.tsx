@@ -1,5 +1,5 @@
-import * as React from "react";
-import { auth } from "../../firebase";
+import * as React from 'react';
+import { auth } from '../../firebase';
 
 interface IProps {
   error?: any;
@@ -39,7 +39,7 @@ export class PasswordChangeForm extends React.Component<IProps, IState> {
         this.setState(() => ({ ...PasswordChangeForm.INITIAL_STATE }));
       })
       .catch(error => {
-        this.setState(PasswordChangeForm.propKey("error", error));
+        this.setState(PasswordChangeForm.propKey('error', error));
       });
 
     event.preventDefault();
@@ -48,7 +48,7 @@ export class PasswordChangeForm extends React.Component<IProps, IState> {
   public render() {
     const { passwordOne, passwordTwo, error }: any = this.state;
 
-    const isInvalid = passwordOne !== passwordTwo || passwordOne === "";
+    const isInvalid = passwordOne !== passwordTwo || passwordOne === '';
 
     return (
       <form onSubmit={event => this.onSubmit(event)}>

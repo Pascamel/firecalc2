@@ -1,8 +1,8 @@
 import React, { Component} from 'react';
 import { Container, Row } from 'reactstrap';
-import { RouteComponentProps } from "react-router-dom";
+import { RouteComponentProps } from 'react-router-dom';
 import { withAuthorization } from '../../firebase/withAuthorization';
-import * as ROUTES from "../../constants/routes";
+import * as ROUTES from '../../constants/routes';
 import { Bank } from '../../bank';
 import helpers from '../../helpers';
 import { LoadingPanel } from '../../components/LoadingPanel';

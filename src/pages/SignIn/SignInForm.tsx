@@ -1,6 +1,7 @@
-import * as React from "react";
-import * as routes from "../../constants/routes";
-import { auth } from "../../firebase";
+import * as React from 'react';
+import * as ROUTES from '../../constants/routes';
+import { auth } from '../../firebase';
+import { FormGroup, Input, Button } from 'reactstrap';
 
 interface InterfaceProps {
   email?: string;
@@ -15,14 +16,11 @@ interface InterfaceState {
   password: string;
 }
 
-export class SignInForm extends React.Component<
-  InterfaceProps,
-  InterfaceState
-> {
+export class SignInForm extends React.Component<InterfaceProps,InterfaceState> {
   private static INITIAL_STATE = {
-    email: "",
+    email: '',
     error: null,
-    password: ""
+    password: ''
   };
 
   private static propKey(propertyName: string, value: any): object {
@@ -37,18 +35,14 @@ export class SignInForm extends React.Component<
 
   public onSubmit = (event: any) => {
     const { email, password } = this.state;
-
     const { history } = this.props;
 
-    auth
-      .doSignInWithEmailAndPassword(email, password)
-      .then(() => {
-        this.setState(() => ({ ...SignInForm.INITIAL_STATE }));
-        history.push(routes.HOME);
-      })
-      .catch(error => {
-        this.setState(SignInForm.propKey("error", error));
-      });
+    auth.doSignInWithEmailAndPassword(email, password).then(() => {
+      this.setState(() => ({ ...SignInForm.INITIAL_STATE }));
+      history.push(ROUTES.HOME);
+    }).catch(error => {
+      this.setState(SignInForm.propKey('error', error));
+    });
 
     event.preventDefault();
   };
@@ -56,25 +50,33 @@ export class SignInForm extends React.Component<
   public render() {
     const { email, password, error } = this.state;
 
-    const isInvalid = password === "" || email === "";
+    const isInvalid = password === '' || email === '';
 
     return (
       <form onSubmit={event => this.onSubmit(event)}>
+      <FormGroup>
         <input
+          className="form-control"
           value={email}
-          onChange={event => this.setStateWithEvent(event, "email")}
+          onChange={event => this.setStateWithEvent(event, 'email')}
           type="text"
           placeholder="Email Address"
         />
-        <input
+        </FormGroup>
+        <FormGroup>
+        <Input
           value={password}
-          onChange={event => this.setStateWithEvent(event, "password")}
+          onChange={event => this.setStateWithEvent(event, 'password')}
+          className="form-control"
           type="password"
           placeholder="Password"
         />
-        <button disabled={isInvalid} type="submit">
-          Sign In
-        </button>
+        </FormGroup>
+        <FormGroup>
+          <Button color="primary" block={true} disabled={isInvalid} type="submit">
+            Sign In
+          </Button>
+        </FormGroup>
 
         {error && <p>{error.message}</p>}
       </form>
