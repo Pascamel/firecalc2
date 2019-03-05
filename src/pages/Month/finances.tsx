@@ -6,7 +6,6 @@ import { Bank } from '../../bank';
 
 interface IProps {
   bank: Bank,
-  // header: any,
   month: string,
   year: string, 
   callbackSavings: (index: string, indexes: string[], amount: any, updatedState: boolean) => void, 

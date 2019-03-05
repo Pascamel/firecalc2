@@ -74,10 +74,6 @@ export const formatSavingsHeaders = (headers: any) => {
 }
 
 export const savingsInputs = (savings: I.ISavingsHeader[], hidden: {}) => {
-
-  // const hidden = filter ? this.savingsHeadersHidden : {}
-
-  // return FinanceHelpers.savingsInputs(this.savingsHeaders, filter ? this.savingsHeadersHidden : {});
   return _(savings)
     .map((header) => {
       let headers: [{id: string, type: string, types: string[]}] = [{
@@ -194,6 +190,3 @@ export const formatIncomeToSave = (income: I.IIncome) => {
 
   return data;
 };
-// const savingsInputs = (savings, hidden) => {
-  
-// }

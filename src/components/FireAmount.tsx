@@ -75,7 +75,6 @@ export default class FireAmount extends Component<IProps, IState> {
     if (event.key === 'Escape') this.cancelEdit();
   }
 
-  // @keydown(ENTER, ESC)
   handleKeyDown (event: React.KeyboardEvent<HTMLInputElement>) {
     if (!this || !this.state || !this.state.edit) return;
 

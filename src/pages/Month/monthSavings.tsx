@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
 import FireAmount from '../../components/FireAmount';
-// import FinanceHelpers from '../Finance/FinanceHelpers';
 import * as formatters from '../../bank/formatters';
 import { Bank } from '../../bank';
 

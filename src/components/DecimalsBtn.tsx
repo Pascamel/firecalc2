@@ -12,7 +12,7 @@ interface IState {
   dropdownOpen: boolean
 }
 
-export default class ButtonDecimals extends Component<IProps, IState> {
+export default class DecimalsBtn extends Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
 

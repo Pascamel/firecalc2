@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import _ from 'lodash';
-// import FinanceHelpers from '../../Finance/FinanceHelpers';
 import * as I from '../bank/interfaces';
 import { Bank } from '../bank';
 import * as formatters from '../bank/formatters';

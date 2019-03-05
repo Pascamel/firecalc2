@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
 import { Row, Col, Container, ButtonGroup, Button } from 'reactstrap';
-// import Display from '../../UI/Display';
 import helpers from '../helpers';
-
-
 import { FiltersBtn } from './FiltersBtn';
-import ButtonDecimals from './DecimalsBtn';
+import DecimalsBtn from './DecimalsBtn';
 import { Bank } from '../bank';
+
 
 interface IProps {
   updated: boolean, 
