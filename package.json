@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@types/uuid": "^3.4.4",
     "bootstrap": "^4.3.1",
     "chart.js": "^2.7.3",
     "firebase": "^5.8.5",
@@ -15,7 +16,8 @@
     "react-keydown": "^1.9.8",
     "react-router-dom": "^4.3.1",
     "react-scripts": "2.1.5",
-    "reactstrap": "^7.1.0"
+    "reactstrap": "^7.1.0",
+    "uuid": "^3.3.2"
   },
   "scripts": {
     "start": "react-scripts start",

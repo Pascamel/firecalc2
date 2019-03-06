@@ -5,8 +5,8 @@ import { withAuthorization } from '../../firebase/withAuthorization';
 import * as ROUTES from '../../constants/routes';
 import { Bank } from '../../bank';
 import helpers from '../../helpers';
-import { LoadingPanel } from '../../components/LoadingPanel';
-import { SavePanel } from '../../components/SavePanel';
+import LoadingPanel from '../../components/LoadingPanel';
+import SavePanel from '../../components/SavePanel';
 import Finances from './finances';
 import Charts from './charts';
 
@@ -101,7 +101,8 @@ class MonthPageBase extends Component<IProps, IState> {
                                 cancelChanges={this.cancelChanges}
                                 prevMonth={this.prevMonth} 
                                 nextMonth={this.nextMonth} 
-                                callback={() => {}} {...this.state} />}
+                                callback={() => {}} 
+                                {...this.state} />}
         {!loading && <Container>
           <Row>
             <Finances {...this.state} callbackSavings={this.updateSavings} callbackIncome={this.updateIncome} />

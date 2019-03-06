@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Container, Row, Col } from 'reactstrap';
 import { withAuthorization } from '../../firebase/withAuthorization';
-import { LoadingPanel } from '../../components/LoadingPanel';
-import { SavePanel } from '../../components/SavePanel';
+import LoadingPanel from '../../components/LoadingPanel';
+import SavePanel from '../../components/SavePanel';
 import { Bank } from '../../bank';
 import Table from './table';
 

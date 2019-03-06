@@ -18,7 +18,7 @@ interface IProps {
   callback: (index: string, indexes: string[], amount: any, updatedState: boolean) => void
 }
 
-export class SavePanel extends Component<IProps, {}> {
+export default class SavePanel extends Component<IProps, {}> {
   render() {
     const { updated, saveInProgress, label, saveClick, cancelChanges } = this.props;
 

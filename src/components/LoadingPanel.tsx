@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Container, Row, Col } from 'reactstrap';
 
-export class LoadingPanel extends Component {
+export default class LoadingPanel extends Component {
   render() {
     return (
       <Container>

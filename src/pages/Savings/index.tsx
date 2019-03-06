@@ -3,8 +3,8 @@ import { Container, Row, Col } from 'reactstrap';
 // import { compose } from 'recompose';
 
 import Table from './table';
-import { LoadingPanel } from '../../components/LoadingPanel';
-import { SavePanel } from '../../components/SavePanel';
+import LoadingPanel from '../../components/LoadingPanel';
+import SavePanel from '../../components/SavePanel';
 // import ErrorPanel from '../UI/ErrorPanel';
 import { Bank } from '../../bank';
 import { AuthUserContext } from '../../firebase/AuthUserContext';

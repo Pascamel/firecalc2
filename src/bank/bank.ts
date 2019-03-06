@@ -14,6 +14,7 @@ export default class Bank {
     }
   };
 
+  headers: any;
   firstYear: any;
   firstMonth: any;
   startingCapital: any;
@@ -66,24 +67,24 @@ export default class Bank {
     if (!snapshotSavings) return;
     if (!snapshotRevenues) return;
 
-    let headers = snapshotHeaders.data() || [];
+    this.headers = snapshotHeaders.data() || [];
     let savings = snapshotSavings.data();
     let revenues = snapshotRevenues.data();
     let savings_data = _.get(savings, 'data', []);
     let revenues_data = _.get(revenues, 'data', []);
     
-    this.incomeHeaders = formatters.formatIncomeHeaders(headers);
-    this.savingsHeaders = formatters.formatSavingsHeaders(headers);
+    this.incomeHeaders = formatters.formatIncomeHeaders(this.headers);
+    this.savingsHeaders = formatters.formatSavingsHeaders(this.headers);
 
-    this.firstYear = headers.firstYear;
-    this.firstMonth = headers.firstMonth;
-    this.startingCapital = headers.startingCapital;
+    // this.firstYear = this.headers.firstYear;
+    // this.firstMonth = this.headers.firstMonth;
+    // this.startingCapital = this.headers.startingCapital;
 
     this.incomeYearHeaders = {collapsed: {}};
     this.savingsYearHeaders = _.get(snapshotSavings.data(), 'yearly_data', {collapsed: {}, goals: {}});
 
-    this.income = formatters.formatIncome(revenues_data, headers);
-    this.savings = formatters.formatSavings(savings_data, headers);
+    this.income = formatters.formatIncome(revenues_data, this.headers);
+    this.savings = formatters.formatSavings(savings_data, this.headers);
 
     this.savingsInputs = formatters.savingsInputs(this.savingsHeaders, {});
     this.savingsInputsHidden = formatters.savingsInputs(this.savingsHeaders, this.savingsHeadersHidden);
@@ -133,6 +134,18 @@ export default class Bank {
     localStorage.setItem('show_decimals', this.showDecimals ? '1' : '0');
     localStorage.setItem('savings_hidden', JSON.stringify(this.savingsHeadersHidden));
   };
+
+  saveHeaders = async () => {
+    const data = JSON.parse(JSON.stringify(this.headers));
+    data.last_update = (new Date()).getTime();
+
+    try {
+      await firestore.setHeaders(data);
+      return true;
+    } catch {
+      return false;
+    }
+  }
 
   saveIncome = async () => {
     const payload = {
@@ -201,7 +214,7 @@ export default class Bank {
       this.savingRateMonth[year] = {};
       this.savingRateYear[year] = {};
 
-      this.startOfYearAmount[year] = (year === this.firstYear.toString()) ? parseFloat(this.startingCapital) : this.totalHolding[(parseInt(year) - 1)]['12'];
+      this.startOfYearAmount[year] = (year === this.headers.firstYear.toString()) ? parseFloat(this.headers.startingCapital) : this.totalHolding[(parseInt(year) - 1)]['12'];
       const goal_year = _.get(this.savingsYearHeaders, ['goals', year], 0);
       this.monthlyGoal[year] = (goal_year - this.startOfYearAmount[year]) /  _.keys(this.savings[year]).length;
 
@@ -229,8 +242,8 @@ export default class Bank {
         }, 0);
 
         // totalHolding = (month, year, formatted) => {
-        if (month === this.firstMonth.toString() && year === this.firstYear.toString()) {
-          this.totalHolding[year][month] = parseFloat(this.startingCapital) + this.totalMonthSavings[year][month]
+        if (month === this.headers.firstMonth.toString() && year === this.headers.firstYear.toString()) {
+          this.totalHolding[year][month] = parseFloat(this.headers.startingCapital) + this.totalMonthSavings[year][month]
         } else {
           const { year: pyear, month: pmonth } = helpers.prevMonth(year, month);
           this.totalHolding[year][month] = this.totalHolding[pyear][pmonth] + this.totalMonthSavings[year][month]
@@ -285,7 +298,7 @@ export default class Bank {
         const value = _.reduce(['P', 'I'], (v, i) => v + this.grandTotalInstitution[header.id][i], 0);
         this.grandTotalInstitution[header.id][header.type] = value;
       } else {
-        const sp = (header.type === 'P' && _.findIndex(this.savingsInputs, (o: any) => { return o.id === header.id; }) === 0) ? this.startingCapital : 0;
+        const sp = (header.type === 'P' && _.findIndex(this.savingsInputs, (o: any) => { return o.id === header.id; }) === 0) ? this.headers.startingCapital : 0;
         const ti = _(this.savings).keys().reduce((acc, year) => acc + this.totalInstitution[year][header.id][header.type], 0);
         this.grandTotalInstitution[header.id][header.type] = sp + ti;
       }
