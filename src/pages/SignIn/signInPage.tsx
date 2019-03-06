@@ -5,17 +5,21 @@ import { SignInForm } from './signInForm';
 import { Container, Row, Col, Alert } from 'reactstrap';
 
 
-export const SignInPage = ({ history }: { [key: string]: any }) => (
-  <Container>
-    <Row>
-      <Col lg={{size: 4, offset: 4}} md={{size: 6, offset: 3}} sm="12">
-        <Alert className="alert-login" color="light">
-          <h4>SignIn</h4>
-          <SignInForm history={history} />
-          <SignUpLink />
-          <PasswordForgetLink />  
-        </Alert>
-      </Col>
-    </Row>
-  </Container>
-);
+export class  SignInPage extends React.Component<any, any> {
+  render() {
+    return (
+      <Container>
+        <Row>
+          <Col lg={{size: 4, offset: 4}} md={{size: 6, offset: 3}} sm="12">
+            <Alert className="alert-login" color="light">
+              <h4>SignIn</h4>
+              <SignInForm {...this.props} />
+              <SignUpLink />
+              <PasswordForgetLink />  
+            </Alert>
+          </Col>
+        </Row>
+      </Container>
+    );
+  }
+}

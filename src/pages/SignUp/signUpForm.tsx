@@ -35,8 +35,6 @@ export class SignUpForm extends React.Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
     this.state = { ...SignUpForm.INITIAL_STATE };
-
-    console.log('props', this.props)
   }
 
   public onSubmit(event: any) {

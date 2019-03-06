@@ -10,6 +10,4 @@ export const SignUpLink = () => (
   </span>
 );
 
-
-// export const SignUpLink = SignUpLink;
 export const SignUp = withRouter(SignUpPage);
