@@ -62,13 +62,19 @@ class NavigationAuth extends React.Component<IProps, IState> {
                     <NavLink href={route}>Month</NavLink>
                   </NavItem>
                   <NavItem>
-                    <NavLink href={ROUTES.REVENUES}>Revenues</NavLink>
+                    <NavLink href={ROUTES.REVENUES} active={window.location.pathname === ROUTES.REVENUES}>
+                      Revenues
+                    </NavLink>
                   </NavItem>
                   <NavItem>
-                    <NavLink href={ROUTES.SAVINGS}>Savings</NavLink>
+                    <NavLink href={ROUTES.SAVINGS} active={window.location.pathname === ROUTES.SAVINGS}>
+                      Savings
+                    </NavLink>
                   </NavItem>
                   <NavItem>
-                    <NavLink href={ROUTES.HEADERS}>Settings</NavLink>
+                    <NavLink href={ROUTES.HEADERS} active={window.location.pathname === ROUTES.HEADERS}>
+                      Settings
+                    </NavLink>
                   </NavItem>
                   <NavItem>
                     <NavLink href={ROUTES.ADMIN}>Admin</NavLink>

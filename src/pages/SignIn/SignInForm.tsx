@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as ROUTES from '../../constants/routes';
 import { auth } from '../../firebase';
-import { FormGroup, Input, Button } from 'reactstrap';
+import { FormGroup, Input, InputGroup, InputGroupAddon, InputGroupText, Button } from 'reactstrap';
 
 interface InterfaceProps {
   email?: string;
@@ -54,23 +54,34 @@ export class SignInForm extends React.Component<InterfaceProps,InterfaceState> {
 
     return (
       <form onSubmit={event => this.onSubmit(event)}>
-      <FormGroup>
-        <input
-          className="form-control"
-          value={email}
-          onChange={event => this.setStateWithEvent(event, 'email')}
-          type="text"
-          placeholder="Email Address"
-        />
+        <FormGroup>
+
+          <InputGroup>
+            <InputGroupAddon addonType="prepend">
+              <InputGroupText>
+                <i className="fa fa-user"></i>
+              </InputGroupText>
+            </InputGroupAddon>
+            <Input className="form-control"
+                  value={email}
+                  onChange={event => this.setStateWithEvent(event, 'email')}
+                  type="text"
+                  placeholder="Email Address" />
+          </InputGroup>
         </FormGroup>
         <FormGroup>
-        <Input
-          value={password}
-          onChange={event => this.setStateWithEvent(event, 'password')}
-          className="form-control"
-          type="password"
-          placeholder="Password"
-        />
+          <InputGroup>
+            <InputGroupAddon addonType="prepend">
+              <InputGroupText>
+                <i className="fa fa-lock"></i>
+              </InputGroupText>
+            </InputGroupAddon>
+            <Input value={password}
+                   onChange={event => this.setStateWithEvent(event, 'password')}
+                   className="form-control"
+                   type="password"
+                   placeholder="Password" />
+          </InputGroup>
         </FormGroup>
         <FormGroup>
           <Button color="primary" block={true} disabled={isInvalid} type="submit">

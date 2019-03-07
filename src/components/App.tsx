@@ -4,8 +4,7 @@ import * as ROUTES from '../constants/routes';
 import { firebase } from '../firebase';
 import { withAuthentication } from '../firebase/withAuthentication';
 import { Account } from '../pages/Account';
-import { Home } from '../pages/Home';
-import { Landing } from '../pages/Landing';
+import { HomePage } from '../pages/Home';
 import { PasswordForget } from '../pages/PasswordForget';
 import { SignIn } from '../pages/SignIn';
 import { SignUp } from '../pages/SignUp';
@@ -40,11 +39,10 @@ class AppComponent extends React.Component {
         <div>
           <Navigation />
           <Switch>
-            <Route exact={true} path={ROUTES.HOME} component={Landing} />
             <Route exact={true} path={ROUTES.SIGN_UP} component={SignUp} />
             <Route exact={true} path={ROUTES.SIGN_IN} component={SignIn} />
             <Route exact={true} path={ROUTES.PASSWORD_FORGET} component={PasswordForget} />
-            <Route exact={true} path={ROUTES.HOME} component={Home} />
+            <Route exact={true} path={ROUTES.HOME} component={HomePage} />
             <Route exact={true} path={ROUTES.ACCOUNT} component={Account} />
             <Route path={ROUTES.ADMIN} component={AdminPage} />
             <Route path={ROUTES.HEADERS} component={HeadersPage} />
