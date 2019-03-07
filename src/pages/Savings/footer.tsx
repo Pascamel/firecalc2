@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Bank } from '../../bank';
-import { StaticAmount, StaticPercentage } from '../../components/staticAmount';
+import { StaticAmount } from '../../components/staticAmount';
 
 interface IProps {
   bank: Bank
@@ -8,7 +8,7 @@ interface IProps {
 
 interface IState {}
 
-export default class Footer extends Component<IProps, IState> {
+export default class Footer extends React.Component<IProps, IState> {
   render() {
     const {bank} = this.props;
 

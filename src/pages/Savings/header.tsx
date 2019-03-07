@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import helpers from '../../helpers';
 import { Bank } from '../../bank';
 
@@ -8,7 +8,7 @@ interface IProps {
 
 interface IState {}
 
-export default class Header extends Component<IProps, IState> {
+export default class Header extends React.Component<IProps, IState> {
   render() {
     const { bank } = this.props;
 

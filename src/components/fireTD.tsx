@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import helpers from '../helpers';
 import * as _ from 'lodash';
 
@@ -10,7 +10,7 @@ interface IProps {
   span?: number
 }
 
-export default class FireTD extends Component<IProps, {}> {
+export default class FireTD extends React.Component<IProps, {}> {
   render () {
 
     const classNames = [];

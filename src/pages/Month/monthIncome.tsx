@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import _ from 'lodash';
 import FireAmount from '../../components/FireAmount';
 import { Bank } from '../../bank';
@@ -17,7 +17,7 @@ interface IState {
   label: string
 }
 
-export default class MonthIncome extends Component<IProps, IState> {
+export default class MonthIncome extends React.Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
 

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import _ from 'lodash';
 import * as I from '../bank/interfaces';
@@ -16,7 +16,7 @@ interface IFiltersBtnState {
   dropdownOpen: boolean
 }
 
-export class FiltersBtn extends Component<IFiltersBtnProps, IFiltersBtnState> {
+export class FiltersBtn extends React.Component<IFiltersBtnProps, IFiltersBtnState> {
   constructor(props: IFiltersBtnProps) {
     super(props);
 
@@ -63,7 +63,7 @@ interface IClickableItemState {
   hidden: boolean
 }
 
-class ClickableItem extends Component<IClickableItemProps, IClickableItemState> {
+class ClickableItem extends React.Component<IClickableItemProps, IClickableItemState> {
   constructor(props: IClickableItemProps) {
     super(props);
     

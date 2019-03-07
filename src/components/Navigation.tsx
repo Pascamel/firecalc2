@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import {
   Container, Row, Col,
   Collapse,
@@ -27,7 +27,7 @@ interface IState {
   isOpen: boolean
 }
 
-class NavigationAuth extends Component<IProps, IState> {
+class NavigationAuth extends React.Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
 
@@ -95,7 +95,7 @@ class NavigationAuth extends Component<IProps, IState> {
   }
 }
 
-class NavigationNonAuth extends Component<{}, IState> {
+class NavigationNonAuth extends React.Component<{}, IState> {
   constructor(props: IProps) {
     super(props);
 
@@ -134,7 +134,7 @@ class NavigationNonAuth extends Component<{}, IState> {
   }
 }
 
-export default class Navigation extends Component {
+export default class Navigation extends React.Component {
   render () {
     return (
       <div>

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Row, Col, Container, ButtonGroup, Button } from 'reactstrap';
 import helpers from '../helpers';
 import { FiltersBtn } from './FiltersBtn';
@@ -18,7 +18,7 @@ interface IProps {
   callback: (index: string, indexes: string[], amount: any, updatedState: boolean) => void
 }
 
-export default class SavePanel extends Component<IProps, {}> {
+export default class SavePanel extends React.Component<IProps, {}> {
   render() {
     const { updated, saveInProgress, label, saveClick, cancelChanges } = this.props;
 

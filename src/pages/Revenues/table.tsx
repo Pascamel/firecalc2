@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import Header from './header';
 import Body from './body';
 import { Bank } from '../../bank';
@@ -9,7 +9,7 @@ interface IProps {
 }
 interface IState {}
 
-export default class Table extends Component<IProps, IState> {
+export default class Table extends React.Component<IProps, IState> {
   render() {
     const { bank } = this.props;
 

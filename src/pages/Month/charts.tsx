@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Row, Col, Alert } from 'reactstrap';
 import Progress from './progress';
 import Doughnut from './doughnut';
@@ -13,7 +13,7 @@ interface IProps {
 
 interface IState {}
 
-export default class Charts extends Component<IProps, IState> {
+export default class Charts extends React.Component<IProps, IState> {
 
   clean_pct(pct: number) {
     return Math.min(100, Math.max(0, 100 + 100 * pct));

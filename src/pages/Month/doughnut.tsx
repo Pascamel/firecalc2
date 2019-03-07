@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Col } from 'reactstrap';
 import {Doughnut as DoughnutLib} from 'react-chartjs-2';
 
@@ -11,7 +11,7 @@ interface IState {
 
 }
 
-export default class Doughnut extends Component<IProps, IState> {
+export default class Doughnut extends React.Component<IProps, IState> {
   options: any;
 
   constructor (props: IProps) {

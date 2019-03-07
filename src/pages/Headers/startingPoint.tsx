@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
+import React from 'react';
 import _ from 'lodash';
 import helpers from '../../helpers';
 
 
-class StartingPoint extends Component<any, any> {
+class StartingPoint extends React.Component<any, any> {
   currentYear: number;
 
   constructor(props: any) {

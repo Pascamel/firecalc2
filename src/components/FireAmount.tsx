@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import _ from 'lodash';
 import math from 'mathjs';
 import helpers from '../helpers';
@@ -22,7 +22,7 @@ interface IState {
   displayIfZero: boolean
 }
 
-export default class FireAmount extends Component<IProps, IState> {
+export default class FireAmount extends React.Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
     

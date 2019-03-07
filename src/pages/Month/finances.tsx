@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React from 'react';
 import _ from 'lodash';
 import MonthSavings from './monthSavings';
 import MonthIncome from './monthIncome';
@@ -12,7 +12,7 @@ interface IProps {
   callbackIncome: (index: string, indexes: string[], amount: any, updatedState: boolean) => void
 }
 
-export default class MonthFinances extends Component<IProps> {
+export default class MonthFinances extends React.Component<IProps> {
   render() {
     const { month, year, bank, callbackSavings, callbackIncome } = this.props;
 

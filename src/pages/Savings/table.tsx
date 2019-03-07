@@ -1,5 +1,4 @@
-import React, { Component } from 'react';
-
+import React from 'react';
 import Header from './header';
 import Body from './body';
 import Footer from './footer';
@@ -12,7 +11,7 @@ interface IProps {
 
 interface IState {}
 
-class SavingsTable extends Component<IProps, IState> {
+class SavingsTable extends React.Component<IProps, IState> {
   render() {
     const {bank} = this.props;
 
