@@ -11,7 +11,7 @@ interface IProps {
 
 interface IState {}
 
-class SavingsTable extends React.Component<IProps, IState> {
+export default class SavingsTable extends React.Component<IProps, IState> {
   render() {
     const {bank} = this.props;
 
@@ -26,5 +26,3 @@ class SavingsTable extends React.Component<IProps, IState> {
     );
   }
 }
-
-export default SavingsTable;

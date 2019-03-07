@@ -16,7 +16,7 @@ interface IState {
   collapsed: boolean;
 }
 
-class RevenuesTableBody extends React.Component<IProps, IState> {
+export default class RevenuesTableBody extends React.Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
 
@@ -127,5 +127,3 @@ class RevenuesTableBody extends React.Component<IProps, IState> {
     );
   }
 };
-
-export default RevenuesTableBody;

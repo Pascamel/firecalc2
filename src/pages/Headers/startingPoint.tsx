@@ -3,7 +3,7 @@ import _ from 'lodash';
 import helpers from '../../helpers';
 
 
-class StartingPoint extends React.Component<any, any> {
+export default class StartingPoint extends React.Component<any, any> {
   currentYear: number;
 
   constructor(props: any) {
@@ -59,5 +59,3 @@ class StartingPoint extends React.Component<any, any> {
     );
   }
 }
-
-export default StartingPoint;
