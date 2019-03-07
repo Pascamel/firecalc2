@@ -1,4 +1,4 @@
-import React, { Component} from 'react';
+import React from 'react';
 import { Container, Row } from 'reactstrap';
 import { RouteComponentProps } from 'react-router-dom';
 import { withAuthorization } from '../../firebase/withAuthorization';
@@ -22,7 +22,7 @@ interface IState {
   month: string
 }
 
-class MonthPageBase extends Component<IProps, IState> {
+class MonthPageBase extends React.Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
 

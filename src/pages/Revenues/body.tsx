@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
+import React from 'react';
 import _ from 'lodash';
 import FireAmount from '../../components/FireAmount';
 import helpers from '../../helpers';
 import { Bank } from '../../bank';
-import { Tracing } from 'trace_events';
 import { StaticAmount, StaticPercentage } from '../../components/staticAmount';
+
 
 interface IProps {
   year: string,
@@ -16,7 +16,7 @@ interface IState {
   collapsed: boolean;
 }
 
-class RevenuesTableBody extends Component<IProps, IState> {
+class RevenuesTableBody extends React.Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
 

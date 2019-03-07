@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import helpers from '../../helpers';
 
 
@@ -13,7 +13,7 @@ interface IState {
 
 }
 
-export default class Progress extends Component<IProps, IState> {
+export default class Progress extends React.Component<IProps, IState> {
   render () {
     const { result, goal, percentage, label } = this.props
 

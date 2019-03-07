@@ -1,6 +1,5 @@
-import React, { Component } from 'react';
+import React from 'react';
 import _ from 'lodash';
-
 import FireAmount from '../../components/FireAmount';
 import FireTD from '../../components/fireTD';
 import { StaticAmount, StaticPercentage } from '../../components/staticAmount';
@@ -17,7 +16,7 @@ interface IState {
   collapsed: boolean;
 }
 
-export default class Body extends Component<IProps, IState> {
+export default class Body extends React.Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
 

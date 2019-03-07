@@ -6,8 +6,9 @@ import { Bank } from '../../bank';
 import LoadingPanel from '../../components/LoadingPanel';
 import SavePanel from '../../components/SavePanel';
 import StartingPoint from './startingPoint';
-// import SavingsHeaders from './savingsHeaders';
-// import IncomeHeaders from './incomeHeaders';
+import Savings from './savings';
+import Incomes from './incomes';
+
 
 class HeadersPage extends React.Component<any, any> {
   constructor(props: any) {
@@ -95,7 +96,7 @@ class HeadersPage extends React.Component<any, any> {
     },
 
     moveUpHeaderCallback: (type: string, index: number) => {
-      if (index <= 0 || index >= this.state.headers[type].length) return;
+      if (index <= 0 || index >= this.state.bank.headers[type].length) return;
 
       var tmp = this.state.bank.headers[type][index-1];
       this.state.bank.headers[type][index-1] = this.state.bank.headers[type][index];
@@ -105,7 +106,7 @@ class HeadersPage extends React.Component<any, any> {
     },
   
     moveDownHeaderCallback: (type: string, index: number) => {
-      if (index < 0 || index >= this.state.headers[type].length - 1) return;
+      if (index < 0 || index >= this.state.bank.headers[type].length - 1) return;
 
       var tmp = this.state.bank.headers[type][index+1];
       this.state.bank.headers[type][index+1] = this.state.bank.headers[type][index];
@@ -148,8 +149,8 @@ class HeadersPage extends React.Component<any, any> {
       <div className="container">
         {loading && <LoadingPanel />}
         {!loading && <StartingPoint {...this.state} {...this.callbacks} /> }
-        {/* {!loading && <SavingsHeaders {...this.state} {...this.callbacks} /> }
-        {!loading && <IncomeHeaders {...this.state} {...this.callbacks} /> }*/}
+        {!loading && <Savings bank={bank} {...this.state} {...this.callbacks} /> }
+        {!loading && <Incomes bank={bank} {...this.state} {...this.callbacks} /> }
       </div>         
       </React.Fragment>
     );

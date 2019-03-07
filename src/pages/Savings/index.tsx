@@ -1,14 +1,11 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Container, Row, Col } from 'reactstrap';
-// import { compose } from 'recompose';
-
 import Table from './table';
 import LoadingPanel from '../../components/LoadingPanel';
 import SavePanel from '../../components/SavePanel';
-// import ErrorPanel from '../UI/ErrorPanel';
 import { Bank } from '../../bank';
-import { AuthUserContext } from '../../firebase/AuthUserContext';
 import { withAuthorization } from '../../firebase/withAuthorization';
+
 
 interface IProps {}
 
@@ -19,7 +16,7 @@ interface IState {
   bank: Bank
 }
 
-class SavingsPageBase extends Component<IProps, IState> {
+class SavingsPageBase extends React.Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
 

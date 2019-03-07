@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Container, Row, Col } from 'reactstrap';
 import { withAuthorization } from '../../firebase/withAuthorization';
 import LoadingPanel from '../../components/LoadingPanel';
@@ -16,7 +16,7 @@ interface IState {
   saveInProgress: boolean
 }
 
-class RevenuePageBase extends Component<IProps, IState> {
+class RevenuePageBase extends React.Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
 

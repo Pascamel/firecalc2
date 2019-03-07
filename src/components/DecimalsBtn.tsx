@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import { Bank } from '../bank';
 
@@ -12,7 +12,7 @@ interface IState {
   dropdownOpen: boolean
 }
 
-export default class DecimalsBtn extends Component<IProps, IState> {
+export default class DecimalsBtn extends React.Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
 
