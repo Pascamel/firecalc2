@@ -10,13 +10,12 @@ import {
   NavbarBrand,
   NavbarToggler,
   NavItem,
-  NavLink,
   UncontrolledDropdown
 } from 'reactstrap';
+import { NavLink } from 'react-router-dom'
 import * as ROUTES from '../constants/routes';
 import { AuthUserContext } from '../firebase/AuthUserContext';
 import { SignOutLink } from './SignOutLink';
-import { auth } from '../firebase';
 
 
 interface IProps {
@@ -59,25 +58,25 @@ class NavigationAuth extends React.Component<IProps, IState> {
               <Collapse isOpen={this.state.isOpen} navbar>
                 <Nav navbar>
                   <NavItem>
-                    <NavLink href={route}>Month</NavLink>
+                    <NavLink className="nav-link" to={route}>Month</NavLink>
                   </NavItem>
                   <NavItem>
-                    <NavLink href={ROUTES.REVENUES} active={window.location.pathname === ROUTES.REVENUES}>
+                    <NavLink className="nav-link" to={ROUTES.REVENUES}>
                       Revenues
                     </NavLink>
                   </NavItem>
                   <NavItem>
-                    <NavLink href={ROUTES.SAVINGS} active={window.location.pathname === ROUTES.SAVINGS}>
+                    <NavLink className="nav-link" to={ROUTES.SAVINGS}>
                       Savings
                     </NavLink>
                   </NavItem>
                   <NavItem>
-                    <NavLink href={ROUTES.HEADERS} active={window.location.pathname === ROUTES.HEADERS}>
+                    <NavLink className="nav-link" to={ROUTES.HEADERS}>
                       Settings
                     </NavLink>
                   </NavItem>
                   <NavItem>
-                    <NavLink href={ROUTES.ADMIN}>Admin</NavLink>
+                    <NavLink className="nav-link" to={ROUTES.ADMIN}>Admin</NavLink>
                   </NavItem>
                 </Nav> 
                 <Nav className="ml-auto" navbar>
@@ -128,7 +127,7 @@ class NavigationNonAuth extends React.Component<{}, IState> {
               <Collapse isOpen={this.state.isOpen} navbar>
                 <Nav className="ml-auto" navbar>
                   <NavItem>
-                    <NavLink href={ROUTES.SIGN_IN}>Sign In</NavLink>
+                    <NavLink className="nav-link" to={ROUTES.SIGN_IN}>Sign In</NavLink>
                   </NavItem>
                 </Nav>
               </Collapse>

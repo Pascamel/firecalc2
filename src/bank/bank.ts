@@ -273,21 +273,21 @@ export default class Bank {
           const amount: number = _.get(this.income, [year, month, header.id], 0);
           if (amount === 0) return;
 
-          this.totalMonthPre[year][month] += header.pretax ? (amount / header.count) : 0;
-          this.totalMonthPost[year][month] += header.pretax ? 0 : (amount / header.count);
-          this.totalMonthIncome[year][month] += amount / header.count;  
+          this.totalMonthPre[year][month] += header.pretax ? (amount / (header.count || 1)) : 0;
+          this.totalMonthPost[year][month] += header.pretax ? 0 : (amount / (header.count || 1));
+          this.totalMonthIncome[year][month] += amount / (header.count || 1);  
 
           this.yearlyIncome[year][header.id] += amount;
 
-          this.totalYearPre[year] += header.pretax ? (amount / header.count) : 0;
-          this.totalYearPost[year] += header.pretax ? 0 : (amount / header.count);
+          this.totalYearPre[year] += header.pretax ? (amount / (header.count || 1)) : 0;
+          this.totalYearPost[year] += header.pretax ? 0 : (amount / (header.count || 1));
         });
 
         const im = this.totalMonthIncome[year][month];
         this.savingRateMonth[year][month] = (im === 0) ? 0 : ((this.totalMonthSavings[year][month] / im) || 0);
 
         let iy = _(_.range(1, parseInt(month) + 1)).reduce((sum, m) => sum + _.get(this.totalMonthIncome, [year, m.toString()], 0), 0);
-        this.savingRateYear[year][month] = (iy === 0) ? 0 : ((this.totalHolding[year][month] - this.startOfYearAmount[year]) / iy);      
+        this.savingRateYear[year][month] = (iy === 0) ? 0 : ((this.totalHolding[year][month] - this.startOfYearAmount[year]) / iy);
       });
     });
 
