@@ -53,12 +53,14 @@ class NavigationAuth extends React.Component<IProps, IState> {
         <Row>
           <Col>
             <Navbar light expand="md">
-              <NavbarBrand href={ROUTES.DASHBOARD}>FiReCalc</NavbarBrand>
+              <NavbarBrand href={ROUTES.DASHBOARD}>FireCalc</NavbarBrand>
               <NavbarToggler onClick={this.toggle} />
               <Collapse isOpen={this.state.isOpen} navbar>
                 <Nav navbar>
                   <NavItem>
-                    <NavLink className="nav-link" to={route}>Month</NavLink>
+                    <NavLink className="nav-link" to={route}>
+                      Month
+                    </NavLink>
                   </NavItem>
                   <NavItem>
                     <NavLink className="nav-link" to={ROUTES.REVENUES}>
@@ -127,7 +129,9 @@ class NavigationNonAuth extends React.Component<{}, IState> {
               <Collapse isOpen={this.state.isOpen} navbar>
                 <Nav className="ml-auto" navbar>
                   <NavItem>
-                    <NavLink className="nav-link" to={ROUTES.SIGN_IN}>Sign In</NavLink>
+                    <NavLink className="nav-link" to={ROUTES.SIGN_IN}>
+                      Sign In
+                    </NavLink>
                   </NavItem>
                 </Nav>
               </Collapse>

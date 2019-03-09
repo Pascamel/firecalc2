@@ -21,6 +21,7 @@ export default class Bank {
 
   income: IIncome;
   savings: ISavings;
+  networth: any;
   savingsInputs: any;
   savingsInputsHidden: any;
   incomeHeaders: any;
@@ -55,6 +56,7 @@ export default class Bank {
     this.savingsHeadersHidden = {};
     this.income = {};
     this.savings = {};
+    this.networth = {};
   }
 
   load = async () => {
@@ -62,29 +64,23 @@ export default class Bank {
     const snapshotHeaders = await firestore.getHeaders();
     const snapshotSavings = await firestore.getSavings();
     const snapshotRevenues = await firestore.getRevenues();
+    const snapshotNetWorth = await firestore.getNetWorth();
 
-    if (!snapshotHeaders) return;
-    if (!snapshotSavings) return;
-    if (!snapshotRevenues) return;
+    if (!snapshotHeaders || !snapshotSavings || !snapshotRevenues || !snapshotNetWorth) return;
 
     this.headers = snapshotHeaders.data() || [];
-    let savings = snapshotSavings.data();
-    let revenues = snapshotRevenues.data();
-    let savings_data = _.get(savings, 'data', []);
-    let revenues_data = _.get(revenues, 'data', []);
+    let savings_data = _.get(snapshotSavings.data(), 'data', []);
+    let revenues_data = _.get(snapshotRevenues.data(), 'data', []);
     
     this.incomeHeaders = formatters.formatIncomeHeaders(this.headers);
     this.savingsHeaders = formatters.formatSavingsHeaders(this.headers);
-
-    // this.firstYear = this.headers.firstYear;
-    // this.firstMonth = this.headers.firstMonth;
-    // this.startingCapital = this.headers.startingCapital;
 
     this.incomeYearHeaders = {collapsed: {}};
     this.savingsYearHeaders = _.get(snapshotSavings.data(), 'yearly_data', {collapsed: {}, goals: {}});
 
     this.income = formatters.formatIncome(revenues_data, this.headers);
     this.savings = formatters.formatSavings(savings_data, this.headers);
+    this.networth = _.get(snapshotNetWorth.data(), 'data', {});
 
     this.savingsInputs = formatters.savingsInputs(this.savingsHeaders, {});
     this.savingsInputsHidden = formatters.savingsInputs(this.savingsHeaders, this.savingsHeadersHidden);
@@ -172,6 +168,20 @@ export default class Bank {
 
     try {
       await firestore.setSavings(payload);
+      return true;
+    } catch {
+      return false;
+    }
+  };
+
+  saveNetWorth = async () => {
+    const payload = {
+      last_update: (new Date()).getTime(),
+      data: JSON.parse(JSON.stringify(this.networth))
+    };
+    console.log(payload)
+    try {
+      await firestore.setNetWorth(payload);
       return true;
     } catch {
       return false;

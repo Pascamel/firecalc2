@@ -1,7 +1,6 @@
 import React from 'react';
 import { Container, Row } from 'reactstrap';
 import { RouteComponentProps } from 'react-router-dom';
-import { withAuthorization } from '../../firebase/withAuthorization';
 import * as ROUTES from '../../constants/routes';
 import { Bank } from '../../bank';
 import helpers from '../../helpers';
@@ -22,7 +21,7 @@ interface IState {
   month: string
 }
 
-class MonthPageBase extends React.Component<IProps, IState> {
+export default class MonthPageBase extends React.Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
 
@@ -69,13 +68,24 @@ class MonthPageBase extends React.Component<IProps, IState> {
     this.setState({bank: this.state.bank, updated: true});
   }
 
+  updateNetWorth = (index: string, indexes: string[], amount: number) => {
+    this.state.bank.updateValue(index, indexes, amount);
+    this.setState({bank: this.state.bank, updated: true});
+  }
+
   saveData = () => {
+    console.log('saveData');
     this.setState({saveInProgress: true});
     this.state.bank.saveSavings().then(() => {
-      this.state.bank.saveIncome().then((saved) => {
-        this.setState({
-          updated: !saved, 
-          saveInProgress: false
+      this.state.bank.saveIncome().then(() => {
+        console.log('saveNetWorth start');
+        this.state.bank.saveNetWorth().then((saved) => {
+          console.log('saveNetWorth done');
+          console.log('saved', saved)
+          this.setState({
+            updated: !saved, 
+            saveInProgress: false
+          });
         });
       }).catch((error) => {});
     }).catch((error) => {});
@@ -106,14 +116,10 @@ class MonthPageBase extends React.Component<IProps, IState> {
         {!loading && <Container>
           <Row>
             <Finances {...this.state} callbackSavings={this.updateSavings} callbackIncome={this.updateIncome} />
-            <Charts {...this.state} />
+            <Charts {...this.state} callback={this.updateNetWorth} />
           </Row>
         </Container>}
       </React.Fragment>
     )
   }
 }
-
-const authCondition = (authUser: firebase.User) => !!authUser;
-
-export const MonthPage = withAuthorization(authCondition)(MonthPageBase);

@@ -24,6 +24,11 @@ export const getSavings = () => {
   return firestore.collection('savings').doc(auth.currentUser.uid).get();
 }
 
+export const getNetWorth = () => {
+  if (!auth.currentUser) return null;
+  return firestore.collection('networth').doc(auth.currentUser.uid).get();
+}
+
 export const setHeaders = (data: any) => {
   if (!auth.currentUser) return;
   firestore.collection('headers').doc(auth.currentUser.uid).set(data);
@@ -38,3 +43,9 @@ export const setSavings = (data: any) => {
   if (!auth.currentUser) return;
   firestore.collection('savings').doc(auth.currentUser.uid).set(data);
 }
+
+export const setNetWorth = (data: any) => {
+  if (!auth.currentUser) return;
+  firestore.collection('networth').doc(auth.currentUser.uid).set(data);
+}
+

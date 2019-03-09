@@ -7,9 +7,7 @@ interface IProps {
   savingRate: number
 }
 
-interface IState {
-
-}
+interface IState {}
 
 export default class Doughnut extends React.Component<IProps, IState> {
   options: any;
@@ -32,18 +30,18 @@ export default class Doughnut extends React.Component<IProps, IState> {
           Math.min(100, Math.max(0, this.props.savingRate * 100)), 
           100 - Math.min(100, Math.max(0, this.props.savingRate * 100))
         ],
-        backgroundColor: ['#4267b2', '#f5f5f5'],
-        hoverBackgroundColor: ['#4267b2', '#f5f5f5'],
+        backgroundColor: ['#4267b2', '#ddd'],
+        hoverBackgroundColor: ['#4267b2', '#ddd'],
         borderWidth: [0, 0],
         hoverBorderWidth: [0, 0]
       }]
     };
 
     return (
-      <Col className="col-6 chart-container">
+      <React.Fragment>
         <DoughnutLib data={data} height={300} options={this.options}/>
         <span className="chart-label">{Math.round(this.props.savingRate * 100)}%</span>
-      </Col>
+      </React.Fragment>
     );
   }
 }

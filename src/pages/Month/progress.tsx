@@ -37,7 +37,8 @@ export default class Progress extends React.Component<IProps, IState> {
               <div className={`progress-bar ${result >= 0 ? 'bg-success' : 'bg-danger'}`}
                   role="progressbar" 
                   style={{width: percentage + '%'}}>
-                ${helpers.amount(result + goal, false, true)}
+                {result + goal != 0 && '$'}
+                {helpers.amount(result + goal, false, true)}
               </div>
             </div>
           </div>
