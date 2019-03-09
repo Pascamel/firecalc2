@@ -78,10 +78,7 @@ export default class MonthPageBase extends React.Component<IProps, IState> {
     this.setState({saveInProgress: true});
     this.state.bank.saveSavings().then(() => {
       this.state.bank.saveIncome().then(() => {
-        console.log('saveNetWorth start');
         this.state.bank.saveNetWorth().then((saved) => {
-          console.log('saveNetWorth done');
-          console.log('saved', saved)
           this.setState({
             updated: !saved, 
             saveInProgress: false

@@ -223,6 +223,7 @@ export default class Bank {
       this.yearlyIncome[year] = {};
       this.savingRateMonth[year] = {};
       this.savingRateYear[year] = {};
+      if (!this.networth[year]) this.networth[year] = {};
 
       this.startOfYearAmount[year] = (year === this.headers.firstYear.toString()) ? parseFloat(this.headers.startingCapital) : this.totalHolding[(parseInt(year) - 1)]['12'];
       const goal_year = _.get(this.savingsYearHeaders, ['goals', year], 0);
