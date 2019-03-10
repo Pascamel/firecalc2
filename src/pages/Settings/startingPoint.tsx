@@ -1,12 +1,19 @@
 import React from 'react';
 import _ from 'lodash';
 import helpers from '../../helpers';
+import { Bank } from '../../bank';
 
 
-export default class StartingPoint extends React.Component<any, any> {
+interface IProps {
+  headers: any,
+  bank: Bank,
+  updateCallback: (indexes: string[], value: number) => void
+}
+
+export default class StartingPoint extends React.Component<IProps, {}> {
   currentYear: number;
 
-  constructor(props: any) {
+  constructor(props: IProps) {
     super(props);
 
     this.currentYear = new Date().getFullYear();

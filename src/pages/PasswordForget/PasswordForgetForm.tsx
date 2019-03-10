@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { auth } from '../../firebase';
 
-export class PasswordForgetForm extends React.Component {
+export class PasswordForgetForm extends React.Component<{}, {}> {
   private static INITIAL_STATE = {
     email: '',
     error: null

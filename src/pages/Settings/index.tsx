@@ -10,8 +10,16 @@ import Savings from './savings';
 import Incomes from './incomes';
 
 
-class HeadersPage extends React.Component<any, any> {
-  constructor(props: any) {
+interface IState {
+  bank: Bank,
+  loading: boolean,
+  updated: boolean,
+  saveInProgress: boolean,
+  headers: any
+}
+
+class SettingsPage extends React.Component<{}, IState> {
+  constructor(props: {}) {
     super(props);
 
     this.state = {
@@ -19,11 +27,7 @@ class HeadersPage extends React.Component<any, any> {
       loading: true,
       updated: false,
       saveInProgress: false,
-      headers: {
-        headers: [],
-        incomes: [],
-        startingCapital: 0
-      }
+      headers: this.default_headers
     };
   }
 
@@ -159,4 +163,4 @@ class HeadersPage extends React.Component<any, any> {
 
 const authCondition = (authUser: firebase.User) => !!authUser;
 
-export default withAuthorization(authCondition)(HeadersPage);
+export default withAuthorization(authCondition)(SettingsPage);

@@ -11,14 +11,14 @@ import { SignUp } from '../pages/SignUp';
 import Navigation from './Navigation';
 
 import AdminPage from '../pages/Admin';
-import HeadersPage from '../pages/Headers';
+import SettingsPage from '../pages/Settings';
 import { RevenuesPage } from '../pages/Revenues';
 import { SavingsPage } from '../pages/Savings';
 import { MonthPage } from '../pages/Month';
 import { StatsPage } from '../pages/Stats';
 
-class AppComponent extends React.Component {
-  constructor(props: any) {
+class AppComponent extends React.Component<{}, {}> {
+  constructor(props: {}) {
     super(props);
 
     this.state = {
@@ -46,7 +46,7 @@ class AppComponent extends React.Component {
             <Route exact={true} path={ROUTES.HOME} component={HomePage} />
             <Route exact={true} path={ROUTES.ACCOUNT} component={Account} />
             <Route path={ROUTES.ADMIN} component={AdminPage} />
-            <Route path={ROUTES.HEADERS} component={HeadersPage} />
+            <Route path={ROUTES.SETTINGS} component={SettingsPage} />
             <Route path={ROUTES.REVENUES} component={RevenuesPage} />
             <Route path={ROUTES.SAVINGS} component={SavingsPage} />
             <Route path={ROUTES.MONTH} component={MonthPage} />

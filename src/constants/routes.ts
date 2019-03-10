@@ -6,8 +6,8 @@ export const ACCOUNT = '/account';
 export const ADMIN = '/admin';
 export const PASSWORD_FORGET = '/pw-forget';
 
-export const HEADERS = '/headers';
+export const MONTH = '/month/:year/:month';
 export const REVENUES = '/revenues';
 export const SAVINGS = '/savings';
-export const MONTH = '/month/:year/:month';
+export const SETTINGS = '/headers';
 export const STATS = '/stats/:type';

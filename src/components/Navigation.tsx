@@ -81,7 +81,7 @@ class NavigationAuth extends React.Component<IProps, IState> {
                     </NavLink>
                   </NavItem>
                   <NavItem>
-                    <NavLink className="nav-link" to={ROUTES.HEADERS}>
+                    <NavLink className="nav-link" to={ROUTES.SETTINGS}>
                       Settings
                     </NavLink>
                   </NavItem>
@@ -151,7 +151,7 @@ class NavigationNonAuth extends React.Component<{}, IState> {
   }
 }
 
-export default class Navigation extends React.Component {
+export default class Navigation extends React.Component<{}, {}> {
   render () {
     return (
       <div>
