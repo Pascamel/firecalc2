@@ -22,7 +22,7 @@ interface IState {
   savings_breakdown: any
 }
 
-export default class StatsBase extends React.Component<IProps, IState> {
+export default class StatsPageBase extends React.Component<IProps, IState> {
   constructor (props: IProps) {
     super(props);
 
@@ -49,16 +49,16 @@ export default class StatsBase extends React.Component<IProps, IState> {
         const m2 = (y === (new Date().getFullYear())) ? (new Date().getMonth() + 1) : 12;
         _.each(_.range(m1, m2 + 1), m => {
           svsi.push([
-            new Date(y, m), 
+            new Date(y, m - 1), 
             _.get(this.state.bank.totalMonthSavings, [y, m], 0),
             _.get(this.state.bank.totalMonthIncome, [y, m], 0)
           ]);
           nw.push([
-            new Date(y, m), 
+            new Date(y, m - 1), 
             _.get(this.state.bank.networth, [y, m], 0)
           ]);
           ts.push([
-            new Date(y, m), 
+            new Date(y, m - 1), 
             _.get(this.state.bank.totalHolding, [y, m], 0)
           ]);
         });
@@ -101,8 +101,8 @@ export default class StatsBase extends React.Component<IProps, IState> {
     const { loading, type } = this.state;
     return (
       <React.Fragment>
-        <Selector type={type} />
         {loading && <LoadingPanel />}
+        {!loading && <Selector type={type} />}
         {!loading && <Container>
           <Row>
             <Col>

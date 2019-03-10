@@ -4,7 +4,7 @@ import { Container, Row, Col } from 'reactstrap';
 export default class LoadingPanel extends React.Component<{}, {}> {
   render() {
     return (
-      <Container>
+      <Container fluid>
         <Row>
           <Col>
             <div className="loading-spinner">

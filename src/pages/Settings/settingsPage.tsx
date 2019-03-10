@@ -1,7 +1,6 @@
 import React from 'react';
 import _ from 'lodash';
 import uuid from 'uuid';
-import { withAuthorization } from '../../firebase/withAuthorization';
 import { Bank } from '../../bank';
 import LoadingPanel from '../../components/LoadingPanel';
 import SavePanel from '../../components/SavePanel';
@@ -18,7 +17,7 @@ interface IState {
   headers: any
 }
 
-class SettingsPage extends React.Component<{}, IState> {
+export default class SettingsPageBase extends React.Component<{}, IState> {
   constructor(props: {}) {
     super(props);
 
@@ -143,24 +142,20 @@ class SettingsPage extends React.Component<{}, IState> {
 
     return (
       <React.Fragment>
-      {!loading && <SavePanel label="Settings" 
-                              bank={bank}
-                              updated={updated}
-                              saveInProgress={saveInProgress}
-                              cancelChanges={this.cancelChanges}
-                              callback={() => {}} 
-                              saveClick={this.saveHeaders} />}
-      <div className="container">
         {loading && <LoadingPanel />}
-        {!loading && <StartingPoint {...this.state} {...this.callbacks} /> }
-        {!loading && <Savings bank={bank} {...this.state} {...this.callbacks} /> }
-        {!loading && <Incomes bank={bank} {...this.state} {...this.callbacks} /> }
-      </div>         
+        {!loading && <SavePanel label="Settings" 
+                                bank={bank}
+                                updated={updated}
+                                saveInProgress={saveInProgress}
+                                cancelChanges={this.cancelChanges}
+                                callback={() => {}} 
+                                saveClick={this.saveHeaders} />}
+        {!loading && <div className="container">
+          <StartingPoint {...this.state} {...this.callbacks} /> 
+          <Savings bank={bank} {...this.state} {...this.callbacks} /> 
+          <Incomes bank={bank} {...this.state} {...this.callbacks} /> 
+        </div>}
       </React.Fragment>
     );
   }
 }
-
-const authCondition = (authUser: firebase.User) => !!authUser;
-
-export default withAuthorization(authCondition)(SettingsPage);

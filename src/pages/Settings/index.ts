@@ -1,7 +1,7 @@
 import { withAuthorization } from '../../firebase/withAuthorization';
-import StatsPageBase from './statsPage'; 
+import SettingsPageBase from './settingsPage'; 
 
 
 const authCondition = (authUser: firebase.User) => !!authUser;
 
-export const StatsPage = withAuthorization(authCondition)(StatsPageBase);
+export const SettingsPage = withAuthorization(authCondition)(SettingsPageBase);

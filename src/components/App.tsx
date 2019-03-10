@@ -9,9 +9,8 @@ import { PasswordForget } from '../pages/PasswordForget';
 import { SignIn } from '../pages/SignIn';
 import { SignUp } from '../pages/SignUp';
 import Navigation from './Navigation';
-
 import AdminPage from '../pages/Admin';
-import SettingsPage from '../pages/Settings';
+import { SettingsPage } from '../pages/Settings';
 import { RevenuesPage } from '../pages/Revenues';
 import { SavingsPage } from '../pages/Savings';
 import { MonthPage } from '../pages/Month';
