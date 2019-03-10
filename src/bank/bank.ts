@@ -179,7 +179,7 @@ export default class Bank {
       last_update: (new Date()).getTime(),
       data: JSON.parse(JSON.stringify(this.networth))
     };
-    console.log(payload)
+
     try {
       await firestore.setNetWorth(payload);
       return true;

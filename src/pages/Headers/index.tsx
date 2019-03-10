@@ -1,6 +1,6 @@
 import React from 'react';
 import _ from 'lodash';
-import uuid from "uuid";
+import uuid from 'uuid';
 import { withAuthorization } from '../../firebase/withAuthorization';
 import { Bank } from '../../bank';
 import LoadingPanel from '../../components/LoadingPanel';

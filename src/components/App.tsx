@@ -15,6 +15,7 @@ import HeadersPage from '../pages/Headers';
 import { RevenuesPage } from '../pages/Revenues';
 import { SavingsPage } from '../pages/Savings';
 import { MonthPage } from '../pages/Month';
+import { StatsPage } from '../pages/Stats';
 
 class AppComponent extends React.Component {
   constructor(props: any) {
@@ -49,6 +50,7 @@ class AppComponent extends React.Component {
             <Route path={ROUTES.REVENUES} component={RevenuesPage} />
             <Route path={ROUTES.SAVINGS} component={SavingsPage} />
             <Route path={ROUTES.MONTH} component={MonthPage} />
+            <Route path={ROUTES.STATS} component={StatsPage} />
           </Switch>
         </div>
       </BrowserRouter>

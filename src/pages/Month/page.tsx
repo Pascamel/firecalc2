@@ -36,7 +36,6 @@ export default class MonthPageBase extends React.Component<IProps, IState> {
   }
 
   componentDidMount () {
-    let bank = this.state.bank;
     this.state.bank.load().then(() => {
       this.setState({bank: this.state.bank, loading: false});
     });
@@ -74,7 +73,6 @@ export default class MonthPageBase extends React.Component<IProps, IState> {
   }
 
   saveData = () => {
-    console.log('saveData');
     this.setState({saveInProgress: true});
     this.state.bank.saveSavings().then(() => {
       this.state.bank.saveIncome().then(() => {
@@ -98,7 +96,7 @@ export default class MonthPageBase extends React.Component<IProps, IState> {
   }
 
   render() {
-    const { loading, month, year /*, error*/ } = this.state;
+    const { loading, month, year } = this.state;
 
     return (
       <React.Fragment>
