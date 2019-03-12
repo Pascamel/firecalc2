@@ -4,6 +4,7 @@ import _ from 'lodash';
 import * as I from '../bank/interfaces';
 import { Bank } from '../bank';
 import * as formatters from '../bank/formatters';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 
 interface IFiltersBtnProps {
@@ -38,7 +39,7 @@ export class FiltersBtn extends React.Component<IFiltersBtnProps, IFiltersBtnSta
     return (
       <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
         <DropdownToggle color={updated ? 'warning' : 'light'}>
-          <i className="fa fa-columns"></i>
+          <FontAwesomeIcon icon="columns" />
         </DropdownToggle>
         <DropdownMenu>
           {bank.savingsInputs.map((header: I.ISavingsHeader, key: number) => (
@@ -96,7 +97,7 @@ class ClickableItem extends React.Component<IClickableItemProps, IClickableItemS
   render() {
     return (
       <DropdownItem toggle={false} onClick={this.clickColumn} className={this.state.hidden ? 'text-muted' : ''}>
-        <i className={`fa mr-2 ${this.state.hidden ? 'fa-eye-slash' : 'fa-eye'}`}></i>
+        <FontAwesomeIcon icon={this.state.hidden ? 'eye-slash' : 'eye'} className="mr-2" />
         {this.state.header_label}
       </DropdownItem>
     );

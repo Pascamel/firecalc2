@@ -2,6 +2,7 @@ import * as React from 'react';
 import * as ROUTES from '../../constants/routes';
 import { auth } from '../../firebase';
 import { FormGroup, Input, InputGroup, InputGroupAddon, InputGroupText, Button } from 'reactstrap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 interface InterfaceProps {
   email?: string;
@@ -59,7 +60,7 @@ export class SignInForm extends React.Component<InterfaceProps,InterfaceState> {
           <InputGroup>
             <InputGroupAddon addonType="prepend">
               <InputGroupText>
-                <i className="fa fa-user"></i>
+                <FontAwesomeIcon icon={['far', 'user']} />
               </InputGroupText>
             </InputGroupAddon>
             <Input className="form-control"
@@ -73,7 +74,7 @@ export class SignInForm extends React.Component<InterfaceProps,InterfaceState> {
           <InputGroup>
             <InputGroupAddon addonType="prepend">
               <InputGroupText>
-                <i className="fa fa-lock"></i>
+                <FontAwesomeIcon icon="unlock-alt" />
               </InputGroupText>
             </InputGroupAddon>
             <Input value={password}

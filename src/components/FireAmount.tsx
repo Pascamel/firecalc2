@@ -97,8 +97,6 @@ export default class FireAmount extends React.Component<IProps, IState> {
                         defaultValue={this.state.amount ? this.state.amount.toString() : ''} 
                         onChange={(value:React.ChangeEvent<HTMLInputElement>) => this.onChange(value)} 
                         onKeyUp={this.handleKeyUp}  />}
-        {/* {edit && <span onClick={this.saveEdit}><i className="fa fa-check"></i></span>} */}
-        {/* {edit && <span onClick={this.cancelEdit}><i className="fa fa-times"></i></span>} */}
       </div>
     );
   }

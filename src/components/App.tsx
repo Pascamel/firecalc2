@@ -15,6 +15,8 @@ import { RevenuesPage } from '../pages/Revenues';
 import { SavingsPage } from '../pages/Savings';
 import { MonthPage } from '../pages/Month';
 import { StatsPage } from '../pages/Stats';
+import './icons';
+
 
 class AppComponent extends React.Component<{}, {}> {
   constructor(props: {}) {

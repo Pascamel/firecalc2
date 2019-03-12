@@ -1,5 +1,6 @@
 import React from 'react';
 import { Container, Row, Col } from 'reactstrap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export default class LoadingPanel extends React.Component<{}, {}> {
   render() {
@@ -8,7 +9,7 @@ export default class LoadingPanel extends React.Component<{}, {}> {
         <Row>
           <Col>
             <div className="loading-spinner">
-              <div className="fa fa-spinner fa-spin"></div>
+              <FontAwesomeIcon icon="spinner" spin />
             </div>
           </Col>
         </Row>

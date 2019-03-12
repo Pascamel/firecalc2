@@ -1,6 +1,7 @@
 import React from 'react';
 import { ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import { Bank } from '../bank';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 interface IProps {
   updated: boolean, 
@@ -38,7 +39,7 @@ export default class DecimalsBtn extends React.Component<IProps, IState> {
     return (
       <ButtonDropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
         <DropdownToggle color={updated ? 'warning' : 'light'}>
-          <i className="fa fa-university"></i>
+          <FontAwesomeIcon icon="university" />
         </DropdownToggle>
         <DropdownMenu>
           <DropdownItem disabled={bank.showDecimals} onClick={() => this.clickDecimal(true)}>Decimals</DropdownItem>

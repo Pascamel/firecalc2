@@ -1,6 +1,7 @@
 import React from 'react';
 import helpers from '../../helpers';
 import { Bank } from '../../bank';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 
 interface IProps {
@@ -84,7 +85,7 @@ export default class Income extends React.Component<IProps, IState> {
         </div>
         <div className="col-2">
           <div style={{display: 'inline-block'}}>
-          <i className={`fa ${header.pretax?'fa-check-square-o':'fa-square-o'} ${helpers.hideIf(header.$edit)}`}></i>
+            {!header.$edit && <FontAwesomeIcon icon={['far', header.pretax?'check-square':'square']} />}
             <label>
               <input type="checkbox"
                      name="editPretax"
@@ -106,24 +107,24 @@ export default class Income extends React.Component<IProps, IState> {
           </div>
         </div>
         <div className="col-3" style={{textAlign: 'right'}}>
-          <span className={`btn btn-link ${helpers.showIf(header.$edit)}`} onClick={e => this.editHeaderConfirm(header)}>
-            <i className="fa fa-lg fa-check"></i>
-          </span>
-          <span className={`btn btn-link ${helpers.showIf(header.$edit)}`} onClick={e => this.editHeaderCancel(header)}>
-            <i className="fa fa-lg fa-times"></i>
-          </span>
-          <span className={`btn btn-link ${helpers.hideIf(header.$edit)}`} onClick={e => this.editHeader(header)}>
-            <i className="fa fa-lg fa-pencil"></i>
-          </span>
-          <span className={`btn btn-link ${helpers.hideIf(header.$edit)}`} onClick={e => this.removeHeader(header)}>
-            <i className="fa fa-lg fa-trash-o"></i>
-          </span>
-          <span className={`btn btn-link ${helpers.hideIf(header.$edit)} ${(index === 0) ? 'disabled' : ''}`} onClick={e => this.moveUpHeader(index)}>
-            <i className="fa fa-lg fa-chevron-up"></i>
-          </span>
-          <span className={`btn btn-link ${helpers.hideIf(header.$edit)} ${(index >= bank.headers.savings.length-1) ? 'disabled' : ''}`} onClick={e => this.moveDownHeader(index)}>
-            <i className="fa fa-lg fa-chevron-down"></i>
-          </span>
+          {header.$edit && <span className="btn btn-link" onClick={e => this.editHeaderConfirm(header)}>
+            <FontAwesomeIcon icon="check" size="lg" />
+          </span>}
+          {header.$edit && <span className="btn btn-link" onClick={e => this.editHeaderCancel(header)}>
+            <FontAwesomeIcon icon="times" size="lg" />
+          </span>}
+          {!header.$edit && <span className="btn btn-link" onClick={e => this.editHeader(header)}>
+            <FontAwesomeIcon icon="edit" size="lg" />
+          </span>}
+          {!header.$edit && <span className="btn btn-link" onClick={e => this.removeHeader(header)}>
+            <FontAwesomeIcon icon="trash-alt" size="lg" />
+          </span>}
+          {!header.$edit && <span className={`btn btn-link ${(index === 0) ? 'disabled' : ''}`} onClick={e => this.moveUpHeader(index)}>
+            <FontAwesomeIcon icon="chevron-up" size="lg" />
+          </span>}
+          {!header.$edit && <span className={`btn btn-link ${(index >= bank.headers.savings.length-1) ? 'disabled' : ''}`} onClick={e => this.moveDownHeader(index)}>
+            <FontAwesomeIcon icon="chevron-down" size="lg" />
+          </span>}
         </div>
       </div>
     );

@@ -5,6 +5,7 @@ import FireTD from '../../components/fireTD';
 import { StaticAmount, StaticPercentage } from '../../components/staticAmount';
 import { Bank } from '../../bank';
 import helpers from '../../helpers';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 interface IProps {
   bank: Bank;
@@ -36,8 +37,8 @@ export default class Body extends React.Component<IProps, IState> {
     return (
       <tbody>
         <tr>
-          <td className="td-chevron">
-            <i className={`fa ${this.state.collapsed ? 'fa-chevron-right' : 'fa-chevron-down'}`} onClick={this.handleClickToggle}></i>
+          <td className="td-chevron" onClick={this.handleClickToggle}>
+            <FontAwesomeIcon icon={this.state.collapsed ? 'chevron-right' : 'chevron-down'} />            
           </td>
           <FireTD span={bank.savingsInputsHidden.length + 5} hide={this.state.collapsed}>
             <span className="pull-left" style={{paddingLeft: '10px'}}>
@@ -135,7 +136,9 @@ export default class Body extends React.Component<IProps, IState> {
         </tr>
         ))}
         <tr className={`tr-total ${helpers.hideIf(this.state.collapsed)}`}>
-          <td><i className="fa fa-calendar-plus-o"></i></td>
+          <td>
+            <FontAwesomeIcon icon={['far', 'calendar-alt']} />
+          </td>
           {bank.savingsInputsHidden.map((amount: any, idx: number) => (
           <td key={idx}>
             <StaticAmount bank={bank} display-zero>

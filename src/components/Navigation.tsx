@@ -12,7 +12,8 @@ import {
   NavItem,
   UncontrolledDropdown
 } from 'reactstrap';
-import { NavLink } from 'react-router-dom'
+import { NavLink } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import _ from 'lodash';
 import * as ROUTES from '../constants/routes';
 import * as CHARTS from '../constants/charts';
@@ -62,31 +63,39 @@ class NavigationAuth extends React.Component<IProps, IState> {
                 <Nav navbar>
                   <NavItem>
                     <NavLink className="nav-link" to={CURRENT_MONTH}>
+                      <FontAwesomeIcon icon={['far', 'calendar-alt']} className="mr-1" />
                       Month
                     </NavLink>
                   </NavItem>
                   <NavItem>
                     <NavLink className="nav-link" to={ROUTES.REVENUES}>
+                      <FontAwesomeIcon icon="user-tie" className="mr-1" />
                       Revenues
                     </NavLink>
                   </NavItem>
                   <NavItem>
                     <NavLink className="nav-link" to={ROUTES.SAVINGS}>
+                      <FontAwesomeIcon icon="piggy-bank" className="mr-1" />
                       Savings
                     </NavLink>
                   </NavItem>
                   <NavItem>
                     <NavLink className="nav-link" to={DEFAULT_CHART}>
+                      <FontAwesomeIcon icon="chart-area" className="mr-1" />
                       Stats
                     </NavLink>
                   </NavItem>
                   <NavItem>
                     <NavLink className="nav-link" to={ROUTES.SETTINGS}>
+                      <FontAwesomeIcon icon="cogs" className="mr-1" />
                       Settings
                     </NavLink>
                   </NavItem>
                   <NavItem>
-                    <NavLink className="nav-link" to={ROUTES.ADMIN}>Admin</NavLink>
+                    <NavLink className="nav-link" to={ROUTES.ADMIN}>
+                      <FontAwesomeIcon icon="solar-panel" className="mr-1" />
+                      Admin
+                    </NavLink>
                   </NavItem>
                 </Nav> 
                 <Nav className="ml-auto" navbar>

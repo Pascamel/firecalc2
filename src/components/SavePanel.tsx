@@ -4,6 +4,7 @@ import helpers from '../helpers';
 import { FiltersBtn } from './FiltersBtn';
 import DecimalsBtn from './DecimalsBtn';
 import { Bank } from '../bank';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 
 interface IProps {
@@ -42,15 +43,15 @@ export default class SavePanel extends React.Component<IProps, {}> {
                   {label !== 'Savings' && label !== 'Revenues' && label !== 'Settings' && 
                   <ButtonGroup className="pull-left">
                     <Button color={updated ? 'warning' : 'light'} onClick={this.props.prevMonth}>
-                      <i className="fa fa-backward"></i>
+                      <FontAwesomeIcon icon="backward" />
                     </Button>
                     <Button color={updated ? 'warning' : 'light'} onClick={this.props.nextMonth}>
-                      <i className="fa fa-forward"></i>
+                      <FontAwesomeIcon icon="forward" />
                     </Button>
                   </ButtonGroup>}                
 
                   <span className={helpers.showIf(updated)}>
-                    <i className="fa fa-lg fa-exclamation-triangle"></i>
+                    <FontAwesomeIcon icon="exclamation-triangle" size="lg" />
                     Updates have been detected. Save now!
                   </span>
                   <span className={`title ${helpers.hideIf(updated)}`}>
@@ -58,13 +59,13 @@ export default class SavePanel extends React.Component<IProps, {}> {
                   </span>
 
                   <button className={`btn btn-save pull-right ${updated ? 'btn-warning' : 'btn-light'}`} onClick={saveClick}>
-                    {!saveInProgress && <i className="fa fa-floppy-o"></i>}
-                    {saveInProgress && <i className="fa fa-spinner fa-spin"></i>}
+                    {!saveInProgress && <FontAwesomeIcon icon={['far', 'save']} className="mr-1" />}
+                    {saveInProgress && <FontAwesomeIcon icon="spinner" className="mr-1" spin />}
                     {saveInProgress ? 'Saving' : 'Save'}
                   </button>
 
                   <button className={`btn btn-warning pull-right ${helpers.showIf(updated)}`} onClick={cancelChanges}>
-                    <i className="fa fa-times"></i> Cancel
+                    <FontAwesomeIcon icon="times" /> Cancel
                   </button>
                 </Col>
               </Row>

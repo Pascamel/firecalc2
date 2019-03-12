@@ -1,6 +1,7 @@
 import React from 'react';
 import { Bank } from '../../bank';
 import { StaticAmount } from '../../components/staticAmount';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 interface IProps {
   bank: Bank
@@ -15,7 +16,9 @@ export default class Footer extends React.Component<IProps, IState> {
     return (
       <tfoot>
         <tr>
-          <td><i className="fa fa-university"></i></td>
+          <td>
+            <FontAwesomeIcon icon="university" />
+          </td>
           {bank.savingsInputsHidden.map((amount: any, key: number) => (
           <td className="table-warning" key={key}>
             <StaticAmount bank={bank} display-zero>

@@ -4,6 +4,7 @@ import FireAmount from '../../components/FireAmount';
 import helpers from '../../helpers';
 import { Bank } from '../../bank';
 import { StaticAmount, StaticPercentage } from '../../components/staticAmount';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 
 interface IProps {
@@ -36,8 +37,8 @@ export default class RevenuesTableBody extends React.Component<IProps, IState> {
     return (
       <tbody>
         <tr>
-          <td className="td-chevron">
-            <i className={"fa " + (this.state.collapsed ? 'fa-chevron-right' : 'fa-chevron-down')} onClick={this.handleClickToggle}></i>
+          <td className="td-chevron" onClick={this.handleClickToggle}>
+            <FontAwesomeIcon icon={this.state.collapsed ? 'chevron-right' : 'chevron-down'} />
           </td>
           <td className={helpers.hideIf(this.state.collapsed)} colSpan={bank.incomeHeaders.length + 3}>
             <span className="pull-left" style={{paddingLeft: '10px'}}>
@@ -99,7 +100,9 @@ export default class RevenuesTableBody extends React.Component<IProps, IState> {
         ))}
 
         <tr className={helpers.hideIf(this.state.collapsed)}>
-          <td><i className="fa fa-calendar-plus-o"></i></td>
+          <td>
+            <FontAwesomeIcon icon={['far', 'calendar-alt']} />
+          </td>
           {bank.incomeHeaders.map((header: any) => (
           <td key={header.id}>
             <StaticAmount bank={bank} display-zero>

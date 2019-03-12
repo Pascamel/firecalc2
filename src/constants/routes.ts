@@ -9,5 +9,5 @@ export const PASSWORD_FORGET = '/pw-forget';
 export const MONTH = '/month/:year/:month';
 export const REVENUES = '/revenues';
 export const SAVINGS = '/savings';
-export const SETTINGS = '/headers';
+export const SETTINGS = '/settings';
 export const STATS = '/stats/:type';
