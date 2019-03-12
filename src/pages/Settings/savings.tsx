@@ -1,7 +1,6 @@
 import React from 'react';
 import { Row, Col, Button } from 'reactstrap';
 import Saving from './saving';
-import helpers from '../../helpers';
 import { Bank } from '../../bank';
 
 interface IProps {
@@ -31,17 +30,17 @@ export default class Savings extends React.Component<IProps, {}> {
             <h3>Savings</h3>
           </Col>
         </Row>
-        <Row className={helpers.showIf(!bank.headers.savings.length)}>
+        {!bank.headers.savings.length && <Row>
           <Col>
             No headers
           </Col>
-        </Row>
+        </Row>}
         {bank.headers.savings.map((header: any, key: number) => (
           <Saving key={key} header={header} index={key} {...this.props} />
         ))}
         <Row>
           <Col>
-            <Button color="light" block={true} onClick={this.newHeader}>
+            <Button block color="light" onClick={this.newHeader}>
               Add New
             </Button>
           </Col>

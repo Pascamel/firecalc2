@@ -16,7 +16,7 @@ export class StaticAmount extends React.Component<IAmountProps, {}> {
 
     return (
       <React.Fragment>
-        {helpers.amount(/*Math.abs(*/this.props.children/*)*/, daz, this.props.bank.showDecimals)} 
+        {helpers.amount(this.props.children, daz, this.props.bank.showDecimals)} 
       </React.Fragment>
     );
   }

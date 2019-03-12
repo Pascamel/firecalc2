@@ -1,5 +1,4 @@
 import React from 'react';
-import helpers from '../../helpers';
 import { Bank } from '../../bank';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -84,44 +83,43 @@ export default class Saving extends React.Component<IProps, IState> {
     return (
       <div className="form-row form-headers">
         <div className="col-2">
-          <span className={`label-fake-input ${helpers.hideIf(header.$edit)}`}>
+          {!header.$edit && <span className="label-fake-input">
             {header.label}
-          </span>
-          <input type="text"
-                 name="editLabel"
-                 value={this.state.editLabel} 
-                 onChange={this.handleInputChange} 
-                 className={`form-control ${helpers.showIf(header.$edit)}`} />
+          </span>}
+          {header.$edit && <input type="text"
+                                  name="editLabel"
+                                  value={this.state.editLabel} 
+                                  onChange={this.handleInputChange} 
+                                  className="form-control" />}
         </div>
         <div className="col-2">
-          <span className={`label-fake-input ${helpers.hideIf(header.$edit)}`}>
+          {!header.$edit && <span className="label-fake-input">
             {header.sublabel}
-          </span>
-          <input type="text"
-                 name="editSublabel"
-                 value={this.state.editSublabel} 
-                 onChange={this.handleInputChange} 
-                 className={`form-control ${helpers.showIf(header.$edit)}`} />
+          </span>}
+          {header.$edit && <input type="text"
+                                  name="editSublabel"
+                                  value={this.state.editSublabel} 
+                                  onChange={this.handleInputChange} 
+                                  className="form-control" />}
         </div>
         <div className="col-4">
-          <span className={`label-fake-input nowrap-ellipsis ${helpers.hideIf(header.$edit)}`}>
+          {!header.$edit && <span className="label-fake-input nowrap-ellipsis">
             {header.icon}
-          </span>
-          <input type="text"
-                 name="editIcon"
-                 value={this.state.editIcon} 
-                 onChange={this.handleInputChange} 
-                 className={`form-control ${helpers.showIf(header.$edit)}`} />
+          </span>}
+          {header.$edit && <input type="text"
+                                  name="editIcon"
+                                  value={this.state.editIcon} 
+                                  onChange={this.handleInputChange} 
+                                  className="form-control" />}
         </div>
         <div className="col-2">
           <div className="checkbox">
             {!header.$edit && <FontAwesomeIcon icon={['far', header.interest?'check-square':'square']} className="mr-1" />}
             <label>
-              <input type="checkbox" 
-                     name="editInterest" 
-                     checked={this.state.editInterest} 
-                     onChange={this.handleInputChange} 
-                     className={helpers.showIf(header.$edit)} /> Interest
+              {header.$edit && <input type="checkbox" 
+                                      name="editInterest" 
+                                      checked={this.state.editInterest} 
+                                      onChange={this.handleInputChange} />} Interest
             </label>
           </div>
         </div>

@@ -1,6 +1,5 @@
 import React from 'react';
 import { Row, Col, Container, ButtonGroup, Button } from 'reactstrap';
-import helpers from '../helpers';
 import { FiltersBtn } from './FiltersBtn';
 import DecimalsBtn from './DecimalsBtn';
 import { Bank } from '../bank';
@@ -37,7 +36,7 @@ export default class SavePanel extends React.Component<IProps, {}> {
                   </ButtonGroup>}
 
                   {label === 'Revenues' && <ButtonGroup className="pull-left">
-                  <DecimalsBtn {...this.props} />
+                    <DecimalsBtn {...this.props} />
                   </ButtonGroup>}
 
                   {label !== 'Savings' && label !== 'Revenues' && label !== 'Settings' && 
@@ -50,13 +49,13 @@ export default class SavePanel extends React.Component<IProps, {}> {
                     </Button>
                   </ButtonGroup>}                
 
-                  <span className={helpers.showIf(updated)}>
-                    <FontAwesomeIcon icon="exclamation-triangle" size="lg" />
+                  {updated && <span>
+                    <FontAwesomeIcon icon="exclamation-triangle" size="lg" className="mr-2" />
                     Updates have been detected. Save now!
-                  </span>
-                  <span className={`title ${helpers.hideIf(updated)}`}>
+                  </span>}
+                  {!updated && <span className="title">
                     {label}
-                  </span>
+                  </span>}
 
                   <button className={`btn btn-save pull-right ${updated ? 'btn-warning' : 'btn-light'}`} onClick={saveClick}>
                     {!saveInProgress && <FontAwesomeIcon icon={['far', 'save']} className="mr-1" />}
@@ -64,9 +63,9 @@ export default class SavePanel extends React.Component<IProps, {}> {
                     {saveInProgress ? 'Saving' : 'Save'}
                   </button>
 
-                  <button className={`btn btn-warning pull-right ${helpers.showIf(updated)}`} onClick={cancelChanges}>
+                  {updated && <button className="btn btn-warning pull-right" onClick={cancelChanges}>
                     <FontAwesomeIcon icon="times" /> Cancel
-                  </button>
+                  </button>}
                 </Col>
               </Row>
             </Container>

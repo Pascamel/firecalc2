@@ -1,7 +1,8 @@
 import React from 'react';
 import _ from 'lodash';
+import FireTR from '../../components/FireTR';
+import FireTD from '../../components/FireTD';
 import FireAmount from '../../components/FireAmount';
-import helpers from '../../helpers';
 import { Bank } from '../../bank';
 import { StaticAmount, StaticPercentage } from '../../components/staticAmount';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -40,37 +41,37 @@ export default class RevenuesTableBody extends React.Component<IProps, IState> {
           <td className="td-chevron" onClick={this.handleClickToggle}>
             <FontAwesomeIcon icon={this.state.collapsed ? 'chevron-right' : 'chevron-down'} />
           </td>
-          <td className={helpers.hideIf(this.state.collapsed)} colSpan={bank.incomeHeaders.length + 3}>
+          <FireTD show={!this.state.collapsed} span={bank.incomeHeaders.length + 3}>
             <span className="pull-left" style={{paddingLeft: '10px'}}>
               { year }
             </span>
-          </td>
+          </FireTD>
           {bank.incomeHeaders.map((header: any) => (
-          <td key={header.id} className={helpers.showIf(this.state.collapsed)}>
+          <FireTD show={this.state.collapsed} key={header.id}>
             <StaticAmount bank={bank} display-zero>
               { bank.yearlyIncome[year][header.id] }
             </StaticAmount>
-          </td>
+          </FireTD>
           ))}
-          <td className={helpers.showIf(this.state.collapsed)}>
+          <FireTD show={this.state.collapsed}>
             <StaticAmount bank={bank} display-zero>
               { bank.totalYearPost[year] }
             </StaticAmount>
-          </td>
-          <td className={helpers.showIf(this.state.collapsed)}>
+          </FireTD>
+          <FireTD show={this.state.collapsed}>
             <StaticAmount bank={bank} display-zero>
               { bank.totalYearPre[year] }
             </StaticAmount>
-          </td>
-          <td className={`${helpers.showIf(this.state.collapsed)} ${helpers.goal(bank.savingRateYear[year]['12'], 0.5)}`}>
+          </FireTD>
+          <FireTD show={this.state.collapsed} goal={bank.savingRateYear[year]['12']} threshold={0.5}>
             <StaticPercentage>
               { bank.savingRateYear[year]['12'] }
             </StaticPercentage>
-          </td> 
+          </FireTD>
         </tr> 
 
         {Object.entries(bank.income[year]).map((month) => (
-        <tr className={helpers.hideIf(this.state.collapsed)} key={month[0]}>
+        <FireTR hide={this.state.collapsed} key={month[0]}>
           <td>{ month[0] }</td>
           {bank.incomeHeaders.map((header: any) => (
           <td key={year + '-' + month[0] + '-' + header.id}>
@@ -80,26 +81,28 @@ export default class RevenuesTableBody extends React.Component<IProps, IState> {
                         callback={callback} />
           </td>
           ))}
-          <td className={helpers.showIf(bank.totalMonthIncome[year][month[0]] === 0)} colSpan={3}></td>
-          <td className={helpers.hideIf(bank.totalMonthIncome[year][month[0]] === 0)}>
-            <StaticAmount bank={bank}>
-              { bank.totalMonthPost[year][month[0]] }
-            </StaticAmount>
-          </td>
-          <td className={helpers.hideIf(bank.totalMonthIncome[year][month[0]] === 0)}>
-            <StaticAmount bank={bank}>
-              { bank.totalMonthPre[year][month[0]] }
-            </StaticAmount>
-          </td>
-          <td className={`${helpers.hideIf(bank.totalMonthIncome[year][month[0]] === 0)} ${helpers.goal(bank.savingRateMonth[year][month[0]], 0.5)}`}>
-            <StaticPercentage>
-              { bank.savingRateMonth[year][month[0]] }
-            </StaticPercentage>
-          </td> 
-        </tr>
+          {bank.totalMonthIncome[year][month[0]] === 0 && <td colSpan={3}></td>}
+          {bank.totalMonthIncome[year][month[0]] !== 0 && <React.Fragment>
+            <td>
+              <StaticAmount bank={bank}>
+                { bank.totalMonthPost[year][month[0]] }
+              </StaticAmount>
+            </td>
+            <td>
+              <StaticAmount bank={bank}>
+                { bank.totalMonthPre[year][month[0]] }
+              </StaticAmount>
+            </td>
+            <FireTD goal={bank.savingRateMonth[year][month[0]]} threshold={0.5}>
+              <StaticPercentage>
+                { bank.savingRateMonth[year][month[0]] }
+              </StaticPercentage>
+            </FireTD>
+          </React.Fragment>}
+        </FireTR>
         ))}
 
-        <tr className={helpers.hideIf(this.state.collapsed)}>
+        <FireTR hide={this.state.collapsed}>
           <td>
             <FontAwesomeIcon icon={['far', 'calendar-alt']} />
           </td>
@@ -120,12 +123,12 @@ export default class RevenuesTableBody extends React.Component<IProps, IState> {
               { bank.totalYearPre[year] }
             </StaticAmount>
           </td>
-          <td className={helpers.goal(bank.savingRateYear[year]['12'], 0.5)}>
+          <FireTD goal={bank.savingRateYear[year]['12']} threshold={0.5}>
             <StaticPercentage>
               { bank.savingRateYear[year]['12'] }
             </StaticPercentage>
-          </td>
-        </tr>
+          </FireTD>
+        </FireTR>
       </tbody>
     );
   }

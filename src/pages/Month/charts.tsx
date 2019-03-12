@@ -27,7 +27,7 @@ export default class Charts extends React.Component<IProps, IState> {
     
     return (
       <React.Fragment>
-        <Col>
+        <Col md={4} sm={12}>
           <Alert color="light">
             <Row>
               <Col>

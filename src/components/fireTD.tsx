@@ -1,6 +1,5 @@
 import React from 'react';
-import helpers from '../helpers';
-import * as _ from 'lodash';
+import _ from 'lodash';
 
 interface IProps {
   show?: boolean,
@@ -12,12 +11,16 @@ interface IProps {
 
 export default class FireTD extends React.Component<IProps, {}> {
   render () {
-
     const classNames = [];
-    if (_.has(this.props, 'show')) classNames.push(helpers.showIf(this.props.show || false));
-    if (_.has(this.props, 'hide')) classNames.push(helpers.hideIf(this.props.hide || false));
+
+    if (_.has(this.props, 'show') && !(this.props.show || false)) {
+      classNames.push('hidden');
+    }  
+    if (_.has(this.props, 'hide') && this.props.hide) {
+      classNames.push('hidden');
+    } 
     if (_.has(this.props, 'goal') && _.has(this.props, 'threshold')) {
-      classNames.push(helpers.goal(this.props.goal || 0, this.props.threshold || 0));
+      classNames.push(((this.props.goal || 0) >= (this.props.threshold || 0)) ? 'table-success' : 'table-danger');
     }
 
     let colSpan = 1;

@@ -1,5 +1,4 @@
 import React from 'react';
-import helpers from '../../helpers';
 import { Bank } from '../../bank';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -74,37 +73,36 @@ export default class Income extends React.Component<IProps, IState> {
     return (
       <div className="form-row form-headers">
         <div className="col-7">
-          <span className={`label-fake-input ${helpers.hideIf(header.$edit)}`}>
+          {!header.$edit && <span className="label-fake-input">
             {header.label}
-          </span>
-          <input type="text" 
-                 name="editLabel"
-                 value={this.state.editLabel} 
-                 onChange={this.handleInputChange} 
-                 className={`form-control ${helpers.showIf(header.$edit)}`} />
+          </span>}
+            {header.$edit && <input type="text" 
+                                    name="editLabel"
+                                    value={this.state.editLabel} 
+                                    onChange={this.handleInputChange} 
+                                    className="form-control" />}
         </div>
         <div className="col-2">
           <div style={{display: 'inline-block'}}>
             {!header.$edit && <FontAwesomeIcon icon={['far', header.pretax?'check-square':'square']} />}
             <label>
-              <input type="checkbox"
-                     name="editPretax"
-                     checked={this.state.editPretax}  
-                     onChange={this.handleInputChange} 
-                     className={helpers.showIf(header.$edit)} />
+              {header.$edit && <input type="checkbox"
+                                      name="editPretax"
+                                      checked={this.state.editPretax}  
+                                      onChange={this.handleInputChange} />}
               <span className="ml-1">Pre-tax</span>
             </label>
           </div>
 
-          <div className={`btn-group ml-3 ${helpers.hideIf(header.$edit)}`}>
+          {!header.$edit && <div className="btn-group ml-3">
             <label className={`disabled btn ${header.count === 1 ? 'btn-secondary' : 'btn-light'}`}>1</label>
             <label className={`disabled btn ${header.count === 2 ? 'btn-secondary' : 'btn-light'}`}>2</label>
-          </div>
+          </div>}
 
-          <div className={`btn-group ml-3 ${helpers.showIf(header.$edit)}`}>
+          {header.$edit && <div className="btn-group ml-3">
             <label className={`btn ${this.state.editCount === 1 ? 'btn-primary' : 'btn-light'}`} onClick={e => {this.setState({editCount: 1});}}>1</label>
             <label className={`btn ${this.state.editCount === 2 ? 'btn-primary' : 'btn-light'}`} onClick={e => {this.setState({editCount: 2});}}>2</label>
-          </div>
+          </div>}
         </div>
         <div className="col-3" style={{textAlign: 'right'}}>
           {header.$edit && <span className="btn btn-link" onClick={e => this.editHeaderConfirm(header)}>

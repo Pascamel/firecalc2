@@ -1,4 +1,5 @@
 import React from 'react';
+import { Row, Col } from 'reactstrap';
 import helpers from '../../helpers';
 
 
@@ -19,20 +20,20 @@ export default class Progress extends React.Component<IProps, IState> {
 
     return (
       <React.Fragment>
-        <div className="row">
-          <div className="col">
+        <Row>
+          <Col>
             <span>{label}</span>
-          </div>
-          <div className="col text-right">
-            <span className={`${result >= 0 ? 'text-success':'text-danger'} ${helpers.hideIf(result === 0)}`}>
+          </Col>
+          <Col className="text-right">
+            {result != 0 && <span className={result >= 0 ? 'text-success':'text-danger'}>
               ${helpers.amount(Math.abs(result), false, true)} 
               &nbsp;
               {result > 0 ? 'over' : 'left'}
-            </span>
-          </div>
-        </div>
-        <div className="row">
-          <div className="col">
+            </span>}
+          </Col>
+        </Row>
+        <Row>
+          <Col>
             <div className="progress mb-2">
               <div className={`progress-bar ${result >= 0 ? 'bg-success' : 'bg-danger'}`}
                   role="progressbar" 
@@ -41,8 +42,8 @@ export default class Progress extends React.Component<IProps, IState> {
                 {helpers.amount(result + goal, false, true)}
               </div>
             </div>
-          </div>
-        </div>
+          </Col>
+        </Row>
       </React.Fragment>
     );
   }

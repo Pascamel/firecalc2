@@ -1,10 +1,10 @@
 import React from 'react';
 import _ from 'lodash';
 import FireAmount from '../../components/FireAmount';
-import FireTD from '../../components/fireTD';
+import FireTD from '../../components/FireTD';
+import FireTR from '../../components/FireTR';
 import { StaticAmount, StaticPercentage } from '../../components/staticAmount';
 import { Bank } from '../../bank';
-import helpers from '../../helpers';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 interface IProps {
@@ -92,7 +92,7 @@ export default class Body extends React.Component<IProps, IState> {
           </FireTD>
         </tr>
         {Object.entries(bank.savings[year]).map((month, idx) => (
-        <tr key={idx} className={helpers.hideIf(this.state.collapsed)}>
+        <FireTR hide={this.state.collapsed} key={idx}>
           <td>{ month[0] }</td>
           {bank.savingsInputsHidden.map((amount: any, idx: number) => (
           <td key={idx}>
@@ -133,9 +133,9 @@ export default class Body extends React.Component<IProps, IState> {
               { bank.savingRateMonth[year][month[0]] }
             </StaticPercentage>
           </FireTD>
-        </tr>
+        </FireTR>
         ))}
-        <tr className={`tr-total ${helpers.hideIf(this.state.collapsed)}`}>
+        <FireTR hide={this.state.collapsed}>
           <td>
             <FontAwesomeIcon icon={['far', 'calendar-alt']} />
           </td>
@@ -153,17 +153,17 @@ export default class Body extends React.Component<IProps, IState> {
             </StaticAmount>
           </td>
           <td>Goal</td>
-          <td className={helpers.goal(bank.goalYearToDate[year]['12'], 0)}>
+          <FireTD goal={bank.goalYearToDate[year]['12']} threshold={0}>
             <StaticAmount bank={bank} display-zero>
               { bank.goalYearToDate[year]['12'] }
             </StaticAmount>
-          </td>
+          </FireTD>
           <FireTD goal={bank.savingRateYear[year]['12']} threshold={0.5}>
             <StaticPercentage>
               { bank.savingRateYear[year]['12'] }
             </StaticPercentage>
           </FireTD>
-        </tr>
+        </FireTR>
       </tbody>
     );
   }

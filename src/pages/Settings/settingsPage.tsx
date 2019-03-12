@@ -71,7 +71,7 @@ export default class SettingsPageBase extends React.Component<{}, IState> {
         h.$edit = true;
       });
 
-      this.setState({bank: this.state.bank, updated: true});
+      this.setState({bank: this.state.bank});
     },
 
     confirmEditHeaderCallback: (type: string, header: any) => {
@@ -89,7 +89,7 @@ export default class SettingsPageBase extends React.Component<{}, IState> {
         h.$edit = false;
       });
 
-      this.setState({bank: this.state.bank, updated: true});
+      this.setState({bank: this.state.bank});
     },
 
     deleteHeaderCallback: (type: string, header: any) => {
