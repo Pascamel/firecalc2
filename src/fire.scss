@@ -229,7 +229,7 @@ table.floatThead-table {
 .chart-label {
   color: #666;
   position: absolute;
-  top: 49px;
+  top: calc(50% - 18px);
   width: 138px;
   text-align: center;
   font-size: 28px;
