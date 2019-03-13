@@ -1,8 +1,29 @@
 label {
   font-weight: normal;
 }
-.navbar-nav > li > a.user-nav-item {
-  margin-right: -30px;
+// .navbar-nav > li > a.user-nav-item {
+//   margin-right: -30px;
+// }
+
+.nav-link {
+  &.active {
+    position: relative;
+
+    &:after {
+      bottom: -8px;
+      left: 50%;
+      border: solid transparent;
+      content: " ";
+      height: 0;
+      width: 0;
+      position: absolute;
+      pointer-events: none;
+      border-color: rgba(136, 183, 213, 0);
+      border-bottom-color: #f3f3f3;
+      border-width: 10px;
+      margin-left: -10px;
+    }
+  }
 }
 
 .panel-login {

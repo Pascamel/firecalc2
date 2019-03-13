@@ -1,7 +1,10 @@
 import React from 'react';
+import { Row, Col } from 'reactstrap';
 import _ from 'lodash';
 import helpers from '../../helpers';
 import { Bank } from '../../bank';
+import Form from 'reactstrap/lib/Form';
+import CustomInput from 'reactstrap/lib/CustomInput';
 
 
 interface IProps {
@@ -29,14 +32,14 @@ export default class StartingPoint extends React.Component<IProps, {}> {
 
     return (
       <React.Fragment>
-        <div className="row">
-          <div className="col">
+        <Row>
+          <Col>
             <h3>Starting point</h3>
-          </div>
-        </div>
-        <div className="row">
-          <div className="col">
-            <div className="form-inline">
+          </Col>
+        </Row>
+        <Row>
+          <Col>
+            <Form inline={true}>
               <label>Starting Capital</label>
               <input type="text"
                      value={bank.headers.startingCapital} 
@@ -44,24 +47,33 @@ export default class StartingPoint extends React.Component<IProps, {}> {
                      className="form-control"
                      style={{width: '80px', margin: '0 10px'}} />
               <label>First month</label>
-              <select value={bank.headers.firstMonth}
+
+              <CustomInput type="select"
+                           value={bank.headers.firstMonth}
+                           onChange={(e) => this.onValueChange('firstMonth', parseInt(e.target.value) || 0)} 
+                           className="ml-2 mr-2">
+                {_.range(1, 13).map((m, key) => (
+                  <option value={m} key={key}>{helpers.labelMonth(m.toString())}</option>
+                ))}
+              </CustomInput>
+              {/* <select value={bank.headers.firstMonth}
                       className="form-control"
                       onChange={(e) => this.onValueChange('firstMonth', parseInt(e.target.value) || 0)} 
                       style={{margin: '0 10px'}}>
                 {_.range(1, 13).map((m, key) => (
                   <option value={m} key={key}>{helpers.labelMonth(m.toString())}</option>
                 ))}
-              </select>
-              <select value={bank.headers.firstYear}
-                      className="form-control"
+              </select> */}
+              <CustomInput type="select"
+                      value={bank.headers.firstYear}
                       onChange={(e) => this.onValueChange('firstYear', parseInt(e.target.value) || 0)}>
                 {_.range(this.currentYear - 10, this.currentYear + 1).map((y, key) => (
                   <option value={y} key={key}>{y}</option>
                 ))}
-              </select>
-            </div>
-          </div>
-        </div>
+              </CustomInput>
+            </Form>
+          </Col>
+        </Row>
       </React.Fragment>
     );
   }

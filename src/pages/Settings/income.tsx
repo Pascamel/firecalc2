@@ -1,4 +1,5 @@
 import React from 'react';
+import { Row, Col } from 'reactstrap';
 import { Bank } from '../../bank';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -71,8 +72,8 @@ export default class Income extends React.Component<IProps, IState> {
     const { header, index, bank }  = this.props;
 
     return (
-      <div className="form-row form-headers">
-        <div className="col-7">
+      <Row className="form-headers">
+        <Col xs={7}>
           {!header.$edit && <span className="label-fake-input">
             {header.label}
           </span>}
@@ -81,8 +82,8 @@ export default class Income extends React.Component<IProps, IState> {
                                     value={this.state.editLabel} 
                                     onChange={this.handleInputChange} 
                                     className="form-control" />}
-        </div>
-        <div className="col-2">
+        </Col>
+        <Col xs={2}>
           <div style={{display: 'inline-block'}}>
             {!header.$edit && <FontAwesomeIcon icon={['far', header.pretax?'check-square':'square']} />}
             <label>
@@ -103,8 +104,8 @@ export default class Income extends React.Component<IProps, IState> {
             <label className={`btn ${this.state.editCount === 1 ? 'btn-primary' : 'btn-light'}`} onClick={e => {this.setState({editCount: 1});}}>1</label>
             <label className={`btn ${this.state.editCount === 2 ? 'btn-primary' : 'btn-light'}`} onClick={e => {this.setState({editCount: 2});}}>2</label>
           </div>}
-        </div>
-        <div className="col-3" style={{textAlign: 'right'}}>
+        </Col>
+        <Col xs={3} className="text-right">
           {header.$edit && <span className="btn btn-link" onClick={e => this.editHeaderConfirm(header)}>
             <FontAwesomeIcon icon="check" size="lg" />
           </span>}
@@ -123,8 +124,8 @@ export default class Income extends React.Component<IProps, IState> {
           {!header.$edit && <span className={`btn btn-link ${(index >= bank.headers.savings.length-1) ? 'disabled' : ''}`} onClick={e => this.moveDownHeader(index)}>
             <FontAwesomeIcon icon="chevron-down" size="lg" />
           </span>}
-        </div>
-      </div>
+        </Col>
+      </Row>
     );
   }
 }

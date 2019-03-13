@@ -16,7 +16,7 @@ interface IState {
   saveInProgress: boolean
 }
 
-class RevenuePageBase extends React.Component<IProps, IState> {
+export default class RevenuePageBase extends React.Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
 
@@ -87,7 +87,3 @@ class RevenuePageBase extends React.Component<IProps, IState> {
     );
   }
 }
-
-const authCondition = (authUser: firebase.User) => !!authUser;
-
-export const RevenuesPage = withAuthorization(authCondition)(RevenuePageBase);

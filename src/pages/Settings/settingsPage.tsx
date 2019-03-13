@@ -1,4 +1,5 @@
 import React from 'react';
+import { Container } from 'reactstrap';
 import _ from 'lodash';
 import uuid from 'uuid';
 import { Bank } from '../../bank';
@@ -150,11 +151,11 @@ export default class SettingsPageBase extends React.Component<{}, IState> {
                                 cancelChanges={this.cancelChanges}
                                 callback={() => {}} 
                                 saveClick={this.saveHeaders} />}
-        {!loading && <div className="container">
+        {!loading && <Container>
           <StartingPoint {...this.state} {...this.callbacks} /> 
           <Savings bank={bank} {...this.state} {...this.callbacks} /> 
           <Incomes bank={bank} {...this.state} {...this.callbacks} /> 
-        </div>}
+        </Container>}
       </React.Fragment>
     );
   }

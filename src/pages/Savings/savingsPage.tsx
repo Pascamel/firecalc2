@@ -16,7 +16,7 @@ interface IState {
   bank: Bank
 }
 
-class SavingsPageBase extends React.Component<IProps, IState> {
+export default class SavingsPageBase extends React.Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
 
@@ -88,7 +88,3 @@ class SavingsPageBase extends React.Component<IProps, IState> {
     );
   }
 }
-
-const authCondition = (authUser: firebase.User) => !!authUser;
-
-export const SavingsPage = withAuthorization(authCondition)(SavingsPageBase);

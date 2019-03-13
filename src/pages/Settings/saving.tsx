@@ -1,4 +1,5 @@
 import React from 'react';
+import { Row, Col } from 'reactstrap';
 import { Bank } from '../../bank';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -81,8 +82,8 @@ export default class Saving extends React.Component<IProps, IState> {
     const { header, index, bank }  = this.props;
 
     return (
-      <div className="form-row form-headers">
-        <div className="col-2">
+      <Row className="form-headers">
+        <Col xs={2}>
           {!header.$edit && <span className="label-fake-input">
             {header.label}
           </span>}
@@ -91,8 +92,8 @@ export default class Saving extends React.Component<IProps, IState> {
                                   value={this.state.editLabel} 
                                   onChange={this.handleInputChange} 
                                   className="form-control" />}
-        </div>
-        <div className="col-2">
+        </Col>
+        <Col xs={2}>
           {!header.$edit && <span className="label-fake-input">
             {header.sublabel}
           </span>}
@@ -101,8 +102,8 @@ export default class Saving extends React.Component<IProps, IState> {
                                   value={this.state.editSublabel} 
                                   onChange={this.handleInputChange} 
                                   className="form-control" />}
-        </div>
-        <div className="col-4">
+        </Col>
+        <Col xs={4}>
           {!header.$edit && <span className="label-fake-input nowrap-ellipsis">
             {header.icon}
           </span>}
@@ -111,8 +112,8 @@ export default class Saving extends React.Component<IProps, IState> {
                                   value={this.state.editIcon} 
                                   onChange={this.handleInputChange} 
                                   className="form-control" />}
-        </div>
-        <div className="col-2">
+        </Col>
+        <Col xs={2}>
           <div className="checkbox">
             {!header.$edit && <FontAwesomeIcon icon={['far', header.interest?'check-square':'square']} className="mr-1" />}
             <label>
@@ -122,8 +123,9 @@ export default class Saving extends React.Component<IProps, IState> {
                                       onChange={this.handleInputChange} />} Interest
             </label>
           </div>
-        </div>
-        <div className="col-2" style={{textAlign: 'right'}}>
+        </Col>
+        <Col xs={2} className="text-right">
+        {/* <div className="col-2" style={{textAlign: 'right'}}> */}
           {header.$edit && <span className="btn btn-link" onClick={e => this.editHeaderConfirm(header)}>
             <FontAwesomeIcon icon="check" size="lg" />
           </span>}
@@ -142,8 +144,10 @@ export default class Saving extends React.Component<IProps, IState> {
           {!header.$edit && <span className={`btn btn-link ${(index >= bank.headers.savings.length-1) ? 'disabled' : ''}`} onClick={e => this.moveDownHeader(index)}>
             <FontAwesomeIcon icon="chevron-down" size="lg" />
           </span>}
-        </div>
-      </div>
+        </Col>
+      {/* </div> */}
+      {/* </FormGroup> */}
+      </Row>
     );
   }
 }
