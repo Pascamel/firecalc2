@@ -1,4 +1,6 @@
 import moment from 'moment';
+import * as ROUTES from '../constants/routes';
+
 
 const amount = (number: number, display_if_zero: boolean, show_decimals: boolean) => {
   if ((!number || number === 0) && !display_if_zero) return '';
@@ -68,6 +70,12 @@ const nextMonth = (year: string, month: string) => {
   return {year: y.toString(), month: m.toString()};
 }
 
+const currentMonthRoute = () => {
+  return ROUTES.MONTH
+    .replace(':year', (new Date().getFullYear()).toString())
+    .replace(':month', (new Date().getMonth() + 1).toString());
+}
+
 export default {
   amount, 
   percentage,
@@ -77,5 +85,6 @@ export default {
   hideIf,
   labelMonth,
   prevMonth,
-  nextMonth
+  nextMonth,
+  currentMonthRoute
 };

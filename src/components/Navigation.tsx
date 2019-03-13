@@ -17,6 +17,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import _ from 'lodash';
 import * as ROUTES from '../constants/routes';
 import * as CHARTS from '../constants/charts';
+import helpers from '../helpers';
 import { AuthUserContext } from '../firebase/AuthUserContext';
 import { SignOutLink } from './SignOutLink';
 
@@ -47,9 +48,6 @@ class NavigationAuth extends React.Component<IProps, IState> {
 
   render () {
     const {authUser} = this.props;
-    const CURRENT_MONTH = ROUTES.MONTH
-      .replace(':year', (new Date().getFullYear()).toString())
-      .replace(':month', (new Date().getMonth() + 1).toString());
     const DEFAULT_CHART = ROUTES.STATS.replace(':type', CHARTS.URL.INCOME_VS_SAVINGS);
 
     return (
@@ -62,7 +60,7 @@ class NavigationAuth extends React.Component<IProps, IState> {
               <Collapse isOpen={this.state.isOpen} navbar>
                 <Nav navbar>
                   <NavItem>
-                    <NavLink className="nav-link" to={CURRENT_MONTH}>
+                    <NavLink className="nav-link" to={helpers.currentMonthRoute()}>
                       <FontAwesomeIcon icon={['far', 'calendar-alt']} className="mr-1" />
                       Month
                     </NavLink>

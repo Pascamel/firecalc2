@@ -4,7 +4,7 @@ import { auth, firestore } from './firebase';
 
 export const getUser = (uid: string) => firestore.collection('users').doc(uid).get();
 export const getUsers = () => firestore.collection('users').get();
-export const getCurrentUserUID = () => auth.currentUser ? auth.currentUser : '';
+export const getCurrentUserUID = () => auth.currentUser ? auth.currentUser.uid : '';
 export const setUser = (uid: string, data: any) => firestore.collection('users').doc(uid).set(data);
 
 // Finance

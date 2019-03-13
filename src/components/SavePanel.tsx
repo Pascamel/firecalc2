@@ -39,7 +39,7 @@ export default class SavePanel extends React.Component<IProps, {}> {
                     <DecimalsBtn {...this.props} />
                   </ButtonGroup>}
 
-                  {label !== 'Savings' && label !== 'Revenues' && label !== 'Settings' && 
+                  {['Savings', 'Revenues', 'Settings'].indexOf(label) === -1 && 
                   <ButtonGroup className="pull-left">
                     <Button color={updated ? 'warning' : 'light'} onClick={this.props.prevMonth}>
                       <FontAwesomeIcon icon="backward" />

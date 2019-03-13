@@ -3,7 +3,7 @@ import { firestore } from '../firebase';
 import { IIncome, ISavings } from './interfaces';
 import * as formatters from './formatters';
 import helpers from '../helpers';
-import { any } from 'prop-types';
+import moment from 'moment';
 
 
 export default class Bank {
@@ -14,6 +14,7 @@ export default class Bank {
     }
   };
 
+  lastupdate: any;
   headers: any;
   firstYear: any;
   firstMonth: any;
@@ -67,6 +68,13 @@ export default class Bank {
     const snapshotNetWorth = await firestore.getNetWorth();
 
     if (!snapshotHeaders || !snapshotSavings || !snapshotRevenues || !snapshotNetWorth) return;
+
+    this.lastupdate = {};
+
+    if (_.get(snapshotHeaders.data(), 'last_update')) this.lastupdate['headers'] = moment(_.get(snapshotHeaders.data(), 'last_update')).fromNow();
+    if (_.get(snapshotSavings.data(), 'last_update')) this.lastupdate['savings'] = moment(_.get(snapshotSavings.data(), 'last_update')).fromNow();
+    if (_.get(snapshotRevenues.data(), 'last_update')) this.lastupdate['income'] = moment(_.get(snapshotRevenues.data(), 'last_update')).fromNow();
+    if (_.get(snapshotNetWorth.data(), 'last_update')) this.lastupdate['netWorth'] = moment(_.get(snapshotNetWorth.data(), 'last_update')).fromNow();
 
     this.headers = snapshotHeaders.data() || [];
     let savings_data = _.get(snapshotSavings.data(), 'data', []);

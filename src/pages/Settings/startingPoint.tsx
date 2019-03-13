@@ -47,8 +47,8 @@ export default class StartingPoint extends React.Component<IProps, {}> {
                      className="form-control"
                      style={{width: '80px', margin: '0 10px'}} />
               <label>First month</label>
-
               <CustomInput type="select"
+                           id="firstMonth"
                            value={bank.headers.firstMonth}
                            onChange={(e) => this.onValueChange('firstMonth', parseInt(e.target.value) || 0)} 
                            className="ml-2 mr-2">
@@ -56,17 +56,10 @@ export default class StartingPoint extends React.Component<IProps, {}> {
                   <option value={m} key={key}>{helpers.labelMonth(m.toString())}</option>
                 ))}
               </CustomInput>
-              {/* <select value={bank.headers.firstMonth}
-                      className="form-control"
-                      onChange={(e) => this.onValueChange('firstMonth', parseInt(e.target.value) || 0)} 
-                      style={{margin: '0 10px'}}>
-                {_.range(1, 13).map((m, key) => (
-                  <option value={m} key={key}>{helpers.labelMonth(m.toString())}</option>
-                ))}
-              </select> */}
               <CustomInput type="select"
-                      value={bank.headers.firstYear}
-                      onChange={(e) => this.onValueChange('firstYear', parseInt(e.target.value) || 0)}>
+                           id="firstYear"
+                           value={bank.headers.firstYear}
+                           onChange={(e) => this.onValueChange('firstYear', parseInt(e.target.value) || 0)}>
                 {_.range(this.currentYear - 10, this.currentYear + 1).map((y, key) => (
                   <option value={y} key={key}>{y}</option>
                 ))}

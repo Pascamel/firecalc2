@@ -9,11 +9,12 @@ import { PasswordForget } from '../pages/PasswordForget';
 import { SignIn } from '../pages/SignIn';
 import { SignUp } from '../pages/SignUp';
 import Navigation from './Navigation';
-import AdminPage from '../pages/Admin';
-import { SettingsPage } from '../pages/Settings';
+import { AdminPage } from '../pages/Admin';
+import { DashboardPage } from '../pages/Dashboard';
+import { MonthPage } from '../pages/Month';
 import { RevenuesPage } from '../pages/Revenues';
 import { SavingsPage } from '../pages/Savings';
-import { MonthPage } from '../pages/Month';
+import { SettingsPage } from '../pages/Settings';
 import { StatsPage } from '../pages/Stats';
 import './icons';
 
@@ -46,12 +47,13 @@ class AppComponent extends React.Component<{}, {}> {
             <Route exact={true} path={ROUTES.PASSWORD_FORGET} component={PasswordForget} />
             <Route exact={true} path={ROUTES.HOME} component={HomePage} />
             <Route exact={true} path={ROUTES.ACCOUNT} component={Account} />
-            <Route path={ROUTES.ADMIN} component={AdminPage} />
-            <Route path={ROUTES.SETTINGS} component={SettingsPage} />
-            <Route path={ROUTES.REVENUES} component={RevenuesPage} />
-            <Route path={ROUTES.SAVINGS} component={SavingsPage} />
+            <Route exact={true} path={ROUTES.DASHBOARD} component={DashboardPage} />
             <Route path={ROUTES.MONTH} component={MonthPage} />
+            <Route exact={true} path={ROUTES.REVENUES} component={RevenuesPage} />
+            <Route exact={true} path={ROUTES.SAVINGS} component={SavingsPage} />
             <Route path={ROUTES.STATS} component={StatsPage} />
+            <Route exact={true} path={ROUTES.SETTINGS} component={SettingsPage} />
+            <Route path={ROUTES.ADMIN} component={AdminPage} />
           </Switch>
         </div>
       </BrowserRouter>
