@@ -1,6 +1,6 @@
-import * as React from "react";
-import { Link } from "react-router-dom";
-import { PasswordForgetForm } from "./PasswordForgetForm";
+import * as React from 'react';
+import { Link } from 'react-router-dom';
+import { PasswordForgetForm } from './PasswordForgetForm';
 
 export const PasswordForget = () => (
   <div>
@@ -10,7 +10,7 @@ export const PasswordForget = () => (
 );
 
 export const PasswordForgetLink = () => (
-  <p>
-    <Link to="/pw-forget">Forgot Password?</Link>
-  </p>
+  <span>
+    Forgot Password? <Link to="/pw-forget">Click here</Link>
+  </span>
 );

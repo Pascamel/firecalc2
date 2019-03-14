@@ -1,0 +1,25 @@
+import * as React from 'react';
+import { PasswordForgetLink } from '../PasswordForget';
+import { SignUpLink } from '../SignUp';
+import { SignInForm } from './signInForm';
+import { Container, Row, Col, Alert } from 'reactstrap';
+
+
+export class  SignInPage extends React.Component<any, any> {
+  render() {
+    return (
+      <Container>
+        <Row>
+          <Col lg={{size: 4, offset: 4}} md={{size: 6, offset: 3}} sm="12">
+            <Alert className="alert-login" color="light">
+              <h4>SignIn</h4>
+              <SignInForm {...this.props} />
+              <SignUpLink />
+              <PasswordForgetLink />  
+            </Alert>
+          </Col>
+        </Row>
+      </Container>
+    );
+  }
+}

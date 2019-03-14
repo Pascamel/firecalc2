@@ -1,0 +1,62 @@
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { 
+  faBackward,
+  faChartArea, 
+  faCheck,
+  faChevronDown,
+  faChevronRight,
+  faChevronUp,
+  faCogs,
+  faColumns,
+  faEdit,
+  faExclamationTriangle,
+  faEye,
+  faEyeSlash,
+  faForward,
+  faPiggyBank, 
+  faSolarPanel,
+  faSpinner,
+  faTimes,
+  faTrashAlt,
+  faUniversity, 
+  faUnlockAlt,
+  faUserTie,
+} from '@fortawesome/free-solid-svg-icons'
+
+import {
+  faCalendarAlt, 
+  faCheckSquare,
+  faSave,
+  faUser,
+  faSquare,
+} from '@fortawesome/free-regular-svg-icons';
+
+
+library.add(
+  faBackward,
+  faCalendarAlt,
+  faChartArea,
+  faCheck,
+  faCheckSquare,
+  faChevronDown,
+  faChevronRight,
+  faChevronUp,
+  faCogs,
+  faColumns,
+  faEdit,
+  faExclamationTriangle,
+  faEye,
+  faEyeSlash,
+  faForward,
+  faPiggyBank,
+  faSave,
+  faSolarPanel,
+  faSpinner,
+  faSquare,
+  faTimes,
+  faTrashAlt,
+  faUniversity,
+  faUnlockAlt,
+  faUser,
+  faUserTie
+);

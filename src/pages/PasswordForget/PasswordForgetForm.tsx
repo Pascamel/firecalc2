@@ -1,9 +1,9 @@
-import * as React from "react";
-import { auth } from "../../firebase";
+import * as React from 'react';
+import { auth } from '../../firebase';
 
-export class PasswordForgetForm extends React.Component {
+export class PasswordForgetForm extends React.Component<{}, {}> {
   private static INITIAL_STATE = {
-    email: "",
+    email: '',
     error: null
   };
 
@@ -26,7 +26,7 @@ export class PasswordForgetForm extends React.Component {
         this.setState(() => ({ ...PasswordForgetForm.INITIAL_STATE }));
       })
       .catch(error => {
-        this.setState(PasswordForgetForm.propKey("error", error));
+        this.setState(PasswordForgetForm.propKey('error', error));
       });
 
     event.preventDefault();
@@ -34,13 +34,13 @@ export class PasswordForgetForm extends React.Component {
 
   public render() {
     const { email, error }: any = this.state;
-    const isInvalid = email === "";
+    const isInvalid = email === '';
 
     return (
       <form onSubmit={(event) => this.onSubmit(event)}>
         <input
           value={email}
-          onChange={(event) => this.setStateWithEvent(event, "email")}
+          onChange={(event) => this.setStateWithEvent(event, 'email')}
           type="text"
           placeholder="Email Address"
         />

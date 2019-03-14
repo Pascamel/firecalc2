@@ -1,8 +1,29 @@
 label {
   font-weight: normal;
 }
-.navbar-nav > li > a.user-nav-item {
-  margin-right: -30px;
+// .navbar-nav > li > a.user-nav-item {
+//   margin-right: -30px;
+// }
+
+.nav-link {
+  &.active {
+    position: relative;
+
+    &:after {
+      bottom: -8px;
+      left: 50%;
+      border: solid transparent;
+      content: " ";
+      height: 0;
+      width: 0;
+      position: absolute;
+      pointer-events: none;
+      border-color: rgba(136, 183, 213, 0);
+      border-bottom-color: #f3f3f3;
+      border-width: 10px;
+      margin-left: -10px;
+    }
+  }
 }
 
 .panel-login {
@@ -32,14 +53,33 @@ label {
   }
 }
 
-.alert span {
-  margin: 6px 15px;
+.alert-login span {
+  display: block;
 }
 
+.alert-light {
+  background-color: #f3f3f3;
+  border-color: #f0f0f0;
+
+  .breadcrumb {
+    background: transparent;
+    margin-bottom: 0;
+    padding: 7px 0;  
+
+    .nav-link {
+      display: inline-block;
+      padding: 0;
+    }
+  }
+}
+
+.progress {
+  background: #ddd;
+}
 .loading-spinner {
   text-align: center;
   background: #f5f5f5;
-  padding: 2em;
+  padding: 1.25em;
   > div {
     color: #999;
   }
@@ -48,6 +88,11 @@ label {
 .form-headers {
   .btn-link {
     padding: .375rem !important;
+    cursor: pointer;
+  }
+
+  div.inline {
+    display: inline-block;
   }
 
   div.checkbox {
@@ -114,6 +159,9 @@ table.floatThead-table {
   font-size: 14px;
   thead {
     tr {
+      .perf {
+        width: 70px;
+      }
       .separator {
         position: relative;
 
@@ -146,6 +194,7 @@ table.floatThead-table {
       td.td-chevron {
         width: 24px;
         text-align: center;
+        cursor: pointer;
       }
     }
   }
@@ -168,7 +217,8 @@ table.floatThead-table {
   display: none !important;
 }
 
-.alert {
+.alert-save {
+  min-height: 64px;
   span {
     line-height: 38px;
     margin: 6px 0;
@@ -190,6 +240,8 @@ table.floatThead-table {
   }
 
   .btn-save {
+    margin-left: 10px;
+    
     i {
       padding-right: 5px;
     }
@@ -207,8 +259,8 @@ table.floatThead-table {
 .chart-label {
   color: #666;
   position: absolute;
-  top: 49px;
-  width: 138px;
+  top: calc(50% - 18px);
+  width: calc(100% - 30px);
   text-align: center;
   font-size: 28px;
   font-weight: bolder;

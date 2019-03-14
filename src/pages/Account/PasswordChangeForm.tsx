@@ -1,34 +1,31 @@
-import * as React from "react";
-import { auth } from "../../firebase";
+import * as React from 'react';
+import { auth } from '../../firebase';
 
-interface InterfaceProps {
+interface IProps {
   error?: any;
   history?: any;
   passwordOne?: string;
   passwordTwo?: string;
 }
 
-interface InterfaceState {
+interface IState {
   error?: any;
   passwordOne?: string;
   passwordTwo?: string;
 }
 
-export class PasswordChangeForm extends React.Component<
-  InterfaceProps,
-  InterfaceState
-> {
+export class PasswordChangeForm extends React.Component<IProps, IState> {
   private static INITIAL_STATE = {
     error: null,
-    passwordOne: "",
-    passwordTwo: ""
+    passwordOne: '',
+    passwordTwo: ''
   };
 
   private static propKey(propertyName: string, value: string): object {
     return { [propertyName]: value };
   }
 
-  constructor(props: any) {
+  constructor(props: IProps) {
     super(props);
     this.state = { ...PasswordChangeForm.INITIAL_STATE };
   }
@@ -42,7 +39,7 @@ export class PasswordChangeForm extends React.Component<
         this.setState(() => ({ ...PasswordChangeForm.INITIAL_STATE }));
       })
       .catch(error => {
-        this.setState(PasswordChangeForm.propKey("error", error));
+        this.setState(PasswordChangeForm.propKey('error', error));
       });
 
     event.preventDefault();
@@ -51,22 +48,12 @@ export class PasswordChangeForm extends React.Component<
   public render() {
     const { passwordOne, passwordTwo, error }: any = this.state;
 
-    const isInvalid = passwordOne !== passwordTwo || passwordOne === "";
+    const isInvalid = passwordOne !== passwordTwo || passwordOne === '';
 
     return (
       <form onSubmit={event => this.onSubmit(event)}>
-        <input
-          value={passwordOne}
-          onChange={event => this.setStateWithEvent(event, "passwordOne")}
-          type="password"
-          placeholder="New Password"
-        />
-        <input
-          value={passwordTwo}
-          onChange={event => this.setStateWithEvent(event, "passwordTwo")}
-          type="password"
-          placeholder="Confirm New Password"
-        />
+        <input type="password" value={passwordOne} onChange={event => this.setStateWithEvent(event, "passwordOne")} placeholder="New Password" />
+        <input type="password" value={passwordTwo} onChange={event => this.setStateWithEvent(event, "passwordTwo")} placeholder="Confirm New Password" />
         <button disabled={isInvalid} type="submit">
           Reset My Password
         </button>

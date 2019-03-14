@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import {
   Container, Row, Col,
   Collapse,
@@ -10,61 +10,28 @@ import {
   NavbarBrand,
   NavbarToggler,
   NavItem,
-  NavLink,
   UncontrolledDropdown
 } from 'reactstrap';
-// import { Link } from "react-router-dom";
-import * as ROUTES from "../constants/routes";
-import { AuthUserContext } from "../firebase/AuthUserContext";
-import { SignOutLink } from "./SignOutLink";
-import { auth } from '../firebase';
+import { NavLink } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import _ from 'lodash';
+import * as ROUTES from '../constants/routes';
+import * as CHARTS from '../constants/charts';
+import helpers from '../helpers';
+import { AuthUserContext } from '../firebase/AuthUserContext';
+import { SignOutLink } from './SignOutLink';
 
 
-
-// const NavigationAuth = () => (
-//   <ul>
-//     <li>
-//       <Link to={routes.LANDING}>Landing</Link>
-//     </li>
-//     <li>
-//       <Link to={routes.HOME}>Home</Link>
-//     </li>
-//     <li>
-//       <Link to={routes.ACCOUNT}>Account</Link>
-//     </li>
-//     <li>
-//       <SignOutButton />
-//     </li>
-//   </ul>
-// );
-
-// const NavigationNonAuth = () => (
-//   <ul>
-//     <li>
-//       <Link to={routes.LANDING}>Landing</Link>
-//     </li>
-//     <li>
-//       <Link to={routes.SIGN_IN}>Sign In</Link>
-//     </li>
-//   </ul>
-// );
-
-// export const Navigation = () => (
-//   <AuthUserContext.Consumer>
-//     {authUser => (authUser ? <NavigationAuth /> : <NavigationNonAuth />)}
-//   </AuthUserContext.Consumer>
-// );
-
-interface INavigationAuthProps {
+interface IProps {
   authUser: firebase.User|null
 }
 
-interface INavigationAuthState {
+interface IState {
   isOpen: boolean
 }
 
-class NavigationAuth extends Component<INavigationAuthProps, INavigationAuthState> {
-  constructor(props: INavigationAuthProps) {
+class NavigationAuth extends React.Component<IProps, IState> {
+  constructor(props: IProps) {
     super(props);
 
     this.toggle = this.toggle.bind(this);
@@ -80,34 +47,53 @@ class NavigationAuth extends Component<INavigationAuthProps, INavigationAuthStat
   }
 
   render () {
-    const {authUser} = this.props,
-      currentYear = (new Date().getFullYear()).toString(),
-      currentMonth = (new Date().getMonth() + 1).toString(),
-      route = ROUTES.MONTH.replace(':year', currentYear).replace(':month', currentMonth);
+    const {authUser} = this.props;
+    const DEFAULT_CHART = ROUTES.STATS.replace(':type', CHARTS.URL.INCOME_VS_SAVINGS);
 
     return (
       <Container>
         <Row>
           <Col>
             <Navbar light expand="md">
-              <NavbarBrand href={ROUTES.DASHBOARD}>FiReCalc</NavbarBrand>
+              <NavbarBrand href={ROUTES.DASHBOARD}>FireCalc</NavbarBrand>
               <NavbarToggler onClick={this.toggle} />
               <Collapse isOpen={this.state.isOpen} navbar>
                 <Nav navbar>
                   <NavItem>
-                    <NavLink href={route}>Month</NavLink>
+                    <NavLink className="nav-link" to={helpers.currentMonthRoute()}>
+                      <FontAwesomeIcon icon={['far', 'calendar-alt']} className="mr-1" />
+                      Month
+                    </NavLink>
                   </NavItem>
                   <NavItem>
-                    <NavLink href={ROUTES.REVENUES}>Revenues</NavLink>
+                    <NavLink className="nav-link" to={ROUTES.REVENUES}>
+                      <FontAwesomeIcon icon="user-tie" className="mr-1" />
+                      Revenues
+                    </NavLink>
                   </NavItem>
                   <NavItem>
-                    <NavLink href={ROUTES.SAVINGS}>Savings</NavLink>
+                    <NavLink className="nav-link" to={ROUTES.SAVINGS}>
+                      <FontAwesomeIcon icon="piggy-bank" className="mr-1" />
+                      Savings
+                    </NavLink>
                   </NavItem>
                   <NavItem>
-                    <NavLink href={ROUTES.HEADERS}>Settings</NavLink>
+                    <NavLink className="nav-link" to={DEFAULT_CHART}>
+                      <FontAwesomeIcon icon="chart-area" className="mr-1" />
+                      Stats
+                    </NavLink>
                   </NavItem>
                   <NavItem>
-                    <NavLink href={ROUTES.ADMIN}>Admin</NavLink>
+                    <NavLink className="nav-link" to={ROUTES.SETTINGS}>
+                      <FontAwesomeIcon icon="cogs" className="mr-1" />
+                      Settings
+                    </NavLink>
+                  </NavItem>
+                  <NavItem>
+                    <NavLink className="nav-link" to={ROUTES.ADMIN}>
+                      <FontAwesomeIcon icon="solar-panel" className="mr-1" />
+                      Admin
+                    </NavLink>
                   </NavItem>
                 </Nav> 
                 <Nav className="ml-auto" navbar>
@@ -116,9 +102,6 @@ class NavigationAuth extends Component<INavigationAuthProps, INavigationAuthStat
                     <DropdownMenu right>
                       <DropdownItem tag="a" href={ROUTES.ACCOUNT} >Account</DropdownItem>
                       <DropdownItem divider />
-                      <DropdownItem tag="span" onClick={auth.doSignOut}>
-                        Test
-                      </DropdownItem>
                       <DropdownItem tag="a" href="">
                         <SignOutLink />
                       </DropdownItem>
@@ -134,16 +117,8 @@ class NavigationAuth extends Component<INavigationAuthProps, INavigationAuthStat
   }
 }
 
-interface INavigationNonAuthProps {
-  // isOpen: boolean
-}
-
-interface INavigationNonAuthState {
-  isOpen: boolean
-}
-
-class NavigationNonAuth extends Component<INavigationNonAuthProps, INavigationNonAuthState> {
-  constructor(props: INavigationNonAuthProps) {
+class NavigationNonAuth extends React.Component<{}, IState> {
+  constructor(props: IProps) {
     super(props);
 
     this.toggle = this.toggle.bind(this);
@@ -169,7 +144,9 @@ class NavigationNonAuth extends Component<INavigationNonAuthProps, INavigationNo
               <Collapse isOpen={this.state.isOpen} navbar>
                 <Nav className="ml-auto" navbar>
                   <NavItem>
-                    <NavLink href={ROUTES.SIGN_IN}>Sign In</NavLink>
+                    <NavLink className="nav-link" to={ROUTES.SIGN_IN}>
+                      Sign In
+                    </NavLink>
                   </NavItem>
                 </Nav>
               </Collapse>
@@ -181,7 +158,7 @@ class NavigationNonAuth extends Component<INavigationNonAuthProps, INavigationNo
   }
 }
 
-export default class Navigation extends Component {
+export default class Navigation extends React.Component<{}, {}> {
   render () {
     return (
       <div>
