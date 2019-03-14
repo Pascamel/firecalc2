@@ -19,7 +19,7 @@ export default class Header extends React.Component<IProps, IState> {
           <th></th>
           <th className="separator" colSpan={bank.incomeHeaders.length}>Revenues</th>
           <th className="separator" colSpan={2}>Total</th>
-          <th colSpan={1} style={{width: '70px'}}>Perf</th>
+          <th className="perf">Perf</th>
         </tr>
         <tr>
           <th></th>

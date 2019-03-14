@@ -84,7 +84,7 @@ export default class Income extends React.Component<IProps, IState> {
                                     className="form-control" />}
         </Col>
         <Col xs={2}>
-          <div style={{display: 'inline-block'}}>
+          <div className="inline">
             {!header.$edit && <FontAwesomeIcon icon={['far', header.pretax?'check-square':'square']} />}
             <label>
               {header.$edit && <input type="checkbox"

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Row, Col } from 'reactstrap';
+import { Row, Col, Progress as ProgressRS } from 'reactstrap';
 import helpers from '../../helpers';
 
 
@@ -10,11 +10,7 @@ interface IProps {
   label: string
 }
 
-interface IState {
-
-}
-
-export default class Progress extends React.Component<IProps, IState> {
+export default class Progress extends React.Component<IProps, {}> {
   render () {
     const { result, goal, percentage, label } = this.props
 
@@ -33,15 +29,11 @@ export default class Progress extends React.Component<IProps, IState> {
           </Col>
         </Row>
         <Row>
-          <Col>
-            <div className="progress mb-2">
-              <div className={`progress-bar ${result >= 0 ? 'bg-success' : 'bg-danger'}`}
-                  role="progressbar" 
-                  style={{width: percentage + '%'}}>
-                {result + goal != 0 && '$'}
-                {helpers.amount(result + goal, false, true)}
-              </div>
-            </div>
+          <Col className="mb-2">
+            <ProgressRS value={percentage} color={result >= 0 ? 'success' : 'danger'}>
+              {result + goal != 0 && '$'}
+              {helpers.amount(result + goal, false, true)}
+            </ProgressRS>
           </Col>
         </Row>
       </React.Fragment>

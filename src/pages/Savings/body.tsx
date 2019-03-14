@@ -41,7 +41,7 @@ export default class Body extends React.Component<IProps, IState> {
             <FontAwesomeIcon icon={this.state.collapsed ? 'chevron-right' : 'chevron-down'} />            
           </td>
           <FireTD span={bank.savingsInputsHidden.length + 5} hide={this.state.collapsed}>
-            <span className="pull-left" style={{paddingLeft: '10px'}}>
+            <span className="pull-left ml-2">
               { year }
             </span>
             <span>

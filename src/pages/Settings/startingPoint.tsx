@@ -44,8 +44,8 @@ export default class StartingPoint extends React.Component<IProps, {}> {
               <input type="text"
                      value={bank.headers.startingCapital} 
                      onChange={(e) => this.onValueChange('startingCapital', parseFloat(e.target.value) || 0)}
-                     className="form-control"
-                     style={{width: '80px', margin: '0 10px'}} />
+                     className="form-control col-1 ml-2 mr-2"
+                     />
               <label>First month</label>
               <CustomInput type="select"
                            id="firstMonth"

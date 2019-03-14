@@ -125,7 +125,6 @@ export default class Saving extends React.Component<IProps, IState> {
           </div>
         </Col>
         <Col xs={2} className="text-right">
-        {/* <div className="col-2" style={{textAlign: 'right'}}> */}
           {header.$edit && <span className="btn btn-link" onClick={e => this.editHeaderConfirm(header)}>
             <FontAwesomeIcon icon="check" size="lg" />
           </span>}

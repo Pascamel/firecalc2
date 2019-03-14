@@ -42,7 +42,7 @@ export default class RevenuesTableBody extends React.Component<IProps, IState> {
             <FontAwesomeIcon icon={this.state.collapsed ? 'chevron-right' : 'chevron-down'} />
           </td>
           <FireTD show={!this.state.collapsed} span={bank.incomeHeaders.length + 3}>
-            <span className="pull-left" style={{paddingLeft: '10px'}}>
+            <span className="pull-left pl-2">
               { year }
             </span>
           </FireTD>

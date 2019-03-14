@@ -91,6 +91,10 @@ label {
     cursor: pointer;
   }
 
+  div.inline {
+    display: inline-block;
+  }
+
   div.checkbox {
     padding: 6px 10px 6px 0;
   }
@@ -155,6 +159,9 @@ table.floatThead-table {
   font-size: 14px;
   thead {
     tr {
+      .perf {
+        width: 70px;
+      }
       .separator {
         position: relative;
 
