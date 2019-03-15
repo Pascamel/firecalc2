@@ -12,7 +12,7 @@ import {
   NavItem,
   UncontrolledDropdown
 } from 'reactstrap';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import _ from 'lodash';
 import * as ROUTES from '../constants/routes';
@@ -100,9 +100,13 @@ class NavigationAuth extends React.Component<IProps, IState> {
                   <UncontrolledDropdown nav inNavbar>
                     <DropdownToggle nav caret>{authUser ? authUser.email : 'User'}</DropdownToggle>
                     <DropdownMenu right>
-                      <DropdownItem tag="a" href={ROUTES.ACCOUNT} >Account</DropdownItem>
+                      <DropdownItem >
+                        <Link className="no-link" to={ROUTES.ACCOUNT}>
+                          Account
+                        </Link>
+                      </DropdownItem>
                       <DropdownItem divider />
-                      <DropdownItem tag="a" href="">
+                      <DropdownItem>
                         <SignOutLink />
                       </DropdownItem>
                     </DropdownMenu> 

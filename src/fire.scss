@@ -13,7 +13,7 @@ label {
       bottom: -8px;
       left: 50%;
       border: solid transparent;
-      content: " ";
+      content: ' ';
       height: 0;
       width: 0;
       position: absolute;
@@ -23,6 +23,14 @@ label {
       border-width: 10px;
       margin-left: -10px;
     }
+  }
+}
+
+.no-link {
+  color: #212529;
+  &:hover {
+    text-decoration: none;
+    color: #212529;
   }
 }
 

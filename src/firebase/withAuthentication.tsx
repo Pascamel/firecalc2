@@ -9,6 +9,7 @@ interface IProps {
 
 interface IState {
   authUser?: any;
+  loading: boolean;
 }
 
 export const withAuthentication = (Component: any) => {
@@ -17,20 +18,22 @@ export const withAuthentication = (Component: any) => {
       super(props);
 
       this.state = {
+        loading: true,
         authUser: null
       };
     }
 
     public componentDidMount() {
       firebase.auth.onAuthStateChanged(authUser => {
-        authUser
-          ? this.setState(() => ({ authUser }))
-          : this.setState(() => ({ authUser: null }));
+        authUser ? this.setState(() => ({ authUser })) : this.setState(() => ({ authUser: null }));
+        this.setState({loading: false});
       });
     }
 
     public render() {
-      const { authUser } = this.state;
+      const { authUser, loading } = this.state;
+      
+      if (loading) return null;
 
       return (
         <AuthUserContext.Provider value={authUser}>
