@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Container, Row, Col, ListGroup, ListGroupItem, ListGroupItemHeading } from 'reactstrap';
 import { AuthUserContext } from '../../firebase/AuthUserContext';
-import { PasswordForgetForm } from '../PasswordForget/PasswordForgetForm';
+import { PasswordForgetForm } from '../PasswordForget/pwForgetForm';
 import { PasswordChangeForm } from './PasswordChangeForm';
 import HeaderPanel from '../../components/headerPanel';
 

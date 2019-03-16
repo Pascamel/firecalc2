@@ -31,30 +31,21 @@ label {
   }
 }
 
-.panel-login {
-  margin-top: 100px;
+html, body, #root {
+  height:100%;
 }
-.panel-login img {
-  padding-bottom: 15px;
-  width: 40px;
-}
-.panel-login input {
-  margin-bottom: 10px;
-}
+.container-centered {
+  height: calc(100% - 56px);
 
-.nowrap-ellipsis {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
+  .row {
+    height:100%;
+  }
 
-.label-fake-input {
-  display: inline-block;
-  line-height: 34px;
-  width: 100%;
-
-  &.smaller {
-    width: 60%;
+  .alert {
+    position: absolute; 
+    transform: translateY(-50%);
+    top: 50%; 
+    width: 100%;
   }
 }
 
@@ -75,6 +66,22 @@ label {
       display: inline-block;
       padding: 0;
     }
+  }
+}
+
+.nowrap-ellipsis {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.label-fake-input {
+  display: inline-block;
+  line-height: 34px;
+  width: 100%;
+
+  &.smaller {
+    width: 60%;
   }
 }
 

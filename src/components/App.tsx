@@ -3,9 +3,9 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import * as ROUTES from '../constants/routes';
 import { firebase } from '../firebase';
 import { withAuthentication } from '../firebase/withAuthentication';
-import { Account } from '../pages/Account';
+import { AccountPage } from '../pages/Account';
 import { HomePage } from '../pages/Home';
-import { PasswordForget } from '../pages/PasswordForget';
+import PasswordForgetPage from '../pages/PasswordForget';
 import { SignIn } from '../pages/SignIn';
 import { SignUp } from '../pages/SignUp';
 import Navigation from './Navigation';
@@ -39,14 +39,15 @@ class AppComponent extends React.Component<{}, {}> {
   public render() {
     return (
       <BrowserRouter>
-        <div>
+        {/* <div> */}
+        <React.Fragment>
           <Navigation />
           <Switch>
             <Route exact={true} path={ROUTES.SIGN_UP} component={SignUp} />
             <Route exact={true} path={ROUTES.SIGN_IN} component={SignIn} />
-            <Route exact={true} path={ROUTES.PASSWORD_FORGET} component={PasswordForget} />
+            <Route exact={true} path={ROUTES.PASSWORD_FORGET} component={PasswordForgetPage} />
             <Route exact={true} path={ROUTES.HOME} component={HomePage} />
-            <Route exact={true} path={ROUTES.ACCOUNT} component={Account} />
+            <Route exact={true} path={ROUTES.ACCOUNT} component={AccountPage} />
             <Route exact={true} path={ROUTES.DASHBOARD} component={DashboardPage} />
             <Route path={ROUTES.MONTH} component={MonthPage} />
             <Route exact={true} path={ROUTES.REVENUES} component={RevenuesPage} />
@@ -55,7 +56,8 @@ class AppComponent extends React.Component<{}, {}> {
             <Route exact={true} path={ROUTES.SETTINGS} component={SettingsPage} />
             <Route path={ROUTES.ADMIN} component={AdminPage} />
           </Switch>
-        </div>
+        </React.Fragment>
+        {/* </div> */}
       </BrowserRouter>
     );
   }

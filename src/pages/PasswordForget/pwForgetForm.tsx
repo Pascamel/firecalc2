@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Form, Input, Button } from 'reactstrap';
 import { auth } from '../../firebase';
+import FormGroup from 'reactstrap/lib/FormGroup';
 
 
 interface IState {
@@ -41,20 +42,24 @@ export class PasswordForgetForm extends React.Component<{}, IState> {
 
     return (
       <React.Fragment>
-      <Form inline={true} onSubmit={(event) => this.onSubmit(event)}>
-        <Input
-          className="mb-2 mr-sm-2 mb-sm-0"
-          type="text"
-          placeholder="Email Address"
-          value={email}
-          onChange={(event) => this.setStateWithEvent(event, 'email')}
-        />
-        <Button disabled={isInvalid} type="submit">
-          Reset My Password
-        </Button>
-      </Form>
+        <Form onSubmit={(event) => this.onSubmit(event)}>
+          <FormGroup>
+            <Input
+              className="mb-2 mr-sm-2 mb-sm-0"
+              type="text"
+              placeholder="Email Address"
+              value={email}
+              onChange={(event) => this.setStateWithEvent(event, 'email')}
+            />
+          </FormGroup>
+          <FormGroup>
+            <Button block disabled={isInvalid} type="submit" color="primary">
+              Reset My Password
+            </Button>
+          </FormGroup>
+        </Form>
 
-      {error && <p>{error.message}</p>}
+        {error && <p>{error.message}</p>}
       </React.Fragment>
     );
   }
