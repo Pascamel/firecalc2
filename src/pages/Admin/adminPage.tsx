@@ -1,5 +1,5 @@
 import React from 'react';
-import HeaderPanel from './headerPanel';
+import HeaderPanel from '../../components/headerPanel';
 import LoadingPanel from '../../components/LoadingPanel';
 import ListUsers from './listUsers';
 import { firestore } from '../../firebase';
@@ -33,7 +33,7 @@ export default class AdminPageBase extends React.Component<{}, IState> {
     return (
       <React.Fragment>
         {loading && <LoadingPanel />}
-        {!loading && <HeaderPanel />}
+        {!loading && <HeaderPanel title="Admin" />}
         {!loading && <ListUsers users={users} />}
       </React.Fragment>
     );

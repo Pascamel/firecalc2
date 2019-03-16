@@ -92,11 +92,13 @@ export default class FireAmount extends React.Component<IProps, IState> {
         {!edit && <span className="amount" onClick={this.setEditMode}>
           { helpers.amount(this.props.amount, displayIfZero, this.props['display-decimals'] || false) }
         </span>}
-        {edit && <input ref={(input) => {if (input != null) input.focus();}}
-                        className="form-control"
-                        defaultValue={this.state.amount ? this.state.amount.toString() : ''} 
-                        onChange={(value:React.ChangeEvent<HTMLInputElement>) => this.onChange(value)} 
-                        onKeyUp={this.handleKeyUp}  />}
+        {edit && <input
+          ref={(input) => {if (input != null) input.focus();}}
+          className="form-control"
+          defaultValue={this.state.amount ? this.state.amount.toString() : ''} 
+          onChange={(value:React.ChangeEvent<HTMLInputElement>) => this.onChange(value)} 
+          onKeyUp={this.handleKeyUp}  
+        />}
       </div>
     );
   }

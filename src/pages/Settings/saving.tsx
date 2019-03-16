@@ -87,40 +87,48 @@ export default class Saving extends React.Component<IProps, IState> {
           {!header.$edit && <span className="label-fake-input">
             {header.label}
           </span>}
-          {header.$edit && <input type="text"
-                                  name="editLabel"
-                                  value={this.state.editLabel} 
-                                  onChange={this.handleInputChange} 
-                                  className="form-control" />}
+          {header.$edit && <input
+            type="text"
+            name="editLabel"
+            value={this.state.editLabel} 
+            onChange={this.handleInputChange} 
+            className="form-control" 
+          />}
         </Col>
         <Col xs={2}>
           {!header.$edit && <span className="label-fake-input">
             {header.sublabel}
           </span>}
-          {header.$edit && <input type="text"
-                                  name="editSublabel"
-                                  value={this.state.editSublabel} 
-                                  onChange={this.handleInputChange} 
-                                  className="form-control" />}
+          {header.$edit && <input
+            type="text"
+            name="editSublabel"
+            value={this.state.editSublabel} 
+            onChange={this.handleInputChange} 
+            className="form-control" 
+          />}
         </Col>
         <Col xs={4}>
           {!header.$edit && <span className="label-fake-input nowrap-ellipsis">
             {header.icon}
           </span>}
-          {header.$edit && <input type="text"
-                                  name="editIcon"
-                                  value={this.state.editIcon} 
-                                  onChange={this.handleInputChange} 
-                                  className="form-control" />}
+          {header.$edit && <input
+            type="text"       
+            name="editIcon"
+            value={this.state.editIcon} 
+            onChange={this.handleInputChange} 
+            className="form-control" 
+          />}
         </Col>
         <Col xs={2}>
           <div className="checkbox">
             {!header.$edit && <FontAwesomeIcon icon={['far', header.interest?'check-square':'square']} className="mr-1" />}
             <label>
-              {header.$edit && <input type="checkbox" 
-                                      name="editInterest" 
-                                      checked={this.state.editInterest} 
-                                      onChange={this.handleInputChange} />} Interest
+              {header.$edit && <input
+                type="checkbox" 
+                name="editInterest" 
+                checked={this.state.editInterest} 
+                onChange={this.handleInputChange} 
+              />} Interest
             </label>
           </div>
         </Col>

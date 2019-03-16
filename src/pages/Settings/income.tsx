@@ -77,20 +77,24 @@ export default class Income extends React.Component<IProps, IState> {
           {!header.$edit && <span className="label-fake-input">
             {header.label}
           </span>}
-            {header.$edit && <input type="text" 
-                                    name="editLabel"
-                                    value={this.state.editLabel} 
-                                    onChange={this.handleInputChange} 
-                                    className="form-control" />}
+            {header.$edit && <input
+              type="text" 
+              name="editLabel"
+              value={this.state.editLabel} 
+              onChange={this.handleInputChange} 
+              className="form-control" 
+            />}
         </Col>
         <Col xs={2}>
           <div className="inline">
             {!header.$edit && <FontAwesomeIcon icon={['far', header.pretax?'check-square':'square']} />}
             <label>
-              {header.$edit && <input type="checkbox"
-                                      name="editPretax"
-                                      checked={this.state.editPretax}  
-                                      onChange={this.handleInputChange} />}
+              {header.$edit && <input
+                type="checkbox"     
+                name="editPretax"
+                checked={this.state.editPretax}                          
+                onChange={this.handleInputChange} 
+              />}
               <span className="ml-1">Pre-tax</span>
             </label>
           </div>

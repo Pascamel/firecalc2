@@ -1,5 +1,7 @@
 import * as React from 'react';
+import { Form, Input, Button } from 'reactstrap';
 import { auth } from '../../firebase';
+
 
 interface IProps {
   error?: any;
@@ -31,16 +33,13 @@ export class PasswordChangeForm extends React.Component<IProps, IState> {
   }
 
   public onSubmit = (event: any) => {
-    const { passwordOne }: any = this.state;
-
-    auth
-      .doPasswordUpdate(passwordOne)
-      .then(() => {
-        this.setState(() => ({ ...PasswordChangeForm.INITIAL_STATE }));
-      })
-      .catch(error => {
-        this.setState(PasswordChangeForm.propKey('error', error));
-      });
+    if (!this.state.passwordOne) return;
+    
+    auth.doPasswordUpdate(this.state.passwordOne).then(() => {
+      this.setState(() => ({ ...PasswordChangeForm.INITIAL_STATE }));
+    }).catch(error => {
+      this.setState(PasswordChangeForm.propKey('error', error));
+    });
 
     event.preventDefault();
   };
@@ -51,15 +50,29 @@ export class PasswordChangeForm extends React.Component<IProps, IState> {
     const isInvalid = passwordOne !== passwordTwo || passwordOne === '';
 
     return (
-      <form onSubmit={event => this.onSubmit(event)}>
-        <input type="password" value={passwordOne} onChange={event => this.setStateWithEvent(event, "passwordOne")} placeholder="New Password" />
-        <input type="password" value={passwordTwo} onChange={event => this.setStateWithEvent(event, "passwordTwo")} placeholder="Confirm New Password" />
-        <button disabled={isInvalid} type="submit">
-          Reset My Password
-        </button>
+      <React.Fragment>
+        <Form inline={true} onSubmit={event => this.onSubmit(event)}>
+          <Input
+            className="mb-2 mr-sm-2 mb-sm-0"
+            type="password" 
+            placeholder="New Password" 
+            value={passwordOne} 
+            onChange={event => this.setStateWithEvent(event, "passwordOne")} 
+          />
+          <Input
+            className="mb-2 mr-sm-2 mb-sm-0"
+            type="password" 
+            placeholder="Confirm New Password" 
+            value={passwordTwo} 
+            onChange={event => this.setStateWithEvent(event, "passwordTwo")} 
+          />
+          <Button disabled={isInvalid} type="submit">
+            Change My Password
+          </Button>          
+        </Form>
 
         {error && <p>{error.message}</p>}
-      </form>
+      </React.Fragment>
     );
   }
 

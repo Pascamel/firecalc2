@@ -1,7 +1,13 @@
 import * as React from 'react';
+import { Form, Input, Button } from 'reactstrap';
 import { auth } from '../../firebase';
 
-export class PasswordForgetForm extends React.Component<{}, {}> {
+
+interface IState {
+  email?: string;
+  error?: any;
+}
+export class PasswordForgetForm extends React.Component<{}, IState> {
   private static INITIAL_STATE = {
     email: '',
     error: null
@@ -18,16 +24,13 @@ export class PasswordForgetForm extends React.Component<{}, {}> {
   }
 
   public onSubmit = (event: any) => {
-    const { email }: any = this.state;
+    if (!this.state.email) return;
 
-    auth
-      .doPasswordReset(email)
-      .then(() => {
-        this.setState(() => ({ ...PasswordForgetForm.INITIAL_STATE }));
-      })
-      .catch(error => {
-        this.setState(PasswordForgetForm.propKey('error', error));
-      });
+    auth.doPasswordReset(this.state.email).then(() => {
+      this.setState(() => ({ ...PasswordForgetForm.INITIAL_STATE }));
+    }).catch(error => {
+      this.setState(PasswordForgetForm.propKey('error', error));
+    });
 
     event.preventDefault();
   };
@@ -37,19 +40,22 @@ export class PasswordForgetForm extends React.Component<{}, {}> {
     const isInvalid = email === '';
 
     return (
-      <form onSubmit={(event) => this.onSubmit(event)}>
-        <input
-          value={email}
-          onChange={(event) => this.setStateWithEvent(event, 'email')}
+      <React.Fragment>
+      <Form inline={true} onSubmit={(event) => this.onSubmit(event)}>
+        <Input
+          className="mb-2 mr-sm-2 mb-sm-0"
           type="text"
           placeholder="Email Address"
+          value={email}
+          onChange={(event) => this.setStateWithEvent(event, 'email')}
         />
-        <button disabled={isInvalid} type="submit">
+        <Button disabled={isInvalid} type="submit">
           Reset My Password
-        </button>
+        </Button>
+      </Form>
 
-        {error && <p>{error.message}</p>}
-      </form>
+      {error && <p>{error.message}</p>}
+      </React.Fragment>
     );
   }
 

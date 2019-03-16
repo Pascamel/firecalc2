@@ -1,6 +1,7 @@
 import * as React from 'react';
-import { Link } from 'react-router-dom';
+import { Button } from 'reactstrap';
 import { PasswordForgetForm } from './PasswordForgetForm';
+
 
 export const PasswordForget = () => (
   <div>
@@ -9,8 +10,8 @@ export const PasswordForget = () => (
   </div>
 );
 
-export const PasswordForgetLink = () => (
-  <span>
-    Forgot Password? <Link to="/pw-forget">Click here</Link>
-  </span>
+export const PasswordForgetButton = () => (
+  <Button block color="light">
+    Forgot Password?
+  </Button>
 );
