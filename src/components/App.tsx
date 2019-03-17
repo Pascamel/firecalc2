@@ -8,7 +8,7 @@ import { HomePage } from '../pages/Home';
 import PasswordForgetPage from '../pages/PasswordForget';
 import { SignIn } from '../pages/SignIn';
 import { SignUp } from '../pages/SignUp';
-import Navigation from './Navigation';
+import { Navigation } from './Navigation';
 import { AdminPage } from '../pages/Admin';
 import { DashboardPage } from '../pages/Dashboard';
 import { MonthPage } from '../pages/Month';

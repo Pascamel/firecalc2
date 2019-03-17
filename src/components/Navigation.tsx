@@ -12,7 +12,7 @@ import {
   NavItem,
   UncontrolledDropdown
 } from 'reactstrap';
-import { NavLink, Link } from 'react-router-dom';
+import { NavLink, Link, withRouter } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import _ from 'lodash';
 import * as ROUTES from '../constants/routes';
@@ -23,6 +23,7 @@ import { SignOutLink } from './SignOutLink';
 
 
 interface IProps {
+  location: any,
   authUser: firebase.User|null
 }
 
@@ -47,7 +48,10 @@ class NavigationAuth extends React.Component<IProps, IState> {
   }
 
   navLinkClass = (route: string) => {
-    return 'nav-link';
+    const classNames = ['nav-link']
+    if (route.split('/')[1] === this.props.location.pathname.split('/')[1]) classNames.push('active');
+
+    return classNames.join(' ');
   }
 
   render () {
@@ -154,8 +158,10 @@ class NavigationNonAuth extends React.Component<{}, IState> {
   }
 }
 
-export default class Navigation extends React.Component<{}, {}> {
+class NavigationBase extends React.Component<any, {}> {
   render () {
+    const { location } = this.props;
+    
     return (
       <Container fluid className="nav-container">
         <Row>
@@ -164,7 +170,7 @@ export default class Navigation extends React.Component<{}, {}> {
               <Row>
                 <Col>
                   <AuthUserContext.Consumer>
-                    {(authUser) => authUser ? <NavigationAuth authUser={authUser} /> : <NavigationNonAuth />}
+                    {(authUser) => authUser ? <NavigationAuth authUser={authUser} location={location} /> : <NavigationNonAuth />}
                   </AuthUserContext.Consumer>
                 </Col>
               </Row>
@@ -175,3 +181,5 @@ export default class Navigation extends React.Component<{}, {}> {
     );
   }
 }
+
+export const Navigation = withRouter(NavigationBase);

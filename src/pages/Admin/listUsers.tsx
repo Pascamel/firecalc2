@@ -9,7 +9,6 @@ interface IProps {
 export default class ListUsers extends React.Component<IProps, {}> {
   render () {
     const { users} = this.props;
-    console.log('users', this.props.users);
 
     return (
       <Container>
