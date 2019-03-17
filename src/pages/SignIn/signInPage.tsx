@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { SignInForm } from './signInForm';
 import { SignUpButton } from '../SignUp';
-import { PasswordForgetButton } from '../PasswordForget';
+import { PasswordForgotButton } from '../PasswordForget';
 import { Container, Row, Col, Alert } from 'reactstrap';
 
 
@@ -14,7 +14,7 @@ export class  SignInPage extends React.Component<any, any> {
             <Alert className="alert-login" color="light">  
               <h4>Sign In</h4>
               <SignInForm {...this.props} />
-              <PasswordForgetButton />  
+              <PasswordForgotButton />  
               <hr />
               <SignUpButton />
             </Alert>
