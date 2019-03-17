@@ -4,8 +4,9 @@ import { App } from './components/App';
 
 import 'bootstrap/dist/css/bootstrap.css';
 import '../node_modules/font-awesome/css/font-awesome.min.css'; 
-import './fire.scss';
-import './flame.scss';
+import './styles/fire.scss';
+import './styles/flame.scss';
+import './styles/tables.scss';
 
 import registerServiceWorker from './registerServiceWorker';
 

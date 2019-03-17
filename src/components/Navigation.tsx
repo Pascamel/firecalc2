@@ -51,69 +51,76 @@ class NavigationAuth extends React.Component<IProps, IState> {
     const DEFAULT_CHART = ROUTES.STATS.replace(':type', CHARTS.URL.INCOME_VS_SAVINGS);
 
     return (
-      <Container>
+
+      <Container fluid className="nav-container">
         <Row>
           <Col>
-            <Navbar light expand="md">
-              <NavbarBrand href={ROUTES.DASHBOARD}>FireCalc</NavbarBrand>
-              <NavbarToggler onClick={this.toggle} />
-              <Collapse isOpen={this.state.isOpen} navbar>
-                <Nav navbar>
-                  <NavItem>
-                    <NavLink className="nav-link" to={helpers.currentMonthRoute()}>
-                      <FontAwesomeIcon icon={['far', 'calendar-alt']} className="mr-1" />
-                      Month
-                    </NavLink>
-                  </NavItem>
-                  <NavItem>
-                    <NavLink className="nav-link" to={ROUTES.REVENUES}>
-                      <FontAwesomeIcon icon="user-tie" className="mr-1" />
-                      Revenues
-                    </NavLink>
-                  </NavItem>
-                  <NavItem>
-                    <NavLink className="nav-link" to={ROUTES.SAVINGS}>
-                      <FontAwesomeIcon icon="piggy-bank" className="mr-1" />
-                      Savings
-                    </NavLink>
-                  </NavItem>
-                  <NavItem>
-                    <NavLink className="nav-link" to={DEFAULT_CHART}>
-                      <FontAwesomeIcon icon="chart-area" className="mr-1" />
-                      Stats
-                    </NavLink>
-                  </NavItem>
-                  <NavItem>
-                    <NavLink className="nav-link" to={ROUTES.SETTINGS}>
-                      <FontAwesomeIcon icon="cogs" className="mr-1" />
-                      Settings
-                    </NavLink>
-                  </NavItem>
-                  <NavItem>
-                    <NavLink className="nav-link" to={ROUTES.ADMIN}>
-                      <FontAwesomeIcon icon="solar-panel" className="mr-1" />
-                      Admin
-                    </NavLink>
-                  </NavItem>
-                </Nav> 
-                <Nav className="ml-auto" navbar>
-                  <UncontrolledDropdown nav inNavbar>
-                    <DropdownToggle nav caret>{authUser ? authUser.email : 'User'}</DropdownToggle>
-                    <DropdownMenu right>
-                      <DropdownItem >
-                        <Link className="no-link" to={ROUTES.ACCOUNT}>
-                          Account
-                        </Link>
-                      </DropdownItem>
-                      <DropdownItem divider />
-                      <DropdownItem>
-                        <SignOutLink />
-                      </DropdownItem>
-                    </DropdownMenu> 
-                  </UncontrolledDropdown> 
-                </Nav>
-              </Collapse>
-            </Navbar>
+            <Container>
+              <Row>
+                <Col>
+                  <Navbar light expand="md">
+                    <NavbarBrand href={ROUTES.DASHBOARD}>FireCalc</NavbarBrand>
+                    <NavbarToggler onClick={this.toggle} />
+                    <Collapse isOpen={this.state.isOpen} navbar>
+                      <Nav navbar>
+                        <NavItem>
+                          <NavLink className="nav-link" to={helpers.currentMonthRoute()}>
+                            <FontAwesomeIcon icon={['far', 'calendar-alt']} className="mr-1" />
+                            Month
+                          </NavLink>
+                        </NavItem>
+                        <NavItem>
+                          <NavLink className="nav-link" to={ROUTES.REVENUES}>
+                            <FontAwesomeIcon icon="user-tie" className="mr-1" />
+                            Revenues
+                          </NavLink>
+                        </NavItem>
+                        <NavItem>
+                          <NavLink className="nav-link" to={ROUTES.SAVINGS}>
+                            <FontAwesomeIcon icon="piggy-bank" className="mr-1" />
+                            Savings
+                          </NavLink>
+                        </NavItem>
+                        <NavItem>
+                          <NavLink className="nav-link" to={DEFAULT_CHART}>
+                            <FontAwesomeIcon icon="chart-area" className="mr-1" />
+                            Stats
+                          </NavLink>
+                        </NavItem>
+                        <NavItem>
+                          <NavLink className="nav-link" to={ROUTES.SETTINGS}>
+                            <FontAwesomeIcon icon="cogs" className="mr-1" />
+                            Settings
+                          </NavLink>
+                        </NavItem>
+                        <NavItem>
+                          <NavLink className="nav-link" to={ROUTES.ADMIN}>
+                            <FontAwesomeIcon icon="solar-panel" className="mr-1" />
+                            Admin
+                          </NavLink>
+                        </NavItem>
+                      </Nav> 
+                      <Nav className="ml-auto" navbar>
+                        <UncontrolledDropdown nav inNavbar>
+                          <DropdownToggle nav caret>{authUser ? authUser.email : 'User'}</DropdownToggle>
+                          <DropdownMenu right>
+                            <DropdownItem >
+                              <Link className="no-link" to={ROUTES.ACCOUNT}>
+                                Account
+                              </Link>
+                            </DropdownItem>
+                            <DropdownItem divider />
+                            <DropdownItem>
+                              <SignOutLink />
+                            </DropdownItem>
+                          </DropdownMenu> 
+                        </UncontrolledDropdown> 
+                      </Nav>
+                    </Collapse>
+                  </Navbar>
+                </Col>
+              </Row> 
+            </Container>
           </Col>
         </Row>
       </Container>

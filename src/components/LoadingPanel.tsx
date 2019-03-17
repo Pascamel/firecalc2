@@ -2,10 +2,17 @@ import React from 'react';
 import { Container, Row, Col } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-export default class LoadingPanel extends React.Component<{}, {}> {
+
+interface IProps {
+  color?: string;
+}
+
+export default class LoadingPanel extends React.Component<IProps, {}> {
   render() {
+    const color = this.props.color || 'header';
+
     return (
-      <Container fluid>
+      <Container fluid className={`alert-${color}`}> 
         <Row>
           <Col>
             <div className="loading-spinner">
