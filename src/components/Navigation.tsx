@@ -56,7 +56,7 @@ class NavigationAuth extends React.Component<IProps, IState> {
 
   render () {
     const {authUser} = this.props;
-    const DEFAULT_CHART = ROUTES.STATS.replace(':type', CHARTS.URL.INCOME_VS_SAVINGS);
+    const DEFAULT_CHART = ROUTES.CHARTS.replace(':type', CHARTS.URL.INCOME_VS_SAVINGS);
 
     return (
       <Navbar light expand="md">
@@ -83,9 +83,9 @@ class NavigationAuth extends React.Component<IProps, IState> {
               </NavLink>
             </NavItem>
             <NavItem>
-              <NavLink className={this.navLinkClass(ROUTES.STATS)} to={DEFAULT_CHART}>
+              <NavLink className={this.navLinkClass(ROUTES.CHARTS)} to={DEFAULT_CHART}>
                 <FontAwesomeIcon icon="chart-area" className="mr-1" />
-                Stats
+                Charts
               </NavLink>
             </NavItem>
             <NavItem>

@@ -22,7 +22,7 @@ interface IState {
   savings_breakdown: any
 }
 
-export default class StatsPageBase extends React.Component<IProps, IState> {
+export default class ChartsPageBase extends React.Component<IProps, IState> {
   constructor (props: IProps) {
     super(props);
 

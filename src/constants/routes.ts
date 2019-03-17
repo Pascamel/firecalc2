@@ -10,4 +10,4 @@ export const MONTH = '/month/:year/:month';
 export const REVENUES = '/revenues';
 export const SAVINGS = '/savings';
 export const SETTINGS = '/settings';
-export const STATS = '/stats/:type';
+export const CHARTS = '/chart/:type';

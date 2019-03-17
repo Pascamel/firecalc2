@@ -12,7 +12,6 @@ export default class ListUsers extends React.Component<IProps, {}> {
     return (
       <React.Fragment>
         <b>{users.length}</b> users
-
         <ul className="list-unstyled">
           {users.map((user: any) => (
             <li key={user.id}>

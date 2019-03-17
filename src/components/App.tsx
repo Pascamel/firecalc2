@@ -15,7 +15,7 @@ import { MonthPage } from '../pages/Month';
 import { RevenuesPage } from '../pages/Revenues';
 import { SavingsPage } from '../pages/Savings';
 import { SettingsPage } from '../pages/Settings';
-import { StatsPage } from '../pages/Stats';
+import { ChartsPage } from '../pages/Charts';
 import './icons';
 
 
@@ -55,7 +55,7 @@ class AppComponent extends React.Component<IProps, {}> {
             <Route path={ROUTES.MONTH} component={MonthPage} />
             <Route exact={true} path={ROUTES.REVENUES} component={RevenuesPage} />
             <Route exact={true} path={ROUTES.SAVINGS} component={SavingsPage} />
-            <Route path={ROUTES.STATS} component={StatsPage} />
+            <Route path={ROUTES.CHARTS} component={ChartsPage} />
             <Route exact={true} path={ROUTES.SETTINGS} component={SettingsPage} />
             <Route path={ROUTES.ADMIN} component={AdminPage} />
           </Switch>

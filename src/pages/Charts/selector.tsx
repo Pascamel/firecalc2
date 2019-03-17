@@ -14,7 +14,7 @@ interface IProps {
 export default class Selector extends React.Component<IProps, {}> {
 
   goTo = (type: string): void => {
-    const route = ROUTES.STATS.replace(':type', _.get(CHARTS.URL, type));
+    const route = ROUTES.CHARTS.replace(':type', _.get(CHARTS.URL, type));
     this.props.history.push(route);
   }
 
