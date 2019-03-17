@@ -56,18 +56,18 @@ export class SignInForm extends React.Component<InterfaceProps,InterfaceState> {
     return (
       <form onSubmit={event => this.onSubmit(event)}>
         <FormGroup>
-
-          <InputGroup>
+          <InputGroup className="mt-2">
             <InputGroupAddon addonType="prepend">
               <InputGroupText>
                 <FontAwesomeIcon icon={['far', 'user']} />
               </InputGroupText>
             </InputGroupAddon>
-            <Input className="form-control"
-                  value={email}
-                  onChange={event => this.setStateWithEvent(event, 'email')}
-                  type="text"
-                  placeholder="Email Address" />
+            <Input
+              value={email}
+              onChange={event => this.setStateWithEvent(event, 'email')}
+              type="text"
+              placeholder="Email Address" 
+            />
           </InputGroup>
         </FormGroup>
         <FormGroup>
@@ -77,11 +77,12 @@ export class SignInForm extends React.Component<InterfaceProps,InterfaceState> {
                 <FontAwesomeIcon icon="unlock-alt" />
               </InputGroupText>
             </InputGroupAddon>
-            <Input value={password}
-                   onChange={event => this.setStateWithEvent(event, 'password')}
-                   className="form-control"
-                   type="password"
-                   placeholder="Password" />
+            <Input
+              value={password}
+              onChange={event => this.setStateWithEvent(event, 'password')}
+              type="password"
+              placeholder="Password" 
+            />
           </InputGroup>
         </FormGroup>
         <FormGroup>

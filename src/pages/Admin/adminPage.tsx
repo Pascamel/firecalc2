@@ -1,5 +1,6 @@
 import React from 'react';
-import HeaderPanel from './headerPanel';
+import { Container, Row, Col, Alert } from 'reactstrap';
+import HeaderPanel from '../../components/headerPanel';
 import LoadingPanel from '../../components/LoadingPanel';
 import ListUsers from './listUsers';
 import { firestore } from '../../firebase';
@@ -33,8 +34,22 @@ export default class AdminPageBase extends React.Component<{}, IState> {
     return (
       <React.Fragment>
         {loading && <LoadingPanel />}
-        {!loading && <HeaderPanel />}
-        {!loading && <ListUsers users={users} />}
+        {!loading && <HeaderPanel title="Admin" />}
+        {!loading && <Container fluid className="top-shadow">
+          <Row>
+            <Col>
+              <Container>
+                <Row>
+                  <Col>
+                    <Alert color="background">
+                      <ListUsers users={users} />
+                    </Alert>
+                  </Col>
+                </Row>
+              </Container>
+            </Col>
+          </Row>
+        </Container>}
       </React.Fragment>
     );
   }

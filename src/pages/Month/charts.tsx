@@ -28,7 +28,7 @@ export default class Charts extends React.Component<IProps, IState> {
     return (
       <React.Fragment>
         <Col md={4} sm={12}>
-          <Alert color="light">
+          <Alert color="background">
             <Row>
               <Col>
                 <span className="label-fake-input">Net worth</span>
@@ -43,7 +43,7 @@ export default class Charts extends React.Component<IProps, IState> {
               </Col>
             </Row>
           </Alert>
-          <Alert color="light">
+          <Alert color="background">
             <Progress label="Month"
                       result={bank.goalMonth[year][month]}
                       goal={bank.monthlyGoal[year]} 

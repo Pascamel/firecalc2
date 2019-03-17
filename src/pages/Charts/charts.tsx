@@ -14,7 +14,7 @@ export class IncomeVsSavingsChart extends React.Component<IProps, {}> {
         chartType="LineChart"
         width="100%"
         height="460px"
-        loader={<LoadingPanel />}
+        loader={<LoadingPanel color="background" />}
         data={this.props.data}
         options={{
           legend: { position: 'top', alignment: 'start' },
@@ -46,15 +46,12 @@ export class NetWorthChart extends React.Component<IProps, {}> {
         chartType="AreaChart"
         width="100%"
         height="460px"
-        loader={<LoadingPanel />}
+        loader={<LoadingPanel color="background" />}
         data={this.props.data}
         options={{
           legend: 'none',
           vAxis: { 
-            format: 'short',
-            viewWindow: {
-              min: 0
-            }
+            format: 'short'
           },
           chartArea: {
             width: '90%', 
@@ -73,7 +70,7 @@ export class TotalSavingsChart extends React.Component<IProps, {}> {
         chartType="AreaChart"
         width="100%"
         height="460px"
-        loader={<LoadingPanel />}
+        loader={<LoadingPanel color="background" />}
         data={this.props.data}
         legendToggle
         options={{
@@ -94,6 +91,35 @@ export class TotalSavingsChart extends React.Component<IProps, {}> {
   }
 }
 
+export class NetWorthVsSavingsChart extends React.Component<IProps, {}> {
+  render () {
+    return (
+      <Chart
+        chartType="LineChart"
+        width="100%"
+        height="460px"
+        loader={<LoadingPanel color="background" />}
+        data={this.props.data}
+        options={{
+          legend: { position: 'top', alignment: 'start' },
+          hAxis: { type: 'date'},
+          vAxis: { 
+            format: 'short'
+          },
+          series: {
+            0: { curveType: 'function' },
+            1: { curveType: 'function' },
+          },
+          chartArea: { 
+            width: '90%',
+            height: '80%'
+          }
+        }}
+      />
+    );
+  }
+}
+
 export class SavingsBreakdownChart extends React.Component<IProps, {}> {
   render () {
     return (
@@ -101,7 +127,7 @@ export class SavingsBreakdownChart extends React.Component<IProps, {}> {
         chartType="PieChart"
         width="100%"
         height="460px"
-        loader={<LoadingPanel />}
+        loader={<LoadingPanel color="background" />}
         data={this.props.data}
         options={{
           legend: {
@@ -110,7 +136,7 @@ export class SavingsBreakdownChart extends React.Component<IProps, {}> {
           pieSliceText: 'value', //'label',
           pieStartAngle: 100,
           chartArea: {
-            width: '100%', 
+            width: '95%', 
             height: '90%'
           }
         }}

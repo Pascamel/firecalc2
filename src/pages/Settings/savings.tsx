@@ -1,5 +1,5 @@
 import React from 'react';
-import { Row, Col, Button } from 'reactstrap';
+import { Alert, Row, Col, Button } from 'reactstrap';
 import Saving from './saving';
 import { Bank } from '../../bank';
 
@@ -24,9 +24,9 @@ export default class Savings extends React.Component<IProps, {}> {
     const {bank} = this.props;
 
     return (
-      <React.Fragment>
+      <Alert color="background">
         <Row>
-          <Col className="mt-4">
+          <Col>
             <h3>Savings</h3>
           </Col>
         </Row>
@@ -45,7 +45,7 @@ export default class Savings extends React.Component<IProps, {}> {
             </Button>
           </Col>
         </Row>
-      </React.Fragment>
+      </Alert>
     );
   }
 }

@@ -63,28 +63,28 @@ export class SignUpForm extends React.Component<IProps, IState> {
 
     return (
       <form onSubmit={(event) => this.onSubmit(event)}>
-        <FormGroup>
-          <Input className="form-control"
-                 value={email}
-                 onChange={event => this.setStateWithEvent(event, "email")}
-                 type="text"
-                 placeholder="Email Address"
+        <FormGroup className="mt-2">
+          <Input
+            value={email}
+            onChange={event => this.setStateWithEvent(event, "email")}
+            type="text"
+            placeholder="Email Address"
           />
         </FormGroup>
         <FormGroup>
-          <input className="form-control"
-                 value={passwordOne}
-                 onChange={event => this.setStateWithEvent(event, "passwordOne")}
-                 type="password"
-                 placeholder="Password"
+          <Input
+            value={passwordOne}
+            onChange={event => this.setStateWithEvent(event, "passwordOne")}
+            type="password"
+            placeholder="Password"
           />
         </FormGroup>
         <FormGroup>
-          <input className="form-control"
-                 value={passwordTwo}
-                 onChange={event => this.setStateWithEvent(event, "passwordTwo")}
-                 type="password"
-                 placeholder="Confirm Password"
+          <Input
+            value={passwordTwo}
+            onChange={event => this.setStateWithEvent(event, "passwordTwo")}
+            type="password"
+            placeholder="Confirm Password"
           />
         </FormGroup>
         <FormGroup>

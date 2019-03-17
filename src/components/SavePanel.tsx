@@ -23,7 +23,7 @@ export default class SavePanel extends React.Component<IProps, {}> {
     const { updated, saveInProgress, label, saveClick, cancelChanges } = this.props;
 
     return (
-      <Container fluid className={`alert alert-save ${updated ? 'alert-warning' : 'alert-light'}`}>
+      <Container fluid className="alert alert-save alert-header">
         <Row>
           <Col>
             <Container>
@@ -41,31 +41,32 @@ export default class SavePanel extends React.Component<IProps, {}> {
 
                   {['Savings', 'Revenues', 'Settings'].indexOf(label) === -1 && 
                   <ButtonGroup className="pull-left">
-                    <Button color={updated ? 'warning' : 'light'} onClick={this.props.prevMonth}>
+                    <Button color="header" onClick={this.props.prevMonth}>
                       <FontAwesomeIcon icon="backward" />
                     </Button>
-                    <Button color={updated ? 'warning' : 'light'} onClick={this.props.nextMonth}>
+                    <Button color="header" onClick={this.props.nextMonth}>
                       <FontAwesomeIcon icon="forward" />
                     </Button>
-                  </ButtonGroup>}                
+                  </ButtonGroup>}
 
-                  {updated && <span>
-                    <FontAwesomeIcon icon="exclamation-triangle" size="lg" className="mr-2" />
+                  {updated && <span className="title">
+                    <FontAwesomeIcon icon="exclamation-triangle" className="mr-2" />
                     Updates have been detected. Save now!
                   </span>}
+
                   {!updated && <span className="title">
                     {label}
                   </span>}
 
-                  <button className={`btn btn-save pull-right ${updated ? 'btn-warning' : 'btn-light'}`} onClick={saveClick}>
+                  <Button color="header" className="pull-right" onClick={saveClick}>
                     {!saveInProgress && <FontAwesomeIcon icon={['far', 'save']} className="mr-1" />}
                     {saveInProgress && <FontAwesomeIcon icon="spinner" className="mr-1" spin />}
                     {saveInProgress ? 'Saving' : 'Save'}
-                  </button>
+                  </Button>
 
-                  {updated && <button className="btn btn-warning pull-right" onClick={cancelChanges}>
+                  {updated && <Button color="header" className="pull-right mr-2" onClick={cancelChanges}>
                     <FontAwesomeIcon icon="times" /> Cancel
-                  </button>}
+                  </Button>}
                 </Col>
               </Row>
             </Container>

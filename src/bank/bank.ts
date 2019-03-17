@@ -197,7 +197,6 @@ export default class Bank {
   };
 
   calculateTotals = () => {
-
     this.startOfYearAmount = {};
     this.totalMonthSavings = {};
     this.totalHolding = {};
@@ -330,4 +329,3 @@ export default class Bank {
     this.grandTotalHolding = this.totalHolding[year][month];  
   }
 }
-

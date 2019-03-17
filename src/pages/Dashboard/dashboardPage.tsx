@@ -26,9 +26,7 @@ export default class DashboardPageBase extends React.Component<{}, IState> {
   componentDidMount() {
     this.state.bank.load().then(() => {
       this.setState({bank: this.state.bank, loading: false});
-      console.log(this.state.bank.lastupdate)
     }).catch(function(error) {
-      console.log('error')
     });
   }
 

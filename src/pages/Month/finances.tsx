@@ -1,9 +1,10 @@
 import React from 'react';
+import { Alert, Col } from 'reactstrap';
 import _ from 'lodash';
 import MonthSavings from './monthSavings';
 import MonthIncome from './monthIncome';
 import { Bank } from '../../bank';
-import { Col } from 'reactstrap';
+
 
 interface IProps {
   bank: Bank,
@@ -20,6 +21,8 @@ export default class MonthFinances extends React.Component<IProps> {
     return (
       <React.Fragment>
         <Col md={4} sm={12}>
+
+        <Alert color="background">
           <h3>Savings</h3>
           {bank.savingsInputs.filter((header: any) => header.type!=='T')
             .map((header: any, key: string) => (
@@ -30,16 +33,19 @@ export default class MonthFinances extends React.Component<IProps> {
                           {...this.props} />
                         
           ))}
+          </Alert>
         </Col>
         <Col md={4} sm={12}>
-          <h3>Income</h3>
-          {bank.incomeHeaders.map((header: any, key: string) => (
-            <MonthIncome key={key} 
-                         header={header} 
-                         data={_.get(bank.income, [year, month])} 
-                         callback={callbackIncome} 
-                         {...this.props} />
-          ))}
+          <Alert color="background">
+            <h3>Income</h3>
+            {bank.incomeHeaders.map((header: any, key: string) => (
+              <MonthIncome key={key} 
+                          header={header} 
+                          data={_.get(bank.income, [year, month])} 
+                          callback={callbackIncome} 
+                          {...this.props} />
+            ))}
+          </Alert>
         </Col>
       </React.Fragment>
     );

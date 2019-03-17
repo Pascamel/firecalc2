@@ -1,6 +1,5 @@
 import React from 'react';
-import { Container, Row, Col } from 'reactstrap';
-import { withAuthorization } from '../../firebase/withAuthorization';
+import { Container, Row, Col, Alert } from 'reactstrap';
 import LoadingPanel from '../../components/LoadingPanel';
 import SavePanel from '../../components/SavePanel';
 import { Bank } from '../../bank';
@@ -76,10 +75,18 @@ export default class RevenuePageBase extends React.Component<IProps, IState> {
                                 cancelChanges={this.cancelChanges}
                                 callback={this.updateValue} 
                                 {...this.state} />}
-        {!loading && <Container>
+        {!loading && <Container fluid className="top-shadow">
           <Row>
             <Col>
-              <Table {...this.state} callback={this.updateValue} />
+              <Container>
+                <Row>
+                  <Col>
+                    <Alert color="background">
+                      <Table {...this.state} callback={this.updateValue} />
+                    </Alert>
+                  </Col>
+                </Row>
+              </Container>
             </Col>
           </Row>
         </Container>}
