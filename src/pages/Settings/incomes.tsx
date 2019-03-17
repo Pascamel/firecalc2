@@ -1,7 +1,7 @@
 import React from 'react';
+import { Alert, Row, Col, Button } from 'reactstrap';
 import Income from './income';
 import { Bank } from '../../bank';
-import { Row, Col, Button } from 'reactstrap';
 
 
 interface IProps {
@@ -24,9 +24,9 @@ export default class Incomes extends React.Component<IProps, {}> {
     const { bank } = this.props;
 
     return (
-      <React.Fragment>
+      <Alert color="background">
         <Row>
-          <Col className="mt-4">
+          <Col>
             <h3>Income</h3>
           </Col>
         </Row>
@@ -46,7 +46,7 @@ export default class Incomes extends React.Component<IProps, {}> {
             <Button block color="light" onClick={this.newHeader}>Add new</Button>
           </Col>
         </Row>
-      </React.Fragment>
+      </Alert>
     );
   }
 }

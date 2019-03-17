@@ -73,7 +73,7 @@ export default class Income extends React.Component<IProps, IState> {
 
     return (
       <Row className="form-headers">
-        <Col xs={7}>
+        <Col xs={6}>
           {!header.$edit && <span className="label-fake-input">
             {header.label}
           </span>}
@@ -85,7 +85,7 @@ export default class Income extends React.Component<IProps, IState> {
               className="form-control" 
             />}
         </Col>
-        <Col xs={2}>
+        <Col xs={3}>
           <div className="inline">
             {!header.$edit && <FontAwesomeIcon icon={['far', header.pretax?'check-square':'square']} />}
             <label>

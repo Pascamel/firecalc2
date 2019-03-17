@@ -1,6 +1,6 @@
 import React from 'react';
-import { SignUpForm } from './signUpForm';
 import { Container, Row, Col, Alert } from 'reactstrap';
+import { SignUpForm } from './signUpForm';
 
 
 export class SignUpPage extends React.Component<any, any> {

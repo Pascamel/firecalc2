@@ -1,5 +1,5 @@
 import React from 'react';
-import { Row, Col } from 'reactstrap';
+import { Alert, Row, Col } from 'reactstrap';
 import _ from 'lodash';
 import helpers from '../../helpers';
 import { Bank } from '../../bank';
@@ -31,7 +31,7 @@ export default class StartingPoint extends React.Component<IProps, {}> {
     const {headers, bank} = this.props;
 
     return (
-      <React.Fragment>
+      <Alert color="background">
         <Row>
           <Col>
             <h3>Starting point</h3>
@@ -72,7 +72,7 @@ export default class StartingPoint extends React.Component<IProps, {}> {
             </Form>
           </Col>
         </Row>
-      </React.Fragment>
+      </Alert>
     );
   }
 }
