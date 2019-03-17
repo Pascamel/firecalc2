@@ -7,7 +7,7 @@ import { Bank } from '../../bank';
 import helpers from '../../helpers';
 import Selector from './selector';
 import LoadingPanel from '../../components/LoadingPanel';
-import { IncomeVsSavingsChart, NetWorthChart, TotalSavingsChart, SavingsBreakdownChart } from './charts';
+import { IncomeVsSavingsChart, NetWorthChart, TotalSavingsChart, NetWorthVsSavingsChart, SavingsBreakdownChart } from './charts';
 
 
 interface IProps extends RouteComponentProps<{type: string}> {}
@@ -19,6 +19,7 @@ interface IState {
   savings_vs_income: any,
   net_worth: any
   total_savings: any,
+  net_worth_vs_savings: any,
   savings_breakdown: any
 }
 
@@ -33,6 +34,7 @@ export default class ChartsPageBase extends React.Component<IProps, IState> {
       savings_vs_income: [],
       net_worth: [],
       total_savings: [],
+      net_worth_vs_savings: [],
       savings_breakdown: []
     };
   }
@@ -40,8 +42,9 @@ export default class ChartsPageBase extends React.Component<IProps, IState> {
   componentDidMount() {
     this.state.bank.load().then(() => {
       const svsi: any = [['Date', 'Savings', 'Income']];
-      const nw: any = [['Data', 'New worth']];
-      const ts: any = [['Data', 'Savings']];
+      const nw: any = [['Date', 'New worth']];
+      const ts: any = [['Date', 'Savings']];
+      const nws: any = [['Date', 'New worth', 'Savings']];
       const sb: any = [['Institution', 'Amount']];
 
       _.each(_.range(this.state.bank.headers.firstYear, new Date().getFullYear()+1), y => {
@@ -53,14 +56,25 @@ export default class ChartsPageBase extends React.Component<IProps, IState> {
             _.get(this.state.bank.totalMonthSavings, [y, m], 0),
             _.get(this.state.bank.totalMonthIncome, [y, m], 0)
           ]);
-          nw.push([
-            new Date(y, m - 1), 
-            _.get(this.state.bank.networth, [y, m], 0)
-          ]);
+
+          if (_.get(this.state.bank.networth, [y, m])) {
+            nw.push([
+              new Date(y, m - 1), 
+              _.get(this.state.bank.networth, [y, m], 0)
+            ]);
+          }
+          
           ts.push([
-            new Date(y, m - 1), 
-            _.get(this.state.bank.totalHolding, [y, m], 0)
+            new Date(y, m - 1),
+            _.get(this.state.bank.totalHolding, [y, m], null)
           ]);
+          if (_.get(this.state.bank.networth, [y, m])) {
+            nws.push([
+              new Date(y, m - 1), 
+              _.get(this.state.bank.networth, [y, m], 0),
+              _.get(this.state.bank.totalHolding, [y, m], 0)
+            ]);
+          }
         });
       });
 
@@ -85,6 +99,7 @@ export default class ChartsPageBase extends React.Component<IProps, IState> {
         savings_vs_income: svsi,
         net_worth: nw,
         total_savings: ts,
+        net_worth_vs_savings: nws,
         savings_breakdown: sb
       });
     });
@@ -112,6 +127,7 @@ export default class ChartsPageBase extends React.Component<IProps, IState> {
                     {type === CHARTS.URL.INCOME_VS_SAVINGS && <IncomeVsSavingsChart data={this.state.savings_vs_income} />}
                     {type === CHARTS.URL.NET_WORTH && <NetWorthChart data={this.state.net_worth} />}
                     {type === CHARTS.URL.TOTAL_SAVINGS && <TotalSavingsChart data={this.state.total_savings} />}
+                    {type === CHARTS.URL.NET_WORTH_VS_SAVINGS && <NetWorthVsSavingsChart data={this.state.net_worth_vs_savings} />}
                     {type === CHARTS.URL.SAVINGS_BREAKDOWN && <SavingsBreakdownChart data={this.state.savings_breakdown} />}
                   </Col>
                 </Row>

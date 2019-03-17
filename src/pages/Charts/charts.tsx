@@ -51,10 +51,7 @@ export class NetWorthChart extends React.Component<IProps, {}> {
         options={{
           legend: 'none',
           vAxis: { 
-            format: 'short',
-            viewWindow: {
-              min: 0
-            }
+            format: 'short'
           },
           chartArea: {
             width: '90%', 
@@ -87,6 +84,35 @@ export class TotalSavingsChart extends React.Component<IProps, {}> {
           chartArea: {
             width: '90%', 
             height: '90%'
+          }
+        }}
+      />
+    );
+  }
+}
+
+export class NetWorthVsSavingsChart extends React.Component<IProps, {}> {
+  render () {
+    return (
+      <Chart
+        chartType="LineChart"
+        width="100%"
+        height="460px"
+        loader={<LoadingPanel color="background" />}
+        data={this.props.data}
+        options={{
+          legend: { position: 'top', alignment: 'start' },
+          hAxis: { type: 'date'},
+          vAxis: { 
+            format: 'short'
+          },
+          series: {
+            0: { curveType: 'function' },
+            1: { curveType: 'function' },
+          },
+          chartArea: { 
+            width: '90%',
+            height: '80%'
           }
         }}
       />
