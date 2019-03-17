@@ -102,7 +102,7 @@ export default class StatsPageBase extends React.Component<IProps, IState> {
     return (
       <React.Fragment>
         {loading && <LoadingPanel />}
-        {!loading && <Selector type={type} />}
+        {!loading && <Selector type={type} history={this.props.history} />}
         {!loading && <Container>
           <Row>
             <Col>

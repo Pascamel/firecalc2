@@ -14,7 +14,7 @@ export class IncomeVsSavingsChart extends React.Component<IProps, {}> {
         chartType="LineChart"
         width="100%"
         height="460px"
-        loader={<LoadingPanel />}
+        loader={<LoadingPanel color="background" />}
         data={this.props.data}
         options={{
           legend: { position: 'top', alignment: 'start' },
@@ -46,7 +46,7 @@ export class NetWorthChart extends React.Component<IProps, {}> {
         chartType="AreaChart"
         width="100%"
         height="460px"
-        loader={<LoadingPanel />}
+        loader={<LoadingPanel color="background" />}
         data={this.props.data}
         options={{
           legend: 'none',
@@ -73,7 +73,7 @@ export class TotalSavingsChart extends React.Component<IProps, {}> {
         chartType="AreaChart"
         width="100%"
         height="460px"
-        loader={<LoadingPanel />}
+        loader={<LoadingPanel color="background" />}
         data={this.props.data}
         legendToggle
         options={{
@@ -101,7 +101,7 @@ export class SavingsBreakdownChart extends React.Component<IProps, {}> {
         chartType="PieChart"
         width="100%"
         height="460px"
-        loader={<LoadingPanel />}
+        loader={<LoadingPanel color="background" />}
         data={this.props.data}
         options={{
           legend: {
