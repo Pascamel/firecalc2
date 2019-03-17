@@ -19,8 +19,12 @@ import { StatsPage } from '../pages/Stats';
 import './icons';
 
 
-class AppComponent extends React.Component<{}, {}> {
-  constructor(props: {}) {
+interface IProps {
+  location?: any;
+}
+
+class AppComponent extends React.Component<IProps, {}> {
+  constructor(props: IProps) {
     super(props);
 
     this.state = {
@@ -39,7 +43,6 @@ class AppComponent extends React.Component<{}, {}> {
   public render() {
     return (
       <BrowserRouter>
-        {/* <div> */}
         <React.Fragment>
           <Navigation />
           <Switch>
@@ -57,7 +60,6 @@ class AppComponent extends React.Component<{}, {}> {
             <Route path={ROUTES.ADMIN} component={AdminPage} />
           </Switch>
         </React.Fragment>
-        {/* </div> */}
       </BrowserRouter>
     );
   }

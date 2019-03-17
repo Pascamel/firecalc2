@@ -19,23 +19,25 @@ label {
 .nav-container {
   background: #fff;
 }
-.nav-link {
-  &.active {
-    position: relative;
+.nav-link { 
+  &:not(.no-active) {
+    &.active {
+      position: relative;
 
-    &:after {
-      bottom: -8px;
-      left: 50%;
-      border: solid transparent;
-      content: ' ';
-      height: 0;
-      width: 0;
-      position: absolute;
-      pointer-events: none;
-      border-color: rgba(136, 183, 213, 0);
-      border-bottom-color: $header-background;
-      border-width: 10px;
-      margin-left: -10px;
+      &:after {
+        bottom: -8px;
+        left: 50%;
+        border: solid transparent;
+        content: ' ';
+        height: 0;
+        width: 0;
+        position: absolute;
+        pointer-events: none;
+        border-color: rgba(136, 183, 213, 0);
+        border-bottom-color: $header-background;
+        border-width: 10px;
+        margin-left: -10px;
+      }
     }
   }
 }
