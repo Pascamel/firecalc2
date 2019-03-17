@@ -56,8 +56,7 @@ export class SignInForm extends React.Component<InterfaceProps,InterfaceState> {
     return (
       <form onSubmit={event => this.onSubmit(event)}>
         <FormGroup>
-
-          <InputGroup>
+          <InputGroup className="mt-2">
             <InputGroupAddon addonType="prepend">
               <InputGroupText>
                 <FontAwesomeIcon icon={['far', 'user']} />

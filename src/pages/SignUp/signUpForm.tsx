@@ -63,7 +63,7 @@ export class SignUpForm extends React.Component<IProps, IState> {
 
     return (
       <form onSubmit={(event) => this.onSubmit(event)}>
-        <FormGroup>
+        <FormGroup className="mt-2">
           <Input
             value={email}
             onChange={event => this.setStateWithEvent(event, "email")}

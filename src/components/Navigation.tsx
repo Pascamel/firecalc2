@@ -147,8 +147,13 @@ class NavigationNonAuth extends React.Component<{}, IState> {
         <Collapse isOpen={this.state.isOpen} navbar>
           <Nav className="ml-auto" navbar>
             <NavItem>
-              <NavLink className="nav-link no-active" to={ROUTES.SIGN_IN}>
+              <NavLink className="nav-link" to={ROUTES.SIGN_IN}>
                 Sign In
+              </NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink className="nav-link" to={ROUTES.SIGN_UP}>
+                Sign Up
               </NavLink>
             </NavItem>
           </Nav>

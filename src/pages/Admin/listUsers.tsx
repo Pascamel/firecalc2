@@ -1,5 +1,4 @@
 import React from 'react';
-import { Container, Row, Col } from 'reactstrap';
 
 
 interface IProps {
@@ -8,25 +7,20 @@ interface IProps {
 
 export default class ListUsers extends React.Component<IProps, {}> {
   render () {
-    const { users} = this.props;
+    const { users } = this.props;
 
     return (
-      <Container>
-        <Row>
-          <Col>
-            <b>{users.length}</b> users
-          </Col>
-        </Row>
+      <React.Fragment>
+        <b>{users.length}</b> users
 
-        {users.map((user: any) => (
-          <Row key={user.id}>
-            <Col>
+        <ul className="list-unstyled">
+          {users.map((user: any) => (
+            <li key={user.id}>
               {user.email} - {user.type} - {user.id}
-            </Col>
-          </Row>
-        ))}
-      </Container>
-      
+            </li>
+          ))}>
+        </ul>
+      </React.Fragment>      
     );
   }
 }

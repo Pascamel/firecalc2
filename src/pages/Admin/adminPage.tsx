@@ -1,4 +1,5 @@
 import React from 'react';
+import { Container, Row, Col, Alert } from 'reactstrap';
 import HeaderPanel from '../../components/headerPanel';
 import LoadingPanel from '../../components/LoadingPanel';
 import ListUsers from './listUsers';
@@ -34,7 +35,21 @@ export default class AdminPageBase extends React.Component<{}, IState> {
       <React.Fragment>
         {loading && <LoadingPanel />}
         {!loading && <HeaderPanel title="Admin" />}
-        {!loading && <ListUsers users={users} />}
+        {!loading && <Container fluid className="top-shadow">
+          <Row>
+            <Col>
+              <Container>
+                <Row>
+                  <Col>
+                    <Alert color="background">
+                      <ListUsers users={users} />
+                    </Alert>
+                  </Col>
+                </Row>
+              </Container>
+            </Col>
+          </Row>
+        </Container>}
       </React.Fragment>
     );
   }
