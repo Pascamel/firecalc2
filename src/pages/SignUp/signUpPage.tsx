@@ -9,7 +9,7 @@ export class SignUpPage extends React.Component<any, any> {
       <Container className="container-centered">
         <Row>
           <Col lg={{size: 4, offset: 4}} md={{size: 6, offset: 3}} sm="12">
-            <Alert className="alert-login" color="light">
+            <Alert className="alert-login" color="background">
               <h4>Sign Up</h4>
               <SignUpForm {...this.props}  />
             </Alert>

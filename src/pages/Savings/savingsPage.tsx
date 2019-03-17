@@ -77,12 +77,18 @@ export default class SavingsPageBase extends React.Component<IProps, IState> {
                                 cancelChanges={this.cancelChanges}
                                 callback={this.updateValue} 
                                 {...this.state} />}
-        {!loading && <Container>
+        {!loading &&  <Container fluid className="top-shadow">
           <Row>
             <Col>
-              <Alert color="background">
-                <Table {...this.state} callback={this.updateValue} />
-              </Alert>
+              <Container>
+                <Row>
+                  <Col>
+                    <Alert color="background">
+                      <Table {...this.state} callback={this.updateValue} />
+                    </Alert>
+                  </Col>
+                </Row>
+              </Container>
             </Col>
           </Row>
         </Container>}

@@ -110,7 +110,7 @@ export class SavingsBreakdownChart extends React.Component<IProps, {}> {
           pieSliceText: 'value', //'label',
           pieStartAngle: 100,
           chartArea: {
-            width: '100%', 
+            width: '95%', 
             height: '90%'
           }
         }}

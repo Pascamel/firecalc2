@@ -54,6 +54,13 @@ html, body, #root {
   height:100%;
   background: $background;
 }
+
+.top-shadow {
+  -webkit-box-shadow: inset 0 2em 3em -1em rgba(0, 0, 0, 0.15);
+  box-shadow: inset 0 2em 3em -1em rgba(0, 0, 0, 0.15);
+  padding-top: 1em;
+}
+
 .container-centered {
   height: calc(100% - 56px);
 
@@ -69,14 +76,11 @@ html, body, #root {
   }
 }
 
-.alert-login span {
-  display: block;
-}
-
 .alert-header {
   background-color: $header-background;
   color: $header-text-color;
   border-radius: 0;
+  margin-bottom: 0;
 
   .btn-link {
     color: #fff;

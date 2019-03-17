@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, Row } from 'reactstrap';
+import { Container, Row, Col } from 'reactstrap';
 import { RouteComponentProps } from 'react-router-dom';
 import * as ROUTES from '../../constants/routes';
 import { Bank } from '../../bank';
@@ -108,10 +108,16 @@ export default class MonthPageBase extends React.Component<IProps, IState> {
                                 nextMonth={this.nextMonth} 
                                 callback={() => {}} 
                                 {...this.state} />}
-        {!loading && <Container>
+        {!loading && <Container fluid className="top-shadow">
           <Row>
-            <Finances {...this.state} callbackSavings={this.updateSavings} callbackIncome={this.updateIncome} />
-            <Charts {...this.state} callback={this.updateNetWorth} />
+            <Col>
+              <Container>
+                <Row>
+                  <Finances {...this.state} callbackSavings={this.updateSavings} callbackIncome={this.updateIncome} />
+                  <Charts {...this.state} callback={this.updateNetWorth} />
+                </Row>
+              </Container>
+            </Col>
           </Row>
         </Container>}
       </React.Fragment>

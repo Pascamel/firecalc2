@@ -103,13 +103,19 @@ export default class StatsPageBase extends React.Component<IProps, IState> {
       <React.Fragment>
         {loading && <LoadingPanel />}
         {!loading && <Selector type={type} history={this.props.history} />}
-        {!loading && <Container>
+        {!loading && <Container fluid className="top-shadow">
           <Row>
             <Col>
-              {type === CHARTS.URL.INCOME_VS_SAVINGS && <IncomeVsSavingsChart data={this.state.savings_vs_income} />}
-              {type === CHARTS.URL.NET_WORTH && <NetWorthChart data={this.state.net_worth} />}
-              {type === CHARTS.URL.TOTAL_SAVINGS && <TotalSavingsChart data={this.state.total_savings} />}
-              {type === CHARTS.URL.SAVINGS_BREAKDOWN && <SavingsBreakdownChart data={this.state.savings_breakdown} />}
+              <Container>
+                <Row>
+                  <Col>
+                    {type === CHARTS.URL.INCOME_VS_SAVINGS && <IncomeVsSavingsChart data={this.state.savings_vs_income} />}
+                    {type === CHARTS.URL.NET_WORTH && <NetWorthChart data={this.state.net_worth} />}
+                    {type === CHARTS.URL.TOTAL_SAVINGS && <TotalSavingsChart data={this.state.total_savings} />}
+                    {type === CHARTS.URL.SAVINGS_BREAKDOWN && <SavingsBreakdownChart data={this.state.savings_breakdown} />}
+                  </Col>
+                </Row>
+              </Container>
             </Col>
           </Row>
         </Container>}

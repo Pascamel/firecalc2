@@ -13,29 +13,35 @@ export default class AccountPageBase extends React.Component {
         {authUser => (
           <React.Fragment>
             <HeaderPanel title="My account" />
-            <Container>
+            <Container fluid className="top-shadow">
               <Row>
                 <Col>
-                  <ListGroup>     
-                    <ListGroupItem>
-                      <ListGroupItemHeading>
-                        Account
-                      </ListGroupItemHeading>
-                      {(authUser as any).email}
-                    </ListGroupItem>
-                    <ListGroupItem>
-                      <ListGroupItemHeading>
-                        Change your password
-                      </ListGroupItemHeading>
-                      <PasswordChangeForm />
-                    </ListGroupItem>
-                    <ListGroupItem>
-                      <ListGroupItemHeading>
-                        Reset your password
-                      </ListGroupItemHeading>
-                      <PasswordForgetForm />
-                    </ListGroupItem>
-                  </ListGroup>
+                  <Container>
+                    <Row>
+                      <Col>
+                        <ListGroup>     
+                          <ListGroupItem>
+                            <ListGroupItemHeading>
+                              Account
+                            </ListGroupItemHeading>
+                            {(authUser as any).email}
+                          </ListGroupItem>
+                          <ListGroupItem>
+                            <ListGroupItemHeading>
+                              Change your password
+                            </ListGroupItemHeading>
+                            <PasswordChangeForm />
+                          </ListGroupItem>
+                          <ListGroupItem>
+                            <ListGroupItemHeading>
+                              Reset your password
+                            </ListGroupItemHeading>
+                            <PasswordForgetForm />
+                          </ListGroupItem>
+                        </ListGroup>
+                      </Col>
+                    </Row>
+                  </Container>
                 </Col>
               </Row>
             </Container>

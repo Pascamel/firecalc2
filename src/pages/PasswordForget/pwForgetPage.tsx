@@ -10,8 +10,8 @@ export default class PasswordForgetPage extends React.Component<{}, {}> {
         <Container className="container-centered">
         <Row>
           <Col lg={{size: 4, offset: 4}} md={{size: 6, offset: 3}} sm="12">
-            <Alert className="alert-login" color="light">  
-              <h4>Password Forgot</h4>
+            <Alert className="alert-login" color="background">  
+              <h4>Create a new password</h4>
               <PasswordForgetForm />
             </Alert>
           </Col>
