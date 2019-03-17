@@ -83,7 +83,7 @@ export default class Saving extends React.Component<IProps, IState> {
 
     return (
       <Row className="form-headers">
-        <Col xs={2}>
+        <Col xs={12} sm={2}>
           {!header.$edit && <span className="label-fake-input">
             {header.label}
           </span>}
@@ -95,7 +95,7 @@ export default class Saving extends React.Component<IProps, IState> {
             className="form-control" 
           />}
         </Col>
-        <Col xs={2}>
+        <Col xs={12} sm={2}>
           {!header.$edit && <span className="label-fake-input">
             {header.sublabel}
           </span>}
@@ -107,7 +107,7 @@ export default class Saving extends React.Component<IProps, IState> {
             className="form-control" 
           />}
         </Col>
-        <Col xs={4}>
+        <Col xs={12} sm={4}>
           {!header.$edit && <span className="label-fake-input nowrap-ellipsis">
             {header.icon}
           </span>}
@@ -119,7 +119,7 @@ export default class Saving extends React.Component<IProps, IState> {
             className="form-control" 
           />}
         </Col>
-        <Col xs={2}>
+        <Col xs={5} sm={2}>
           <div className="checkbox">
             {!header.$edit && <FontAwesomeIcon icon={['far', header.interest?'check-square':'square']} className="mr-1" />}
             <label>
@@ -132,7 +132,7 @@ export default class Saving extends React.Component<IProps, IState> {
             </label>
           </div>
         </Col>
-        <Col xs={2} className="text-right">
+        <Col xs={7} sm={2} className="text-right">
           {header.$edit && <span className="btn btn-link" onClick={e => this.editHeaderConfirm(header)}>
             <FontAwesomeIcon icon="check" size="lg" />
           </span>}

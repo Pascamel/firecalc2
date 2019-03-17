@@ -73,7 +73,7 @@ export default class Income extends React.Component<IProps, IState> {
 
     return (
       <Row className="form-headers">
-        <Col xs={6}>
+        <Col xs={12} sm={6}>
           {!header.$edit && <span className="label-fake-input">
             {header.label}
           </span>}
@@ -85,7 +85,7 @@ export default class Income extends React.Component<IProps, IState> {
               className="form-control" 
             />}
         </Col>
-        <Col xs={3}>
+        <Col xs={12} sm={3}>
           <div className="inline">
             {!header.$edit && <FontAwesomeIcon icon={['far', header.pretax?'check-square':'square']} />}
             <label>
@@ -109,7 +109,7 @@ export default class Income extends React.Component<IProps, IState> {
             <label className={`btn ${this.state.editCount === 2 ? 'btn-primary' : 'btn-light'}`} onClick={e => {this.setState({editCount: 2});}}>2</label>
           </div>}
         </Col>
-        <Col xs={3} className="text-right">
+        <Col xs={12} sm={3} className="text-right">
           {header.$edit && <span className="btn btn-link" onClick={e => this.editHeaderConfirm(header)}>
             <FontAwesomeIcon icon="check" size="lg" />
           </span>}
