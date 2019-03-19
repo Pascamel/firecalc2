@@ -1,7 +1,6 @@
 import React from 'react';
 import { Container, Row, Col, Alert } from 'reactstrap';
-import HeaderPanel from '../../components/headerPanel';
-import LoadingPanel from '../../components/LoadingPanel';
+import { LoadingPanel, HeaderPanel } from '../../components';
 import ListUsers from './listUsers';
 import { firestore } from '../../firebase';
 

@@ -3,7 +3,7 @@ import { Container, Row, Col, ListGroup, ListGroupItem, ListGroupItemHeading } f
 import { AuthUserContext } from '../../firebase/AuthUserContext';
 import { PasswordForgetForm } from '../PasswordForget/pwForgetForm';
 import { PasswordChangeForm } from './PasswordChangeForm';
-import HeaderPanel from '../../components/headerPanel';
+import { HeaderPanel } from '../../components';
 
 
 export default class AccountPageBase extends React.Component {

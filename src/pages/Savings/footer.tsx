@@ -1,6 +1,6 @@
 import React from 'react';
 import { Bank } from '../../bank';
-import { StaticAmount } from '../../components/staticAmount';
+import { StaticAmount } from '../../components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 interface IProps {

@@ -4,8 +4,7 @@ import { RouteComponentProps } from 'react-router-dom';
 import * as ROUTES from '../../constants/routes';
 import { Bank } from '../../bank';
 import helpers from '../../helpers';
-import LoadingPanel from '../../components/LoadingPanel';
-import SavePanel from '../../components/SavePanel';
+import { LoadingPanel, SavePanel } from '../../components';
 import Finances from './finances';
 import Charts from './charts';
 

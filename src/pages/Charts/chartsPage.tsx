@@ -6,7 +6,7 @@ import * as CHARTS from '../../constants/charts';
 import { Bank } from '../../bank';
 import helpers from '../../helpers';
 import Selector from './selector';
-import LoadingPanel from '../../components/LoadingPanel';
+import { LoadingPanel } from '../../components';
 import { IncomeVsSavingsChart, NetWorthChart, TotalSavingsChart, NetWorthVsSavingsChart, SavingsBreakdownChart } from './charts';
 
 

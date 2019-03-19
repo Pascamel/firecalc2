@@ -4,7 +4,7 @@ import _ from 'lodash';
 import Progress from './progress';
 import Doughnut from './doughnut';
 import { Bank } from '../../bank';
-import FireAmount from '../../components/FireAmount';
+import { FireAmount } from '../../components';
 
 
 interface IProps {

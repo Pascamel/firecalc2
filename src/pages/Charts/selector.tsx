@@ -3,7 +3,6 @@ import { Container, Row, Col, ButtonGroup, Button } from 'reactstrap';
 import _ from 'lodash';
 import * as ROUTES from '../../constants/routes';
 import * as CHARTS from '../../constants/charts';
-import LoadingPanel from '../../components/LoadingPanel';
 
 
 interface IProps {

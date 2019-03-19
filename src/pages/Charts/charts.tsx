@@ -1,6 +1,6 @@
 import React from 'react';
 import { Chart } from 'react-google-charts';
-import LoadingPanel from '../../components/LoadingPanel';
+import { LoadingPanel } from '../../components';
 
 
 interface IProps {
