@@ -7,6 +7,7 @@ import helpers from '../../helpers';
 import { LoadingPanel, SavePanel } from '../../components';
 import Finances from './finances';
 import Charts from './charts';
+import { Swipe } from 'react-swipe-component';
 
 
 interface IProps extends RouteComponentProps<{month: string, year: string}> {}
@@ -107,18 +108,20 @@ export default class MonthPageBase extends React.Component<IProps, IState> {
                                 nextMonth={this.nextMonth} 
                                 callback={() => {}} 
                                 {...this.state} />}
-        {!loading && <Container fluid className="top-shadow">
-          <Row>
-            <Col>
-              <Container>
-                <Row>
-                  <Finances {...this.state} callbackSavings={this.updateSavings} callbackIncome={this.updateIncome} />
-                  <Charts {...this.state} callback={this.updateNetWorth} />
-                </Row>
-              </Container>
-            </Col>
-          </Row>
-        </Container>}
+        {!loading && <Swipe detectMouse={false} detectTouch={true} onSwipedLeft={this.nextMonth} onSwipedRight={this.prevMonth} >
+          <Container fluid className="top-shadow">
+            <Row>
+              <Col>
+                <Container>
+                  <Row>
+                    <Finances {...this.state} callbackSavings={this.updateSavings} callbackIncome={this.updateIncome} />
+                    <Charts {...this.state} callback={this.updateNetWorth} />
+                  </Row>
+                </Container>
+              </Col>
+            </Row>
+          </Container>
+        </Swipe>}
       </React.Fragment>
     )
   }
