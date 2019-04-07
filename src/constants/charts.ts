@@ -3,6 +3,7 @@ export const NET_WORTH = 2;
 export const TOTAL_SAVINGS = 3;
 export const NET_WORTH_VS_SAVINGS = 4;
 export const SAVINGS_BREAKDOWN = 5;
+export const ALLOCATION_EVOLUTION = 6;
 
 
 interface IMapping {
@@ -14,7 +15,8 @@ export const LABELS: IMapping = {
   NET_WORTH: 'Net worth',
   TOTAL_SAVINGS: 'Total savings',
   NET_WORTH_VS_SAVINGS: 'Net worth vs Savings',
-  SAVINGS_BREAKDOWN: 'Savings breakdown'
+  SAVINGS_BREAKDOWN: 'Savings breakdown',
+  ALLOCATION_EVOLUTION: 'Allocation evolution'
 };
 
 export const URL: IMapping = {
@@ -22,5 +24,6 @@ export const URL: IMapping = {
   NET_WORTH: 'net-worth',
   TOTAL_SAVINGS : 'total-savings',
   NET_WORTH_VS_SAVINGS: 'net-worth-vs-savings',
-  SAVINGS_BREAKDOWN: 'savings-breakdown'  
+  SAVINGS_BREAKDOWN: 'savings-breakdown',
+  ALLOCATION_EVOLUTION: 'allocation-evolution'
 };

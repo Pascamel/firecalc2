@@ -7,7 +7,15 @@ import helpers from '../../helpers';
 import * as CHARTS from '../../constants/charts';
 import Selector from './selector';
 import { LoadingPanel } from '../../components';
-import { IncomeVsSavingsChart, NetWorthChart, TotalSavingsChart, NetWorthVsSavingsChart, SavingsBreakdownChart } from './charts';
+import { 
+  IncomeVsSavingsChart, 
+  NetWorthChart, 
+  TotalSavingsChart, 
+  NetWorthVsSavingsChart, 
+  SavingsBreakdownChart, 
+  AllocationEvolutionChart 
+} from './charts';
+import Header from '../Revenues/header';
 
 
 interface IProps extends RouteComponentProps<{type: string}> {}
@@ -20,7 +28,9 @@ interface IState {
   net_worth: any
   total_savings: any,
   net_worth_vs_savings: any,
-  savings_breakdown: any
+  savings_breakdown: any,
+  allocation_evolution: any
+
 }
 
 export default class ChartsPageBase extends React.Component<IProps, IState> {
@@ -35,7 +45,8 @@ export default class ChartsPageBase extends React.Component<IProps, IState> {
       net_worth: [],
       total_savings: [],
       net_worth_vs_savings: [],
-      savings_breakdown: []
+      savings_breakdown: [],
+      allocation_evolution: []
     };
   }
 
@@ -46,11 +57,16 @@ export default class ChartsPageBase extends React.Component<IProps, IState> {
       const ts: any = [['Date', 'Savings']];
       const nws: any = [['Date', 'New worth', 'Savings']];
       const sb: any = [['Institution', 'Amount']];
+      const ae: any = [_.concat(['Date'], _(this.state.bank.savingsInputs)
+        .filter((header) => (header.types.indexOf('T') === -1) || (header.type === 'T'))
+        .map((header) => _(this.state.bank.savingsHeaders).keyBy('id').get([header.id, 'label'], 'N/A'))
+        .value()
+      )]; 
 
-      _.each(_.range(this.state.bank.headers.firstYear, new Date().getFullYear()+1), y => {
+      _.each(_.range(this.state.bank.headers.firstYear, new Date().getFullYear()+1), (y) => {
         const m1 = (y === this.state.bank.headers.firstYear) ? this.state.bank.headers.firstMonth : 1;
         const m2 = (y === (new Date().getFullYear())) ? (new Date().getMonth() + 1) : 12;
-        _.each(_.range(m1, m2 + 1), m => {
+        _.each(_.range(m1, m2 + 1), (m) => {
           svsi.push([
             new Date(y, m - 1), 
             _.get(this.state.bank.totalMonthSavings, [y, m], 0),
@@ -68,6 +84,7 @@ export default class ChartsPageBase extends React.Component<IProps, IState> {
             new Date(y, m - 1),
             _.get(this.state.bank.totalHolding, [y, m], null)
           ]);
+
           if (_.get(this.state.bank.networth, [y, m])) {
             nws.push([
               new Date(y, m - 1), 
@@ -75,6 +92,13 @@ export default class ChartsPageBase extends React.Component<IProps, IState> {
               _.get(this.state.bank.totalHolding, [y, m], 0)
             ]);
           }
+
+          let ae1: any = _.concat([new Date(y, m - 1)], _(this.state.bank.savingsInputs)
+            .filter((header) => (header.types.indexOf('T') === -1) || (header.type === 'T'))
+            .map((header) => this.state.bank.grandTotalMonthInstitution[y][m][header.id])
+            .value()
+          );
+          ae.push(ae1);
         });
       });
 
@@ -100,7 +124,8 @@ export default class ChartsPageBase extends React.Component<IProps, IState> {
         net_worth: nw,
         total_savings: ts,
         net_worth_vs_savings: nws,
-        savings_breakdown: sb
+        savings_breakdown: sb,
+        allocation_evolution: ae
       });
     });
   }
@@ -129,8 +154,9 @@ export default class ChartsPageBase extends React.Component<IProps, IState> {
                     {type === CHARTS.URL.TOTAL_SAVINGS && <TotalSavingsChart data={this.state.total_savings} />}
                     {type === CHARTS.URL.NET_WORTH_VS_SAVINGS && <NetWorthVsSavingsChart data={this.state.net_worth_vs_savings} />}
                     {type === CHARTS.URL.SAVINGS_BREAKDOWN && <SavingsBreakdownChart data={this.state.savings_breakdown} />}
+                    {type === CHARTS.URL.ALLOCATION_EVOLUTION && <AllocationEvolutionChart data={this.state.allocation_evolution} />}
                   </Col>
-                </Row>
+                </Row> 
               </Container>
             </Col>
           </Row>

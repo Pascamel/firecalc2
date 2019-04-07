@@ -39,6 +39,7 @@ export default class Bank {
   goalYearToDate: any;
   totalInstitution: any;
   totalMonthInstitution: any;
+  grandTotalMonthInstitution: any;
   monthlyGoal: any;
   grandTotalInstitution: any;
   grandTotalHolding: any;
@@ -204,6 +205,7 @@ export default class Bank {
     this.goalYearToDate = {};
     this.totalInstitution = {};
     this.totalMonthInstitution = {};
+    this.grandTotalMonthInstitution = {};
     this.monthlyGoal = {};
     this.grandTotalInstitution = {};
 
@@ -224,6 +226,7 @@ export default class Bank {
       this.goalYearToDate[year] = {};
       this.totalInstitution[year] = {};
       this.totalMonthInstitution[year] = {};
+      this.grandTotalMonthInstitution[year] = {};
       this.totalMonthPre[year] = {};
       this.totalMonthPost[year] = {};
       this.totalMonthIncome[year] = {};
@@ -236,7 +239,7 @@ export default class Bank {
       const goal_year = _.get(this.savingsYearHeaders, ['goals', year], 0);
       this.monthlyGoal[year] = (goal_year - this.startOfYearAmount[year]) /  _.keys(this.savings[year]).length;
 
-      //totalInstitution = (year, institution, type, formatted) => {
+      //totalInstitution
       _.each(this.savingsInputs, (header: any) => {
         if (!this.totalInstitution[year][header.id]) this.totalInstitution[year][header.id] = {};
         if (header.type === 'T') {
@@ -254,12 +257,12 @@ export default class Bank {
 
       _.each(year_data, (month_data, month) => {
 
-        // totalMonthSavings = (month: string, year: string, type: string) => 123.45;
+        // totalMonthSavings
         this.totalMonthSavings[year][month] = _.reduce(month_data, (acc: number, v) => {
           return acc + _.get(v, 'P', 0) + _.get(v, 'I', 0)
         }, 0);
 
-        // totalHolding = (month, year, formatted) => {
+        // totalHolding
         if (month === this.headers.firstMonth.toString() && year === this.headers.firstYear.toString()) {
           this.totalHolding[year][month] = parseFloat(this.headers.startingCapital) + this.totalMonthSavings[year][month]
         } else {
@@ -267,19 +270,38 @@ export default class Bank {
           this.totalHolding[year][month] = this.totalHolding[pyear][pmonth] + this.totalMonthSavings[year][month]
         }
 
-        // goalMonth = (month: string, year: string) => 123.45;
+        // goalMonth
         const goal = (goal_year - this.startOfYearAmount[year]) /  _.keys(this.savings[year]).length;
         this.goalMonth[year][month] = this.totalMonthSavings[year][month] - this.monthlyGoal[year]; //goal;
 
-        // goalYearToDate = (month, year, formatted) => {
+        // goalYearToDate
         const goal_total = this.startOfYearAmount[year] + goal * (parseInt(month) + _.keys(this.savings[year]).length - 12);
         this.goalYearToDate[year][month] = this.totalHolding[year][month] - goal_total;
 
-        // totalMonthInstitution = (year: string, month: string, institution: string) => 123.45;
+        // totalMonthInstitution
         _.each(this.savingsInputs, (header: any) => {
           if (header.type === 'T') {
             this.totalMonthInstitution[year][month] = {};
             this.totalMonthInstitution[year][month][header.id] = _.reduce(['P', 'I'], (acc, t) => acc + _.get(this.savings, [year, month, header.id, t]) || 0, 0)
+          }
+        });
+
+        // grandTotalMonthInstitution
+        this.grandTotalMonthInstitution[year][month] = {};
+        _.each(this.savingsInputs, (header: any) => {
+          if ((header.types.indexOf('T') === -1) || (header.type === 'T')) {
+            if (month === this.headers.firstMonth.toString() && year === this.headers.firstYear.toString()) {
+              if (header.id === this.savingsInputs[0].id) {
+                this.grandTotalMonthInstitution[year][month][header.id] = this.headers.startingCapital;
+              } else {
+                this.grandTotalMonthInstitution[year][month][header.id] = 0;
+              }
+            } else {
+              const prev = helpers.prevMonth(year, month);
+              this.grandTotalMonthInstitution[year][month][header.id] = this.grandTotalMonthInstitution[prev.year][prev.month][header.id];
+            }
+
+            this.grandTotalMonthInstitution[year][month][header.id] += _.reduce(['P', 'I'], (acc, t) => acc + _.get(this.savings, [year, month, header.id, t], 0), 0);
           }
         });
 

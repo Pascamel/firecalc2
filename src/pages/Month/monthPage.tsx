@@ -42,7 +42,7 @@ export default class MonthPageBase extends React.Component<IProps, IState> {
   }
 
   prevMonth = () => {
-    const { year, month } = helpers.prevMonth(this.state.year, this.state.month)
+    const { year, month } = helpers.prevMonth(this.state.year, this.state.month);
     const route = ROUTES.MONTH.replace(':year', year).replace(':month', month);
 
     this.props.history.push(route);

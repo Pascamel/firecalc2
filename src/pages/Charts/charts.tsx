@@ -144,3 +144,33 @@ export class SavingsBreakdownChart extends React.Component<IProps, {}> {
     );
   }
 }
+
+export class AllocationEvolutionChart extends React.Component<IProps, {}> {
+  render () {
+    return (
+      <Chart 
+        chartType="AreaChart"
+        width="100%"
+        height="460px"
+        loader={<LoadingPanel color="background" />}
+        data={this.props.data}
+        legendToggle
+        options={{
+          isStacked: true,
+          legend: { position: 'top', alignment: 'start' },
+          hAxis: { type: 'date'},
+          vAxis: { 
+            format: 'short',
+            viewWindow: {
+              min: 0
+            }
+          },
+          chartArea: {
+            width: '90%', 
+            height: '90%'
+          }
+        }} 
+      />
+    );
+  }
+}
