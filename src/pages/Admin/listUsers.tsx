@@ -17,7 +17,7 @@ export default class ListUsers extends React.Component<IProps, {}> {
             <li key={user.id}>
               {user.email} - {user.type} - {user.id}
             </li>
-          ))}>
+          ))}
         </ul>
       </React.Fragment>      
     );
