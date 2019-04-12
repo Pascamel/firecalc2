@@ -6,6 +6,7 @@ export const ACCOUNT = '/account';
 export const ADMIN = '/admin';
 export const PASSWORD_FORGET = '/pw-forget';
 
+export const MONTH_NO_PARAMS = '/month';
 export const MONTH = '/month/:year/:month';
 export const REVENUES = '/revenues';
 export const SAVINGS = '/savings';

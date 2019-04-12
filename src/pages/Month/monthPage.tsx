@@ -1,6 +1,6 @@
 import React from 'react';
 import { Container, Row, Col } from 'reactstrap';
-import { RouteComponentProps } from 'react-router-dom';
+import { RouteComponentProps, Redirect } from 'react-router-dom';
 import * as ROUTES from '../../constants/routes';
 import { Bank } from '../../bank';
 import helpers from '../../helpers';
@@ -8,6 +8,7 @@ import { LoadingPanel, SavePanel } from '../../components';
 import Finances from './finances';
 import Charts from './charts';
 import { Swipe } from 'react-swipe-component';
+import StartingPoint from '../Settings/startingPoint';
 
 
 interface IProps extends RouteComponentProps<{month: string, year: string}> {}
@@ -95,8 +96,35 @@ export default class MonthPageBase extends React.Component<IProps, IState> {
     });
   }
 
+  invalidRouteParams = () => {
+    const m: number = parseInt(this.state.month);
+    const y: number = parseInt(this.state.year);
+    let redirect = false;
+
+    redirect = redirect || !m;
+    redirect = redirect || !y;
+    redirect = redirect || m < 1;
+    redirect = redirect || m > 12;
+    redirect = redirect || y < this.state.bank.headers.firstYear;
+    redirect = redirect || y === this.state.bank.headers.firstYear && m < this.state.bank.headers.firstMonth;
+    redirect = redirect || y > new Date().getFullYear() + 1
+
+    return redirect;
+  }
+
   render() {
-    const { loading, month, year } = this.state;
+    const { loading, month, year, bank } = this.state;
+    
+    if (!loading && this.invalidRouteParams()) {
+      this.setState({
+        month: (new Date().getMonth() + 1).toString(), 
+        year: (new Date().getFullYear()).toString()
+      });
+      return <Redirect to={{
+        pathname: helpers.currentMonthRoute(),
+        state: { from: this.props.location }
+      }}/>
+    }
 
     return (
       <React.Fragment>

@@ -1,7 +1,8 @@
 import * as React from 'react';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 import * as ROUTES from '../constants/routes';
 import { firebase } from '../firebase';
+import helpers from '../helpers';
 import { withAuthentication } from '../firebase/withAuthentication';
 import { AccountPage } from '../pages/Account';
 import { HomePage } from '../pages/Home';
@@ -16,6 +17,7 @@ import { RevenuesPage } from '../pages/Revenues';
 import { SavingsPage } from '../pages/Savings';
 import { SettingsPage } from '../pages/Settings';
 import { ChartsPage } from '../pages/Charts';
+import { NotFoundPage } from '../pages/NotFound';
 import './icons';
 
 
@@ -46,18 +48,20 @@ class AppComponent extends React.Component<IProps, {}> {
         <React.Fragment>
           <Navigation />
           <Switch>
-            <Route exact={true} path={ROUTES.SIGN_UP} component={SignUp} />
-            <Route exact={true} path={ROUTES.SIGN_IN} component={SignIn} />
-            <Route exact={true} path={ROUTES.PASSWORD_FORGET} component={PasswordForgetPage} />
-            <Route exact={true} path={ROUTES.HOME} component={HomePage} />
-            <Route exact={true} path={ROUTES.ACCOUNT} component={AccountPage} />
-            <Route exact={true} path={ROUTES.DASHBOARD} component={DashboardPage} />
+            <Route exact path={ROUTES.SIGN_UP} component={SignUp} />
+            <Route exact path={ROUTES.SIGN_IN} component={SignIn} />
+            <Route exact path={ROUTES.PASSWORD_FORGET} component={PasswordForgetPage} />
+            <Route exact path={ROUTES.HOME} component={HomePage} />
+            <Route exact path={ROUTES.ACCOUNT} component={AccountPage} />
+            <Route exact path={ROUTES.DASHBOARD} component={DashboardPage} />
             <Route path={ROUTES.MONTH} component={MonthPage} />
-            <Route exact={true} path={ROUTES.REVENUES} component={RevenuesPage} />
-            <Route exact={true} path={ROUTES.SAVINGS} component={SavingsPage} />
+            <Route exact path={ROUTES.MONTH_NO_PARAMS} render={() => (<Redirect to={helpers.currentMonthRoute()} />)} />
+            <Route exact path={ROUTES.REVENUES} component={RevenuesPage} />
+            <Route exact path={ROUTES.SAVINGS} component={SavingsPage} />
             <Route path={ROUTES.CHARTS} component={ChartsPage} />
-            <Route exact={true} path={ROUTES.SETTINGS} component={SettingsPage} />
+            <Route exact path={ROUTES.SETTINGS} component={SettingsPage} />
             <Route path={ROUTES.ADMIN} component={AdminPage} />
+            <Route path='*' component={NotFoundPage}/>
           </Switch>
         </React.Fragment>
       </BrowserRouter>

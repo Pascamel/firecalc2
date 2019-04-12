@@ -7,6 +7,7 @@ import '../node_modules/font-awesome/css/font-awesome.min.css';
 import './styles/fire.scss';
 import './styles/flame.scss';
 import './styles/tables.scss';
+import './styles/404.scss';
 
 import registerServiceWorker from './registerServiceWorker';
 
