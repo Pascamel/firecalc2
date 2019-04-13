@@ -152,7 +152,7 @@ export default class SettingsPageBase extends React.Component<{}, IState> {
                                 saveClick={this.saveHeaders} />}
         {!loading && <Container fluid className="top-shadow">
           <Row>
-            <Col>
+            <Col className="pl-0 pr-0">
               <Container>
                 <StartingPoint {...this.state} {...this.callbacks} /> 
                 <Savings bank={bank} {...this.state} {...this.callbacks} /> 

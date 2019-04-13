@@ -76,7 +76,7 @@ export default class RevenuePageBase extends React.Component<IProps, IState> {
                                 {...this.state} />}
         {!loading && <Container fluid className="top-shadow">
           <Row>
-            <Col>
+            <Col className="pr-0 pl-0">
               <Container>
                 <Row>
                   <Col>

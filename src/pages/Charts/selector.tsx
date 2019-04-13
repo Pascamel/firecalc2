@@ -23,7 +23,7 @@ export default class Selector extends React.Component<IProps, {}> {
     return (
       <Container fluid className="alert alert-save alert-header">
         <Row>
-          <Col>
+          <Col className="pl-0 pr-0">
             <Container>
               <Row>
                 <Col>

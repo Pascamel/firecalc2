@@ -25,7 +25,7 @@ export default class SavePanel extends React.Component<IProps, {}> {
     return (
       <Container fluid className="alert alert-save alert-header">
         <Row>
-          <Col>
+          <Col className="pr-0 pl-0">
             <Container>
               <Row>
                 <Col className="text-center">
@@ -54,7 +54,7 @@ export default class SavePanel extends React.Component<IProps, {}> {
                     Updates have been detected. Save now!
                   </span>}
 
-                  {!updated && <span className="title">
+                  {!updated && <span className="title nowrap-ellipsis">
                     {label}
                   </span>}
 

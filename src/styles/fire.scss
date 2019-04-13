@@ -18,6 +18,11 @@ label {
 
 .nav-container {
   background: #fff;
+
+  .col {
+    padding-left: 0;
+    padding-right: 0;
+  }
 }
 
 @media only screen and (min-width: 768px) {
@@ -226,6 +231,11 @@ html, body, #root {
 }
 
 .alert-save {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+
   min-height: 64px;
   span {
     line-height: 38px;
@@ -244,7 +254,7 @@ html, body, #root {
     width: calc(100% - 200px);
     position: absolute;
     left: 0;
-    margin: 0 100px;
+    margin: 0 100px;   
   }
 }
 

@@ -36,7 +36,7 @@ export default class AdminPageBase extends React.Component<{}, IState> {
         {!loading && <HeaderPanel title="Admin" />}
         {!loading && <Container fluid className="top-shadow">
           <Row>
-            <Col>
+            <Col className="pl-0 pr-0">
               <Container>
                 <Row>
                   <Col>
