@@ -41,10 +41,14 @@ class NavigationAuth extends React.Component<IProps, IState> {
     };
   }
 
-  toggle() {
+  toggle () {
     this.setState({
       isOpen: !this.state.isOpen
     });
+  }
+
+  toggleIfOpen () {
+    if (this.state.isOpen) this.toggle();
   }
 
   navLinkClass = (route: string) => {
@@ -65,37 +69,37 @@ class NavigationAuth extends React.Component<IProps, IState> {
         <Collapse isOpen={this.state.isOpen} navbar>
           <Nav navbar>
             <NavItem>
-              <NavLink className={this.navLinkClass(ROUTES.MONTH)} to={helpers.currentMonthRoute()}>
+              <NavLink className={this.navLinkClass(ROUTES.MONTH)} to={helpers.currentMonthRoute()} onClick={()=>this.toggleIfOpen()}>
                 <FontAwesomeIcon icon={['far', 'calendar-alt']} className="mr-1" />
                 Month
               </NavLink>
             </NavItem>
             <NavItem>
-              <NavLink className="nav-link" to={ROUTES.REVENUES}>
+              <NavLink className="nav-link" to={ROUTES.REVENUES} onClick={()=>this.toggleIfOpen()}>
                 <FontAwesomeIcon icon="user-tie" className="mr-1" />
                 Revenues
               </NavLink>
             </NavItem>
             <NavItem>
-              <NavLink className="nav-link" to={ROUTES.SAVINGS}>
+              <NavLink className="nav-link" to={ROUTES.SAVINGS} onClick={()=>this.toggleIfOpen()}>
                 <FontAwesomeIcon icon="piggy-bank" className="mr-1" />
                 Savings
               </NavLink>
             </NavItem>
             <NavItem>
-              <NavLink className={this.navLinkClass(ROUTES.CHARTS)} to={DEFAULT_CHART}>
+              <NavLink className={this.navLinkClass(ROUTES.CHARTS)} to={DEFAULT_CHART} onClick={()=>this.toggleIfOpen()}>
                 <FontAwesomeIcon icon="chart-area" className="mr-1" />
                 Charts
               </NavLink>
             </NavItem>
             <NavItem>
-              <NavLink className="nav-link" to={ROUTES.SETTINGS}>
+              <NavLink className="nav-link" to={ROUTES.SETTINGS} onClick={()=>this.toggleIfOpen()}>
                 <FontAwesomeIcon icon="cogs" className="mr-1" />
                 Settings
               </NavLink>
             </NavItem>
             <NavItem>
-              <NavLink className="nav-link" to={ROUTES.ADMIN}>
+              <NavLink className="nav-link" to={ROUTES.ADMIN} onClick={()=>this.toggleIfOpen()}>
                 <FontAwesomeIcon icon="solar-panel" className="mr-1" />
                 Admin
               </NavLink>
@@ -106,7 +110,7 @@ class NavigationAuth extends React.Component<IProps, IState> {
               <DropdownToggle nav caret>{authUser ? authUser.email : 'User'}</DropdownToggle>
               <DropdownMenu right>
                 <DropdownItem >
-                  <Link className="no-link" to={ROUTES.ACCOUNT}>
+                  <Link className="no-link" to={ROUTES.ACCOUNT} onClick={()=>this.toggleIfOpen()}>
                     Account
                   </Link>
                 </DropdownItem>
@@ -133,10 +137,14 @@ class NavigationNonAuth extends React.Component<{}, IState> {
     };
   }
 
-  toggle() {
+  toggle () {
     this.setState({
       isOpen: !this.state.isOpen
     });
+  }
+
+  toggleIfOpen () {
+    if (this.state.isOpen) this.toggle();
   }
 
   render () {
@@ -147,12 +155,12 @@ class NavigationNonAuth extends React.Component<{}, IState> {
         <Collapse isOpen={this.state.isOpen} navbar>
           <Nav className="ml-auto" navbar>
             <NavItem>
-              <NavLink className="nav-link" to={ROUTES.SIGN_IN}>
+              <NavLink className="nav-link" to={ROUTES.SIGN_IN} onClick={()=>this.toggleIfOpen()}>
                 Sign In
               </NavLink>
             </NavItem>
             <NavItem>
-              <NavLink className="nav-link" to={ROUTES.SIGN_UP}>
+              <NavLink className="nav-link" to={ROUTES.SIGN_UP} onClick={()=>this.toggleIfOpen()}>
                 Sign Up
               </NavLink>
             </NavItem>
