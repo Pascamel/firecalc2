@@ -29,10 +29,11 @@ export default class MonthFinances extends React.Component<IProps> {
             <span className="pull-right text-secondary font-weight-normal">
               $
               <StaticAmount bank={bank} display-zero>
-                {_.get(bank.totalMonthSavings, [year, month])}
+                {_.get(bank.totalMonthSavings, [year, month], 0)}
               </StaticAmount>
             </span>
           </h3>
+          <hr />
           {bank.savingsInputs.filter((header: any) => header.type!=='T')
             .map((header: any, key: string) => (
             <MonthSavings key={key} 
@@ -51,10 +52,11 @@ export default class MonthFinances extends React.Component<IProps> {
               <span className="pull-right text-secondary font-weight-normal">
                 $
                 <StaticAmount bank={bank} display-zero>
-                  {_.get(bank.totalMonthIncome, [year, month])}
+                  {_.get(bank.totalMonthIncome, [year, month], 0)}
                 </StaticAmount>
               </span>
             </h3>
+            <hr />
             {bank.incomeHeaders.map((header: any, key: string) => (
               <MonthIncome key={key} 
                           header={header} 

@@ -4,7 +4,7 @@ import _ from 'lodash';
 import Progress from './progress';
 import Doughnut from './doughnut';
 import { Bank } from '../../bank';
-import { FireAmount } from '../../components';
+import { FireAmount, StaticAmount } from '../../components';
 
 
 interface IProps {
@@ -52,6 +52,7 @@ export default class Charts extends React.Component<IProps, IState> {
                       result={bank.goalYearToDate[year][month]} 
                       goal={parseInt(month) * bank.monthlyGoal[year]} 
                       percentage={this.clean_pct(bank.goalYearToDate[year][month] / bank.monthlyGoal[year] / parseInt(month)) } />
+            <hr />
             <Row>
               <Col className="col-6 chart-container">
                 <Doughnut savingRate={bank.savingRateMonth[year][month]} />
@@ -63,6 +64,18 @@ export default class Charts extends React.Component<IProps, IState> {
             <Row className="text-center">
               <Col>Month</Col>
               <Col>Year</Col>
+            </Row>
+            <hr />
+            <Row>
+              <Col>
+                Estimated expenses
+                <span className="pull-right text-secondary">
+                  $
+                  <StaticAmount bank={bank} display-zero>
+                    {_.get(bank.totalMonthIncome, [year, month], 0) - _.get(bank.totalMonthSavings, [year, month], 0)}
+                  </StaticAmount>
+                </span>
+              </Col>
             </Row>
           </Alert>
         </Col>
