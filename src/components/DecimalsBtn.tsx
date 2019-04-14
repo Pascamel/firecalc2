@@ -39,7 +39,7 @@ export default class DecimalsBtn extends React.Component<IProps, IState> {
 
     return (
       <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
-        <DropdownToggle color="header">
+        <DropdownToggle color="outline-light">
           <FontAwesomeIcon icon="university" />
         </DropdownToggle>
         <DropdownMenu>

@@ -41,30 +41,25 @@ export default class SavePanel extends React.Component<IProps, {}> {
 
                   {['Savings', 'Revenues', 'Settings'].indexOf(label) === -1 && 
                   <ButtonGroup className="pull-left">
-                    <Button color="header" onClick={this.props.prevMonth}>
+                    <Button color="outline-light" onClick={this.props.prevMonth}>
                       <FontAwesomeIcon icon="backward" />
                     </Button>
-                    <Button color="header" onClick={this.props.nextMonth}>
+                    <Button color="outline-light" onClick={this.props.nextMonth}>
                       <FontAwesomeIcon icon="forward" />
                     </Button>
                   </ButtonGroup>}
 
-                  {updated && <span className="title">
-                    <FontAwesomeIcon icon="exclamation-triangle" className="mr-2" />
-                    Updates have been detected. Save now!
-                  </span>}
-
-                  {!updated && <span className="title nowrap-ellipsis">
+                  <span className={`title nowrap-ellipsis ${updated ? 'text-warning' : ''}`}>
                     {label}
-                  </span>}
+                  </span>
 
-                  <Button color="header" className="pull-right" onClick={saveClick}>
+                  <Button color={updated ? 'header' : 'outline-light'} className="btn-save" onClick={saveClick}>
                     {!saveInProgress && <FontAwesomeIcon icon={['far', 'save']} className="mr-1" />}
                     {saveInProgress && <FontAwesomeIcon icon="spinner" className="mr-1" spin />}
                     {saveInProgress ? 'Saving' : 'Save'}
                   </Button>
 
-                  {updated && <Button color="header" className="pull-right mr-2" onClick={cancelChanges}>
+                  {updated && <Button color="header" className="btn-cancel" onClick={cancelChanges}>
                     <FontAwesomeIcon icon="times" /> Cancel
                   </Button>}
                 </Col>

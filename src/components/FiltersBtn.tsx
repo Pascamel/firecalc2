@@ -38,7 +38,7 @@ export class FiltersBtn extends React.Component<IFiltersBtnProps, IFiltersBtnSta
 
     return (
       <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle} className="mr-2">
-        <DropdownToggle color="header">
+        <DropdownToggle color="outline-light">
           <FontAwesomeIcon icon="columns" />
         </DropdownToggle>
         <DropdownMenu>
