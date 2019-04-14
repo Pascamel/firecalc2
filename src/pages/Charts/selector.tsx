@@ -3,6 +3,7 @@ import { Container, Row, Col, ButtonGroup, Button } from 'reactstrap';
 import _ from 'lodash';
 import * as ROUTES from '../../constants/routes';
 import * as CHARTS from '../../constants/charts';
+import { Mobile, NotMobile } from '../../components/Responsive';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 
@@ -41,25 +42,27 @@ export default class Selector extends React.Component<IProps, {}> {
           <Col className="pl-0 pr-0">
             <Container>
               <Row>
-                <Col className="d-none d-md-block">
-                  <ButtonGroup>
-                    {Object.entries(CHARTS.URL).map((t, key: number) => ( 
-                      <Button color="link" key={key} disabled={type===t[1]} onClick={(e: any) => this.goTo(t[0])}>
-                        {_.get(CHARTS.LABELS, t[0])}
-                      </Button>
-                    ))}
-                  </ButtonGroup>
-                </Col>
-                <Col className="d-md-none text-center">
-                  <Button color="outline-light" className="pull-left" onClick={this.prevChart}>
-                    <FontAwesomeIcon icon="backward" />
-                  </Button>
-                  <span>
-                    {_.get(_.values(CHARTS.LABELS), _.values(CHARTS.URL).indexOf(type))}
-                  </span>
-                  <Button color="outline-light" className="pull-right" onClick={this.nextChart}>
-                    <FontAwesomeIcon icon="forward" />
-                  </Button>
+                <Col className="text-center">
+                  <NotMobile>
+                    <ButtonGroup>
+                      {Object.entries(CHARTS.URL).map((t, key: number) => ( 
+                        <Button color="link" key={key} disabled={type===t[1]} onClick={(e: any) => this.goTo(t[0])}>
+                          {_.get(CHARTS.LABELS, t[0])}
+                        </Button>
+                      ))}
+                    </ButtonGroup>
+                  </NotMobile>
+                  <Mobile>
+                    <Button color="outline-light" className="pull-left" onClick={this.prevChart}>
+                      <FontAwesomeIcon icon="backward" />
+                    </Button>
+                    <span>
+                      {_.get(_.values(CHARTS.LABELS), _.values(CHARTS.URL).indexOf(type))}
+                    </span>
+                    <Button color="outline-light" className="pull-right" onClick={this.nextChart}>
+                      <FontAwesomeIcon icon="forward" />
+                    </Button>
+                  </Mobile>
                 </Col>
               </Row>
             </Container>

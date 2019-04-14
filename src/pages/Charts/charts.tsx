@@ -4,7 +4,8 @@ import { LoadingPanel } from '../../components';
 
 
 interface IProps {
-  data: any
+  data: any,
+  mobile: boolean
 }
 
 export class IncomeVsSavingsChart extends React.Component<IProps, {}> {
@@ -30,7 +31,8 @@ export class IncomeVsSavingsChart extends React.Component<IProps, {}> {
             1: { curveType: 'function' },
           },
           chartArea: { 
-            width: '90%',
+            width: this.props.mobile ? '82%' : '93%',
+            right: this.props.mobile ? '5%' : '2%',
             height: '80%'
           }
         }}
@@ -54,7 +56,8 @@ export class NetWorthChart extends React.Component<IProps, {}> {
             format: 'short'
           },
           chartArea: {
-            width: '90%', 
+            width: this.props.mobile ? '80%' : '92%', 
+            right: this.props.mobile ? '5%' : '2%',
             height: '90%'
           }
         }}
@@ -82,7 +85,8 @@ export class TotalSavingsChart extends React.Component<IProps, {}> {
             }
           },
           chartArea: {
-            width: '90%', 
+            width: this.props.mobile ? '80%' : '92%', 
+            right: this.props.mobile ? '5%' : '2%',
             height: '90%'
           }
         }}
@@ -111,7 +115,8 @@ export class NetWorthVsSavingsChart extends React.Component<IProps, {}> {
             1: { curveType: 'function' },
           },
           chartArea: { 
-            width: '90%',
+            width: this.props.mobile ? '80%' : '92%', 
+            right: this.props.mobile ? '5%' : '2%',
             height: '80%'
           }
         }}
@@ -131,12 +136,12 @@ export class SavingsBreakdownChart extends React.Component<IProps, {}> {
         data={this.props.data}
         options={{
           legend: {
-            position: 'labeled',
+            position: this.props.mobile ? 'bottom' : 'labeled',
           },
-          pieSliceText: 'value', //'label',
+          pieSliceText: 'value',
           pieStartAngle: 100,
           chartArea: {
-            width: '95%', 
+            width: this.props.mobile ? '90%' : '96%', 
             height: '90%'
           }
         }}
@@ -166,7 +171,8 @@ export class AllocationEvolutionChart extends React.Component<IProps, {}> {
             }
           },
           chartArea: {
-            width: '90%', 
+            width: this.props.mobile ? '80%' : '92%', 
+            right: this.props.mobile ? '5%' : '2%',
             height: '90%'
           }
         }} 

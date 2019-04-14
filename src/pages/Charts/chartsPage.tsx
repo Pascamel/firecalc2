@@ -6,6 +6,7 @@ import { Bank } from '../../bank';
 import helpers from '../../helpers';
 import * as CHARTS from '../../constants/charts';
 import Selector from './selector';
+import { Mobile, NotMobile } from '../../components/Responsive';
 import { LoadingPanel } from '../../components';
 import { 
   IncomeVsSavingsChart, 
@@ -15,7 +16,7 @@ import {
   SavingsBreakdownChart, 
   AllocationEvolutionChart 
 } from './charts';
-import Header from '../Revenues/header';
+import { ContentAdd, ContentContentCopy } from 'material-ui/svg-icons';
 
 
 interface IProps extends RouteComponentProps<{type: string}> {}
@@ -136,6 +137,17 @@ export default class ChartsPageBase extends React.Component<IProps, IState> {
       type: this.props.match.params.type || ''
     });
   }
+
+  charts = (type: string, mobile: boolean) => (
+    <>
+      {type === CHARTS.URL.INCOME_VS_SAVINGS && <IncomeVsSavingsChart data={this.state.savings_vs_income} mobile={mobile} />}
+      {type === CHARTS.URL.NET_WORTH && <NetWorthChart data={this.state.net_worth} mobile={mobile} />}
+      {type === CHARTS.URL.TOTAL_SAVINGS && <TotalSavingsChart data={this.state.total_savings} mobile={mobile} />}
+      {type === CHARTS.URL.NET_WORTH_VS_SAVINGS && <NetWorthVsSavingsChart data={this.state.net_worth_vs_savings} mobile={mobile} />}
+      {type === CHARTS.URL.SAVINGS_BREAKDOWN && <SavingsBreakdownChart data={this.state.savings_breakdown} mobile={mobile} />}
+      {type === CHARTS.URL.ALLOCATION_EVOLUTION && <AllocationEvolutionChart data={this.state.allocation_evolution} mobile={mobile} />}
+    </>
+  );
   
   render() {
     const { loading, type } = this.state;
@@ -149,12 +161,12 @@ export default class ChartsPageBase extends React.Component<IProps, IState> {
               <Container>
                 <Row>
                   <Col>
-                    {type === CHARTS.URL.INCOME_VS_SAVINGS && <IncomeVsSavingsChart data={this.state.savings_vs_income} />}
-                    {type === CHARTS.URL.NET_WORTH && <NetWorthChart data={this.state.net_worth} />}
-                    {type === CHARTS.URL.TOTAL_SAVINGS && <TotalSavingsChart data={this.state.total_savings} />}
-                    {type === CHARTS.URL.NET_WORTH_VS_SAVINGS && <NetWorthVsSavingsChart data={this.state.net_worth_vs_savings} />}
-                    {type === CHARTS.URL.SAVINGS_BREAKDOWN && <SavingsBreakdownChart data={this.state.savings_breakdown} />}
-                    {type === CHARTS.URL.ALLOCATION_EVOLUTION && <AllocationEvolutionChart data={this.state.allocation_evolution} />}
+                    <Mobile>
+                      { this.charts(type, true) }
+                    </Mobile>
+                    <NotMobile>
+                      { this.charts(type, false) }
+                    </NotMobile>
                   </Col>
                 </Row> 
               </Container>
