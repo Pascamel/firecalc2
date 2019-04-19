@@ -230,6 +230,13 @@ html, body, #root {
   display: none !important;
 }
 
+.btn-outline-light {
+  &.focus, 
+  &:focus {
+    box-shadow: none;
+  }
+}
+
 .alert-save {
   position: -webkit-sticky;
   position: sticky;
@@ -286,4 +293,12 @@ html, body, #root {
   font-weight: bolder;
   display: inline-block;
   text-shadow: -1px 0 #fff, 0 1px #fff, 1px 0 #fff, 0 -1px #fff;
+}
+
+.bg-success {
+  background-color: #66bb6a !important;
+}
+
+.bg-danger {
+  background-color: #e62154 !important;
 }

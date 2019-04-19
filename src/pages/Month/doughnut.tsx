@@ -1,6 +1,5 @@
 import React from 'react';
-import { Col } from 'reactstrap';
-import {Doughnut as DoughnutLib} from 'react-chartjs-2';
+import { Doughnut as DoughnutLib } from 'react-chartjs-2';
 
 
 interface IProps {
@@ -30,8 +29,8 @@ export default class Doughnut extends React.Component<IProps, IState> {
           Math.min(100, Math.max(0, this.props.savingRate * 100)), 
           100 - Math.min(100, Math.max(0, this.props.savingRate * 100))
         ],
-        backgroundColor: ['#4267b2', '#ddd'],
-        hoverBackgroundColor: ['#4267b2', '#ddd'],
+        backgroundColor: [this.props.savingRate > .5 ? '#66bb6a' : '#e62154', '#ddd'],
+        hoverBackgroundColor: [this.props.savingRate > .5 ? '#66bb6a' : '#e62154', '#ddd'],
         borderWidth: [0, 0],
         hoverBorderWidth: [0, 0]
       }]
