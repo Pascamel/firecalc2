@@ -1,7 +1,6 @@
 import React from 'react';
 import { Container, Row, Col, Alert } from 'reactstrap';
-import LoadingPanel from '../../components/LoadingPanel';
-import SavePanel from '../../components/SavePanel';
+import { LoadingPanel, SavePanel } from '../../components';
 import { Bank } from '../../bank';
 import Table from './table';
 
@@ -77,7 +76,7 @@ export default class RevenuePageBase extends React.Component<IProps, IState> {
                                 {...this.state} />}
         {!loading && <Container fluid className="top-shadow">
           <Row>
-            <Col>
+            <Col className="pr-0 pl-0">
               <Container>
                 <Row>
                   <Col>

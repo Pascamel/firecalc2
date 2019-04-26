@@ -23,10 +23,22 @@
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
     <title>FireCalc</title>
+    <script>
+      /* The Google charts loader blows up if gadgets is defined, as it is when the 
+       * Firebase SDK is loaded.  Unfortunately, neither component creates gadgets.config, 
+       * which the rpc.v.js file loaded by the charts loader relies on.
+       *
+       * This nasty kludge prevents error messages from appearing in the console.
+       */
+      window.gadgets = window.gadgets || {
+        config: {
+          register: function () {}
+        }
+      };
+    </script>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
-   
   </body>
 </html>

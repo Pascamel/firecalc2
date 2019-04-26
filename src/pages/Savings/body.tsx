@@ -1,11 +1,9 @@
 import React from 'react';
 import _ from 'lodash';
-import FireAmount from '../../components/FireAmount';
-import FireTD from '../../components/FireTD';
-import FireTR from '../../components/FireTR';
-import { StaticAmount, StaticPercentage } from '../../components/staticAmount';
-import { Bank } from '../../bank';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Bank } from '../../bank';
+import { FireTR ,FireTD, FireAmount, StaticAmount, StaticPercentage } from '../../components';
+
 
 interface IProps {
   bank: Bank;

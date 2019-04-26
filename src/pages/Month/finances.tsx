@@ -4,6 +4,7 @@ import _ from 'lodash';
 import MonthSavings from './monthSavings';
 import MonthIncome from './monthIncome';
 import { Bank } from '../../bank';
+import { StaticAmount } from '../../components';
 
 
 interface IProps {
@@ -23,7 +24,16 @@ export default class MonthFinances extends React.Component<IProps> {
         <Col md={4} sm={12}>
 
         <Alert color="background">
-          <h3>Savings</h3>
+          <h3>
+            Savings
+            <span className="pull-right text-secondary font-weight-normal">
+              $
+              <StaticAmount bank={bank} display-zero>
+                {_.get(bank.totalMonthSavings, [year, month], 0)}
+              </StaticAmount>
+            </span>
+          </h3>
+          <hr />
           {bank.savingsInputs.filter((header: any) => header.type!=='T')
             .map((header: any, key: string) => (
             <MonthSavings key={key} 
@@ -37,7 +47,16 @@ export default class MonthFinances extends React.Component<IProps> {
         </Col>
         <Col md={4} sm={12}>
           <Alert color="background">
-            <h3>Income</h3>
+            <h3>
+              Income
+              <span className="pull-right text-secondary font-weight-normal">
+                $
+                <StaticAmount bank={bank} display-zero>
+                  {_.get(bank.totalMonthIncome, [year, month], 0)}
+                </StaticAmount>
+              </span>
+            </h3>
+            <hr />
             {bank.incomeHeaders.map((header: any, key: string) => (
               <MonthIncome key={key} 
                           header={header} 

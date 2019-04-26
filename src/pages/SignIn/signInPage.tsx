@@ -3,7 +3,7 @@ import { SignInForm } from './signInForm';
 import { SignUpButton } from '../SignUp';
 import { PasswordForgotButton } from '../PasswordForget';
 import { Container, Row, Col, Alert } from 'reactstrap';
-import HeaderPanel from '../../components/headerPanel';
+import { HeaderPanel } from '../../components';
 
 
 export class  SignInPage extends React.Component<any, any> {

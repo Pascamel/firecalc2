@@ -1,7 +1,7 @@
 import React from 'react';
 import { Container, Row, Col, Alert } from 'reactstrap';
+import { HeaderPanel } from '../../components';
 import { SignUpForm } from './signUpForm';
-import HeaderPanel from '../../components/headerPanel';
 
 
 export class SignUpPage extends React.Component<any, any> {

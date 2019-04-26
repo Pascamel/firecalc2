@@ -18,7 +18,14 @@ label {
 
 .nav-container {
   background: #fff;
+
+  .col {
+    padding-left: 0;
+    padding-right: 0;
+  }
 }
+
+@media only screen and (min-width: 768px) {
 .nav-link { 
   &.active {
     position: relative;
@@ -38,6 +45,7 @@ label {
       margin-left: -10px;
     }
   }
+}
 }
 
 .no-link {
@@ -222,7 +230,19 @@ html, body, #root {
   display: none !important;
 }
 
+.btn-outline-light {
+  &.focus, 
+  &:focus {
+    box-shadow: none;
+  }
+}
+
 .alert-save {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+
   min-height: 64px;
   span {
     line-height: 38px;
@@ -241,7 +261,17 @@ html, body, #root {
     width: calc(100% - 200px);
     position: absolute;
     left: 0;
-    margin: 0 100px;
+    margin: 0 100px;   
+  }
+
+  .btn-cancel {
+    position: absolute;
+    right: 105px;
+  }
+
+  .btn-save {
+    position: absolute;
+    right: 15px;
   }
 }
 
@@ -263,4 +293,12 @@ html, body, #root {
   font-weight: bolder;
   display: inline-block;
   text-shadow: -1px 0 #fff, 0 1px #fff, 1px 0 #fff, 0 -1px #fff;
+}
+
+.bg-success {
+  background-color: #66bb6a !important;
+}
+
+.bg-danger {
+  background-color: #e62154 !important;
 }

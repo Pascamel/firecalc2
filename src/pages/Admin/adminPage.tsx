@@ -1,7 +1,6 @@
 import React from 'react';
 import { Container, Row, Col, Alert } from 'reactstrap';
-import HeaderPanel from '../../components/headerPanel';
-import LoadingPanel from '../../components/LoadingPanel';
+import { LoadingPanel, HeaderPanel } from '../../components';
 import ListUsers from './listUsers';
 import { firestore } from '../../firebase';
 
@@ -37,7 +36,7 @@ export default class AdminPageBase extends React.Component<{}, IState> {
         {!loading && <HeaderPanel title="Admin" />}
         {!loading && <Container fluid className="top-shadow">
           <Row>
-            <Col>
+            <Col className="pl-0 pr-0">
               <Container>
                 <Row>
                   <Col>

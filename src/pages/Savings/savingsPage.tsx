@@ -1,10 +1,8 @@
 import React from 'react';
 import { Container, Row, Col, Alert } from 'reactstrap';
-import Table from './table';
-import LoadingPanel from '../../components/LoadingPanel';
-import SavePanel from '../../components/SavePanel';
 import { Bank } from '../../bank';
-import { withAuthorization } from '../../firebase/withAuthorization';
+import Table from './table';
+import { LoadingPanel, SavePanel } from '../../components';
 
 
 interface IProps {}
@@ -79,7 +77,7 @@ export default class SavingsPageBase extends React.Component<IProps, IState> {
                                 {...this.state} />}
         {!loading &&  <Container fluid className="top-shadow">
           <Row>
-            <Col>
+            <Col className="pr-0 pl-0">
               <Container>
                 <Row>
                   <Col>

@@ -3,8 +3,7 @@ import { Container, Row, Col } from 'reactstrap';
 import _ from 'lodash';
 import uuid from 'uuid';
 import { Bank } from '../../bank';
-import LoadingPanel from '../../components/LoadingPanel';
-import SavePanel from '../../components/SavePanel';
+import { LoadingPanel, SavePanel } from '../../components';
 import StartingPoint from './startingPoint';
 import Savings from './savings';
 import Incomes from './incomes';
@@ -153,7 +152,7 @@ export default class SettingsPageBase extends React.Component<{}, IState> {
                                 saveClick={this.saveHeaders} />}
         {!loading && <Container fluid className="top-shadow">
           <Row>
-            <Col>
+            <Col className="pl-0 pr-0">
               <Container>
                 <StartingPoint {...this.state} {...this.callbacks} /> 
                 <Savings bank={bank} {...this.state} {...this.callbacks} /> 
