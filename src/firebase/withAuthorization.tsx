@@ -1,11 +1,14 @@
 import * as React from 'react';
 import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { compose } from 'recompose';
 import * as ROUTES from '../constants/routes';
 import { firebase } from '../firebase';
-import { AuthUserContext } from './AuthUserContext';
+
 
 interface IProps {
-  history?: any;
+  history?: any,
+  authUser: any
 }
 
 export const withAuthorization = (condition: any) => (Component: any) => {
@@ -25,13 +28,18 @@ export const withAuthorization = (condition: any) => (Component: any) => {
     }
 
     public render() {
-      return (
-        <AuthUserContext.Consumer>
-          {authUser => (authUser ? <Component {...this.props} /> : null)}
-        </AuthUserContext.Consumer>
-      );
+      const { authUser } = this.props;
+
+      return authUser ? <Component {...this.props} /> : null;
     }
   }
 
-  return withRouter(WithAuthorization as any);
+  const mapStateToProps = (state: any) => ({
+    authUser: state.sessionState.authUser,
+  });
+
+  return compose(
+    withRouter,
+    connect(mapStateToProps),
+  )(WithAuthorization as any);
 };

@@ -1,5 +1,5 @@
 import { withAuthorization } from '../../firebase/withAuthorization';
-import AccountPageBase from './accountPage';
+import { AccountPageBase } from './accountPage';
 
 
 const authCondition = (authUser: any) => !!authUser;

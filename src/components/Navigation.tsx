@@ -1,4 +1,6 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { compose } from 'recompose';
 import {
   Container, Row, Col,
   Collapse,
@@ -18,7 +20,6 @@ import _ from 'lodash';
 import * as ROUTES from '../constants/routes';
 import * as CHARTS from '../constants/charts';
 import helpers from '../helpers';
-import { AuthUserContext } from '../firebase/AuthUserContext';
 import { SignOutLink } from './SignOutLink';
 
 
@@ -28,7 +29,8 @@ interface IProps {
 }
 
 interface IState {
-  isOpen: boolean
+  isOpen: boolean,
+  authUser: firebase.User|null
 }
 
 class NavigationAuth extends React.Component<IProps, IState> {
@@ -37,7 +39,8 @@ class NavigationAuth extends React.Component<IProps, IState> {
 
     this.toggle = this.toggle.bind(this);
     this.state = {
-      isOpen: false
+      isOpen: false,
+      authUser: null //needs cleaning
     };
   }
 
@@ -133,7 +136,8 @@ class NavigationNonAuth extends React.Component<{}, IState> {
 
     this.toggle = this.toggle.bind(this);
     this.state = {
-      isOpen: false
+      isOpen: false,
+      authUser: null
     };
   }
 
@@ -171,9 +175,9 @@ class NavigationNonAuth extends React.Component<{}, IState> {
   }
 }
 
-class NavigationBase extends React.Component<any, {}> {
+class NavigationBase extends React.Component<any, IState> {
   render () {
-    const { location } = this.props;
+    const { location, authUser } = this.props;
     
     return (
       <Container fluid className="nav-container">
@@ -182,9 +186,8 @@ class NavigationBase extends React.Component<any, {}> {
             <Container>
               <Row>
                 <Col>
-                  <AuthUserContext.Consumer>
-                    {(authUser) => authUser ? <NavigationAuth authUser={authUser} location={location} /> : <NavigationNonAuth />}
-                  </AuthUserContext.Consumer>
+                  {authUser ? <NavigationAuth location={location} authUser={authUser} /> : 
+                  <NavigationNonAuth />}
                 </Col>
               </Row>
             </Container>
@@ -195,4 +198,13 @@ class NavigationBase extends React.Component<any, {}> {
   }
 }
 
-export const Navigation = withRouter(NavigationBase);
+const mapStateToProps = (state: any) => {
+  return ({
+    authUser: state.sessionState.authUser,
+  });
+}
+
+export const Navigation = compose(
+  withRouter, 
+  connect(mapStateToProps)
+)(NavigationBase)

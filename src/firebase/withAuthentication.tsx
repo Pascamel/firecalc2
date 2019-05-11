@@ -1,10 +1,11 @@
 import * as React from 'react';
+import { connect } from 'react-redux';
 import { firebase } from '../firebase';
-import { AuthUserContext } from './AuthUserContext';
 
 
 interface IProps {
   authUser?: any;
+  onSetAuthUser?: any;
 }
 
 interface IState {
@@ -17,30 +18,32 @@ export const withAuthentication = (Component: any) => {
     constructor(props: IProps) {
       super(props);
 
-      this.state = {
-        loading: true,
-        authUser: null
-      };
+      const ls = localStorage.getItem('authUser') || '';
+      this.props.onSetAuthUser(ls.length ? JSON.parse(ls) : null);
     }
 
     public componentDidMount() {
+      const { onSetAuthUser }: any = this.props;
       firebase.auth.onAuthStateChanged(authUser => {
-        authUser ? this.setState(() => ({ authUser })) : this.setState(() => ({ authUser: null }));
-        this.setState({loading: false});
+        if (authUser) {
+          onSetAuthUser(authUser) 
+          localStorage.setItem('authUser', JSON.stringify(authUser));
+        } else {
+          onSetAuthUser(null);
+          localStorage.removeItem('authUser');
+        }
       });
     }
 
     public render() {
-      const { authUser, loading } = this.state;
-      
-      if (loading) return null;
-
-      return (
-        <AuthUserContext.Provider value={authUser}>
-          <Component />
-        </AuthUserContext.Provider>
-      );
-    }
+      return <Component {...this.props} />;
+    }  
   }
-  return WithAuthentication;
+
+  const mapDispatchToProps = (dispatch: any): any => ({
+    onSetAuthUser: (authUser: any) =>
+      dispatch({ type: 'AUTH_USER_SET', authUser }),
+  });
+
+  return connect(null, mapDispatchToProps)(WithAuthentication);
 };
