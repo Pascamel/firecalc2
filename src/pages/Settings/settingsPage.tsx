@@ -37,7 +37,7 @@ export default class SettingsPageBase extends React.Component<{}, IState> {
   }
 
   componentDidMount () {
-    this.state.bank.load().then(() => {
+    this.state.bank.load('123').then(() => {
       this.setState({
         bank: this.state.bank,
         loading: false});
@@ -45,7 +45,7 @@ export default class SettingsPageBase extends React.Component<{}, IState> {
   }
 
   cancelChanges = () => {
-    this.state.bank.load().then(() => {
+    this.state.bank.load('123').then(() => {
       this.setState({
         updated: false,
         bank: this.state.bank

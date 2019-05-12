@@ -1,4 +1,6 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { loadBank } from '../../actions'; //  '../../actions';
 import { Container, Row, Col } from 'reactstrap';
 import { RouteComponentProps } from 'react-router-dom';
 import _ from 'lodash';
@@ -8,127 +10,31 @@ import * as CHARTS from '../../constants/charts';
 import Selector from './selector';
 import { Mobile, NotMobile } from '../../components/Responsive';
 import { LoadingPanel } from '../../components';
-import { 
-  IncomeVsSavingsChart, 
-  NetWorthChart, 
-  TotalSavingsChart, 
-  NetWorthVsSavingsChart, 
-  SavingsBreakdownChart, 
-  AllocationEvolutionChart 
-} from './charts';
-import { ContentAdd, ContentContentCopy } from 'material-ui/svg-icons';
+import * as Charts from './charts';
 
 
-interface IProps extends RouteComponentProps<{type: string}> {}
-
-interface IState {
-  loading: boolean,
+interface IProps extends RouteComponentProps<{type: string}> {
+  authUser: firebase.User|null,
   bank: Bank,
-  type: string,
-  savings_vs_income: any,
-  net_worth: any
-  total_savings: any,
-  net_worth_vs_savings: any,
-  savings_breakdown: any,
-  allocation_evolution: any
-
+  bankLoaded: boolean
 }
 
-export default class ChartsPageBase extends React.Component<IProps, IState> {
+interface IState {
+  type: string
+}
+
+class ChartsPageBase extends React.Component<IProps, IState> {
   constructor (props: IProps) {
     super(props);
 
     this.state = {
-      loading: true,
-      bank: new Bank(),
-      type: props.match.params.type || '',
-      savings_vs_income: [],
-      net_worth: [],
-      total_savings: [],
-      net_worth_vs_savings: [],
-      savings_breakdown: [],
-      allocation_evolution: []
+      type: props.match.params.type || ''
     };
   }
 
   componentDidMount() {
-    this.state.bank.load().then(() => {
-      const svsi: any = [['Date', 'Savings', 'Income']];
-      const nw: any = [['Date', 'New worth']];
-      const ts: any = [['Date', 'Savings']];
-      const nws: any = [['Date', 'New worth', 'Savings']];
-      const sb: any = [['Institution', 'Amount']];
-      const ae: any = [_.concat(['Date'], _(this.state.bank.savingsInputs)
-        .filter((header) => (header.types.indexOf('T') === -1) || (header.type === 'T'))
-        .map((header) => _(this.state.bank.savingsHeaders).keyBy('id').get([header.id, 'label'], 'N/A'))
-        .value()
-      )]; 
-
-      _.each(_.range(this.state.bank.headers.firstYear, new Date().getFullYear()+1), (y) => {
-        const m1 = (y === this.state.bank.headers.firstYear) ? this.state.bank.headers.firstMonth : 1;
-        const m2 = (y === (new Date().getFullYear())) ? (new Date().getMonth() + 1) : 12;
-        _.each(_.range(m1, m2 + 1), (m) => {
-          svsi.push([
-            new Date(y, m - 1), 
-            _.get(this.state.bank.totalMonthSavings, [y, m], 0),
-            _.get(this.state.bank.totalMonthIncome, [y, m], 0)
-          ]);
-
-          if (_.get(this.state.bank.networth, [y, m])) {
-            nw.push([
-              new Date(y, m - 1), 
-              _.get(this.state.bank.networth, [y, m], 0)
-            ]);
-          }
-          
-          ts.push([
-            new Date(y, m - 1),
-            _.get(this.state.bank.totalHolding, [y, m], null)
-          ]);
-
-          if (_.get(this.state.bank.networth, [y, m])) {
-            nws.push([
-              new Date(y, m - 1), 
-              _.get(this.state.bank.networth, [y, m], 0),
-              _.get(this.state.bank.totalHolding, [y, m], 0)
-            ]);
-          }
-
-          let ae1: any = _.concat([new Date(y, m - 1)], _(this.state.bank.savingsInputs)
-            .filter((header) => (header.types.indexOf('T') === -1) || (header.type === 'T'))
-            .map((header) => this.state.bank.grandTotalMonthInstitution[y][m][header.id])
-            .value()
-          );
-          ae.push(ae1);
-        });
-      });
-
-      _(this.state.bank.savingsInputs).filter((header) => {
-        return (header.types.indexOf('T') === -1) || (header.type === 'T');
-      }).each((header) => {
-        const h = _(this.state.bank.savingsHeaders).keyBy('id').get([header.id]);
-        if (!h) return;
-
-        let header_label = h.label || 'N/A';
-        if (h.sublabel) header_label += ' > ' + h.sublabel;
-
-        sb.push([header_label, {
-          v: this.state.bank.grandTotalInstitution[header.id][header.type],
-          f: '$' + helpers.amount(this.state.bank.grandTotalInstitution[header.id][header.type], true, true) 
-        }]);
-      });
-      
-      this.setState({
-        bank: this.state.bank, 
-        loading: false,
-        savings_vs_income: svsi,
-        net_worth: nw,
-        total_savings: ts,
-        net_worth_vs_savings: nws,
-        savings_breakdown: sb,
-        allocation_evolution: ae
-      });
-    });
+    const { authUser, onLoadBank, bankLoaded }: any = this.props;
+    if (!bankLoaded) onLoadBank(authUser.uid);
   }
 
   componentDidUpdate(prevProps: IProps, prevState: IState, snapshot: any) {
@@ -137,35 +43,103 @@ export default class ChartsPageBase extends React.Component<IProps, IState> {
       type: this.props.match.params.type || ''
     });
   }
-
-  charts = (type: string, mobile: boolean) => (
-    <>
-      {type === CHARTS.URL.INCOME_VS_SAVINGS && <IncomeVsSavingsChart data={this.state.savings_vs_income} mobile={mobile} />}
-      {type === CHARTS.URL.NET_WORTH && <NetWorthChart data={this.state.net_worth} mobile={mobile} />}
-      {type === CHARTS.URL.TOTAL_SAVINGS && <TotalSavingsChart data={this.state.total_savings} mobile={mobile} />}
-      {type === CHARTS.URL.NET_WORTH_VS_SAVINGS && <NetWorthVsSavingsChart data={this.state.net_worth_vs_savings} mobile={mobile} />}
-      {type === CHARTS.URL.SAVINGS_BREAKDOWN && <SavingsBreakdownChart data={this.state.savings_breakdown} mobile={mobile} />}
-      {type === CHARTS.URL.ALLOCATION_EVOLUTION && <AllocationEvolutionChart data={this.state.allocation_evolution} mobile={mobile} />}
-    </>
-  );
   
   render() {
-    const { loading, type } = this.state;
+    const { type } = this.state;
+    const { bank, bankLoaded } = this.props;
+
+    if (!bankLoaded) return <LoadingPanel />;
+    
+    const svsi: any = [['Date', 'Savings', 'Income']];
+    const nw: any = [['Date', 'New worth']];
+    const ts: any = [['Date', 'Savings']];
+    const nws: any = [['Date', 'New worth', 'Savings']];
+    const sb: any = [['Institution', 'Amount']];
+    const ae: any = [_.concat(['Date'], _(bank.savingsInputs)
+      .filter((header) => (header.types.indexOf('T') === -1) || (header.type === 'T'))
+      .map((header) => _(bank.savingsHeaders).keyBy('id').get([header.id, 'label'], 'N/A'))
+      .value()
+    )]; 
+
+    _.each(_.range(bank.headers.firstYear, new Date().getFullYear()+1), (y) => {
+      const m1 = (y === bank.headers.firstYear) ? bank.headers.firstMonth : 1;
+      const m2 = (y === (new Date().getFullYear())) ? (new Date().getMonth() + 1) : 12;
+      _.each(_.range(m1, m2 + 1), (m) => {
+        svsi.push([
+          new Date(y, m - 1), 
+          _.get(bank.totalMonthSavings, [y, m], 0),
+          _.get(bank.totalMonthIncome, [y, m], 0)
+        ]);
+
+        if (_.get(bank.networth, [y, m])) {
+          nw.push([
+            new Date(y, m - 1), 
+            _.get(bank.networth, [y, m], 0)
+          ]);
+        }
+        
+        ts.push([
+          new Date(y, m - 1),
+          _.get(bank.totalHolding, [y, m], null)
+        ]);
+
+        if (_.get(bank.networth, [y, m])) {
+          nws.push([
+            new Date(y, m - 1), 
+            _.get(bank.networth, [y, m], 0),
+            _.get(bank.totalHolding, [y, m], 0)
+          ]);
+        }
+
+        let ae1: any = _.concat([new Date(y, m - 1)], _(bank.savingsInputs)
+          .filter((header) => (header.types.indexOf('T') === -1) || (header.type === 'T'))
+          .map((header) => bank.grandTotalMonthInstitution[y][m][header.id])
+          .value()
+        );
+        ae.push(ae1);
+      });
+    });
+
+    _(bank.savingsInputs).filter((header) => {
+      return (header.types.indexOf('T') === -1) || (header.type === 'T');
+    }).each((header) => {
+      const h = _(bank.savingsHeaders).keyBy('id').get([header.id]);
+      if (!h) return;
+
+      let header_label = h.label || 'N/A';
+      if (h.sublabel) header_label += ' > ' + h.sublabel;
+
+      sb.push([header_label, {
+        v: bank.grandTotalInstitution[header.id][header.type],
+        f: '$' + helpers.amount(bank.grandTotalInstitution[header.id][header.type], true, true) 
+      }]);
+    });
+
     return (
       <React.Fragment>
-        {loading && <LoadingPanel />}
-        {!loading && <Selector type={type} history={this.props.history} />}
-        {!loading && <Container fluid className="top-shadow">
+
+        <Selector type={type} history={this.props.history} />}
+        <Container fluid className="top-shadow">
           <Row>
             <Col className="pl-0 pr-0">
               <Container>
                 <Row>
                   <Col>
-                    <Mobile>
-                      { this.charts(type, true) }
+                    <Mobile>                    
+                      {type === CHARTS.URL.INCOME_VS_SAVINGS && <Charts.IncomeVsSavingsChart data={svsi} mobile={true} />}
+                      {type === CHARTS.URL.NET_WORTH && <Charts.NetWorthChart data={nw} mobile={true} />}
+                      {type === CHARTS.URL.TOTAL_SAVINGS && <Charts.TotalSavingsChart data={ts} mobile={true} />}
+                      {type === CHARTS.URL.NET_WORTH_VS_SAVINGS && <Charts.NetWorthVsSavingsChart data={nws} mobile={true} />}
+                      {type === CHARTS.URL.SAVINGS_BREAKDOWN && <Charts.SavingsBreakdownChart data={sb} mobile={true} />}
+                      {type === CHARTS.URL.ALLOCATION_EVOLUTION && <Charts.AllocationEvolutionChart data={ae} mobile={true} />}
                     </Mobile>
                     <NotMobile>
-                      { this.charts(type, false) }
+                      {type === CHARTS.URL.INCOME_VS_SAVINGS && <Charts.IncomeVsSavingsChart data={svsi} mobile={false} />}
+                      {type === CHARTS.URL.NET_WORTH && <Charts.NetWorthChart data={nw} mobile={false} />}
+                      {type === CHARTS.URL.TOTAL_SAVINGS && <Charts.TotalSavingsChart data={ts} mobile={false} />}
+                      {type === CHARTS.URL.NET_WORTH_VS_SAVINGS && <Charts.NetWorthVsSavingsChart data={nws} mobile={false} />}
+                      {type === CHARTS.URL.SAVINGS_BREAKDOWN && <Charts.SavingsBreakdownChart data={sb} mobile={false} />}
+                      {type === CHARTS.URL.ALLOCATION_EVOLUTION && <Charts.AllocationEvolutionChart data={ae} mobile={false} />}
                     </NotMobile>
                   </Col>
                 </Row> 
@@ -177,3 +151,25 @@ export default class ChartsPageBase extends React.Component<IProps, IState> {
     );
   }
 }
+
+const mapStateToProps = (state: any) => {
+  return ({
+    authUser: state.sessionState.authUser,
+    bank: state.bankState.bank,
+    bankLoaded: state.bankState.bankLoaded
+  });
+}
+
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    onLoadBank: (uid: string) => {
+      dispatch(loadBank(uid));
+    }
+  };
+};
+
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ChartsPageBase);

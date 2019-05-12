@@ -26,6 +26,7 @@
     "react-scripts": "2.1.5",
     "react-swipe-component": "^3.0.0",
     "reactstrap": "^7.1.0",
+    "redux-thunk": "^2.3.0",
     "uuid": "^3.3.2"
   },
   "scripts": {

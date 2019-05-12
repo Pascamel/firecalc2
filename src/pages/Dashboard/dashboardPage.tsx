@@ -23,7 +23,7 @@ export default class DashboardPageBase extends React.Component<{}, IState> {
   }
 
   componentDidMount() {
-    this.state.bank.load().then(() => {
+    this.state.bank.load('123').then(() => {
       this.setState({bank: this.state.bank, loading: false});
     }).catch(function(error) {
     });

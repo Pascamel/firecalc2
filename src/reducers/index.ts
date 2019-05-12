@@ -5,7 +5,7 @@ import bankReducer from './bank';
 
 const rootReducer = combineReducers({
   sessionState: sessionReducer,
-  userState: bankReducer
+  bankState: bankReducer
 });
 
 export default rootReducer;

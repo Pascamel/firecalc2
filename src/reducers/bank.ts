@@ -1,28 +1,29 @@
+import { Bank } from "../bank";
+
 const INITIAL_STATE = {
-  users: null,
+  bank: {},
+  bankLoaded: false
 };
-
-const applySetUsers = (state: any, action: any) => ({
-  ...state,
-  users: action.users,
-});
-
-const applySetUser = (state: any, action: any) => ({
-  ...state,
-  users: {
-    ...state.users,
-    [action.uid]: action.user,
-  },
-});
 
 function bankReducer(state = INITIAL_STATE, action: any) {
   switch (action.type) {
-    case 'USERS_SET': {
-      return applySetUsers(state, action);
-    }
-    case 'USER_SET': {
-      return applySetUser(state, action);
-    }
+    case 'LOAD_BANK_STARTED':
+      return ({
+        ...state,
+        bank: action.payload.bank
+      });
+    case 'LOAD_BANK_SUCCESS':
+      return ({
+        ...state,
+        bank: action.payload.bank,
+        bankLoaded: true
+      });
+    case 'LOAD_BANK_FAILURE':
+      return ({
+        ...state,
+        bank: null,
+        bankLoaded: false
+      });
     default:
       return state;
   }

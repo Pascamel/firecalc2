@@ -62,7 +62,7 @@ class NavigationAuth extends React.Component<IProps, IState> {
   }
 
   render () {
-    const {authUser} = this.props;
+    const { authUser } = this.props;
     const DEFAULT_CHART = ROUTES.CHARTS.replace(':type', CHARTS.URL.INCOME_VS_SAVINGS);
 
     return (

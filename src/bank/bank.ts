@@ -61,12 +61,12 @@ export default class Bank {
     this.networth = {};
   }
 
-  load = async () => {
+  load = async (uid: string) => {
     this.loadLocalStorage1();
-    const snapshotHeaders = await firestore.getHeaders();
-    const snapshotSavings = await firestore.getSavings();
-    const snapshotRevenues = await firestore.getRevenues();
-    const snapshotNetWorth = await firestore.getNetWorth();
+    const snapshotHeaders = await firestore.getHeaders(uid);
+    const snapshotSavings = await firestore.getSavings(uid);
+    const snapshotRevenues = await firestore.getRevenues(uid);
+    const snapshotNetWorth = await firestore.getNetWorth(uid);
 
     if (!snapshotHeaders || !snapshotSavings || !snapshotRevenues || !snapshotNetWorth) return;
 
