@@ -28,9 +28,10 @@ export const loadBank = (uid: string) => {
 
 export const updateValue = (bank: Bank, index: string, indexes: string[], amount: number) => {
   return (dispatch: any) => {
-    console.log('before', _.get(bank, _.concat([index], indexes)));
+    
     bank.updateValue(index, indexes, amount);
-    console.log('after', _.get(bank, _.concat([index], indexes)));
+    bank.calculateTotals();
+    
     dispatch(({
       type: TYPES.BANK_UPDATE_VALUE,
       payload: {bank}

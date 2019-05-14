@@ -25,8 +25,9 @@ class Charts extends React.Component<IProps, IState> {
   }
 
   render() {
-    console.log('render charts', this.props.bankUpdated, this.props.bank);
+    
     const { month, year, bank, callback } = this.props;
+    console.log('render charts', 'MONTH', bank.goalMonth[year][month], 'YEAR', bank.goalYearToDate[year][month]);
     
     return (
       <React.Fragment>

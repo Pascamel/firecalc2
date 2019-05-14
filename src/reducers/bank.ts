@@ -1,4 +1,6 @@
 import * as TYPES from '../actions/types';
+import _ from 'lodash';
+
 
 const INITIAL_STATE = {
   bank: {},
@@ -30,7 +32,7 @@ function bankReducer(state = INITIAL_STATE, action: any) {
     case TYPES.BANK_UPDATE_VALUE:
       return ({
         ...state,
-        bank: action.payload.bank,  //Object.assign(action.payload.bank),
+        bank: _.assign({}, action.payload.bank),
         bankUpdated: true
       });
     case TYPES.BANK_SAVE_STARTED:
