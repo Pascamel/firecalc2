@@ -9,7 +9,6 @@ import {
   DropdownToggle,
   Nav,
   Navbar,
-  NavbarBrand,
   NavbarToggler,
   NavItem,
   UncontrolledDropdown
@@ -67,7 +66,9 @@ class NavigationAuth extends React.Component<IProps, IState> {
 
     return (
       <Navbar light expand="md">
-        <NavbarBrand href={ROUTES.DASHBOARD}>FireCalc</NavbarBrand>
+        <NavLink className="navbar-brand" to={ROUTES.DASHBOARD}>
+          FireCalc
+        </NavLink>
         <NavbarToggler onClick={this.toggle} />
         <Collapse isOpen={this.state.isOpen} navbar>
           <Nav navbar>
@@ -154,7 +155,9 @@ class NavigationNonAuth extends React.Component<{}, IState> {
   render () {
     return (
       <Navbar light expand="md">
-        <NavbarBrand href={ROUTES.HOME}>FiReCalc</NavbarBrand>
+        <NavLink className="navbar-brand" to={ROUTES.DASHBOARD}>
+          FireCalc
+        </NavLink>
         <NavbarToggler onClick={this.toggle} />
         <Collapse isOpen={this.state.isOpen} navbar>
           <Nav className="ml-auto" navbar>

@@ -45,7 +45,7 @@ export default class SavingsPageBase extends React.Component<IProps, IState> {
   saveData = () => {
     this.setState({saveInProgress: true});
 
-    Bank.saveSavings(this.state.bank).then((saved) => {
+    Bank.saveSavings('123', this.state.bank).then((saved) => {
       this.setState({
         updated: !saved, 
         saveInProgress: false

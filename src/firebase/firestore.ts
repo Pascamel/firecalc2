@@ -14,23 +14,7 @@ export const getRevenues = (uid: string) => firestore.collection('income').doc(u
 export const getSavings = (uid: string) => firestore.collection('savings').doc(uid).get();
 export const getNetWorth = (uid: string) => firestore.collection('networth').doc(uid).get();
 
-export const setHeaders = (data: any) => {
-  if (!auth.currentUser) return;
-  firestore.collection('headers').doc(auth.currentUser.uid).set(data);
-}
-
-export const setRevenues = (data: any) => {
-  if (!auth.currentUser) return;
-  firestore.collection('income').doc(auth.currentUser.uid).set(data);
-}
-
-export const setSavings = (data: any) => {
-  if (!auth.currentUser) return;
-  firestore.collection('savings').doc(auth.currentUser.uid).set(data);
-}
-
-export const setNetWorth = (data: any) => {
-  if (!auth.currentUser) return;
-  firestore.collection('networth').doc(auth.currentUser.uid).set(data);
-}
-
+export const setHeaders = (uid: string, data: any) => firestore.collection('headers').doc(uid).set(data);
+export const setRevenues = (uid: string, data: any) => firestore.collection('income').doc(uid).set(data);
+export const setSavings = (uid: string, data: any) => firestore.collection('savings').doc(uid).set(data)
+export const setNetWorth = (uid: string, data: any) => firestore.collection('networth').doc(uid).set(data);

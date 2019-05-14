@@ -31,29 +31,29 @@ function bankReducer(state = INITIAL_STATE, action: any) {
       });
     case TYPES.BANK_UPDATE_VALUE:
       return ({
-        // ...state,
-        bank: _.assign({}, action.payload.bank),
-        bankLoaded: true,
-        bankUpdated: true,
-        saveInProgress: false
+        ...state,
+        bank: action.payload.bank,
+        bankUpdated: true
       });
     case TYPES.BANK_SAVE_STARTED:
+    case TYPES.HEADERS_SAVE_STARTED:
       return ({
         ...state,
         saveInProgress: true
       });
     case TYPES.BANK_SAVE_SUCCESS:
+    case TYPES.HEADERS_SAVE_SUCCESS:
       return ({
         ...state,
         bankUpdated: false,
         saveInProgress: false
       });
     case TYPES.BANK_SAVE_FAILURE:
+    case TYPES.HEADERS_SAVE_FAILURE:
       return ({
         ...state,
         saveInProgress: false
       });
-
     default:
       return state;
   }

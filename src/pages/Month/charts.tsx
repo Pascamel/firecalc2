@@ -16,18 +16,13 @@ interface IProps {
   callback: (index: string, indexes: string[], amount: any, updatedState: boolean) => void
 }
 
-interface IState {}
-
-class Charts extends React.Component<IProps, IState> {
-
+class Charts extends React.Component<IProps, {}> {
   clean_pct(pct: number) {
     return Math.min(100, Math.max(0, 100 + 100 * pct));
   }
 
-  render() {
-    
+  render() {    
     const { month, year, bank, callback } = this.props;
-    console.log('render charts', 'MONTH', bank.goalMonth[year][month], 'YEAR', bank.goalYearToDate[year][month]);
     
     return (
       <React.Fragment>

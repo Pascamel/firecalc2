@@ -121,13 +121,12 @@ export const loadLocalStorage2 = (bank: IBank) => {
   bank.showDecimals = (parseInt(localStorage.getItem('show_decimals') || '1') > 0);
 };
 
-export const updateValue = (bank: IBank, index: string, indexes: string[], value: number) => {
+export const updateValue = (bank: IBank, index: string, indexes: string[], value: number|boolean) => {
   if (indexes.length > 0) {
     _.set(bank, _.concat([index], indexes), value);
   } else {
     _.set(bank, [index], value);
   }
-  calculateTotals(bank);
 };
 
 export const saveLocalStorage = (bank: IBank) => {
@@ -137,19 +136,19 @@ export const saveLocalStorage = (bank: IBank) => {
   localStorage.setItem('savings_hidden', JSON.stringify(bank.savingsHeadersHidden));
 };
 
-export const saveHeaders = async (bank: IBank) => {
+export const saveHeaders = async (uid: string, bank: IBank) => {
   const data = JSON.parse(JSON.stringify(bank.headers));
   data.last_update = (new Date()).getTime();
 
   try {
-    await firestore.setHeaders(data);
+    await firestore.setHeaders(uid, data);
     return true;
   } catch {
     return false;
   }
 }
 
-export const saveIncome = async (bank: IBank) => {
+export const saveIncome = async (uid: string, bank: IBank) => {
   const payload = {
     last_update: (new Date()).getTime(),
     data: JSON.parse(JSON.stringify(formatters.formatIncomeToSave(bank.income))),
@@ -157,14 +156,14 @@ export const saveIncome = async (bank: IBank) => {
   };
 
   try {
-    await firestore.setRevenues(payload);
+    await firestore.setRevenues(uid, payload);
     return true;
   } catch {
     return false;
   }
 };
 
-export const saveSavings = async (bank: IBank) => {
+export const saveSavings = async (uid: string, bank: IBank) => {
   const payload = {
     last_update: (new Date()).getTime(),
     data: JSON.parse(JSON.stringify(formatters.formatSavingstaToSave(bank.savings))),
@@ -173,21 +172,21 @@ export const saveSavings = async (bank: IBank) => {
   };
 
   try {
-    await firestore.setSavings(payload);
+    await firestore.setSavings(uid, payload);
     return true;
   } catch {
     return false;
   }
 };
 
-export const saveNetWorth = async (bank: IBank) => {
+export const saveNetWorth = async (uid: string, bank: IBank) => {
   const payload = {
     last_update: (new Date()).getTime(),
     data: JSON.parse(JSON.stringify(bank.networth))
   };
 
   try {
-    await firestore.setNetWorth(payload);
+    await firestore.setNetWorth(uid, payload);
     return true;
   } catch {
     return false;
@@ -347,60 +346,3 @@ export const calculateTotals = (bank: IBank) => {
 
   bank.grandTotalHolding = bank.totalHolding[year][month];  
 }
-
-
-// export default class Bank2 {
-//   showDecimals: boolean;
-//   savingsHeadersHidden: {
-//     [institution: string]: {
-//       [type: string]: boolean;
-//     }
-//   };
-
-//   lastupdate: any;
-//   headers: any;
-//   firstYear: any;
-//   firstMonth: any;
-//   startingCapital: any;
-
-//   income: IIncome;
-//   savings: ISavings;
-//   networth: any;
-//   savingsInputs: any;
-//   savingsInputsHidden: any;
-//   incomeHeaders: any;
-//   savingsHeaders: any;
-//   incomeYearHeaders: any;
-//   savingsYearHeaders: any;
-//   savingsHeadersLine1: any;
-//   savingsHeadersLine2: any;
-
-//   startOfYearAmount: any;
-//   totalMonthSavings: any;
-//   totalHolding: any;
-//   goalMonth: any;
-//   goalYearToDate: any;
-//   totalInstitution: any;
-//   totalMonthInstitution: any;
-//   grandTotalMonthInstitution: any;
-//   monthlyGoal: any;
-//   grandTotalInstitution: any;
-//   grandTotalHolding: any;
-
-//   totalMonthPre: any;
-//   totalMonthPost: any;
-//   totalMonthIncome: any;
-//   totalYearPre: any;
-//   totalYearPost: any;
-//   yearlyIncome: any;
-//   savingRateMonth: any;
-//   savingRateYear: any;
-
-//   constructor() {
-//     this.showDecimals = false;
-//     this.savingsHeadersHidden = {};
-//     this.income = {};
-//     this.savings = {};
-//     this.networth = {};
-//   }
-// }

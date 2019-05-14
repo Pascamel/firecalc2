@@ -26,9 +26,8 @@ export const loadBank = (uid: string) => {
 };
 
 
-export const updateValue = (bank: Bank.IBank, index: string, indexes: string[], amount: number) => {
+export const updateValue = (bank: Bank.IBank, index: string, indexes: string[], amount: number|boolean) => {
   return (dispatch: any) => {
-
     Bank.updateValue(bank, index, indexes, amount);
     Bank.calculateTotals(bank);
     
@@ -36,19 +35,19 @@ export const updateValue = (bank: Bank.IBank, index: string, indexes: string[], 
       type: TYPES.BANK_UPDATE_VALUE,
       payload: {bank}
     }));
-  }
+  };
 }
 
-export const saveBank = (bank: Bank.IBank, uid: string) => {
+export const saveBank = (uid: string, bank: Bank.IBank) => {
   return (dispatch: any) => {
     dispatch(({
       type: TYPES.BANK_SAVE_STARTED,
       payload: {bank}
     }));
 
-    Bank.saveSavings(bank).then(() => {
-      Bank.saveIncome(bank).then(() => {
-        Bank.saveNetWorth(bank).then(() => {
+    Bank.saveSavings(uid, bank).then(() => {
+      Bank.saveIncome(uid, bank).then(() => {
+        Bank.saveNetWorth(uid, bank).then(() => {
           dispatch(({
             type: TYPES.BANK_SAVE_SUCCESS,
             payload: {bank}
@@ -72,4 +71,25 @@ export const saveBank = (bank: Bank.IBank, uid: string) => {
       }));
     });
   };
-};
+}
+
+export const saveHeaders = (uid: string, bank: Bank.IBank) => {
+  return (dispatch: any) => {
+    dispatch(({
+      type: TYPES.HEADERS_SAVE_STARTED,
+      payload: {bank}
+    }));
+
+    Bank.saveHeaders(uid, bank).then(() => {
+      dispatch(({
+        type: TYPES.HEADERS_SAVE_SUCCESS,
+        payload: {bank}
+      }));
+    }).catch((error: any) => {
+      dispatch(({
+        type: TYPES.HEADERS_SAVE_FAILURE,
+        payload: {error}
+      }));
+    });
+  };
+}

@@ -17,9 +17,10 @@ interface IProps extends RouteComponentProps<{month: string, year: string}> {
   bank: Bank.IBank,
   bankLoaded: boolean,
   bankUpdated: boolean,
+  saveInProgress: boolean,
   onLoadBank: (uid: string) => void,
   onUpdateValue: (bank: Bank.IBank, index: string, indexes: string[], amount: number) => void,
-  onSaveBank: (bank: Bank.IBank, uid: string) => void
+  onSaveBank: (uid: string, bank: Bank.IBank) => void
 }
 
 interface IState {
@@ -76,7 +77,7 @@ class MonthPageBase extends React.Component<IProps, IState> {
   saveData = () => {
     if (!this.props.authUser) return;
 
-    this.props.onSaveBank(this.props.bank, this.props.authUser.uid);
+    this.props.onSaveBank(this.props.authUser.uid, this.props.bank);
   }
 
   cancelChanges = () => {
@@ -103,7 +104,7 @@ class MonthPageBase extends React.Component<IProps, IState> {
 
   render() {
     const { month, year } = this.state;
-    const { bankLoaded, bankUpdated } = this.props;
+    const { bank, bankLoaded, bankUpdated, saveInProgress } = this.props;
 
     if (!bankLoaded) return <LoadingPanel />;
     
@@ -126,8 +127,8 @@ class MonthPageBase extends React.Component<IProps, IState> {
                    prevMonth={this.prevMonth} 
                    nextMonth={this.nextMonth} 
                    callback={() => {}}
-                   bank={this.props.bank} 
-                   saveInProgress={false}
+                   bank={bank} 
+                   saveInProgress={saveInProgress}
                    updated={bankUpdated}
                    {...this.state} />
         <Swipe detectMouse={false} detectTouch={true} onSwipedLeft={this.nextMonth} onSwipedRight={this.prevMonth} >
@@ -158,7 +159,8 @@ const mapStateToProps = (state: any) => {
     authUser: state.sessionState.authUser,
     bank: state.bankState.bank,
     bankLoaded: state.bankState.bankLoaded,
-    bankUpdated: state.bankState.bankUpdated
+    bankUpdated: state.bankState.bankUpdated,
+    saveInProgress: state.bankState.saveInProgress
   });
 }
 
@@ -170,12 +172,11 @@ const mapDispatchToProps = (dispatch: any) => {
     onUpdateValue: (bank: Bank.IBank, index: string, indexes: string[], amount: number) => {
       dispatch(updateValue(bank, index, indexes, amount));
     },
-    onSaveBank: (bank: Bank.IBank, uid: string) => {
-      dispatch(saveBank(bank, uid));
+    onSaveBank: (uid: string, bank: Bank.IBank) => {
+      dispatch(saveBank(uid, bank));
     }
   };
 };
-
 
 export default connect(
   mapStateToProps,
