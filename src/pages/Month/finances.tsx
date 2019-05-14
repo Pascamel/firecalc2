@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { Alert, Col } from 'reactstrap';
 import _ from 'lodash';
 import MonthSavings from './monthSavings';
@@ -15,7 +16,7 @@ interface IProps {
   callbackIncome: (index: string, indexes: string[], amount: any, updatedState: boolean) => void
 }
 
-export default class MonthFinances extends React.Component<IProps> {
+class MonthFinances extends React.Component<IProps> {
   render() {
     const { month, year, bank, callbackSavings, callbackIncome } = this.props;
 
@@ -70,3 +71,11 @@ export default class MonthFinances extends React.Component<IProps> {
     );
   }
 }
+
+const mapStateToProps = (state: any) => {
+  return ({
+    bank: state.bankState.bank
+  });
+}
+
+export default connect(mapStateToProps)(MonthFinances);

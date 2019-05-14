@@ -140,8 +140,7 @@ class MonthPageBase extends React.Component<IProps, IState> {
                               callbackIncome={this.updateIncome} 
                               bank={this.props.bank} 
                               {...this.state} />
-                    <Charts bank={this.props.bank} 
-                            callback={this.updateNetWorth} 
+                    <Charts callback={this.updateNetWorth} 
                             {...this.state} />
                   </Row>
                 </Container>

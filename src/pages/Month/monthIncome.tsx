@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import _ from 'lodash';
 import { FireAmount } from '../../components';
 import { Bank } from '../../bank';
@@ -17,7 +18,7 @@ interface IState {
   label: string
 }
 
-export default class MonthIncome extends React.Component<IProps, IState> {
+class MonthIncome extends React.Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
 
@@ -46,3 +47,11 @@ export default class MonthIncome extends React.Component<IProps, IState> {
     );
   }
 }
+
+const mapStateToProps = (state: any) => {
+  return ({
+    bank: state.bankState.bank
+  });
+}
+
+export default connect(mapStateToProps)(MonthIncome);

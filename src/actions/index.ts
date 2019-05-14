@@ -1,5 +1,7 @@
 import * as TYPES from './types';
 import { Bank } from '../bank';
+import _ from 'lodash';
+
 
 export const loadBank = (uid: string) => {
   return (dispatch: any) => {
@@ -25,9 +27,10 @@ export const loadBank = (uid: string) => {
 
 
 export const updateValue = (bank: Bank, index: string, indexes: string[], amount: number) => {
-  bank.updateValue(index, indexes, amount);
-
   return (dispatch: any) => {
+    console.log('before', _.get(bank, _.concat([index], indexes)));
+    bank.updateValue(index, indexes, amount);
+    console.log('after', _.get(bank, _.concat([index], indexes)));
     dispatch(({
       type: TYPES.BANK_UPDATE_VALUE,
       payload: {bank}

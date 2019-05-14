@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { Row, Col, Alert } from 'reactstrap';
 import _ from 'lodash';
 import Progress from './progress';
@@ -11,6 +12,7 @@ interface IProps {
   month: string, 
   year: string, 
   bank: Bank,
+  bankUpdated: boolean,
   callback: (index: string, indexes: string[], amount: any, updatedState: boolean) => void
 }
 
@@ -23,6 +25,7 @@ class Charts extends React.Component<IProps, IState> {
   }
 
   render() {
+    console.log('render charts', this.props.bankUpdated, this.props.bank);
     const { month, year, bank, callback } = this.props;
     
     return (
@@ -84,4 +87,11 @@ class Charts extends React.Component<IProps, IState> {
   }
 }
 
-export default Charts;
+const mapStateToProps = (state: any) => {
+  return ({
+    bank: state.bankState.bank,
+    bankUpdated: state.bankState.bankUpdated
+  });
+}
+
+export default connect(mapStateToProps)(Charts);
