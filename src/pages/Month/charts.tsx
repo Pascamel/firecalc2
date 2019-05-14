@@ -16,7 +16,7 @@ interface IProps {
 
 interface IState {}
 
-export default class Charts extends React.Component<IProps, IState> {
+class Charts extends React.Component<IProps, IState> {
 
   clean_pct(pct: number) {
     return Math.min(100, Math.max(0, 100 + 100 * pct));
@@ -83,3 +83,5 @@ export default class Charts extends React.Component<IProps, IState> {
     );
   }
 }
+
+export default Charts;

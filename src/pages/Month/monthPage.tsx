@@ -1,4 +1,6 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { loadBank, updateValue, saveBank } from '../../actions';
 import { Container, Row, Col } from 'reactstrap';
 import { RouteComponentProps, Redirect } from 'react-router-dom';
 import * as ROUTES from '../../constants/routes';
@@ -10,35 +12,37 @@ import Charts from './charts';
 import { Swipe } from 'react-swipe-component';
 
 
-interface IProps extends RouteComponentProps<{month: string, year: string}> {}
+interface IProps extends RouteComponentProps<{month: string, year: string}> {
+  authUser: firebase.User|null,
+  bank: Bank,
+  bankLoaded: boolean,
+  bankUpdated: boolean,
+  onLoadBank: (uid: string) => void,
+  onUpdateValue: (bank: Bank, index: string, indexes: string[], amount: number) => void,
+  onSaveBank: (bank: Bank, uid: string) => void
+}
 
 interface IState {
-  bank: Bank,
-  loading: boolean,
-  updated: boolean,
-  saveInProgress: boolean,
   year: string,
   month: string
 }
 
-export default class MonthPageBase extends React.Component<IProps, IState> {
+class MonthPageBase extends React.Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
 
     this.state = {
-      bank: new Bank(),
-      loading: true,
-      updated: false,
-      saveInProgress: false,
+      // updated: false,
       year: props.match.params.year || '0',
       month: props.match.params.month || '0'
     }
   }
 
   componentDidMount () {
-    this.state.bank.load('123').then(() => {
-      this.setState({bank: this.state.bank, loading: false});
-    });
+    const { authUser, onLoadBank, bankLoaded } = this.props;
+    if (bankLoaded || !authUser ) return;
+    
+    onLoadBank(authUser.uid);
   }
 
   prevMonth = () => {
@@ -58,41 +62,27 @@ export default class MonthPageBase extends React.Component<IProps, IState> {
   }
 
   updateSavings = (index: string, indexes: string[], amount: number) => {
-    this.state.bank.updateValue(index, indexes, amount);
-    this.setState({bank: this.state.bank, updated: true});
+    this.props.onUpdateValue(this.props.bank, index, indexes, amount);
   }
 
   updateIncome = (index: string, indexes: string[], amount: number) => {
-    this.state.bank.updateValue(index, indexes, amount);
-    this.setState({bank: this.state.bank, updated: true});
+    this.props.onUpdateValue(this.props.bank, index, indexes, amount);
   }
 
   updateNetWorth = (index: string, indexes: string[], amount: number) => {
-    this.state.bank.updateValue(index, indexes, amount);
-    this.setState({bank: this.state.bank, updated: true});
+    this.props.onUpdateValue(this.props.bank, index, indexes, amount);
   }
 
   saveData = () => {
-    this.setState({saveInProgress: true});
-    this.state.bank.saveSavings().then(() => {
-      this.state.bank.saveIncome().then(() => {
-        this.state.bank.saveNetWorth().then((saved) => {
-          this.setState({
-            updated: !saved, 
-            saveInProgress: false
-          });
-        });
-      }).catch((error) => {});
-    }).catch((error) => {});
+    if (!this.props.authUser) return;
+
+    this.props.onSaveBank(this.props.bank, this.props.authUser.uid);
   }
 
   cancelChanges = () => {
-    this.state.bank.load('123').then(() => {
-      this.setState({
-        updated: false,
-        bank: this.state.bank
-      });
-    });
+    if (!this.props.authUser) return;
+
+    this.props.onLoadBank(this.props.authUser.uid);
   }
 
   invalidRouteParams = () => {
@@ -104,17 +94,20 @@ export default class MonthPageBase extends React.Component<IProps, IState> {
     redirect = redirect || !y;
     redirect = redirect || m < 1;
     redirect = redirect || m > 12;
-    redirect = redirect || y < this.state.bank.headers.firstYear;
-    redirect = redirect || y === this.state.bank.headers.firstYear && m < this.state.bank.headers.firstMonth;
+    redirect = redirect || y < this.props.bank.headers.firstYear;
+    redirect = redirect || y === this.props.bank.headers.firstYear && m < this.props.bank.headers.firstMonth;
     redirect = redirect || y > new Date().getFullYear() + 1
 
     return redirect;
   }
 
   render() {
-    const { loading, month, year, bank } = this.state;
+    const { month, year } = this.state;
+    const { bankLoaded, bankUpdated } = this.props;
+
+    if (!bankLoaded) return <LoadingPanel />;
     
-    if (!loading && this.invalidRouteParams()) {
+    if (this.invalidRouteParams()) {
       this.setState({
         month: (new Date().getMonth() + 1).toString(), 
         year: (new Date().getFullYear()).toString()
@@ -127,22 +120,29 @@ export default class MonthPageBase extends React.Component<IProps, IState> {
 
     return (
       <>
-        {loading && <LoadingPanel />}
-        {!loading && <SavePanel label={`${helpers.labelMonth(month)} ${year}`} 
-                                saveClick={this.saveData} 
-                                cancelChanges={this.cancelChanges}
-                                prevMonth={this.prevMonth} 
-                                nextMonth={this.nextMonth} 
-                                callback={() => {}} 
-                                {...this.state} />}
-        {!loading && <Swipe detectMouse={false} detectTouch={true} onSwipedLeft={this.nextMonth} onSwipedRight={this.prevMonth} >
+        <SavePanel label={`${helpers.labelMonth(month)} ${year}`} 
+                   saveClick={this.saveData} 
+                   cancelChanges={this.cancelChanges}
+                   prevMonth={this.prevMonth} 
+                   nextMonth={this.nextMonth} 
+                   callback={() => {}}
+                   bank={this.props.bank} 
+                   saveInProgress={false}
+                   updated={bankUpdated}
+                   {...this.state} />
+        <Swipe detectMouse={false} detectTouch={true} onSwipedLeft={this.nextMonth} onSwipedRight={this.prevMonth} >
           <Container fluid className="top-shadow">
             <Row>
               <Col className="pr-0 pl-0">
                 <Container>
                   <Row>
-                    <Finances {...this.state} callbackSavings={this.updateSavings} callbackIncome={this.updateIncome} />
-                    <Charts {...this.state} callback={this.updateNetWorth} />
+                    <Finances callbackSavings={this.updateSavings} 
+                              callbackIncome={this.updateIncome} 
+                              bank={this.props.bank} 
+                              {...this.state} />
+                    <Charts bank={this.props.bank} 
+                            callback={this.updateNetWorth} 
+                            {...this.state} />
                   </Row>
                 </Container>
               </Col>
@@ -153,3 +153,32 @@ export default class MonthPageBase extends React.Component<IProps, IState> {
     )
   }
 }
+
+const mapStateToProps = (state: any) => {
+  return ({
+    authUser: state.sessionState.authUser,
+    bank: state.bankState.bank,
+    bankLoaded: state.bankState.bankLoaded,
+    bankUpdated: state.bankState.bankUpdated
+  });
+}
+
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    onLoadBank: (uid: string) => {
+      dispatch(loadBank(uid));
+    },
+    onUpdateValue: (bank: Bank, index: string, indexes: string[], amount: number) => {
+      dispatch(updateValue(bank, index, indexes, amount));
+    },
+    onSaveBank: (bank: Bank, uid: string) => {
+      dispatch(saveBank(bank, uid));
+    }
+  };
+};
+
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(MonthPageBase);

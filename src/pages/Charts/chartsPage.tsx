@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { loadBank } from '../../actions'; //  '../../actions';
+import { loadBank } from '../../actions';
 import { Container, Row, Col } from 'reactstrap';
 import { RouteComponentProps } from 'react-router-dom';
 import _ from 'lodash';

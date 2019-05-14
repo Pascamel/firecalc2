@@ -1,41 +1,71 @@
-import {
-  LOAD_BANK_STARTED,
-  LOAD_BANK_SUCCESS,
-  LOAD_BANK_FAILURE
-} from './types';
-
+import * as TYPES from './types';
 import { Bank } from '../bank';
 
 export const loadBank = (uid: string) => {
   return (dispatch: any) => {
     const bank = new Bank();
-    dispatch(loadBankStarted(bank));
+    dispatch(({
+      type: TYPES.BANK_LOAD_STARTED,
+      payload: {bank}
+    }));
 
     bank.load(uid).then((res: any) => {
-      dispatch(loadBankSuccess(bank));
-    }).catch((err: any) => {
-      dispatch(loadBankFailure(err));
+      dispatch(({
+        type: TYPES.BANK_LOAD_SUCCESS,
+        payload: {bank}
+      }));
+    }).catch((error: any) => {
+      dispatch(({
+        type: TYPES.BANK_LOAD_FAILURE,
+        payload: {error}
+      }));
     });
   };
 };
 
-const loadBankSuccess = (bank: Bank) => {
-  return ({
-    type: LOAD_BANK_SUCCESS,
-    payload: {bank}
-  });
+
+export const updateValue = (bank: Bank, index: string, indexes: string[], amount: number) => {
+  bank.updateValue(index, indexes, amount);
+
+  return (dispatch: any) => {
+    dispatch(({
+      type: TYPES.BANK_UPDATE_VALUE,
+      payload: {bank}
+    }));
+  }
 }
 
-const loadBankStarted = (bank: Bank) => {
-  return ({
-    type: LOAD_BANK_STARTED,
-    payload: {bank}
-  });
-}
+export const saveBank = (bank: Bank, uid: string) => {
+  return (dispatch: any) => {
+    dispatch(({
+      type: TYPES.BANK_SAVE_STARTED,
+      payload: {bank}
+    }));
 
-const loadBankFailure = (error: any) => {
-  return ({
-    type: LOAD_BANK_FAILURE,
-    payload: {error}
-  });
-}
+    bank.saveSavings().then(() => {
+      bank.saveIncome().then(() => {
+        bank.saveNetWorth().then(() => {
+          dispatch(({
+            type: TYPES.BANK_SAVE_SUCCESS,
+            payload: {bank}
+          }));
+        }).catch((error: any) => {
+          dispatch(({
+            type: TYPES.BANK_SAVE_FAILURE,
+            payload: {error}
+          }));
+        });
+      }).catch((error: any) => {
+        dispatch(({
+          type: TYPES.BANK_SAVE_FAILURE,
+          payload: {error}
+        }));
+      });
+    }).catch((error: any) => {
+      dispatch(({
+        type: TYPES.BANK_SAVE_FAILURE,
+        payload: {error}
+      }));
+    });
+  };
+};
