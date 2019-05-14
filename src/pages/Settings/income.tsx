@@ -1,20 +1,26 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { updateValue, newIncomeHeader, updateIncomeHeader } from '../../actions';
 import { Row, Col } from 'reactstrap';
 import * as Bank from '../../bank';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { IIncomeHeader } from '../../bank/interfaces';
 
 
 interface IProps {
   index: number,
   header: any,
   bank: Bank.IBank,
+  bankLoaded: boolean,
 
-  editHeaderCallback: (type: string, header: any) => void;
-  confirmEditHeaderCallback: (type: string, header: any) => void;
-  cancelEditHeaderCallback: (type: string, header: any) => void;
-  deleteHeaderCallback: (type: string, header: any) => void;
-  moveUpHeaderCallback: (type: string, index: number) => void;
-  moveDownHeaderCallback: (type: string, index: number) => void;
+  // editHeaderCallback: (type: string, header: any) => void;
+  // confirmEditHeaderCallback: (type: string, header: any) => void;
+  // cancelEditHeaderCallback: (type: string, header: any) => void;
+  // deleteHeaderCallback: (type: string, header: any) => void;
+  // moveUpHeaderCallback: (type: string, index: number) => void;
+  // moveDownHeaderCallback: (type: string, index: number) => void;
+
+  onUpdateValue: (bank: Bank.IBank, index: string, indexes: string[], amount: number|boolean) => void,
 }
 
 interface IState {
@@ -23,7 +29,7 @@ interface IState {
   editCount: number
 }
 
-export default class Income extends React.Component<IProps, IState> {
+class Income extends React.Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
 
@@ -46,27 +52,27 @@ export default class Income extends React.Component<IProps, IState> {
     header.label = this.state.editLabel;
     header.pretax = this.state.editPretax;
     header.count = this.state.editCount;
-    this.props.confirmEditHeaderCallback('incomes', header);
+    // this.props.confirmEditHeaderCallback('incomes', header);
   }
   editHeaderCancel = (header: any) => {
-    this.setState({
-      editLabel: this.props.header.label || '',
-      editPretax: this.props.header.pretax || false,
-      editCount: this.props.header.count || 1
-    });
-    this.props.cancelEditHeaderCallback('incomes', header);
+    // this.setState({
+    //   editLabel: this.props.header.label || '',
+    //   editPretax: this.props.header.pretax || false,
+    //   editCount: this.props.header.count || 1
+    // });
+    // this.props.cancelEditHeaderCallback('incomes', header);
   }
   editHeader = (header: any) => {
-    this.props.editHeaderCallback('incomes', header);
+    // this.props.editHeaderCallback('incomes', header);
   }
   removeHeader = (header: any) => {
-    this.props.deleteHeaderCallback('incomes', header);
+    // this.props.deleteHeaderCallback('incomes', header);
   }
   moveUpHeader = (index: any) => {
-    this.props.moveUpHeaderCallback('incomes', index);
+    // this.props.moveUpHeaderCallback('incomes', index);
   }
   moveDownHeader = (index: any) => {
-    this.props.moveDownHeaderCallback('incomes', index);
+    // this.props.moveDownHeaderCallback('incomes', index);
   }
   render () {
     const { header, index, bank }  = this.props;
@@ -133,3 +139,38 @@ export default class Income extends React.Component<IProps, IState> {
     );
   }
 }
+
+const mapStateToProps = (state: any) => {
+  return ({
+    bank: state.bankState.bank,
+    bankLoaded: state.bankState.bankLoaded
+  });
+}
+
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    // onLoadBank: (uid: string) => {
+    //   dispatch(loadBank(uid));
+    // },
+    onUpdateValue: (bank: Bank.IBank, index: string, indexes: string[], amount: number|boolean) => {
+      dispatch(updateValue(bank, index, indexes, amount));
+    },
+    // onSaveBank: (uid: string, bank: Bank.IBank) => {
+    //   dispatch(saveHeaders(uid, bank));
+    // }
+
+    onNewIncomeHeader: (bank: Bank.IBank, header: IIncomeHeader) => {
+      dispatch(newIncomeHeader(bank, header));
+    },
+    onUpdateIncomeHeader: (bank: Bank.IBank, header: IIncomeHeader) => {
+      dispatch(updateIncomeHeader(bank, header));
+    }
+  
+  };
+};
+
+
+export default connect(
+  mapStateToProps, 
+  mapDispatchToProps
+)(Income);

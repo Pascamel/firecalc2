@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { Alert, Row, Col, Input } from 'reactstrap';
 import _ from 'lodash';
 import helpers from '../../helpers';
@@ -10,10 +11,11 @@ import CustomInput from 'reactstrap/lib/CustomInput';
 interface IProps {
   headers: any,
   bank: Bank.IBank,
+  bankLoaded: boolean,
   updateCallback: (indexes: string[], value: number) => void
 }
 
-export default class StartingPoint extends React.Component<IProps, {}> {
+class StartingPoint extends React.Component<IProps, {}> {
   currentYear: number;
 
   constructor(props: IProps) {
@@ -28,7 +30,9 @@ export default class StartingPoint extends React.Component<IProps, {}> {
   }
 
   render() {
-    const {headers, bank} = this.props;
+    const {headers, bank, bankLoaded} = this.props;
+
+    if (!bankLoaded) return null;
 
     return (
       <Alert color="background">
@@ -77,3 +81,12 @@ export default class StartingPoint extends React.Component<IProps, {}> {
     );
   }
 }
+
+const mapStateToProps = (state: any) => {
+  return ({
+    bank: state.bankState.bank,
+    bankLoaded: state.bankState.bankLoaded
+  });
+}
+
+export default connect(mapStateToProps)(StartingPoint);

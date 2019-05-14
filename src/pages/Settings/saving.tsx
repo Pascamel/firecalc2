@@ -1,20 +1,20 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { updateValue, newSavingHeader, updateSavingHeader } from '../../actions';
 import { Row, Col } from 'reactstrap';
 import * as Bank from '../../bank';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { ISavingsHeader } from '../../bank/interfaces';
 
 
 interface IProps {
   index: number,
   header: any,
   bank: Bank.IBank,
-
-  editHeaderCallback: (type: string, header: any) => void;
-  confirmEditHeaderCallback: (type: string, header: any) => void;
-  cancelEditHeaderCallback: (type: string, header: any) => void;
-  deleteHeaderCallback: (type: string, header: any) => void;
-  moveUpHeaderCallback: (type: string, index: number) => void;
-  moveDownHeaderCallback: (type: string, index: number) => void;
+  bankLoaded: boolean,
+  onUpdateValue: (bank: Bank.IBank, index: string, indexes: string[], amount: number|boolean) => void,
+  onNewSavingHeader: (bank: Bank.IBank, header: ISavingsHeader) => void,
+  onUpdateSavingHeader: (bank: Bank.IBank, header: ISavingsHeader) => void
 }
 
 interface IState {
@@ -24,7 +24,7 @@ interface IState {
   editInterest: boolean
 }
 
-export default class Saving extends React.Component<IProps, IState> {
+class Saving extends React.Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
 
@@ -49,7 +49,9 @@ export default class Saving extends React.Component<IProps, IState> {
     header.sublabel = this.state.editSublabel;
     header.icon = this.state.editIcon;
     header.interest = this.state.editInterest;
-    this.props.confirmEditHeaderCallback('savings', header);
+    // this.props.confirmEditHeaderCallback('savings', header);
+
+    this.props.onUpdateValue(this.props.bank, 'headers', ['savings', header.id, '$edit'], true);
   }
 
   editHeaderCancel = (header: any) => {
@@ -59,33 +61,37 @@ export default class Saving extends React.Component<IProps, IState> {
       editIcon: this.props.header.icon || '',
       editInterest: this.props.header.interest || ''
     });
-    this.props.cancelEditHeaderCallback('savings', header);
+    // this.props.cancelEditHeaderCallback('savings', header);
   }
 
   editHeader = (header: any) => {
-    this.props.editHeaderCallback('savings', header);
+    console.log('coucou');
+    // this.props.onUpdateValue(this.props.bank, 'headers', ['savings', header.id, '$edit'], true);
+    // header.$edit = true;
+    this.props.onUpdateSavingHeader(this.props.bank, header);
   }
 
   removeHeader = (header: any) => {
-    this.props.deleteHeaderCallback('savings', header);
+    // this.props.deleteHeaderCallback('savings', header);
   }
 
   moveUpHeader = (index: any) => {
-    this.props.moveUpHeaderCallback('savings', index);
+    // this.props.moveUpHeaderCallback('savings', index);
   }
 
   moveDownHeader = (index: any) => {
-    this.props.moveDownHeaderCallback('savings', index);
+    // this.props.moveDownHeaderCallback('savings', index);
   }
 
   render () {
     const { header, index, bank }  = this.props;
+    console.log('render saving', header);
 
     return (
       <Row className="form-headers">
         <Col xs={12} sm={2}>
           {!header.$edit && <span className="label-fake-input">
-            {header.label}
+            {header.label} test={bank.headers.savings[0].label}
           </span>}
           {header.$edit && <input
             type="text"
@@ -158,3 +164,30 @@ export default class Saving extends React.Component<IProps, IState> {
     );
   }
 }
+
+const mapStateToProps = (state: any) => {
+  return ({
+    bank: state.bankState.bank,
+    bankLoaded: state.bankState.bankLoaded
+  });
+}
+
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    onUpdateValue: (bank: Bank.IBank, index: string, indexes: string[], amount: number|boolean) => {
+      dispatch(updateValue(bank, index, indexes, amount));
+    },
+    onNewSavingHeader: (bank: Bank.IBank, header: ISavingsHeader) => {
+      dispatch(newSavingHeader(bank, header));
+    },
+    onUpdateSavingHeader: (bank: Bank.IBank, header: ISavingsHeader) => {
+      dispatch(updateSavingHeader(bank, header));
+    }
+  };
+};
+
+
+export default connect(
+  mapStateToProps, 
+  mapDispatchToProps
+)(Saving);

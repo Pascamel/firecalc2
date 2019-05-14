@@ -1,5 +1,6 @@
 import * as TYPES from '../actions/types';
 import _ from 'lodash';
+import { DeviceBatteryUnknown } from 'material-ui/svg-icons';
 
 
 const INITIAL_STATE = {
@@ -54,6 +55,20 @@ function bankReducer(state = INITIAL_STATE, action: any) {
         ...state,
         saveInProgress: false
       });
+
+
+    case TYPES.HEADERS_NEW_INCOME:
+    case TYPES.HEADERS_UPDATE_INCOME:
+    case TYPES.HEADERS_NEW_SAVING:
+    case TYPES.HEADERS_UPDATE_SAVING:
+      console.log('yo');
+      return ({
+        ...state,
+        bank: action.payload.bank,
+        bankUpdated: true
+      });
+
+
     default:
       return state;
   }

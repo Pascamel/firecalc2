@@ -1,12 +1,14 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { Alert, Row, Col, Button } from 'reactstrap';
 import Saving from './saving';
 import * as Bank from '../../bank';
 
+
 interface IProps {
   bank: Bank.IBank,
+  bankLoaded: boolean,
   addHeaderCallback: (type: string) => void;
-
   editHeaderCallback: (type: string, header: any) => void;
   confirmEditHeaderCallback: (type: string, header: any) => void;
   cancelEditHeaderCallback: (type: string, header: any) => void;
@@ -15,13 +17,16 @@ interface IProps {
   moveDownHeaderCallback: (type: string, index: number) => void;
 }
 
-export default class Savings extends React.Component<IProps, {}> {
+class Savings extends React.Component<IProps, {}> {
   newHeader = () => {
     this.props.addHeaderCallback('savings');
   }
 
   render() {
-    const {bank} = this.props;
+    console.log('render savings');
+    const {bank, bankLoaded} = this.props;
+
+    if (!bankLoaded) return null;
 
     return (
       <Alert color="background">
@@ -36,7 +41,7 @@ export default class Savings extends React.Component<IProps, {}> {
           </Col>
         </Row>}
         {bank.headers.savings.map((header: any, key: number) => (
-          <Saving key={key} header={header} index={key} {...this.props} />
+          <Saving key={key} header={header} index={key} />
         ))}
         <Row>
           <Col>
@@ -49,3 +54,12 @@ export default class Savings extends React.Component<IProps, {}> {
     );
   }
 }
+
+const mapStateToProps = (state: any) => {
+  return ({
+    bank: state.bankState.bank,
+    bankLoaded: state.bankState.bankLoaded
+  });
+}
+
+export default connect(mapStateToProps)(Savings);

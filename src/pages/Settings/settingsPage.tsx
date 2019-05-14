@@ -134,9 +134,9 @@ class SettingsPageBase extends React.Component<IProps, IState> {
           <Row>
             <Col className="pl-0 pr-0">
               <Container>
-                <StartingPoint bank={bank} {...this.state} {...this.callbacks} /> 
-                <Savings bank={bank} {...this.state} {...this.callbacks} /> 
-                <Incomes bank={bank} {...this.state} {...this.callbacks} /> 
+                <StartingPoint {...this.state} {...this.callbacks} /> 
+                <Savings {...this.state} {...this.callbacks} /> 
+                <Incomes {...this.state} {...this.callbacks} /> 
               </Container>
             </Col>
           </Row>
