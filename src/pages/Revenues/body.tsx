@@ -1,13 +1,13 @@
 import React from 'react';
 import _ from 'lodash';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Bank } from '../../bank';
+import * as Bank from '../../bank';
 import { FireTR, FireTD, FireAmount, StaticAmount, StaticPercentage } from '../../components';
 
 
 interface IProps {
   year: string,
-  bank: Bank,
+  bank: Bank.IBank,
   callback: (index: string, indexes: string[], amount: any, updatedState: boolean) => void
 }
 

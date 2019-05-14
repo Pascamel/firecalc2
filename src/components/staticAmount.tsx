@@ -1,11 +1,11 @@
 import React from 'react';
-import { Bank } from '../bank';
+import * as Bank from '../bank';
 import helpers from '../helpers';
 import _ from 'lodash';
 
 interface IAmountProps {
   children: number,
-  bank: Bank
+  bank: Bank.IBank
   ['display-zero']?: boolean
 }
 

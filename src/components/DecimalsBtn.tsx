@@ -1,12 +1,12 @@
 import React from 'react';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
-import { Bank } from '../bank';
+import * as Bank from '../bank';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 
 interface IProps {
   updated: boolean, 
-  bank: Bank,
+  bank: Bank.IBank,
   callback: (index: string, indexes: string[], amount: any, updatedState: boolean) => void
 }
 

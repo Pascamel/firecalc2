@@ -2,11 +2,11 @@ import React from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import { FireAmount } from '../../components';
-import { Bank } from '../../bank';
+import * as Bank from '../../bank';
 
 
 interface IProps {
-  bank: Bank,
+  bank: Bank.IBank,
   header: any,
   month: string,
   year: string, 

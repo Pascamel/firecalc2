@@ -1,13 +1,13 @@
 import React from 'react';
 import { Row, Col } from 'reactstrap';
-import { Bank } from '../../bank';
+import * as Bank from '../../bank';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 
 interface IProps {
   index: number,
   header: any,
-  bank: Bank,
+  bank: Bank.IBank,
 
   editHeaderCallback: (type: string, header: any) => void;
   confirmEditHeaderCallback: (type: string, header: any) => void;

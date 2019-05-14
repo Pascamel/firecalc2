@@ -1,10 +1,10 @@
 import React from 'react';
-import { Bank } from '../../bank';
+import * as Bank from '../../bank';
 import { StaticAmount } from '../../components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 interface IProps {
-  bank: Bank
+  bank: Bank.IBank
 }
 
 interface IState {}

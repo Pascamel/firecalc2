@@ -4,14 +4,14 @@ import { Row, Col, Alert } from 'reactstrap';
 import _ from 'lodash';
 import Progress from './progress';
 import Doughnut from './doughnut';
-import { Bank } from '../../bank';
+import * as Bank from '../../bank';
 import { FireAmount, StaticAmount } from '../../components';
 
 
 interface IProps {
   month: string, 
   year: string, 
-  bank: Bank,
+  bank: Bank.IBank,
   bankUpdated: boolean,
   callback: (index: string, indexes: string[], amount: any, updatedState: boolean) => void
 }

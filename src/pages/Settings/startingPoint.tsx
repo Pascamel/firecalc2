@@ -2,14 +2,14 @@ import React from 'react';
 import { Alert, Row, Col, Input } from 'reactstrap';
 import _ from 'lodash';
 import helpers from '../../helpers';
-import { Bank } from '../../bank';
+import * as Bank from '../../bank';
 import Form from 'reactstrap/lib/Form';
 import CustomInput from 'reactstrap/lib/CustomInput';
 
 
 interface IProps {
   headers: any,
-  bank: Bank,
+  bank: Bank.IBank,
   updateCallback: (indexes: string[], value: number) => void
 }
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Container, Row, Col, Alert } from 'reactstrap';
-import { Bank } from '../../bank';
+import * as Bank from '../../bank';
 import Table from './table';
 import { LoadingPanel, SavePanel } from '../../components';
 
@@ -11,7 +11,7 @@ interface IState {
   loading: boolean,
   updated: boolean,
   saveInProgress: boolean,
-  bank: Bank
+  bank: Bank.IBank
 }
 
 export default class SavingsPageBase extends React.Component<IProps, IState> {
@@ -22,30 +22,30 @@ export default class SavingsPageBase extends React.Component<IProps, IState> {
       loading: true,
       updated: false,
       saveInProgress: false,
-      bank: new Bank()
+      bank: ({} as Bank.IBank)
     }
   }
 
   componentDidMount() {
-    this.state.bank.load('123').then(() => {
-      this.setState({bank: this.state.bank, loading: false});
+    Bank.load('123').then((b) => {
+      this.setState({bank: b, loading: false});
     }).catch(function(error) {});
   }
 
   updateValue = (index: string, indexes: string[], amount: number, updatedState: boolean) => {
-    this.state.bank.updateValue(index, indexes, amount);
+    Bank.updateValue(this.state.bank, index, indexes, amount);
     if (updatedState) {
       this.setState({bank: this.state.bank, updated: true});
     } else {
       this.setState({bank: this.state.bank});
-      this.state.bank.saveLocalStorage();
+      Bank.saveLocalStorage(this.state.bank);
     }
   }
 
   saveData = () => {
     this.setState({saveInProgress: true});
 
-    this.state.bank.saveSavings().then((saved) => {
+    Bank.saveSavings(this.state.bank).then((saved) => {
       this.setState({
         updated: !saved, 
         saveInProgress: false
@@ -54,10 +54,10 @@ export default class SavingsPageBase extends React.Component<IProps, IState> {
   }
 
   cancelChanges = () => {
-    this.state.bank.load('123').then(() => {
+    Bank.load('123').then(b => {
       this.setState({
         updated: false,
-        bank: this.state.bank
+        bank: b
       });
     });
   }

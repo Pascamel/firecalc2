@@ -1,11 +1,11 @@
 import React from 'react';
 import { Alert, Row, Col, Button } from 'reactstrap';
 import Income from './income';
-import { Bank } from '../../bank';
+import * as Bank from '../../bank';
 
 
 interface IProps {
-  bank: Bank,
+  bank: Bank.IBank,
   addHeaderCallback: (type: string) => void;
   editHeaderCallback: (type: string, header: any) => void;
   confirmEditHeaderCallback: (type: string, header: any) => void;

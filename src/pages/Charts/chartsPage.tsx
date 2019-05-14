@@ -4,7 +4,7 @@ import { loadBank } from '../../actions';
 import { Container, Row, Col } from 'reactstrap';
 import { RouteComponentProps } from 'react-router-dom';
 import _ from 'lodash';
-import { Bank } from '../../bank';
+import * as Bank from '../../bank';
 import helpers from '../../helpers';
 import * as CHARTS from '../../constants/charts';
 import Selector from './selector';
@@ -15,7 +15,7 @@ import * as Charts from './charts';
 
 interface IProps extends RouteComponentProps<{type: string}> {
   authUser: firebase.User|null,
-  bank: Bank,
+  bank: Bank.IBank,
   bankLoaded: boolean
 }
 

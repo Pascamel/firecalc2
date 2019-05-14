@@ -2,7 +2,7 @@ import React from 'react';
 import { Row, Col, Container, ButtonGroup, Button } from 'reactstrap';
 import { FiltersBtn } from './FiltersBtn';
 import DecimalsBtn from './DecimalsBtn';
-import { Bank } from '../bank';
+import * as Bank from '../bank';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 
@@ -10,7 +10,7 @@ interface IProps {
   updated: boolean, 
   saveInProgress: boolean, 
   label: string, 
-  bank: Bank,
+  bank: Bank.IBank,
   saveClick: () => void,
   cancelChanges: () => void,
   prevMonth?: () => void,

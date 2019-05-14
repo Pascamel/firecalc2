@@ -1,14 +1,14 @@
 import React from 'react';
 import { Container, Row, Col, Alert } from 'reactstrap';
 import { LoadingPanel, SavePanel } from '../../components';
-import { Bank } from '../../bank';
+import * as Bank from '../../bank';
 import Table from './table';
 
 
 interface IProps {}
 
 interface IState {
-  bank: Bank,
+  bank: Bank.IBank,
   loading: boolean,
   updated: boolean,
   saveInProgress: boolean
@@ -22,30 +22,30 @@ export default class RevenuePageBase extends React.Component<IProps, IState> {
       loading: true,
       updated: false,
       saveInProgress: false,
-      bank: new Bank()
+      bank: ({} as Bank.IBank)
     };
   }
 
   componentDidMount() {
-    this.state.bank.load('123').then(() => {
+    Bank.load('123').then(() => {
       this.setState({bank: this.state.bank, loading: false});
     }).catch(function(error) {});
   }
 
   updateValue = (index: string, indexes: string[], amount: number, updatedState: boolean) => {  
-    this.state.bank.updateValue(index, indexes, amount);
+    Bank.updateValue(this.state.bank, index, indexes, amount);
     if (updatedState) {
       this.setState({bank: this.state.bank, updated: true});
     } else {
       this.setState({bank: this.state.bank});
-      this.state.bank.saveLocalStorage();
+      Bank.saveLocalStorage(this.state.bank);
     }
   }
 
   saveData = () => {
     this.setState({saveInProgress: true});
 
-    this.state.bank.saveIncome().then(() => {
+    Bank.saveIncome(this.state.bank).then(() => {
       this.setState({
         updated: false, 
         saveInProgress: false
@@ -54,7 +54,7 @@ export default class RevenuePageBase extends React.Component<IProps, IState> {
   }
 
   cancelChanges = () => {
-    this.state.bank.load('123').then(() => {
+    Bank.load('123').then(() => {
       this.setState({
         updated: false,
         bank: this.state.bank

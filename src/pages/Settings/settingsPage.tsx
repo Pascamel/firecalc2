@@ -2,7 +2,7 @@ import React from 'react';
 import { Container, Row, Col } from 'reactstrap';
 import _ from 'lodash';
 import uuid from 'uuid';
-import { Bank } from '../../bank';
+import * as Bank from '../../bank';
 import { LoadingPanel, SavePanel } from '../../components';
 import StartingPoint from './startingPoint';
 import Savings from './savings';
@@ -10,7 +10,7 @@ import Incomes from './incomes';
 
 
 interface IState {
-  bank: Bank,
+  bank: Bank.IBank,
   loading: boolean,
   updated: boolean,
   saveInProgress: boolean,
@@ -22,7 +22,7 @@ export default class SettingsPageBase extends React.Component<{}, IState> {
     super(props);
 
     this.state = {
-      bank: new Bank(),
+      bank: ({} as Bank.IBank),
       loading: true,
       updated: false,
       saveInProgress: false,
@@ -37,18 +37,18 @@ export default class SettingsPageBase extends React.Component<{}, IState> {
   }
 
   componentDidMount () {
-    this.state.bank.load('123').then(() => {
+    Bank.load('123').then((b) => {
       this.setState({
-        bank: this.state.bank,
+        bank: b,
         loading: false});
     });
   }
 
   cancelChanges = () => {
-    this.state.bank.load('123').then(() => {
+    Bank.load('123').then((b) => {
       this.setState({
         updated: false,
-        bank: this.state.bank
+        bank: b
       });
     });
   }
@@ -56,7 +56,7 @@ export default class SettingsPageBase extends React.Component<{}, IState> {
   saveHeaders = () => {
     this.setState({saveInProgress: true});
 
-    this.state.bank.saveHeaders().then((saved: boolean) => {
+    Bank.saveHeaders(this.state.bank).then((saved: boolean) => {
       this.setState({
         updated: !saved, 
         saveInProgress: false
@@ -122,7 +122,7 @@ export default class SettingsPageBase extends React.Component<{}, IState> {
       let index = indexes.shift();
       if (!index) return;
 
-      this.state.bank.updateValue(index, indexes, value);
+      Bank.updateValue(this.state.bank, index, indexes, value);
       this.setState({bank: this.state.bank, updated: true});
     },
 

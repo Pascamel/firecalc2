@@ -4,7 +4,7 @@ import { loadBank, updateValue, saveBank } from '../../actions';
 import { Container, Row, Col } from 'reactstrap';
 import { RouteComponentProps, Redirect } from 'react-router-dom';
 import * as ROUTES from '../../constants/routes';
-import { Bank } from '../../bank';
+import * as Bank from '../../bank';
 import helpers from '../../helpers';
 import { LoadingPanel, SavePanel } from '../../components';
 import Finances from './finances';
@@ -14,12 +14,12 @@ import { Swipe } from 'react-swipe-component';
 
 interface IProps extends RouteComponentProps<{month: string, year: string}> {
   authUser: firebase.User|null,
-  bank: Bank,
+  bank: Bank.IBank,
   bankLoaded: boolean,
   bankUpdated: boolean,
   onLoadBank: (uid: string) => void,
-  onUpdateValue: (bank: Bank, index: string, indexes: string[], amount: number) => void,
-  onSaveBank: (bank: Bank, uid: string) => void
+  onUpdateValue: (bank: Bank.IBank, index: string, indexes: string[], amount: number) => void,
+  onSaveBank: (bank: Bank.IBank, uid: string) => void
 }
 
 interface IState {
@@ -167,10 +167,10 @@ const mapDispatchToProps = (dispatch: any) => {
     onLoadBank: (uid: string) => {
       dispatch(loadBank(uid));
     },
-    onUpdateValue: (bank: Bank, index: string, indexes: string[], amount: number) => {
+    onUpdateValue: (bank: Bank.IBank, index: string, indexes: string[], amount: number) => {
       dispatch(updateValue(bank, index, indexes, amount));
     },
-    onSaveBank: (bank: Bank, uid: string) => {
+    onSaveBank: (bank: Bank.IBank, uid: string) => {
       dispatch(saveBank(bank, uid));
     }
   };

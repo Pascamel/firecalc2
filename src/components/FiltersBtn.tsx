@@ -2,14 +2,14 @@ import React from 'react';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import _ from 'lodash';
 import * as I from '../bank/interfaces';
-import { Bank } from '../bank';
+import * as Bank from '../bank';
 import * as formatters from '../bank/formatters';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 
 interface IFiltersBtnProps {
   updated: boolean,
-  bank: Bank,
+  bank: Bank.IBank,
   callback: (index: string, indexes: string[], amount: any, updatedState: boolean) => void
 }
 
@@ -55,7 +55,7 @@ export class FiltersBtn extends React.Component<IFiltersBtnProps, IFiltersBtnSta
 
 interface IClickableItemProps {
   header: {id: string, type: string},
-  bank: Bank,
+  bank: Bank.IBank,
   callback: (index: string, indexes: string[], amount: any, updatedState: boolean) => void
 }
 

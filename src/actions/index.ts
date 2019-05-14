@@ -1,17 +1,17 @@
 import * as TYPES from './types';
-import { Bank } from '../bank';
+import * as Bank from '../bank';
 import _ from 'lodash';
 
 
 export const loadBank = (uid: string) => {
   return (dispatch: any) => {
-    const bank = new Bank();
+    const bank = {};
     dispatch(({
       type: TYPES.BANK_LOAD_STARTED,
       payload: {bank}
     }));
 
-    bank.load(uid).then((res: any) => {
+    Bank.load(uid).then((bank: Bank.IBank) => {
       dispatch(({
         type: TYPES.BANK_LOAD_SUCCESS,
         payload: {bank}
@@ -26,11 +26,11 @@ export const loadBank = (uid: string) => {
 };
 
 
-export const updateValue = (bank: Bank, index: string, indexes: string[], amount: number) => {
+export const updateValue = (bank: Bank.IBank, index: string, indexes: string[], amount: number) => {
   return (dispatch: any) => {
-    
-    bank.updateValue(index, indexes, amount);
-    bank.calculateTotals();
+
+    Bank.updateValue(bank, index, indexes, amount);
+    Bank.calculateTotals(bank);
     
     dispatch(({
       type: TYPES.BANK_UPDATE_VALUE,
@@ -39,16 +39,16 @@ export const updateValue = (bank: Bank, index: string, indexes: string[], amount
   }
 }
 
-export const saveBank = (bank: Bank, uid: string) => {
+export const saveBank = (bank: Bank.IBank, uid: string) => {
   return (dispatch: any) => {
     dispatch(({
       type: TYPES.BANK_SAVE_STARTED,
       payload: {bank}
     }));
 
-    bank.saveSavings().then(() => {
-      bank.saveIncome().then(() => {
-        bank.saveNetWorth().then(() => {
+    Bank.saveSavings(bank).then(() => {
+      Bank.saveIncome(bank).then(() => {
+        Bank.saveNetWorth(bank).then(() => {
           dispatch(({
             type: TYPES.BANK_SAVE_SUCCESS,
             payload: {bank}

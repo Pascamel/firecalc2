@@ -1,8 +1,8 @@
 import React from 'react';
-import { Bank } from '../../bank';
+import * as Bank from '../../bank';
 
 interface IProps {
-  bank: Bank
+  bank: Bank.IBank
 }
 
 interface IState {

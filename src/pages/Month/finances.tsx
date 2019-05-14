@@ -4,12 +4,12 @@ import { Alert, Col } from 'reactstrap';
 import _ from 'lodash';
 import MonthSavings from './monthSavings';
 import MonthIncome from './monthIncome';
-import { Bank } from '../../bank';
+import * as Bank from '../../bank';
 import { StaticAmount } from '../../components';
 
 
 interface IProps {
-  bank: Bank,
+  bank: Bank.IBank,
   month: string,
   year: string, 
   callbackSavings: (index: string, indexes: string[], amount: any, updatedState: boolean) => void, 

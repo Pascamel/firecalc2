@@ -2,10 +2,10 @@ import React from 'react';
 import Header from './header';
 import Body from './body';
 import Footer from './footer';
-import { Bank } from '../../bank';
+import * as Bank from '../../bank';
 
 interface IProps {
-  bank: Bank,
+  bank: Bank.IBank,
   callback: (index: string, indexes: string[], amount: any, updatedState: boolean) => void
 }
 

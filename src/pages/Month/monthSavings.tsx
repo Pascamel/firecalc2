@@ -3,10 +3,10 @@ import { connect } from 'react-redux';
 import _ from 'lodash';
 import { FireAmount } from '../../components';
 import * as formatters from '../../bank/formatters';
-import { Bank } from '../../bank';
+import * as Bank from '../../bank';
 
 interface IProps {
-  bank: Bank,
+  bank: Bank.IBank,
   header: any,
   month: string,
   year: string, 

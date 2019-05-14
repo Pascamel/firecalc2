@@ -1,15 +1,16 @@
 import React from 'react';
 import { Container, Row, Col, ListGroup, ListGroupItem } from 'reactstrap';
-import { Bank } from '../../bank';
+import * as Bank from '../../bank';
 import * as ROUTES from '../../constants/routes';
 import { LoadingPanel, HeaderPanel } from '../../components';
 import { NavLink } from 'react-router-dom';
 import helpers from '../../helpers';
+import bankReducer from '../../reducers/bank';
 
 
 interface IState {
   loading: boolean,
-  bank: Bank
+  bank: Bank.IBank
 }
 
 export default class DashboardPageBase extends React.Component<{}, IState> {
@@ -18,13 +19,14 @@ export default class DashboardPageBase extends React.Component<{}, IState> {
 
     this.state = {
       loading: true,
-      bank: new Bank()
+      bank: ({} as Bank.IBank) //new Bank()
     }
   }
 
   componentDidMount() {
-    this.state.bank.load('123').then(() => {
-      this.setState({bank: this.state.bank, loading: false});
+    // Bank
+    Bank.load('123').then((b: Bank.IBank) => {
+      this.setState({bank: b, loading: false});
     }).catch(function(error) {
     });
   }
