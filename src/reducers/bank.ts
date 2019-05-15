@@ -54,10 +54,39 @@ function bankReducer(state = INITIAL_STATE, action: any) {
         ...state,
         saveInProgress: false
       });
-    case TYPES.HEADERS_NEW_INCOME:
-    case TYPES.HEADERS_UPDATE_INCOME:
     case TYPES.HEADERS_NEW_SAVING:
     case TYPES.HEADERS_UPDATE_SAVING:
+      return ({
+        ...state,
+        bank: action.payload.bank,
+        bankUpdated: true
+      });
+
+    case TYPES.HEADERS_DELETE_SAVING: {
+      let new_bank = JSON.parse(JSON.stringify(state.bank));
+      _.remove(new_bank.headers.savings, (h: any) => h.id === action.payload.header.id);
+
+      return({
+        ...state,
+        bank: new_bank,
+        bankUpdated: true
+      });
+    }
+    case TYPES.HEADERS_SWITCH_SAVING: {
+      let new_bank = JSON.parse(JSON.stringify(state.bank));
+
+      var tmp = new_bank.headers.savings[action.payload.index1];	
+      new_bank.headers.savings[action.payload.index1] = new_bank.headers.savings[action.payload.index2];	
+      new_bank.headers.savings[action.payload.index2] = tmp;	
+
+      return({
+        ...state,
+        bank: new_bank,
+        bankUpdated: true
+      });
+    }
+    case TYPES.HEADERS_NEW_INCOME:
+    case TYPES.HEADERS_UPDATE_INCOME:
       return ({
         ...state,
         bank: action.payload.bank,

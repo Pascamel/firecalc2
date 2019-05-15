@@ -1,6 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { updateValue, updateSavingHeader, confirmUpdateSavingHeader, cancelUpdateSavingHeader } from '../../actions';
+import { 
+  updateValue, 
+  updateSavingHeader, 
+  confirmUpdateSavingHeader, 
+  cancelUpdateSavingHeader,
+  deleteSavingHeader,
+  switchSavingHeaders
+} from '../../actions';
 import { Row, Col } from 'reactstrap';
 import * as Bank from '../../bank';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -15,7 +22,9 @@ interface IProps {
   onUpdateValue: (bank: Bank.IBank, index: string, indexes: string[], amount: number|boolean) => void,
   onUpdateSavingHeader: (bank: Bank.IBank, header: ISavingsHeader) => void,
   onConfirmUpdateSavingHeader: (bank: Bank.IBank, header: ISavingsHeader) => void,
-  onCancelUpdateSavingHeader: (bank: Bank.IBank, header: ISavingsHeader) => void
+  onCancelUpdateSavingHeader: (bank: Bank.IBank, header: ISavingsHeader) => void,
+  onDeleteSavingHeader: (header: ISavingsHeader) => void,
+  onSwitchSavingHeaders: (index1: number, index2: number) => void,
 }
 
 interface IState {
@@ -70,15 +79,19 @@ class Saving extends React.Component<IProps, IState> {
   }
 
   removeHeader = (header: any) => {
-    // this.props.deleteHeaderCallback('savings', header);
+    this.props.onDeleteSavingHeader(this.props.bank, header);
   }
 
   moveUpHeader = (index: any) => {
-    // this.props.moveUpHeaderCallback('savings', index);
+    if (index <= 0 || index >= this.props.bank.headers.savings.length) return;	
+
+    this.props.onSwitchSavingHeaders(this.props.bank, index-1, index);
   }
 
   moveDownHeader = (index: any) => {
-    // this.props.moveDownHeaderCallback('savings', index);
+    if (index < 0 || index >= this.props.bank.headers.savings.length - 1) return;
+
+    this.props.onSwitchSavingHeaders(this.props.bank, index, index+1);
   }
 
   render () {
@@ -182,6 +195,12 @@ const mapDispatchToProps = (dispatch: any) => {
     },
     onCancelUpdateSavingHeader: (bank: Bank.IBank, header: ISavingsHeader) => {
       dispatch(cancelUpdateSavingHeader(bank, header));
+    },
+    onDeleteSavingHeader: (header: ISavingsHeader) => {
+      dispatch(deleteSavingHeader(header));
+    },
+    onSwitchSavingHeaders: (index1: number, index2: number) => {
+      dispatch(switchSavingHeaders(index1, index2));
     }
   };
 };

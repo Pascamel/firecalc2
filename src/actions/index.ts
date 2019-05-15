@@ -154,7 +154,7 @@ export const confirmUpdateSavingHeader = (bank: Bank.IBank, header: ISavingsHead
       type: TYPES.HEADERS_UPDATE_SAVING,
       payload: {
         bank: JSON.parse(JSON.stringify(bank)), 
-        header:header
+        header: header
       }
     }))
   };
@@ -177,6 +177,29 @@ export const cancelUpdateSavingHeader = (bank: Bank.IBank, header: ISavingsHeade
         header:header
       }
     }));
+  };
+}
+
+export const deleteSavingHeader = (header: ISavingsHeader) => {
+  return (dispatch: any) => {
+    dispatch(({
+      type: TYPES.HEADERS_DELETE_SAVING,
+      payload: {
+        header: header
+      }
+    }))
+  };
+}
+
+export const switchSavingHeaders = (index1: number, index2: number) => {
+  return (dispatch: any) => {
+    dispatch(({
+      type: TYPES.HEADERS_SWITCH_SAVING,
+      payload: {
+        index1: index1,
+        index2: index2
+      }
+    }))
   };
 }
 
