@@ -99,6 +99,7 @@ export const load = async (uid: string): Promise<IBank> => {
 }
 
 export const loadLocalStorage1 = (bank: IBank) => {
+  if (!bank.savingsHeadersHidden) bank.savingsHeadersHidden = {};
   _.each(JSON.parse(localStorage.getItem('savings_hidden') || '{}'), (value, key) => {
     if (!bank.savingsHeadersHidden[key]) bank.savingsHeadersHidden[key] = {};
     _.each(value, (v, t) => {

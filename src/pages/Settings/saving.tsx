@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { updateValue, newSavingHeader, updateSavingHeader } from '../../actions';
+import { updateValue, newSavingHeader, updateSavingHeader, confirmUpdateSavingHeader, cancelUpdateSavingHeader } from '../../actions';
 import { Row, Col } from 'reactstrap';
 import * as Bank from '../../bank';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -14,7 +14,9 @@ interface IProps {
   bankLoaded: boolean,
   onUpdateValue: (bank: Bank.IBank, index: string, indexes: string[], amount: number|boolean) => void,
   onNewSavingHeader: (bank: Bank.IBank, header: ISavingsHeader) => void,
-  onUpdateSavingHeader: (bank: Bank.IBank, header: ISavingsHeader) => void
+  onUpdateSavingHeader: (bank: Bank.IBank, header: ISavingsHeader) => void,
+  onConfirmUpdateSavingHeader: (bank: Bank.IBank, header: ISavingsHeader) => void,
+  onCancelUpdateSavingHeader: (bank: Bank.IBank, header: ISavingsHeader) => void
 }
 
 interface IState {
@@ -44,14 +46,17 @@ class Saving extends React.Component<IProps, IState> {
     this.setState(s);
   }
 
+  editHeader = (header: any) => {
+    this.props.onUpdateSavingHeader(this.props.bank, header);
+  }
+
   editHeaderConfirm = (header: any) => {
     header.label = this.state.editLabel;
     header.sublabel = this.state.editSublabel;
     header.icon = this.state.editIcon;
     header.interest = this.state.editInterest;
-    // this.props.confirmEditHeaderCallback('savings', header);
 
-    this.props.onUpdateValue(this.props.bank, 'headers', ['savings', header.id, '$edit'], true);
+    this.props.onConfirmUpdateSavingHeader(this.props.bank, header);
   }
 
   editHeaderCancel = (header: any) => {
@@ -61,14 +66,8 @@ class Saving extends React.Component<IProps, IState> {
       editIcon: this.props.header.icon || '',
       editInterest: this.props.header.interest || ''
     });
-    // this.props.cancelEditHeaderCallback('savings', header);
-  }
-
-  editHeader = (header: any) => {
-    console.log('coucou');
-    // this.props.onUpdateValue(this.props.bank, 'headers', ['savings', header.id, '$edit'], true);
-    // header.$edit = true;
-    this.props.onUpdateSavingHeader(this.props.bank, header);
+    
+    this.props.onCancelUpdateSavingHeader(this.props.bank, header);
   }
 
   removeHeader = (header: any) => {
@@ -91,7 +90,7 @@ class Saving extends React.Component<IProps, IState> {
       <Row className="form-headers">
         <Col xs={12} sm={2}>
           {!header.$edit && <span className="label-fake-input">
-            {header.label} test={bank.headers.savings[0].label}
+            {header.label}
           </span>}
           {header.$edit && <input
             type="text"
@@ -182,6 +181,12 @@ const mapDispatchToProps = (dispatch: any) => {
     },
     onUpdateSavingHeader: (bank: Bank.IBank, header: ISavingsHeader) => {
       dispatch(updateSavingHeader(bank, header));
+    },
+    onConfirmUpdateSavingHeader: (bank: Bank.IBank, header: ISavingsHeader) => {
+      dispatch(confirmUpdateSavingHeader(bank, header));
+    },
+    onCancelUpdateSavingHeader: (bank: Bank.IBank, header: ISavingsHeader) => {
+      dispatch(cancelUpdateSavingHeader(bank, header));
     }
   };
 };

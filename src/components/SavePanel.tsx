@@ -59,7 +59,7 @@ export default class SavePanel extends React.Component<IProps, {}> {
                     {saveInProgress ? 'Saving' : 'Save'}
                   </Button>
 
-                  {updated && <Button color="header" className="btn-cancel" onClick={cancelChanges}>
+                  {updated && !saveInProgress && <Button color="header" className="btn-cancel" onClick={cancelChanges}>
                     <FontAwesomeIcon icon="times" /> Cancel
                   </Button>}
                 </Col>
