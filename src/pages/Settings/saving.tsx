@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { updateValue, newSavingHeader, updateSavingHeader, confirmUpdateSavingHeader, cancelUpdateSavingHeader } from '../../actions';
+import { updateValue, updateSavingHeader, confirmUpdateSavingHeader, cancelUpdateSavingHeader } from '../../actions';
 import { Row, Col } from 'reactstrap';
 import * as Bank from '../../bank';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -13,7 +13,6 @@ interface IProps {
   bank: Bank.IBank,
   bankLoaded: boolean,
   onUpdateValue: (bank: Bank.IBank, index: string, indexes: string[], amount: number|boolean) => void,
-  onNewSavingHeader: (bank: Bank.IBank, header: ISavingsHeader) => void,
   onUpdateSavingHeader: (bank: Bank.IBank, header: ISavingsHeader) => void,
   onConfirmUpdateSavingHeader: (bank: Bank.IBank, header: ISavingsHeader) => void,
   onCancelUpdateSavingHeader: (bank: Bank.IBank, header: ISavingsHeader) => void
@@ -84,7 +83,6 @@ class Saving extends React.Component<IProps, IState> {
 
   render () {
     const { header, index, bank }  = this.props;
-    console.log('render saving', header);
 
     return (
       <Row className="form-headers">
@@ -175,9 +173,6 @@ const mapDispatchToProps = (dispatch: any) => {
   return {
     onUpdateValue: (bank: Bank.IBank, index: string, indexes: string[], amount: number|boolean) => {
       dispatch(updateValue(bank, index, indexes, amount));
-    },
-    onNewSavingHeader: (bank: Bank.IBank, header: ISavingsHeader) => {
-      dispatch(newSavingHeader(bank, header));
     },
     onUpdateSavingHeader: (bank: Bank.IBank, header: ISavingsHeader) => {
       dispatch(updateSavingHeader(bank, header));

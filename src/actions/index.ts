@@ -1,6 +1,7 @@
 import * as TYPES from './types';
 import * as Bank from '../bank';
 import _ from 'lodash';
+import uuid from 'uuid';
 import { IIncomeHeader, ISavingsHeader } from '../bank/interfaces';
 
 
@@ -102,13 +103,17 @@ export const updateIncomeHeader = (bank: Bank.IBank, header: IIncomeHeader) => {
   }
 }
 
-export const newSavingHeader = (bank: Bank.IBank, header: ISavingsHeader) => {
+export const newSavingHeader = (bank: Bank.IBank) => {
   return (dispatch: any) => {
+    bank.headers.savings.push({
+      $edit: true,
+      id: uuid.v4()
+    });
+
     dispatch(({
       type: TYPES.HEADERS_NEW_SAVING,
       payload: {
         bank: JSON.parse(JSON.stringify(bank)), 
-        header:header
       }
     }));
   }

@@ -126,7 +126,6 @@ export const updateValue = (bank: IBank, index: string, indexes: string[], value
   if (indexes.length > 0) {
     _.set(bank, _.concat([index], indexes), value);
   } else {
-    console.log('cas2', _.get(bank, [index]));
     _.set(bank, [index], value);
   }
 };

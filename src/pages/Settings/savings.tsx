@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { newSavingHeader } from '../../actions';
 import { Alert, Row, Col, Button } from 'reactstrap';
 import Saving from './saving';
 import * as Bank from '../../bank';
@@ -8,22 +9,15 @@ import * as Bank from '../../bank';
 interface IProps {
   bank: Bank.IBank,
   bankLoaded: boolean,
-  addHeaderCallback: (type: string) => void;
-  editHeaderCallback: (type: string, header: any) => void;
-  confirmEditHeaderCallback: (type: string, header: any) => void;
-  cancelEditHeaderCallback: (type: string, header: any) => void;
-  deleteHeaderCallback: (type: string, header: any) => void;
-  moveUpHeaderCallback: (type: string, index: number) => void;
-  moveDownHeaderCallback: (type: string, index: number) => void;
+  onNewSavingHeader: (bank: Bank.IBank) => void,
 }
 
 class Savings extends React.Component<IProps, {}> {
   newHeader = () => {
-    this.props.addHeaderCallback('savings');
+    this.props.onNewSavingHeader(this.props.bank);
   }
 
   render() {
-    console.log('render savings');
     const {bank, bankLoaded} = this.props;
 
     if (!bankLoaded) return null;
@@ -62,4 +56,15 @@ const mapStateToProps = (state: any) => {
   });
 }
 
-export default connect(mapStateToProps)(Savings);
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    onNewSavingHeader: (bank: Bank.IBank) => {
+      dispatch(newSavingHeader(bank));
+    },
+  };
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Savings);
