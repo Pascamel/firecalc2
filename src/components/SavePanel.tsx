@@ -1,5 +1,6 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
+import { connect } from 'react-redux';
 import { Button, ButtonGroup, Col, Container, Row } from 'reactstrap';
 
 import * as Bank from '../bank';
@@ -7,9 +8,9 @@ import DecimalsBtn from './DecimalsBtn';
 import FiltersBtn from './FiltersBtn';
 
 interface IProps {
-  updated: boolean, 
+  label: string,
+  bankUpdated: boolean, 
   saveInProgress: boolean, 
-  label: string, 
   bank: Bank.IBank,
   saveClick: () => void,
   cancelChanges: () => void,
@@ -18,9 +19,11 @@ interface IProps {
   callback?: (index: string, indexes: string[], amount: any, updatedState: boolean) => void
 }
 
-export default class SavePanel extends React.Component<IProps, {}> {
+class SavePanel extends React.Component<IProps, {}> {
+
+  saveClick
   render() {
-    const { updated, saveInProgress, label, saveClick, cancelChanges } = this.props;
+    const { bankUpdated, saveInProgress, label, saveClick, cancelChanges } = this.props;
 
     return (
       <Container fluid className="alert alert-save alert-header">
@@ -49,17 +52,17 @@ export default class SavePanel extends React.Component<IProps, {}> {
                     </Button>
                   </ButtonGroup>}
 
-                  <span className={`title nowrap-ellipsis ${updated ? 'text-warning' : ''}`}>
+                  <span className={`title nowrap-ellipsis ${bankUpdated ? 'text-warning' : ''}`}>
                     {label}
                   </span>
 
-                  <Button color={updated ? 'header' : 'outline-light'} className="btn-save" onClick={saveClick}>
+                  <Button color={bankUpdated ? 'header' : 'outline-light'} className="btn-save" onClick={saveClick}>
                     {!saveInProgress && <FontAwesomeIcon icon={['far', 'save']} className="mr-1" />}
                     {saveInProgress && <FontAwesomeIcon icon="spinner" className="mr-1" spin />}
                     {saveInProgress ? 'Saving' : 'Save'}
                   </Button>
 
-                  {updated && !saveInProgress && <Button color="header" className="btn-cancel" onClick={cancelChanges}>
+                  {bankUpdated && !saveInProgress && <Button color="header" className="btn-cancel" onClick={cancelChanges}>
                     <FontAwesomeIcon icon="times" /> Cancel
                   </Button>}
                 </Col>
@@ -71,3 +74,13 @@ export default class SavePanel extends React.Component<IProps, {}> {
     );
   }
 } 
+
+const mapStateToProps = (state: any) => {
+  return ({
+    bank: state.bankState.bank,
+    bankUpdated: state.bankState.bankUpdated,
+    saveInProgress: state.bankState.saveInProgress
+  });
+}
+
+export default connect(mapStateToProps)(SavePanel);

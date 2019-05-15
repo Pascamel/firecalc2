@@ -12,7 +12,7 @@ interface IProps {
 }
 
 class StaticAmount extends React.Component<IProps, {}> {
-  render () {
+  render() {
     const daz = _.has(this.props, 'display-zero');
     const value: number = this.props.children || 0;
 

@@ -36,7 +36,7 @@ class DecimalsBtn extends React.Component<IProps, IState> {
     this.props.onUpdateValue('showDecimals', [], decimal);
   }
 
-  render () {
+  render() {
     const { bank, bankUpdated } = this.props;
 
     return (

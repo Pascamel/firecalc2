@@ -45,13 +45,13 @@ class NavigationAuth extends React.Component<IProps, IState> {
     };
   }
 
-  toggle () {
+  toggle() {
     this.setState({
       isOpen: !this.state.isOpen
     });
   }
 
-  toggleIfOpen () {
+  toggleIfOpen() {
     if (this.state.isOpen) this.toggle();
   }
 
@@ -62,7 +62,7 @@ class NavigationAuth extends React.Component<IProps, IState> {
     return classNames.join(' ');
   }
 
-  render () {
+  render() {
     const { authUser } = this.props;
     const DEFAULT_CHART = ROUTES.CHARTS.replace(':type', CHARTS.URL.INCOME_VS_SAVINGS);
 
@@ -144,17 +144,17 @@ class NavigationNonAuth extends React.Component<{}, IState> {
     };
   }
 
-  toggle () {
+  toggle() {
     this.setState({
       isOpen: !this.state.isOpen
     });
   }
 
-  toggleIfOpen () {
+  toggleIfOpen() {
     if (this.state.isOpen) this.toggle();
   }
 
-  render () {
+  render() {
     return (
       <Navbar light expand="md">
         <NavLink className="navbar-brand" to={ROUTES.DASHBOARD}>
@@ -181,7 +181,7 @@ class NavigationNonAuth extends React.Component<{}, IState> {
 }
 
 class NavigationBase extends React.Component<any, IState> {
-  render () {
+  render() {
     const { location, authUser } = this.props;
     
     return (

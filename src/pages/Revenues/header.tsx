@@ -8,7 +8,7 @@ interface IProps {
 }
 
 class Header extends React.Component<IProps, {}> {
-  render () {
+  render() {
     const { bank } = this.props;
 
     return (

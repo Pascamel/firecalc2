@@ -89,10 +89,8 @@ class Income extends React.Component<IProps, IState> {
     this.props.onSwitchIncomeHeaders(index, index+1);
   }
   
-  render () {
+  render() {
     const { header, index, bank }  = this.props;
-
-    console.log('bank.headers', bank.headers)
 
     return (
       <Row className="form-headers">
@@ -121,12 +119,10 @@ class Income extends React.Component<IProps, IState> {
               <span className="ml-1">Pre-tax</span>
             </label>
           </div>
-
           {!header.$edit && <div className="btn-group ml-3">
             <label className={`disabled btn ${header.count === 1 ? 'btn-secondary' : 'btn-light'}`}>1</label>
             <label className={`disabled btn ${header.count === 2 ? 'btn-secondary' : 'btn-light'}`}>2</label>
           </div>}
-
           {header.$edit && <div className="btn-group ml-3">
             <label className={`btn ${this.state.editCount === 1 ? 'btn-primary' : 'btn-light'}`} onClick={e => {this.setState({editCount: 1});}}>1</label>
             <label className={`btn ${this.state.editCount === 2 ? 'btn-primary' : 'btn-light'}`} onClick={e => {this.setState({editCount: 2});}}>2</label>

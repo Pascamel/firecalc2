@@ -45,11 +45,8 @@ class RevenuePageBase extends React.Component<IProps, {}> {
     return (
       <React.Fragment>
         <SavePanel label="Revenues" 
-                   bank={bank}
-                   updated={bankUpdated} 
                    saveClick={this.saveData} 
                    cancelChanges={this.cancelChanges}
-                   saveInProgress={saveInProgress}
                    {...this.state} />
         <Container fluid className="top-shadow">
           <Row>

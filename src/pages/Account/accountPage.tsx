@@ -7,7 +7,7 @@ import { PasswordForgetForm } from '../PasswordForget/pwForgetForm';
 import { PasswordChangeForm } from './PasswordChangeForm';
 
 class AccountPageBase2 extends React.Component<any, {}> {
-  render () {
+  render() {
     const { authUser } = this.props;
 
     return (

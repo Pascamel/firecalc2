@@ -38,7 +38,7 @@ class MonthPageBase extends React.Component<IProps, IState> {
     }
   }
 
-  componentDidMount () {
+  componentDidMount() {
     const { authUser, onLoadBank, bankLoaded } = this.props;
     if (bankLoaded || !authUser ) return;
     
@@ -126,9 +126,6 @@ class MonthPageBase extends React.Component<IProps, IState> {
                    prevMonth={this.prevMonth} 
                    nextMonth={this.nextMonth} 
                    callback={() => {}}
-                   bank={bank} 
-                   saveInProgress={saveInProgress}
-                   updated={bankUpdated}
                    {...this.state} />
         <Swipe detectMouse={false} detectTouch={true} onSwipedLeft={this.nextMonth} onSwipedRight={this.prevMonth} >
           <Container fluid className="top-shadow">

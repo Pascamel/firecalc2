@@ -9,7 +9,7 @@ interface IProps {
 }
 
 export class IncomeVsSavingsChart extends React.Component<IProps, {}> {
-  render () {
+  render() {
     return (
       <Chart
         chartType="LineChart"
@@ -42,7 +42,7 @@ export class IncomeVsSavingsChart extends React.Component<IProps, {}> {
 }
 
 export class NetWorthChart extends React.Component<IProps, {}> {
-  render () {
+  render() {
     return (
       <Chart 
         chartType="AreaChart"
@@ -67,7 +67,7 @@ export class NetWorthChart extends React.Component<IProps, {}> {
 }
 
 export class TotalSavingsChart extends React.Component<IProps, {}> {
-  render () {
+  render() {
     return (
       <Chart 
         chartType="AreaChart"
@@ -96,7 +96,7 @@ export class TotalSavingsChart extends React.Component<IProps, {}> {
 }
 
 export class NetWorthVsSavingsChart extends React.Component<IProps, {}> {
-  render () {
+  render() {
     return (
       <Chart
         chartType="LineChart"
@@ -126,7 +126,7 @@ export class NetWorthVsSavingsChart extends React.Component<IProps, {}> {
 }
 
 export class SavingsBreakdownChart extends React.Component<IProps, {}> {
-  render () {
+  render() {
     return (
       <Chart
         chartType="PieChart"
@@ -151,7 +151,7 @@ export class SavingsBreakdownChart extends React.Component<IProps, {}> {
 }
 
 export class AllocationEvolutionChart extends React.Component<IProps, {}> {
-  render () {
+  render() {
     return (
       <Chart 
         chartType="AreaChart"

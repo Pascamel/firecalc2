@@ -7,7 +7,7 @@ interface IProps {
 }
 
 export default class FireTR extends React.Component<IProps, {}> {
-  render () {
+  render() {
     const classNames = [];
 
     if (_.has(this.props, 'show') && !(this.props.show || false)) {

@@ -4,7 +4,7 @@ import { Alert, Col, Container, Row } from 'reactstrap';
 import { PasswordForgetForm } from './pwForgetForm';
 
 export default class PasswordForgetPage extends React.Component<{}, {}> {
-  render () {
+  render() {
     return (
       <React.Fragment>
         <Container className="container-centered">

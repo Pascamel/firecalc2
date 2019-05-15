@@ -46,7 +46,7 @@ class Body extends React.Component<IProps, IState> {
             </span>
             <span>
               Begins at <b>
-                <StaticAmount bank={bank}>
+                <StaticAmount>
                   { bank.startOfYearAmount[year] }
                 </StaticAmount>
               </b> - Goal is&nbsp;
@@ -56,7 +56,7 @@ class Body extends React.Component<IProps, IState> {
                           callback-props={['savingsYearHeaders', 'goals', year]}
                           callback={callback} />
               &nbsp;(
-              <StaticAmount bank={bank}>
+              <StaticAmount>
                 { bank.monthlyGoal[year] }
               </StaticAmount>
               /mo)
@@ -64,7 +64,7 @@ class Body extends React.Component<IProps, IState> {
           </FireTD>
           {bank.savingsInputsHidden.map((amount: any, idx: number) => (
           <FireTD show={this.state.collapsed} key={idx}>
-            <StaticAmount bank={bank} display-zero>
+            <StaticAmount display-zero>
               { bank.totalInstitution[year][amount.id][amount.type] }
             </StaticAmount>
           </FireTD>
@@ -73,7 +73,7 @@ class Body extends React.Component<IProps, IState> {
             Total
           </FireTD>
           <FireTD show={this.state.collapsed}>
-            <StaticAmount bank={bank} display-zero>
+            <StaticAmount display-zero>
               { bank.totalHolding[this.props.year]['12'] }
             </StaticAmount>
           </FireTD>
@@ -81,7 +81,7 @@ class Body extends React.Component<IProps, IState> {
             {year}
           </FireTD>
           <FireTD show={this.state.collapsed} goal={bank.goalYearToDate[year]['12']} threshold={0}>
-            <StaticAmount bank={bank} display-zero>
+            <StaticAmount display-zero>
               { bank.goalYearToDate[year]['12'] }
             </StaticAmount>
           </FireTD>
@@ -102,29 +102,29 @@ class Body extends React.Component<IProps, IState> {
                         callback-props={['savings', year, month[0], amount.id, amount.type]} 
                         callback={callback} />}
             {amount.type === 'T' && 
-            <StaticAmount bank={bank}>
+            <StaticAmount>
               {bank.totalMonthInstitution[year][month[0]][amount.id]}
             </StaticAmount>}
           </td>
           ))}
           <td>
-            <StaticAmount bank={bank}>
+            <StaticAmount>
               { bank.totalMonthSavings[year][month[0]] }
             </StaticAmount>
           </td>
           <FireTD show={bank.totalMonthSavings[year][month[0]] === 0} span={4} />
           <FireTD hide={bank.totalMonthSavings[year][month[0]] === 0}>
-            <StaticAmount bank={bank}>
+            <StaticAmount>
               { bank.totalHolding[year][month[0]] }
             </StaticAmount>
           </FireTD>
           <FireTD hide={bank.totalMonthSavings[year][month[0]] === 0} goal={bank.goalMonth[year][month[0]]} threshold={0}>
-            <StaticAmount bank={bank}>
+            <StaticAmount>
               { bank.goalMonth[year][month[0]] }
             </StaticAmount>
           </FireTD>
           <FireTD hide={bank.totalMonthSavings[year][month[0]] === 0} goal={bank.goalYearToDate[year][month[0]]} threshold={0}>
-            <StaticAmount bank={bank} display-zero>
+            <StaticAmount display-zero>
               { bank.goalYearToDate[year][month[0]] }
             </StaticAmount>
           </FireTD>
@@ -141,20 +141,20 @@ class Body extends React.Component<IProps, IState> {
           </td>
           {bank.savingsInputsHidden.map((amount: any, idx: number) => (
           <td key={idx}>
-            <StaticAmount bank={bank} display-zero>
+            <StaticAmount display-zero>
               { bank.totalInstitution[year][amount.id][amount.type] }
             </StaticAmount>
           </td>
           ))}
           <td>Total</td>
           <td className="table-warning">
-            <StaticAmount bank={bank} display-zero>
+            <StaticAmount display-zero>
               { bank.totalHolding[year]['12'] }
             </StaticAmount>
           </td>
           <td>Goal</td>
           <FireTD goal={bank.goalYearToDate[year]['12']} threshold={0}>
-            <StaticAmount bank={bank} display-zero>
+            <StaticAmount display-zero>
               { bank.goalYearToDate[year]['12'] }
             </StaticAmount>
           </FireTD>

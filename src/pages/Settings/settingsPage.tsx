@@ -32,7 +32,7 @@ class SettingsPageBase extends React.Component<IProps, {}> {
     startingCapital: 0
   }
 
-  componentDidMount () {
+  componentDidMount() {
     const { authUser, onLoadBank, bankLoaded } = this.props;
     if (bankLoaded || !authUser ) return;
     
@@ -51,7 +51,7 @@ class SettingsPageBase extends React.Component<IProps, {}> {
     this.props.onSaveBank(this.props.authUser.uid, this.props.bank);
   }
 
-  render () {
+  render() {
     const { bank, bankLoaded, bankUpdated, saveInProgress } = this.props;
 
     if (!bankLoaded) return <LoadingPanel />;
@@ -59,9 +59,6 @@ class SettingsPageBase extends React.Component<IProps, {}> {
     return (
       <React.Fragment>
         <SavePanel label="Settings" 
-                   bank={bank}
-                   updated={bankUpdated}
-                   saveInProgress={saveInProgress}
                    cancelChanges={this.cancelChanges}
                    callback={() => {}} 
                    saveClick={this.saveHeaders} />

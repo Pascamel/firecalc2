@@ -34,7 +34,7 @@ class FiltersBtn extends React.Component<IProps, IState> {
     }))
   }
 
-  render () {
+  render() {
     const { bankUpdated, bank } = this.props;
 
     return (

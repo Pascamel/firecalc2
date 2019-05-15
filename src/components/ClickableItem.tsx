@@ -41,7 +41,7 @@ export default class ClickableItem extends React.Component<IProps, IState> {
     this.clickColumn = this.clickColumn.bind(this);
   }
 
-  clickColumn () {
+  clickColumn() {
     this.setState({hidden: !this.state.hidden});
   }
 

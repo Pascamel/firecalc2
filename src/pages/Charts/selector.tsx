@@ -33,7 +33,7 @@ export default class Selector extends React.Component<IProps, {}> {
     this.props.history.push(ROUTES.CHARTS.replace(':type', newRoute));
   }
 
-  render () {
+  render
     const { type } = this.props;
     
     return (

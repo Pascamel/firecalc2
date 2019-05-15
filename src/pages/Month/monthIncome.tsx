@@ -27,7 +27,7 @@ class MonthIncome extends React.Component<IProps, IState> {
     };
   }
   
-  render () {
+  render() {
     const { header, month, year, callback, data, bank } = this.props;
 
     return (

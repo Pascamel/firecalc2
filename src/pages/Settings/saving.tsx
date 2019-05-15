@@ -94,7 +94,7 @@ class Saving extends React.Component<IProps, IState> {
     this.props.onSwitchSavingHeaders(index, index+1);
   }
 
-  render () {
+  render() {
     const { header, index, bank }  = this.props;
 
     return (

@@ -11,7 +11,7 @@ interface IProps {
 }
 
 export default class Progress extends React.Component<IProps, {}> {
-  render () {
+  render() {
     const { result, goal, percentage, label } = this.props
 
     return (

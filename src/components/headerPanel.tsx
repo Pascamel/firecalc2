@@ -6,7 +6,7 @@ interface IProps {
 }
 
 export default class HeaderPanel extends React.Component<IProps, {}> {
-  render () {
+  render() {
     return (
       <Container fluid className="alert alert-save alert-header">
         <Row>
