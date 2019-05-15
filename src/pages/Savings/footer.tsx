@@ -10,7 +10,7 @@ interface IProps {
 }
 
 class Footer extends React.Component<IProps, {}> {
-  render() {
+  render () {
     const { bank } = this.props;
 
     return (

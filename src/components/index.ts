@@ -1,10 +1,11 @@
-import FireTR from './FireTR';
-import FireTD from './FireTD';
 import FireAmount from './FireAmount';
+import FireTD from './FireTD';
+import FireTR from './FireTR';
 import HeaderPanel from './HeaderPanel';
 import LoadingPanel from './LoadingPanel';
 import SavePanel from './SavePanel';
-import { StaticAmount, StaticPercentage } from './staticAmount';
+import StaticAmount from './StaticAmount2';
+import StaticPercentage from './StaticPercentage';
 
 export { 
   FireTR,

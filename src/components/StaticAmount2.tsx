@@ -1,16 +1,17 @@
 import _ from 'lodash';
 import React from 'react';
+import { connect } from 'react-redux';
 
 import * as Bank from '../bank';
 import helpers from '../helpers';
 
-interface IAmountProps {
+interface IProps {
   children: number,
   bank: Bank.IBank
   ['display-zero']?: boolean
 }
 
-export class StaticAmount extends React.Component<IAmountProps, {}> {
+class StaticAmount2 extends React.Component<IProps, {}> {
   render () {
     const daz = _.has(this.props, 'display-zero');
     const value: number = this.props.children || 0;
@@ -23,16 +24,10 @@ export class StaticAmount extends React.Component<IAmountProps, {}> {
   }
 }
 
-interface IPercentageProps {
-  children: number
+const mapStateToProps = (state: any) => {
+  return ({
+    bank: state.bankState.bank
+  });
 }
 
-export class StaticPercentage extends React.Component<IPercentageProps, {}> {
-  render() {
-    return (
-      <React.Fragment>
-        {helpers.percentage(this.props.children)}
-      </React.Fragment>
-    );
-  }
-}
+export default connect(mapStateToProps)(StaticAmount2);

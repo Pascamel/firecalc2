@@ -50,18 +50,18 @@ class RevenuesTableBody extends React.Component<IProps, IState> {
           </FireTD>
           {bank.incomeHeaders.map((header: any) => (
           <FireTD show={this.state.collapsed} key={header.id}>
-            <StaticAmount bank={bank} display-zero>
+            <StaticAmount display-zero>
               { bank.yearlyIncome[year][header.id] }
             </StaticAmount>
           </FireTD>
           ))}
           <FireTD show={this.state.collapsed}>
-            <StaticAmount bank={bank} display-zero>
+            <StaticAmount display-zero>
               { bank.totalYearPost[year] }
             </StaticAmount>
           </FireTD>
           <FireTD show={this.state.collapsed}>
-            <StaticAmount bank={bank} display-zero>
+            <StaticAmount display-zero>
               { bank.totalYearPre[year] }
             </StaticAmount>
           </FireTD>
