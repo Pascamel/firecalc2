@@ -74,31 +74,9 @@ export const saveBank = (uid: string, bank: Bank.IBank) => {
   };
 }
 
-export const newIncomeHeader = (bank: Bank.IBank, header: IIncomeHeader) => {
-  return (dispatch: Dispatch<any>) => {
-    dispatch(({
-      type: TYPES.HEADERS_NEW_INCOME,
-      payload: {
-        bank: JSON.parse(JSON.stringify(bank)), 
-        header: header
-      }
-    }));
-  }
-}
+// hsdfuoasbduofbasoudhfbljashbdflhbfvlmhbnldkjfghjnlsdjkfghlkdsfjhglsdkjfhglksjdfhlkjsdhfglkjshd
 
-export const updateIncomeHeader = (bank: Bank.IBank, header: IIncomeHeader) => {
-  return (dispatch: Dispatch<any>) => {
-    dispatch(({
-      type: TYPES.HEADERS_UPDATE_INCOME,
-      payload: {
-        bank: JSON.parse(JSON.stringify(bank)), 
-        header: header
-      }
-    }));
-  }
-}
-
-export const newSavingHeader = (bank: Bank.IBank) => {
+export const newSavingHeader = () => {
   return (dispatch: Dispatch<any>) => {
     dispatch(({
       type: TYPES.HEADERS_NEW_SAVING,
@@ -177,6 +155,89 @@ export const switchSavingHeaders = (index1: number, index2: number) => {
     }));
   };
 }
+
+// hsdfuoasbduofbasoudhfbljashbdflhbfvlmhbnldkjfghjnlsdjkfghlkdsfjhglsdkjfhglksjdfhlkjsdhfglkjshd
+
+export const newIncomeHeader = () => {
+  return (dispatch: Dispatch<any>) => {
+    dispatch(({
+      type: TYPES.HEADERS_NEW_INCOME,
+      payload: {}
+    }));
+  }
+}
+
+export const updateIncomeHeader = (header: IIncomeHeader) => {
+  return (dispatch: Dispatch<any>) => {
+    dispatch(({
+      type: TYPES.HEADERS_UPDATE_INCOME,
+      payload: {
+        header: {
+          id: header.id,
+          $edit: true
+        }
+      }
+    }));
+  };
+}
+
+export const confirmUpdateIncomeHeader = (header: IIncomeHeader) => {
+  return (dispatch: Dispatch<any>) => {
+    dispatch(({
+      type: TYPES.HEADERS_UPDATE_INCOME,
+      payload: {
+        header: {
+          id: header.id,
+          $edit: false,
+          label: header.label,
+          pretax: header.pretax,
+          count: header.count
+        }
+      }
+    }));
+  };
+}
+
+export const cancelUpdateIncomeHeader = (header: IIncomeHeader) => {
+  return (dispatch: Dispatch<any>) => {
+    dispatch(({
+      type: TYPES.HEADERS_UPDATE_INCOME,
+      payload: {
+        header: {
+          id: header.id,
+          $edit: false
+        }
+      }
+    }));
+  };
+}
+
+export const deleteIncomeHeader = (header: IIncomeHeader) => {
+  return (dispatch: Dispatch<any>) => {
+    dispatch(({
+      type: TYPES.HEADERS_DELETE_INCOME,
+      payload: {
+        header: {
+          id: header.id
+        }
+      }
+    }));
+  };
+}
+
+export const switchIncomeHeaders = (index1: number, index2: number) => {
+  return (dispatch: Dispatch<any>) => {
+    dispatch(({
+      type: TYPES.HEADERS_SWITCH_INCOME,
+      payload: {
+        index1: index1,
+        index2: index2
+      }
+    }));
+  };
+}
+
+// hsdfuoasbduofbasoudhfbljashbdflhbfvlmhbnldkjfghjnlsdjkfghlkdsfjhglsdkjfhglksjdfhlkjsdhfglkjshd
 
 export const saveHeaders = (uid: string, bank: Bank.IBank) => {
   return (dispatch: Dispatch<any>) => {

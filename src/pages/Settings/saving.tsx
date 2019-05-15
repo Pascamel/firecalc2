@@ -54,11 +54,11 @@ class Saving extends React.Component<IProps, IState> {
     this.setState(s);
   }
 
-  editHeader = (header: any) => {
+  editHeader = (header: ISavingsHeader) => {
     this.props.onUpdateSavingHeader(header);
   }
 
-  editHeaderConfirm = (header: any) => {
+  editHeaderConfirm = (header: ISavingsHeader) => {
     header.label = this.state.editLabel;
     header.sublabel = this.state.editSublabel;
     header.icon = this.state.editIcon;
@@ -67,7 +67,7 @@ class Saving extends React.Component<IProps, IState> {
     this.props.onConfirmUpdateSavingHeader(header);
   }
 
-  editHeaderCancel = (header: any) => {
+  editHeaderCancel = (header: ISavingsHeader) => {
     this.setState({
       editLabel: this.props.header.label || '',
       editSublabel: this.props.header.sublabel || '',
@@ -78,17 +78,17 @@ class Saving extends React.Component<IProps, IState> {
     this.props.onCancelUpdateSavingHeader(header);
   }
 
-  removeHeader = (header: any) => {
+  removeHeader = (header: ISavingsHeader) => {
     this.props.onDeleteSavingHeader(header);
   }
 
-  moveUpHeader = (index: any) => {
+  moveUpHeader = (index: number) => {
     if (index <= 0 || index >= this.props.bank.headers.savings.length) return;	
 
     this.props.onSwitchSavingHeaders(index-1, index);
   }
 
-  moveDownHeader = (index: any) => {
+  moveDownHeader = (index: number) => {
     if (index < 0 || index >= this.props.bank.headers.savings.length - 1) return;
 
     this.props.onSwitchSavingHeaders(index, index+1);

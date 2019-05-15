@@ -7,7 +7,10 @@ export interface IIncome {
 }
 
 export interface IIncomeHeader {
-
+  id: string,
+  label: string,
+  pretax: boolean,
+  count: number
 }
 
 export interface ISavings {

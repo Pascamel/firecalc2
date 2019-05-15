@@ -9,16 +9,16 @@ import Saving from './saving';
 interface IProps {
   bank: Bank.IBank,
   bankLoaded: boolean,
-  onNewSavingHeader: (bank: Bank.IBank) => void,
+  onNewSavingHeader: () => void
 }
 
 class Savings extends React.Component<IProps, {}> {
   newHeader = () => {
-    this.props.onNewSavingHeader(this.props.bank);
+    this.props.onNewSavingHeader();
   }
 
   render() {
-    const {bank, bankLoaded} = this.props;
+    const { bank, bankLoaded } = this.props;
 
     if (!bankLoaded) return null;
 
@@ -39,9 +39,7 @@ class Savings extends React.Component<IProps, {}> {
         ))}
         <Row>
           <Col>
-            <Button block color="light" onClick={this.newHeader}>
-              Add New
-            </Button>
+            <Button block color="light" onClick={this.newHeader}>Add New</Button>
           </Col>
         </Row>
       </Alert>
@@ -58,8 +56,8 @@ const mapStateToProps = (state: any) => {
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => {
   return {
-    onNewSavingHeader: (bank: Bank.IBank) => {
-      dispatch(newSavingHeader(bank));
+    onNewSavingHeader: () => {
+      dispatch(newSavingHeader());
     },
   };
 }

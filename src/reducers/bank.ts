@@ -126,13 +126,59 @@ function bankReducer(state = INITIAL_STATE, action: any) {
       });
     }
 
-    case TYPES.HEADERS_NEW_INCOME:
-    case TYPES.HEADERS_UPDATE_INCOME:
+    case TYPES.HEADERS_NEW_INCOME: {
+      let new_bank = JSON.parse(JSON.stringify(state.bank));
+      new_bank.headers.incomes.push({
+        $edit: true,
+        id: uuid.v4()
+      });
+
       return ({
         ...state,
-        bank: action.payload.bank,
+        bank: new_bank,
         bankUpdated: true
       });
+    }
+    
+    case TYPES.HEADERS_UPDATE_INCOME: {
+      let new_bank = JSON.parse(JSON.stringify(state.bank));
+
+      _(new_bank.headers.incomes).each((h: any) => {
+        if (h.id !== action.payload.header.id) return;
+        Object.assign(h, action.payload.header);
+      });
+
+      return ({
+        ...state,
+        bank: new_bank,
+        bankUpdated: true
+      });
+    }
+
+    case TYPES.HEADERS_DELETE_INCOME: {
+      let new_bank = JSON.parse(JSON.stringify(state.bank));
+      _.remove(new_bank.headers.incomes, (h: any) => h.id === action.payload.header.id);
+
+      return({
+        ...state,
+        bank: new_bank,
+        bankUpdated: true
+      });
+    }
+    
+    case TYPES.HEADERS_SWITCH_INCOME: {
+      let new_bank = JSON.parse(JSON.stringify(state.bank));
+
+      var tmp = new_bank.headers.incomes[action.payload.index1];	
+      new_bank.headers.incomes[action.payload.index1] = new_bank.headers.incomes[action.payload.index2];	
+      new_bank.headers.incomes[action.payload.index2] = tmp;	
+
+      return({
+        ...state,
+        bank: new_bank,
+        bankUpdated: true
+      });
+    }
     default:
       return state;
   }

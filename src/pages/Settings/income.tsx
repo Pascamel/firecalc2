@@ -3,7 +3,14 @@ import React, { Dispatch } from 'react';
 import { connect } from 'react-redux';
 import { Col, Row } from 'reactstrap';
 
-import { newIncomeHeader, updateIncomeHeader, updateValue } from '../../actions';
+import {
+  cancelUpdateIncomeHeader,
+  confirmUpdateIncomeHeader,
+  deleteIncomeHeader,
+  switchIncomeHeaders,
+  updateIncomeHeader,
+  updateValue
+} from '../../actions';
 import * as Bank from '../../bank';
 import { IIncomeHeader } from '../../bank/interfaces';
 
@@ -12,7 +19,12 @@ interface IProps {
   header: any,
   bank: Bank.IBank,
   bankLoaded: boolean,
-  onUpdateValue: (index: string, indexes: string[], amount: number|boolean) => void
+  onUpdateValue: (index: string, indexes: string[], amount: number|boolean) => void,
+  onUpdateIncomeHeader: (header: IIncomeHeader) => void,
+  onConfirmUpdateIncomeHeader: (header: IIncomeHeader) => void,
+  onCancelUpdateIncomeHeader: (header: IIncomeHeader) => void,
+  onDeleteIncomeHeader: (header: IIncomeHeader) => void,
+  onSwitchIncomeHeaders: (index1: number, index2: number) => void,
 }
 
 interface IState {
@@ -40,34 +52,47 @@ class Income extends React.Component<IProps, IState> {
     this.setState(s);
   }
 
-  editHeaderConfirm = (header: any) => {
+  editHeader = (header: IIncomeHeader) => {
+    this.props.onUpdateIncomeHeader(header);
+  }
+
+  editHeaderConfirm = (header: IIncomeHeader) => {
     header.label = this.state.editLabel;
     header.pretax = this.state.editPretax;
     header.count = this.state.editCount;
-    // this.props.confirmEditHeaderCallback('incomes', header);
+
+    this.props.onConfirmUpdateIncomeHeader(header);
   }
-  editHeaderCancel = (header: any) => {
-    // this.setState({
-    //   editLabel: this.props.header.label || '',
-    //   editPretax: this.props.header.pretax || false,
-    //   editCount: this.props.header.count || 1
-    // });
-    // this.props.cancelEditHeaderCallback('incomes', header);
+  editHeaderCancel = (header: IIncomeHeader) => {
+    this.setState({
+      editLabel: this.props.header.label || '',
+      editPretax: this.props.header.pretax || false,
+      editCount: this.props.header.count || 1
+    });
+    
+    this.props.onCancelUpdateIncomeHeader(header);
   }
-  editHeader = (header: any) => {
-    // this.props.editHeaderCallback('incomes', header);
+  
+  removeHeader = (header: IIncomeHeader) => {
+    this.props.onDeleteIncomeHeader(header);
   }
-  removeHeader = (header: any) => {
-    // this.props.deleteHeaderCallback('incomes', header);
+
+  moveUpHeader = (index: number) => {
+    if (index <= 0 || index >= this.props.bank.headers.incomes.length) return;	
+
+    this.props.onSwitchIncomeHeaders(index-1, index);
   }
-  moveUpHeader = (index: any) => {
-    // this.props.moveUpHeaderCallback('incomes', index);
+
+  moveDownHeader = (index: number) => {
+    if (index < 0 || index >= this.props.bank.headers.incomes.length - 1) return;
+
+    this.props.onSwitchIncomeHeaders(index, index+1);
   }
-  moveDownHeader = (index: any) => {
-    // this.props.moveDownHeaderCallback('incomes', index);
-  }
+  
   render () {
     const { header, index, bank }  = this.props;
+
+    console.log('bank.headers', bank.headers)
 
     return (
       <Row className="form-headers">
@@ -90,7 +115,7 @@ class Income extends React.Component<IProps, IState> {
               {header.$edit && <input
                 type="checkbox"     
                 name="editPretax"
-                checked={this.state.editPretax}                          
+                defaultChecked={this.state.editPretax}                          
                 onChange={this.handleInputChange} 
               />}
               <span className="ml-1">Pre-tax</span>
@@ -123,7 +148,7 @@ class Income extends React.Component<IProps, IState> {
           {!header.$edit && <span className={`btn btn-link ${(index === 0) ? 'disabled' : ''}`} onClick={e => this.moveUpHeader(index)}>
             <FontAwesomeIcon icon="chevron-up" size="lg" />
           </span>}
-          {!header.$edit && <span className={`btn btn-link ${(index >= bank.headers.savings.length-1) ? 'disabled' : ''}`} onClick={e => this.moveDownHeader(index)}>
+          {!header.$edit && <span className={`btn btn-link ${(index >= bank.headers.incomes.length-1) ? 'disabled' : ''}`} onClick={e => this.moveDownHeader(index)}>
             <FontAwesomeIcon icon="chevron-down" size="lg" />
           </span>}
         </Col>
@@ -143,6 +168,21 @@ const mapDispatchToProps = (dispatch: Dispatch<any>) => {
   return {
     onUpdateValue: (index: string, indexes: string[], amount: number|boolean) => {
       dispatch(updateValue(index, indexes, amount));
+    },
+    onUpdateIncomeHeader: (header: IIncomeHeader) => {
+      dispatch(updateIncomeHeader(header));
+    },
+    onConfirmUpdateIncomeHeader: (header: IIncomeHeader) => {
+      dispatch(confirmUpdateIncomeHeader(header));
+    },
+    onCancelUpdateIncomeHeader: (header: IIncomeHeader) => {
+      dispatch(cancelUpdateIncomeHeader(header));
+    },
+    onDeleteIncomeHeader: (header: IIncomeHeader) => {
+      dispatch(deleteIncomeHeader(header));
+    },
+    onSwitchIncomeHeaders: (index1: number, index2: number) => {
+      dispatch(switchIncomeHeaders(index1, index2));
     }
   };
 };
