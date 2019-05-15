@@ -1,5 +1,6 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
+import { connect } from 'react-redux';
 
 import * as Bank from '../../bank';
 import { StaticAmount } from '../../components';
@@ -8,11 +9,9 @@ interface IProps {
   bank: Bank.IBank
 }
 
-interface IState {}
-
-export default class Footer extends React.Component<IProps, IState> {
+class Footer extends React.Component<IProps, {}> {
   render() {
-    const {bank} = this.props;
+    const { bank } = this.props;
 
     return (
       <tfoot>
@@ -39,3 +38,11 @@ export default class Footer extends React.Component<IProps, IState> {
     );
   }
 }
+
+const mapStateToProps = (state: any) => {
+  return ({
+    bank: state.bankState.bank
+  });
+}
+
+export default connect(mapStateToProps)(Footer);

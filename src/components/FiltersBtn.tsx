@@ -1,24 +1,25 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import _ from 'lodash';
 import React from 'react';
-import { Dropdown, DropdownItem, DropdownMenu, DropdownToggle } from 'reactstrap';
+import { connect } from 'react-redux';
+import { Dropdown, DropdownMenu, DropdownToggle } from 'reactstrap';
 
 import * as Bank from '../bank';
-import * as formatters from '../bank/formatters';
 import * as I from '../bank/interfaces';
+import ClickableItem from './ClickableItem';
 
-interface IFiltersBtnProps {
-  updated: boolean,
-  bank: Bank.IBank,
-  callback: (index: string, indexes: string[], amount: any, updatedState: boolean) => void
+interface IProps {
+  bankUpdated: boolean,
+  bank: Bank.IBank
+  // callback: (index: string, indexes: string[], amount: any, updatedState: boolean) => void
 }
 
-interface IFiltersBtnState {
+interface IState {
   dropdownOpen: boolean
 }
 
-export class FiltersBtn extends React.Component<IFiltersBtnProps, IFiltersBtnState> {
-  constructor(props: IFiltersBtnProps) {
+class FiltersBtn extends React.Component<IProps, IState> {
+  constructor(props: IProps) {
     super(props);
 
     this.toggle = this.toggle.bind(this);
@@ -34,7 +35,7 @@ export class FiltersBtn extends React.Component<IFiltersBtnProps, IFiltersBtnSta
   }
 
   render () {
-    const {updated, bank} = this.props;
+    const { bankUpdated, bank } = this.props;
 
     return (
       <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle} className="mr-2">
@@ -53,53 +54,11 @@ export class FiltersBtn extends React.Component<IFiltersBtnProps, IFiltersBtnSta
   }
 }
 
-interface IClickableItemProps {
-  header: {id: string, type: string},
-  bank: Bank.IBank,
-  callback: (index: string, indexes: string[], amount: any, updatedState: boolean) => void
+const mapStateToProps = (state: any) => {
+  return ({
+    bank: state.bankState.bank,
+    bankUpdated: state.bankState.bankUpdated,
+  });
 }
 
-interface IClickableItemState {
-  header_label: string,
-  hidden: boolean
-}
-
-class ClickableItem extends React.Component<IClickableItemProps, IClickableItemState> {
-  constructor(props: IClickableItemProps) {
-    super(props);
-    
-    let hl = '';
-    if (props.header.id === 'total') {
-      hl = 'Totals';
-    } else {
-      const h = _(props.bank.savingsHeaders).keyBy('id').get([props.header.id], 'N/A');
-
-      let header_label = h.label || 'N/A';
-      if (h.sublabel) header_label += ' > ' + h.sublabel;
-      if (h.interest) header_label += ' > ' + formatters.labelSavings(props.header.type);
-
-      hl = header_label;
-    }
-
-    this.state = {
-      header_label: hl,
-      hidden: _.get(props.bank, ['savingsHeadersHidden', this.props.header.id, this.props.header.type], false)
-    };
-
-    this.clickColumn = this.clickColumn.bind(this);
-  }
-
-  clickColumn () {
-    this.props.callback('savingsHeadersHidden', [this.props.header.id, this.props.header.type], !this.state.hidden, false);
-    this.setState({hidden: !this.state.hidden});
-  }
-
-  render() {
-    return (
-      <DropdownItem toggle={false} onClick={this.clickColumn} className={this.state.hidden ? 'text-muted' : ''}>
-        <FontAwesomeIcon icon={this.state.hidden ? 'eye-slash' : 'eye'} className="mr-2" />
-        {this.state.header_label}
-      </DropdownItem>
-    );
-  }
-}
+export default connect(mapStateToProps)(FiltersBtn);

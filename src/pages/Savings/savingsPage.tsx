@@ -1,96 +1,98 @@
-import React from 'react';
+import React, { Dispatch } from 'react';
+import { connect } from 'react-redux';
 import { Alert, Col, Container, Row } from 'reactstrap';
 
+import { loadBank, saveBank } from '../../actions';
 import * as Bank from '../../bank';
 import { LoadingPanel, SavePanel } from '../../components';
 import Table from './table';
 
-interface IProps {}
-
-interface IState {
-  loading: boolean,
-  updated: boolean,
+interface IProps {
+  authUser: firebase.User|null,
+  bank: Bank.IBank,
+  bankLoaded: boolean,
+  bankUpdated: boolean,
   saveInProgress: boolean,
-  bank: Bank.IBank
+  onLoadBank: (uid: string) => void,
+  onSaveBank: (uid: string, bank: Bank.IBank) => void
 }
 
-export default class SavingsPageBase extends React.Component<IProps, IState> {
-  constructor(props: IProps) {
-    super(props);
-
-    this.state = {
-      loading: true,
-      updated: false,
-      saveInProgress: false,
-      bank: ({} as Bank.IBank)
-    }
-  }
-
+class SavingsPageBase extends React.Component<IProps, {}> {
   componentDidMount() {
-    Bank.load('123').then((b) => {
-      this.setState({bank: b, loading: false});
-    }).catch(function(error) {});
-  }
-
-  updateValue = (index: string, indexes: string[], amount: number, updatedState: boolean) => {
-    Bank.updateValue(this.state.bank, index, indexes, amount);
-    if (updatedState) {
-      this.setState({bank: this.state.bank, updated: true});
-    } else {
-      this.setState({bank: this.state.bank});
-      Bank.saveLocalStorage(this.state.bank);
-    }
+    const { authUser, onLoadBank, bankLoaded } = this.props;
+    if (bankLoaded || !authUser ) return;
+    
+    onLoadBank(authUser.uid);
   }
 
   saveData = () => {
-    this.setState({saveInProgress: true});
+    if (!this.props.authUser) return;
 
-    Bank.saveSavings('123', this.state.bank).then((saved) => {
-      this.setState({
-        updated: !saved, 
-        saveInProgress: false
-      });
-    }).catch((error) => {});
+    this.props.onSaveBank(this.props.authUser.uid, this.props.bank);
   }
 
   cancelChanges = () => {
-    Bank.load('123').then(b => {
-      this.setState({
-        updated: false,
-        bank: b
-      });
-    });
+    if (!this.props.authUser) return;
+
+    this.props.onLoadBank(this.props.authUser.uid);
   }
 
   render() {
-    const { loading, updated } = this.state;
+    const { bank, bankLoaded, bankUpdated, saveInProgress } = this.props;
 
+    if (!bankLoaded) return <LoadingPanel />;
     
     return (
       <React.Fragment>
-        {loading && <LoadingPanel />}
-        {!loading && <SavePanel label="Savings" 
-                                updated={updated} 
-                                saveClick={this.saveData} 
-                                cancelChanges={this.cancelChanges}
-                                callback={this.updateValue} 
-                                {...this.state} />}
-        {!loading &&  <Container fluid className="top-shadow">
+        <SavePanel label="Savings" 
+                   bank={bank}
+                   updated={bankUpdated} 
+                   saveClick={this.saveData} 
+                   cancelChanges={this.cancelChanges}
+                   saveInProgress={saveInProgress}
+                   {...this.state} />
+        <Container fluid className="top-shadow">
           <Row>
             <Col className="pr-0 pl-0">
               <Container>
                 <Row>
                   <Col>
                     <Alert color="background">
-                      <Table {...this.state} callback={this.updateValue} />
+                      <Table />
                     </Alert>
                   </Col>
                 </Row>
               </Container>
             </Col>
           </Row>
-        </Container>}
+        </Container>
       </React.Fragment>
     );
   }
 }
+
+const mapStateToProps = (state: any) => {
+  return ({
+    authUser: state.sessionState.authUser,
+    bank: state.bankState.bank,
+    bankLoaded: state.bankState.bankLoaded,
+    bankUpdated: state.bankState.bankUpdated,
+    saveInProgress: state.bankState.saveInProgress
+  });
+}
+
+const mapDispatchToProps = (dispatch: Dispatch<any>) => {
+  return {
+    onLoadBank: (uid: string) => {
+      dispatch(loadBank(uid));
+    },
+    onSaveBank: (uid: string, bank: Bank.IBank) => {
+      dispatch(saveBank(uid, bank));
+    }
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(SavingsPageBase);

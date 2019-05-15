@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
 import * as Bank from '../../bank';
 
@@ -6,13 +7,9 @@ interface IProps {
   bank: Bank.IBank
 }
 
-interface IState {
-
-}
-
-export default class Header extends React.Component<IProps, IState> {
+class Header extends React.Component<IProps, {}> {
   render () {
-    const {bank} = this.props;
+    const { bank } = this.props;
 
     return (
       <thead>
@@ -35,3 +32,11 @@ export default class Header extends React.Component<IProps, IState> {
     );    
   }
 }
+
+const mapStateToProps = (state: any) => {
+  return ({
+    bank: state.bankState.bank
+  });
+}
+
+export default connect(mapStateToProps)(Header);

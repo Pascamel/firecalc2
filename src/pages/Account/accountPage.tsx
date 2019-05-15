@@ -1,14 +1,14 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { Container, Row, Col, ListGroup, ListGroupItem, ListGroupItemHeading } from 'reactstrap';
+import { Col, Container, ListGroup, ListGroupItem, ListGroupItemHeading, Row } from 'reactstrap';
+
+import { HeaderPanel } from '../../components';
 import { PasswordForgetForm } from '../PasswordForget/pwForgetForm';
 import { PasswordChangeForm } from './PasswordChangeForm';
-import { HeaderPanel } from '../../components';
-
 
 class AccountPageBase2 extends React.Component<any, {}> {
   render () {
-    const {authUser} = this.props;
+    const { authUser } = this.props;
 
     return (
       <React.Fragment>
@@ -24,7 +24,7 @@ class AccountPageBase2 extends React.Component<any, {}> {
                         <ListGroupItemHeading>
                           Account
                         </ListGroupItemHeading>
-                        {(authUser as any).email}
+                        {(authUser as firebase.User).email}
                       </ListGroupItem>
                       <ListGroupItem>
                         <ListGroupItemHeading>

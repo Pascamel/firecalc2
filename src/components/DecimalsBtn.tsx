@@ -1,20 +1,22 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React from 'react';
+import React, { Dispatch } from 'react';
+import { connect } from 'react-redux';
 import { Dropdown, DropdownItem, DropdownMenu, DropdownToggle } from 'reactstrap';
 
+import { updateValue } from '../actions';
 import * as Bank from '../bank';
 
 interface IProps {
-  updated: boolean, 
+  bankUpdated: boolean, 
   bank: Bank.IBank,
-  callback: (index: string, indexes: string[], amount: any, updatedState: boolean) => void
+  onUpdateValue: (index: string, indexes: string[], amount: boolean) => void
 }
 
 interface IState {
   dropdownOpen: boolean
 }
 
-export default class DecimalsBtn extends React.Component<IProps, IState> {
+class DecimalsBtn extends React.Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
 
@@ -31,11 +33,11 @@ export default class DecimalsBtn extends React.Component<IProps, IState> {
   }
 
   clickDecimal(decimal: boolean) {
-    this.props.callback('showDecimals', [], decimal, false);
+    this.props.onUpdateValue('showDecimals', [], decimal);
   }
 
   render () {
-    const {updated, bank} = this.props;
+    const { bank, bankUpdated } = this.props;
 
     return (
       <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
@@ -50,3 +52,23 @@ export default class DecimalsBtn extends React.Component<IProps, IState> {
     );
   }
 }
+
+const mapStateToProps = (state: any) => {
+  return ({
+    bank: state.bankState.bank,
+    bankUpdated: state.bankState.bankUpdated,
+  });
+}
+
+const mapDispatchToProps = (dispatch: Dispatch<any>) => {
+  return {
+    onUpdateValue: (index: string, indexes: string[], amount: boolean) => {
+      dispatch(updateValue(index, indexes, amount));
+    }
+  };
+};
+
+export default connect(
+  mapStateToProps, 
+  mapDispatchToProps
+)(DecimalsBtn);

@@ -1,21 +1,23 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import _ from 'lodash';
-import React from 'react';
+import React, { Dispatch } from 'react';
+import { connect } from 'react-redux';
 
+import { updateValue } from '../../actions';
 import * as Bank from '../../bank';
 import { FireAmount, FireTD, FireTR, StaticAmount, StaticPercentage } from '../../components';
 
 interface IProps {
   year: string,
   bank: Bank.IBank,
-  callback: (index: string, indexes: string[], amount: any, updatedState: boolean) => void
+  onUpdateValue: (index: string, indexes: string[], amount: number) => void
 }
 
 interface IState {
   collapsed: boolean;
 }
 
-export default class RevenuesTableBody extends React.Component<IProps, IState> {
+class RevenuesTableBody extends React.Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
 
@@ -26,11 +28,14 @@ export default class RevenuesTableBody extends React.Component<IProps, IState> {
   handleClickToggle() {
     const newValue = !this.state.collapsed;
     this.setState({collapsed: newValue});
-    this.props.callback('incomeYearHeaders', ['collapsed', this.props.year], newValue, false);
+  }
+
+  updateValue = (index: string, indexes: string[], amount: number, updatedState: boolean) => {
+    this.props.onUpdateValue(index, indexes, amount);
   }
 
   render() {
-    const {year, bank, callback} = this.props;
+    const { year, bank } = this.props;
 
     return (
       <tbody>
@@ -75,7 +80,7 @@ export default class RevenuesTableBody extends React.Component<IProps, IState> {
             <FireAmount amount={month[1][header.id]}
                         display-decimals={bank.showDecimals}
                         callback-props={['income', year, month[0], header.id]} 
-                        callback={callback} />
+                        callback={this.updateValue} />
           </td>
           ))}
           {bank.totalMonthIncome[year][month[0]] === 0 && <td colSpan={3}></td>}
@@ -130,3 +135,22 @@ export default class RevenuesTableBody extends React.Component<IProps, IState> {
     );
   }
 };
+
+const mapStateToProps = (state: any) => {
+  return ({
+    bank: state.bankState.bank
+  });
+}
+
+const mapDispatchToProps = (dispatch: Dispatch<any>) => {
+  return {
+    onUpdateValue: (index: string, indexes: string[], amount: number) => {
+      dispatch(updateValue(index, indexes, amount));
+    }
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(RevenuesTableBody);

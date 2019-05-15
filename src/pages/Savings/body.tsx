@@ -1,7 +1,9 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import _ from 'lodash';
-import React from 'react';
+import React, { Dispatch } from 'react';
+import { connect } from 'react-redux';
 
+import { updateValue } from '../../actions';
 import * as Bank from '../../bank';
 import { FireAmount, FireTD, FireTR, StaticAmount, StaticPercentage } from '../../components';
 
@@ -15,7 +17,7 @@ interface IState {
   collapsed: boolean;
 }
 
-export default class Body extends React.Component<IProps, IState> {
+class Body extends React.Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
 
@@ -166,3 +168,22 @@ export default class Body extends React.Component<IProps, IState> {
     );
   }
 };
+
+const mapStateToProps = (state: any) => {
+  return ({
+    bank: state.bankState.bank
+  });
+}
+
+const mapDispatchToProps = (dispatch: Dispatch<any>) => {
+  return {
+    onUpdateValue: (index: string, indexes: string[], amount: number) => {
+      dispatch(updateValue(index, indexes, amount));
+    }
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Body);

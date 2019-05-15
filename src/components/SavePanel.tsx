@@ -4,7 +4,7 @@ import { Button, ButtonGroup, Col, Container, Row } from 'reactstrap';
 
 import * as Bank from '../bank';
 import DecimalsBtn from './DecimalsBtn';
-import { FiltersBtn } from './FiltersBtn';
+import FiltersBtn from './FiltersBtn';
 
 interface IProps {
   updated: boolean, 
@@ -15,7 +15,7 @@ interface IProps {
   cancelChanges: () => void,
   prevMonth?: () => void,
   nextMonth?: () => void,
-  callback: (index: string, indexes: string[], amount: any, updatedState: boolean) => void
+  callback?: (index: string, indexes: string[], amount: any, updatedState: boolean) => void
 }
 
 export default class SavePanel extends React.Component<IProps, {}> {
@@ -31,12 +31,12 @@ export default class SavePanel extends React.Component<IProps, {}> {
                 <Col className="text-center">
                 
                   {label === 'Savings' && <ButtonGroup className="pull-left">
-                    <FiltersBtn {...this.props} />
-                    <DecimalsBtn {...this.props} />
+                    <FiltersBtn />
+                    <DecimalsBtn />
                   </ButtonGroup>}
 
                   {label === 'Revenues' && <ButtonGroup className="pull-left">
-                    <DecimalsBtn {...this.props} />
+                    <DecimalsBtn />
                   </ButtonGroup>}
 
                   {['Savings', 'Revenues', 'Settings'].indexOf(label) === -1 && 
