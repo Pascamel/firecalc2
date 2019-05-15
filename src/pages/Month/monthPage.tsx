@@ -73,18 +73,6 @@ class MonthPageBase extends React.Component<IProps, IState> {
     this.props.onUpdateValue(index, indexes, amount);
   }
 
-  saveData = () => {
-    if (!this.props.authUser) return;
-
-    this.props.onSaveBank(this.props.authUser.uid, this.props.bank);
-  }
-
-  cancelChanges = () => {
-    if (!this.props.authUser) return;
-
-    this.props.onLoadBank(this.props.authUser.uid);
-  }
-
   invalidRouteParams = () => {
     const m: number = parseInt(this.state.month);
     const y: number = parseInt(this.state.year);
@@ -103,7 +91,7 @@ class MonthPageBase extends React.Component<IProps, IState> {
 
   render() {
     const { month, year } = this.state;
-    const { bank, bankLoaded, bankUpdated, saveInProgress } = this.props;
+    const { bankLoaded, bankUpdated, saveInProgress } = this.props;
 
     if (!bankLoaded) return <LoadingPanel />;
     
@@ -120,13 +108,7 @@ class MonthPageBase extends React.Component<IProps, IState> {
 
     return (
       <>
-        <SavePanel label={`${helpers.labelMonth(month)} ${year}`} 
-                   saveClick={this.saveData} 
-                   cancelChanges={this.cancelChanges}
-                   prevMonth={this.prevMonth} 
-                   nextMonth={this.nextMonth} 
-                   callback={() => {}}
-                   {...this.state} />
+        <SavePanel label={`${helpers.labelMonth(month)} ${year}`} prevMonth={this.prevMonth} nextMonth={this.nextMonth} />
         <Swipe detectMouse={false} detectTouch={true} onSwipedLeft={this.nextMonth} onSwipedRight={this.prevMonth} >
           <Container fluid className="top-shadow">
             <Row>

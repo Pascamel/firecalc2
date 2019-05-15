@@ -77,10 +77,7 @@ class RevenuesTableBody extends React.Component<IProps, IState> {
           <td>{ month[0] }</td>
           {bank.incomeHeaders.map((header: any) => (
           <td key={year + '-' + month[0] + '-' + header.id}>
-            <FireAmount amount={month[1][header.id]}
-                        display-decimals={bank.showDecimals}
-                        callback-props={['income', year, month[0], header.id]} 
-                        callback={this.updateValue} />
+            <FireAmount callback-props={['income', year, month[0], header.id]} />
           </td>
           ))}
           {bank.totalMonthIncome[year][month[0]] === 0 && <td colSpan={3}></td>}

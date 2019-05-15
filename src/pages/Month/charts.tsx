@@ -1,8 +1,9 @@
 import _ from 'lodash';
-import React from 'react';
+import React, { Dispatch } from 'react';
 import { connect } from 'react-redux';
 import { Alert, Col, Row } from 'reactstrap';
 
+import { updateValue } from '../../actions';
 import * as Bank from '../../bank';
 import { FireAmount, StaticAmount } from '../../components';
 import Doughnut from './doughnut';
@@ -13,7 +14,7 @@ interface IProps {
   year: string, 
   bank: Bank.IBank,
   bankUpdated: boolean,
-  callback: (index: string, indexes: string[], amount: any, updatedState: boolean) => void
+  onUpdateValue: (index: string, indexes: string[], amount: number) => void
 }
 
 class Charts extends React.Component<IProps, {}> {
@@ -22,7 +23,7 @@ class Charts extends React.Component<IProps, {}> {
   }
 
   render() {    
-    const { month, year, bank, callback } = this.props;
+    const { month, year, bank, onUpdateValue } = this.props;
     
     return (
       <React.Fragment>
@@ -33,12 +34,7 @@ class Charts extends React.Component<IProps, {}> {
                 <span className="label-fake-input">Net worth</span>
               </Col>
               <Col>
-                <FireAmount amount={_.get(bank, ['networth', year, month], 0)} 
-                            extraClassName="label-fake-input pull-right"
-                            display-if-zero={true}
-                            display-decimals={bank.showDecimals}
-                            callback-props={['networth', year, month]} 
-                            callback={callback} />
+                <FireAmount extraClassName="label-fake-input pull-right" display-if-zero={true} callback-props={['networth', year, month]} />
               </Col>
             </Row>
           </Alert>
@@ -90,4 +86,21 @@ const mapStateToProps = (state: any) => {
   });
 }
 
-export default connect(mapStateToProps)(Charts);
+const mapDispatchToProps = (dispatch: Dispatch<any>) => {
+  return {
+    // onLoadBank: (uid: string) => {
+    //   dispatch(loadBank(uid));
+    // },
+    onUpdateValue: (index: string, indexes: string[], amount: number) => {
+      dispatch(updateValue(index, indexes, amount));
+    },
+    // onSaveBank: (uid: string, bank: Bank.IBank) => {
+    //   dispatch(saveBank(uid, bank));
+    // }
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Charts);

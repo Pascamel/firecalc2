@@ -35,12 +35,7 @@ class MonthIncome extends React.Component<IProps, IState> {
         <div className="month-amount">
           <span className="label-fake-input smaller mb-1">{this.state.label}</span>
           <div className="pull-right">
-            <FireAmount amount={parseFloat(_.get(data, header.id))} 
-                        extraClassName="label-fake-input"
-                        display-if-zero={true}
-                        display-decimals={bank.showDecimals}
-                        callback-props={['income', year, month, header.id]} 
-                        callback={callback} />
+            <FireAmount extraClassName="label-fake-input" display-if-zero={true} callback-props={['income', year, month, header.id]} />
           </div>
         </div>
       </React.Fragment>

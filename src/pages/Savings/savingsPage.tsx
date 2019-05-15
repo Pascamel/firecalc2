@@ -25,18 +25,6 @@ class SavingsPageBase extends React.Component<IProps, {}> {
     onLoadBank(authUser.uid);
   }
 
-  saveData = () => {
-    if (!this.props.authUser) return;
-
-    this.props.onSaveBank(this.props.authUser.uid, this.props.bank);
-  }
-
-  cancelChanges = () => {
-    if (!this.props.authUser) return;
-
-    this.props.onLoadBank(this.props.authUser.uid);
-  }
-
   render() {
     const { bank, bankLoaded, bankUpdated, saveInProgress } = this.props;
 
@@ -44,10 +32,7 @@ class SavingsPageBase extends React.Component<IProps, {}> {
     
     return (
       <React.Fragment>
-        <SavePanel label="Savings" 
-                   saveClick={this.saveData} 
-                   cancelChanges={this.cancelChanges}
-                   {...this.state} />
+        <SavePanel label="Savings" />
         <Container fluid className="top-shadow">
           <Row>
             <Col className="pr-0 pl-0">

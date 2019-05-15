@@ -50,11 +50,7 @@ class Body extends React.Component<IProps, IState> {
                   { bank.startOfYearAmount[year] }
                 </StaticAmount>
               </b> - Goal is&nbsp;
-              <FireAmount amount={_.get(bank, ['savingsYearHeaders', 'goals', year])}
-                          extraClassName="bold"
-                          display-decimals={bank.showDecimals}
-                          callback-props={['savingsYearHeaders', 'goals', year]}
-                          callback={callback} />
+              <FireAmount extraClassName="bold" callback-props={['savingsYearHeaders', 'goals', year]} />
               &nbsp;(
               <StaticAmount>
                 { bank.monthlyGoal[year] }
@@ -96,15 +92,8 @@ class Body extends React.Component<IProps, IState> {
           <td>{ month[0] }</td>
           {bank.savingsInputsHidden.map((amount: any, idx: number) => (
           <td key={idx}>
-            {amount.type !== 'T' &&
-            <FireAmount amount={_.get(month, [1, amount.id, amount.type])} 
-                        display-decimals={bank.showDecimals}
-                        callback-props={['savings', year, month[0], amount.id, amount.type]} 
-                        callback={callback} />}
-            {amount.type === 'T' && 
-            <StaticAmount>
-              {bank.totalMonthInstitution[year][month[0]][amount.id]}
-            </StaticAmount>}
+            {amount.type !== 'T' && <FireAmount callback-props={['savings', year, month[0], amount.id, amount.type]} />}
+            {amount.type === 'T' && <StaticAmount>{bank.totalMonthInstitution[year][month[0]][amount.id]}</StaticAmount>}
           </td>
           ))}
           <td>

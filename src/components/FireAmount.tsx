@@ -1,16 +1,18 @@
 import _ from 'lodash';
 import math from 'mathjs';
-import React from 'react';
+import React, { Dispatch } from 'react';
+import { connect } from 'react-redux';
 
+import { updateValue } from '../actions';
+import * as Bank from '../bank';
 import helpers from '../helpers';
 
 interface IProps {
-  amount: number,
+  bank: Bank.IBank,
   extraClassName?: string,
   ['callback-props']: string[],
   ['display-if-zero']?: boolean,
-  ['display-decimals']: boolean,
-  callback: (index: string, indexes: string[], amount: any, updatedState: boolean) => void
+  onUpdateValue: (index: string, indexes: string[], amount: number) => void
 }
 
 interface IState {
@@ -22,23 +24,23 @@ interface IState {
   displayIfZero: boolean
 }
 
-export default class FireAmount extends React.Component<IProps, IState> {
+class FireAmount extends React.Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
-    
+
     this.state = {
       readonly: _.last(props['callback-props']) === 'T',
       extraClassName: props.extraClassName || '',
       edit: false, 
-      amount: props.amount,
-      inputValue: props.amount ? props.amount.toString() : '',
+      amount: _.get(props.bank, props['callback-props'], 0), 
+      inputValue: _.get(props.bank, props['callback-props'], 0) ? _.get(props.bank, props['callback-props'], 0).toString() : '',
       displayIfZero: props['display-if-zero'] || false
     };
   }
 
   setEditMode = () => {
     if (this.state.readonly) return;
-    this.setState({edit: true, amount: this.props.amount });
+    this.setState({edit: true, amount: _.get(this.props.bank, this.props['callback-props'], 0) });
   }
 
   onChange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -47,9 +49,8 @@ export default class FireAmount extends React.Component<IProps, IState> {
 
   confirmEdit = () => {
     const s = (this.state.inputValue || '').replace(',','').replace('$','');
-    const validate = RegExp('^([0-9()*/.+-])+$');
 
-    if (!validate.test(s)) return;
+    if (!RegExp('^([0-9()*/.+-])+$').test(s)) return;
   
     const val = (math.eval(s) || 0).toString();
 
@@ -61,7 +62,7 @@ export default class FireAmount extends React.Component<IProps, IState> {
     const indexes = this.props['callback-props'];
     const index = indexes.shift() || '';
 
-    this.props.callback(index, indexes, parseFloat(val) || 0, true);
+    this.props.onUpdateValue(index, indexes, parseFloat(val) || 0);
   }
 
   cancelEdit = () => {
@@ -90,7 +91,7 @@ export default class FireAmount extends React.Component<IProps, IState> {
     return (
       <div className={`amount-container ${readonly ? 'read-only' : ''} ${extraClassName}`} onKeyDown={this.handleKeyDown}>
         {!edit && <span className="amount" onClick={this.setEditMode}>
-          { helpers.amount(this.props.amount, displayIfZero, this.props['display-decimals'] || false) }
+          { helpers.amount(this.state.amount, displayIfZero, this.props.bank.showDecimals || false) }
         </span>}
         {edit && <input
           ref={(input) => {if (input != null) input.focus();}}
@@ -103,3 +104,23 @@ export default class FireAmount extends React.Component<IProps, IState> {
     );
   }
 }
+
+const mapStateToProps = (state: any) => {
+  return ({
+    bank: state.bankState.bank,
+    bankUpdated: state.bankState.bankUpdated
+  });
+}
+
+const mapDispatchToProps = (dispatch: Dispatch<any>) => {
+  return {
+    onUpdateValue: (index: string, indexes: string[], amount: number) => {
+      dispatch(updateValue(index, indexes, amount));
+    }
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(FireAmount);

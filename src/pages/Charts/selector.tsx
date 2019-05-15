@@ -8,7 +8,7 @@ import * as CHARTS from '../../constants/charts';
 import * as ROUTES from '../../constants/routes';
 
 interface IProps {
-  history: any;
+  history: any,
   type: string
 }
 
@@ -33,7 +33,7 @@ export default class Selector extends React.Component<IProps, {}> {
     this.props.history.push(ROUTES.CHARTS.replace(':type', newRoute));
   }
 
-  render
+  render() {
     const { type } = this.props;
     
     return (
