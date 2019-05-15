@@ -20,9 +20,9 @@ interface IProps {
   bank: Bank.IBank,
   bankLoaded: boolean,
   onUpdateValue: (bank: Bank.IBank, index: string, indexes: string[], amount: number|boolean) => void,
-  onUpdateSavingHeader: (bank: Bank.IBank, header: ISavingsHeader) => void,
-  onConfirmUpdateSavingHeader: (bank: Bank.IBank, header: ISavingsHeader) => void,
-  onCancelUpdateSavingHeader: (bank: Bank.IBank, header: ISavingsHeader) => void,
+  onUpdateSavingHeader: (header: ISavingsHeader) => void,
+  onConfirmUpdateSavingHeader: (header: ISavingsHeader) => void,
+  onCancelUpdateSavingHeader: (header: ISavingsHeader) => void,
   onDeleteSavingHeader: (header: ISavingsHeader) => void,
   onSwitchSavingHeaders: (index1: number, index2: number) => void,
 }
@@ -55,7 +55,7 @@ class Saving extends React.Component<IProps, IState> {
   }
 
   editHeader = (header: any) => {
-    this.props.onUpdateSavingHeader(this.props.bank, header);
+    this.props.onUpdateSavingHeader(header);
   }
 
   editHeaderConfirm = (header: any) => {
@@ -64,7 +64,7 @@ class Saving extends React.Component<IProps, IState> {
     header.icon = this.state.editIcon;
     header.interest = this.state.editInterest;
 
-    this.props.onConfirmUpdateSavingHeader(this.props.bank, header);
+    this.props.onConfirmUpdateSavingHeader(header);
   }
 
   editHeaderCancel = (header: any) => {
@@ -75,23 +75,23 @@ class Saving extends React.Component<IProps, IState> {
       editInterest: this.props.header.interest || ''
     });
     
-    this.props.onCancelUpdateSavingHeader(this.props.bank, header);
+    this.props.onCancelUpdateSavingHeader(header);
   }
 
   removeHeader = (header: any) => {
-    this.props.onDeleteSavingHeader(this.props.bank, header);
+    this.props.onDeleteSavingHeader(header);
   }
 
   moveUpHeader = (index: any) => {
     if (index <= 0 || index >= this.props.bank.headers.savings.length) return;	
 
-    this.props.onSwitchSavingHeaders(this.props.bank, index-1, index);
+    this.props.onSwitchSavingHeaders(index-1, index);
   }
 
   moveDownHeader = (index: any) => {
     if (index < 0 || index >= this.props.bank.headers.savings.length - 1) return;
 
-    this.props.onSwitchSavingHeaders(this.props.bank, index, index+1);
+    this.props.onSwitchSavingHeaders(index, index+1);
   }
 
   render () {
@@ -187,14 +187,14 @@ const mapDispatchToProps = (dispatch: any) => {
     onUpdateValue: (bank: Bank.IBank, index: string, indexes: string[], amount: number|boolean) => {
       dispatch(updateValue(bank, index, indexes, amount));
     },
-    onUpdateSavingHeader: (bank: Bank.IBank, header: ISavingsHeader) => {
-      dispatch(updateSavingHeader(bank, header));
+    onUpdateSavingHeader: (header: ISavingsHeader) => {
+      dispatch(updateSavingHeader(header));
     },
-    onConfirmUpdateSavingHeader: (bank: Bank.IBank, header: ISavingsHeader) => {
-      dispatch(confirmUpdateSavingHeader(bank, header));
+    onConfirmUpdateSavingHeader: (header: ISavingsHeader) => {
+      dispatch(confirmUpdateSavingHeader(header));
     },
-    onCancelUpdateSavingHeader: (bank: Bank.IBank, header: ISavingsHeader) => {
-      dispatch(cancelUpdateSavingHeader(bank, header));
+    onCancelUpdateSavingHeader: (header: ISavingsHeader) => {
+      dispatch(cancelUpdateSavingHeader(header));
     },
     onDeleteSavingHeader: (header: ISavingsHeader) => {
       dispatch(deleteSavingHeader(header));

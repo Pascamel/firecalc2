@@ -1,5 +1,6 @@
 import * as TYPES from '../actions/types';
 import _ from 'lodash';
+import uuid from 'uuid';
 
 
 const INITIAL_STATE = {
@@ -54,13 +55,35 @@ function bankReducer(state = INITIAL_STATE, action: any) {
         ...state,
         saveInProgress: false
       });
-    case TYPES.HEADERS_NEW_SAVING:
-    case TYPES.HEADERS_UPDATE_SAVING:
+
+    case TYPES.HEADERS_NEW_SAVING: {
+      let new_bank = JSON.parse(JSON.stringify(state.bank));
+      new_bank.headers.savings.push({
+        $edit: true,
+        id: uuid.v4()
+      });
+
       return ({
         ...state,
-        bank: action.payload.bank,
+        bank: new_bank,
         bankUpdated: true
       });
+    }
+      
+    case TYPES.HEADERS_UPDATE_SAVING: {
+      let new_bank = JSON.parse(JSON.stringify(state.bank));
+
+      _(new_bank.headers.savings).each((h: any) => {
+        if (h.id !== action.payload.header.id) return;
+        Object.assign(h, action.payload.header);
+      });
+
+      return ({
+        ...state,
+        bank: new_bank,
+        bankUpdated: true
+      });
+    }
 
     case TYPES.HEADERS_DELETE_SAVING: {
       let new_bank = JSON.parse(JSON.stringify(state.bank));
@@ -85,6 +108,7 @@ function bankReducer(state = INITIAL_STATE, action: any) {
         bankUpdated: true
       });
     }
+
     case TYPES.HEADERS_NEW_INCOME:
     case TYPES.HEADERS_UPDATE_INCOME:
       return ({
