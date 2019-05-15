@@ -1,5 +1,6 @@
 import * as TYPES from './types';
 import * as Bank from '../bank';
+import { Dispatch } from 'redux';
 import _ from 'lodash';
 import { IIncomeHeader, ISavingsHeader } from '../bank/interfaces';
 
@@ -28,7 +29,7 @@ export const loadBank = (uid: string) => {
 
 
 export const updateValue = (bank: Bank.IBank, index: string, indexes: string[], amount: number|boolean) => {
-  return (dispatch: any) => {
+  return (dispatch: Dispatch<any>) => {
     Bank.updateValue(bank, index, indexes, amount);
     Bank.calculateTotals(bank);
   
@@ -42,7 +43,7 @@ export const updateValue = (bank: Bank.IBank, index: string, indexes: string[], 
 }
 
 export const saveBank = (uid: string, bank: Bank.IBank) => {
-  return (dispatch: any) => {
+  return (dispatch: Dispatch<any>) => {
     dispatch(({
       type: TYPES.BANK_SAVE_STARTED,
       payload: {bank}
@@ -79,7 +80,7 @@ export const saveBank = (uid: string, bank: Bank.IBank) => {
 }
 
 export const newIncomeHeader = (bank: Bank.IBank, header: IIncomeHeader) => {
-  return (dispatch: any) => {
+  return (dispatch: Dispatch<any>) => {
     dispatch(({
       type: TYPES.HEADERS_NEW_INCOME,
       payload: {
@@ -91,7 +92,7 @@ export const newIncomeHeader = (bank: Bank.IBank, header: IIncomeHeader) => {
 }
 
 export const updateIncomeHeader = (bank: Bank.IBank, header: IIncomeHeader) => {
-  return (dispatch: any) => {
+  return (dispatch: Dispatch<any>) => {
     dispatch(({
       type: TYPES.HEADERS_UPDATE_INCOME,
       payload: {
@@ -103,7 +104,7 @@ export const updateIncomeHeader = (bank: Bank.IBank, header: IIncomeHeader) => {
 }
 
 export const newSavingHeader = (bank: Bank.IBank) => {
-  return (dispatch: any) => {
+  return (dispatch: Dispatch<any>) => {
     dispatch(({
       type: TYPES.HEADERS_NEW_SAVING,
       payload: {}
@@ -112,7 +113,7 @@ export const newSavingHeader = (bank: Bank.IBank) => {
 }
 
 export const updateSavingHeader = (header: ISavingsHeader) => {
-  return (dispatch: any) => {
+  return (dispatch: Dispatch<any>) => {
     dispatch(({
       type: TYPES.HEADERS_UPDATE_SAVING,
       payload: {
@@ -126,7 +127,7 @@ export const updateSavingHeader = (header: ISavingsHeader) => {
 }
 
 export const confirmUpdateSavingHeader = (header: ISavingsHeader) => {
-  return (dispatch: any) => {
+  return (dispatch: Dispatch<any>) => {
     dispatch(({
       type: TYPES.HEADERS_UPDATE_SAVING,
       payload: {
@@ -144,7 +145,7 @@ export const confirmUpdateSavingHeader = (header: ISavingsHeader) => {
 }
 
 export const cancelUpdateSavingHeader = (header: ISavingsHeader) => {
-  return (dispatch: any) => {
+  return (dispatch: Dispatch<any>) => {
     dispatch(({
       type: TYPES.HEADERS_UPDATE_SAVING,
       payload: {
@@ -158,7 +159,7 @@ export const cancelUpdateSavingHeader = (header: ISavingsHeader) => {
 }
 
 export const deleteSavingHeader = (header: ISavingsHeader) => {
-  return (dispatch: any) => {
+  return (dispatch: Dispatch<any>) => {
     dispatch(({
       type: TYPES.HEADERS_DELETE_SAVING,
       payload: {
@@ -171,7 +172,7 @@ export const deleteSavingHeader = (header: ISavingsHeader) => {
 }
 
 export const switchSavingHeaders = (index1: number, index2: number) => {
-  return (dispatch: any) => {
+  return (dispatch: Dispatch<any>) => {
     dispatch(({
       type: TYPES.HEADERS_SWITCH_SAVING,
       payload: {
@@ -183,7 +184,7 @@ export const switchSavingHeaders = (index1: number, index2: number) => {
 }
 
 export const saveHeaders = (uid: string, bank: Bank.IBank) => {
-  return (dispatch: any) => {
+  return (dispatch: Dispatch<any>) => {
     dispatch(({
       type: TYPES.HEADERS_SAVE_STARTED,
       payload: {bank}

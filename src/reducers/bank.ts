@@ -16,18 +16,21 @@ function bankReducer(state = INITIAL_STATE, action: any) {
       return ({
         ...state,
         bank: action.payload.bank,
+        bankUpdated: false,
         bankLoaded: false
       });
     case TYPES.BANK_LOAD_SUCCESS:
       return ({
         ...state,
         bank: action.payload.bank,
+        bankUpdated: false,
         bankLoaded: true
       });
     case TYPES.BANK_LOAD_FAILURE:
       return ({
         ...state,
         bank: null,
+        bankUpdated: false,
         bankLoaded: false
       });
     case TYPES.BANK_UPDATE_VALUE:
