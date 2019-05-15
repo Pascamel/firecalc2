@@ -86,12 +86,12 @@ class RevenuesTableBody extends React.Component<IProps, IState> {
           {bank.totalMonthIncome[year][month[0]] === 0 && <td colSpan={3}></td>}
           {bank.totalMonthIncome[year][month[0]] !== 0 && <React.Fragment>
             <td>
-              <StaticAmount bank={bank}>
+              <StaticAmount>
                 { bank.totalMonthPost[year][month[0]] }
               </StaticAmount>
             </td>
             <td>
-              <StaticAmount bank={bank}>
+              <StaticAmount>
                 { bank.totalMonthPre[year][month[0]] }
               </StaticAmount>
             </td>
@@ -110,18 +110,18 @@ class RevenuesTableBody extends React.Component<IProps, IState> {
           </td>
           {bank.incomeHeaders.map((header: any) => (
           <td key={header.id}>
-            <StaticAmount bank={bank} display-zero>
+            <StaticAmount display-zero>
               { bank.yearlyIncome[year][header.id] }
             </StaticAmount>
           </td>
           ))}
           <td>
-            <StaticAmount bank={bank} display-zero>
+            <StaticAmount display-zero>
               { bank.totalYearPost[year] }
             </StaticAmount>
           </td>
           <td>
-            <StaticAmount bank={bank} display-zero>
+            <StaticAmount display-zero>
               { bank.totalYearPre[year] }
             </StaticAmount>
           </td>

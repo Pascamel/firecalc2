@@ -4,7 +4,7 @@ import FireTR from './FireTR';
 import HeaderPanel from './HeaderPanel';
 import LoadingPanel from './LoadingPanel';
 import SavePanel from './SavePanel';
-import StaticAmount from './StaticAmount2';
+import StaticAmount from './StaticAmount';
 import StaticPercentage from './StaticPercentage';
 
 export { 

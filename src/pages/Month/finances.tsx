@@ -29,7 +29,7 @@ class MonthFinances extends React.Component<IProps> {
             Savings
             <span className="pull-right text-secondary font-weight-normal">
               $
-              <StaticAmount bank={bank} display-zero>
+              <StaticAmount display-zero>
                 {_.get(bank.totalMonthSavings, [year, month], 0)}
               </StaticAmount>
             </span>
@@ -52,7 +52,7 @@ class MonthFinances extends React.Component<IProps> {
               Income
               <span className="pull-right text-secondary font-weight-normal">
                 $
-                <StaticAmount bank={bank} display-zero>
+                <StaticAmount display-zero>
                   {_.get(bank.totalMonthIncome, [year, month], 0)}
                 </StaticAmount>
               </span>

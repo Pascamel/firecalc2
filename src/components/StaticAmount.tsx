@@ -11,7 +11,7 @@ interface IProps {
   ['display-zero']?: boolean
 }
 
-class StaticAmount2 extends React.Component<IProps, {}> {
+class StaticAmount extends React.Component<IProps, {}> {
   render () {
     const daz = _.has(this.props, 'display-zero');
     const value: number = this.props.children || 0;
@@ -30,4 +30,4 @@ const mapStateToProps = (state: any) => {
   });
 }
 
-export default connect(mapStateToProps)(StaticAmount2);
+export default connect(mapStateToProps)(StaticAmount);

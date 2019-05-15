@@ -70,7 +70,7 @@ class Charts extends React.Component<IProps, {}> {
                 Estimated expenses
                 <span className="pull-right text-secondary">
                   $
-                  <StaticAmount bank={bank} display-zero>
+                  <StaticAmount display-zero>
                     {_.get(bank.totalMonthIncome, [year, month], 0) - _.get(bank.totalMonthSavings, [year, month], 0)}
                   </StaticAmount>
                 </span>

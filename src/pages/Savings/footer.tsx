@@ -21,14 +21,14 @@ class Footer extends React.Component<IProps, {}> {
           </td>
           {bank.savingsInputsHidden.map((amount: any, key: number) => (
           <td className="table-warning" key={key}>
-            <StaticAmount bank={bank} display-zero>
+            <StaticAmount display-zero>
               { bank.grandTotalInstitution[amount.id][amount.type] }
             </StaticAmount>
           </td>
           ))}
           <td>Total</td>
           <td className="table-warning">
-            <StaticAmount bank={bank} display-zero>
+            <StaticAmount display-zero>
               { bank && bank.grandTotalHolding }
             </StaticAmount>
           </td>
