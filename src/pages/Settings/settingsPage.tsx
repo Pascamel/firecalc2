@@ -1,14 +1,14 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import { loadBank, updateValue, saveHeaders } from '../../actions';
-import { Container, Row, Col } from 'reactstrap';
 import _ from 'lodash';
+import React, { Dispatch } from 'react';
+import { connect } from 'react-redux';
+import { Col, Container, Row } from 'reactstrap';
+
+import { loadBank, saveHeaders, updateValue } from '../../actions';
 import * as Bank from '../../bank';
 import { LoadingPanel, SavePanel } from '../../components';
-import StartingPoint from './startingPoint';
-import Savings from './savings';
 import Incomes from './incomes';
-
+import Savings from './savings';
+import StartingPoint from './startingPoint';
 
 interface IProps {
   authUser: firebase.User|null,
@@ -17,7 +17,7 @@ interface IProps {
   bankUpdated: boolean,
   saveInProgress: boolean,
   onLoadBank: (uid: string) => void,
-  onUpdateValue: (bank: Bank.IBank, index: string, indexes: string[], amount: number|boolean) => void,
+  onUpdateValue: (index: string, indexes: string[], amount: number|boolean) => void,
   onSaveBank: (uid: string, bank: Bank.IBank) => void
 }
 
@@ -91,13 +91,13 @@ const mapStateToProps = (state: any) => {
   });
 }
 
-const mapDispatchToProps = (dispatch: any) => {
+const mapDispatchToProps = (dispatch: Dispatch<any>) => {
   return {
     onLoadBank: (uid: string) => {
       dispatch(loadBank(uid));
     },
-    onUpdateValue: (bank: Bank.IBank, index: string, indexes: string[], amount: number|boolean) => {
-      dispatch(updateValue(bank, index, indexes, amount));
+    onUpdateValue: (index: string, indexes: string[], amount: number|boolean) => {
+      dispatch(updateValue(index, indexes, amount));
     },
     onSaveBank: (uid: string, bank: Bank.IBank) => {
       dispatch(saveHeaders(uid, bank));

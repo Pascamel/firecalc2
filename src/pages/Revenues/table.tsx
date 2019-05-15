@@ -1,7 +1,8 @@
 import React from 'react';
-import Header from './header';
-import Body from './body';
+
 import * as Bank from '../../bank';
+import Body from './body';
+import Header from './header';
 
 interface IProps {
   bank: Bank.IBank,

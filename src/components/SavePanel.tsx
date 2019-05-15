@@ -1,10 +1,10 @@
-import React from 'react';
-import { Row, Col, Container, ButtonGroup, Button } from 'reactstrap';
-import { FiltersBtn } from './FiltersBtn';
-import DecimalsBtn from './DecimalsBtn';
-import * as Bank from '../bank';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import React from 'react';
+import { Button, ButtonGroup, Col, Container, Row } from 'reactstrap';
 
+import * as Bank from '../bank';
+import DecimalsBtn from './DecimalsBtn';
+import { FiltersBtn } from './FiltersBtn';
 
 interface IProps {
   updated: boolean, 

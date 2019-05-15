@@ -1,8 +1,8 @@
-import React from 'react';
 import _ from 'lodash';
 import math from 'mathjs';
-import helpers from '../helpers';
+import React from 'react';
 
+import helpers from '../helpers';
 
 interface IProps {
   amount: number,

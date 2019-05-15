@@ -1,7 +1,7 @@
 import React from 'react';
 import { Chart } from 'react-google-charts';
-import { LoadingPanel } from '../../components';
 
+import { LoadingPanel } from '../../components';
 
 interface IProps {
   data: any,

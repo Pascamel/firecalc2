@@ -1,16 +1,16 @@
-import React from 'react';
+import React, { Dispatch } from 'react';
 import { connect } from 'react-redux';
-import { loadBank, updateValue, saveBank } from '../../actions';
-import { Container, Row, Col } from 'reactstrap';
-import { RouteComponentProps, Redirect } from 'react-router-dom';
-import * as ROUTES from '../../constants/routes';
-import * as Bank from '../../bank';
-import helpers from '../../helpers';
-import { LoadingPanel, SavePanel } from '../../components';
-import Finances from './finances';
-import Charts from './charts';
+import { Redirect, RouteComponentProps } from 'react-router-dom';
 import { Swipe } from 'react-swipe-component';
+import { Col, Container, Row } from 'reactstrap';
 
+import { loadBank, saveBank, updateValue } from '../../actions';
+import * as Bank from '../../bank';
+import { LoadingPanel, SavePanel } from '../../components';
+import * as ROUTES from '../../constants/routes';
+import helpers from '../../helpers';
+import Charts from './charts';
+import Finances from './finances';
 
 interface IProps extends RouteComponentProps<{month: string, year: string}> {
   authUser: firebase.User|null,
@@ -19,7 +19,7 @@ interface IProps extends RouteComponentProps<{month: string, year: string}> {
   bankUpdated: boolean,
   saveInProgress: boolean,
   onLoadBank: (uid: string) => void,
-  onUpdateValue: (bank: Bank.IBank, index: string, indexes: string[], amount: number) => void,
+  onUpdateValue: (index: string, indexes: string[], amount: number) => void,
   onSaveBank: (uid: string, bank: Bank.IBank) => void
 }
 
@@ -33,7 +33,6 @@ class MonthPageBase extends React.Component<IProps, IState> {
     super(props);
 
     this.state = {
-      // updated: false,
       year: props.match.params.year || '0',
       month: props.match.params.month || '0'
     }
@@ -63,15 +62,15 @@ class MonthPageBase extends React.Component<IProps, IState> {
   }
 
   updateSavings = (index: string, indexes: string[], amount: number) => {
-    this.props.onUpdateValue(this.props.bank, index, indexes, amount);
+    this.props.onUpdateValue(index, indexes, amount);
   }
 
   updateIncome = (index: string, indexes: string[], amount: number) => {
-    this.props.onUpdateValue(this.props.bank, index, indexes, amount);
+    this.props.onUpdateValue(index, indexes, amount);
   }
 
   updateNetWorth = (index: string, indexes: string[], amount: number) => {
-    this.props.onUpdateValue(this.props.bank, index, indexes, amount);
+    this.props.onUpdateValue(index, indexes, amount);
   }
 
   saveData = () => {
@@ -164,13 +163,13 @@ const mapStateToProps = (state: any) => {
   });
 }
 
-const mapDispatchToProps = (dispatch: any) => {
+const mapDispatchToProps = (dispatch: Dispatch<any>) => {
   return {
     onLoadBank: (uid: string) => {
       dispatch(loadBank(uid));
     },
-    onUpdateValue: (bank: Bank.IBank, index: string, indexes: string[], amount: number) => {
-      dispatch(updateValue(bank, index, indexes, amount));
+    onUpdateValue: (index: string, indexes: string[], amount: number) => {
+      dispatch(updateValue(index, indexes, amount));
     },
     onSaveBank: (uid: string, bank: Bank.IBank) => {
       dispatch(saveBank(uid, bank));

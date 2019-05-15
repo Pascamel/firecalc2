@@ -1,12 +1,12 @@
+import _ from 'lodash';
 import React from 'react';
 import { connect } from 'react-redux';
-import { Row, Col, Alert } from 'reactstrap';
-import _ from 'lodash';
-import Progress from './progress';
-import Doughnut from './doughnut';
+import { Alert, Col, Row } from 'reactstrap';
+
 import * as Bank from '../../bank';
 import { FireAmount, StaticAmount } from '../../components';
-
+import Doughnut from './doughnut';
+import Progress from './progress';
 
 interface IProps {
   month: string, 

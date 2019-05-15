@@ -1,17 +1,17 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import { loadBank } from '../../actions';
-import { Container, Row, Col } from 'reactstrap';
-import { RouteComponentProps } from 'react-router-dom';
 import _ from 'lodash';
-import * as Bank from '../../bank';
-import helpers from '../../helpers';
-import * as CHARTS from '../../constants/charts';
-import Selector from './selector';
-import { Mobile, NotMobile } from '../../components/Responsive';
-import { LoadingPanel } from '../../components';
-import * as Charts from './charts';
+import React, { Dispatch } from 'react';
+import { connect } from 'react-redux';
+import { RouteComponentProps } from 'react-router-dom';
+import { Col, Container, Row } from 'reactstrap';
 
+import { loadBank } from '../../actions';
+import * as Bank from '../../bank';
+import { LoadingPanel } from '../../components';
+import { Mobile, NotMobile } from '../../components/Responsive';
+import * as CHARTS from '../../constants/charts';
+import helpers from '../../helpers';
+import * as Charts from './charts';
+import Selector from './selector';
 
 interface IProps extends RouteComponentProps<{type: string}> {
   authUser: firebase.User|null,
@@ -160,7 +160,7 @@ const mapStateToProps = (state: any) => {
   });
 }
 
-const mapDispatchToProps = (dispatch: any) => {
+const mapDispatchToProps = (dispatch: Dispatch<any>) => {
   return {
     onLoadBank: (uid: string) => {
       dispatch(loadBank(uid));

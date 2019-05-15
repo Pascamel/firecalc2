@@ -1,7 +1,8 @@
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
+
 import * as Bank from '../../bank';
 import { StaticAmount } from '../../components';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 interface IProps {
   bank: Bank.IBank

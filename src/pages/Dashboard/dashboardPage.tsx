@@ -1,12 +1,12 @@
 import React from 'react';
-import { Container, Row, Col, ListGroup, ListGroupItem } from 'reactstrap';
-import * as Bank from '../../bank';
-import * as ROUTES from '../../constants/routes';
-import { LoadingPanel, HeaderPanel } from '../../components';
 import { NavLink } from 'react-router-dom';
+import { Col, Container, ListGroup, ListGroupItem, Row } from 'reactstrap';
+
+import * as Bank from '../../bank';
+import { HeaderPanel, LoadingPanel } from '../../components';
+import * as ROUTES from '../../constants/routes';
 import helpers from '../../helpers';
 import bankReducer from '../../reducers/bank';
-
 
 interface IState {
   loading: boolean,

@@ -1,9 +1,9 @@
 import React from 'react';
-import { Container, Row, Col, Alert } from 'reactstrap';
-import { LoadingPanel, HeaderPanel } from '../../components';
-import ListUsers from './listUsers';
-import { firestore } from '../../firebase';
+import { Alert, Col, Container, Row } from 'reactstrap';
 
+import { HeaderPanel, LoadingPanel } from '../../components';
+import { firestore } from '../../firebase';
+import ListUsers from './listUsers';
 
 interface IState {
   loading: boolean,

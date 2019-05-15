@@ -1,7 +1,8 @@
+import _ from 'lodash';
 import React from 'react';
+
 import * as Bank from '../bank';
 import helpers from '../helpers';
-import _ from 'lodash';
 
 interface IAmountProps {
   children: number,

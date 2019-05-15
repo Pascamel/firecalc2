@@ -1,11 +1,11 @@
-import React from 'react';
-import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import _ from 'lodash';
-import * as I from '../bank/interfaces';
+import React from 'react';
+import { Dropdown, DropdownItem, DropdownMenu, DropdownToggle } from 'reactstrap';
+
 import * as Bank from '../bank';
 import * as formatters from '../bank/formatters';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
+import * as I from '../bank/interfaces';
 
 interface IFiltersBtnProps {
   updated: boolean,

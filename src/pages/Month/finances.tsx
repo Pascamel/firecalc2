@@ -1,12 +1,12 @@
+import _ from 'lodash';
 import React from 'react';
 import { connect } from 'react-redux';
 import { Alert, Col } from 'reactstrap';
-import _ from 'lodash';
-import MonthSavings from './monthSavings';
-import MonthIncome from './monthIncome';
+
 import * as Bank from '../../bank';
 import { StaticAmount } from '../../components';
-
+import MonthIncome from './monthIncome';
+import MonthSavings from './monthSavings';
 
 interface IProps {
   bank: Bank.IBank,

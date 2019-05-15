@@ -1,9 +1,10 @@
+import _ from 'lodash';
 import React from 'react';
 import { connect } from 'react-redux';
-import _ from 'lodash';
-import { FireAmount } from '../../components';
-import * as formatters from '../../bank/formatters';
+
 import * as Bank from '../../bank';
+import * as formatters from '../../bank/formatters';
+import { FireAmount } from '../../components';
 
 interface IProps {
   bank: Bank.IBank,

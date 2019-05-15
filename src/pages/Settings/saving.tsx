@@ -1,25 +1,25 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import { 
-  updateValue, 
-  updateSavingHeader, 
-  confirmUpdateSavingHeader, 
-  cancelUpdateSavingHeader,
-  deleteSavingHeader,
-  switchSavingHeaders
-} from '../../actions';
-import { Row, Col } from 'reactstrap';
-import * as Bank from '../../bank';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { ISavingsHeader } from '../../bank/interfaces';
+import React, { Dispatch } from 'react';
+import { connect } from 'react-redux';
+import { Col, Row } from 'reactstrap';
 
+import {
+  cancelUpdateSavingHeader,
+  confirmUpdateSavingHeader,
+  deleteSavingHeader,
+  switchSavingHeaders,
+  updateSavingHeader,
+  updateValue
+} from '../../actions';
+import * as Bank from '../../bank';
+import { ISavingsHeader } from '../../bank/interfaces';
 
 interface IProps {
   index: number,
   header: any,
   bank: Bank.IBank,
   bankLoaded: boolean,
-  onUpdateValue: (bank: Bank.IBank, index: string, indexes: string[], amount: number|boolean) => void,
+  onUpdateValue: (index: string, indexes: string[], amount: number|boolean) => void,
   onUpdateSavingHeader: (header: ISavingsHeader) => void,
   onConfirmUpdateSavingHeader: (header: ISavingsHeader) => void,
   onCancelUpdateSavingHeader: (header: ISavingsHeader) => void,
@@ -182,10 +182,10 @@ const mapStateToProps = (state: any) => {
   });
 }
 
-const mapDispatchToProps = (dispatch: any) => {
+const mapDispatchToProps = (dispatch: Dispatch<any>) => {
   return {
-    onUpdateValue: (bank: Bank.IBank, index: string, indexes: string[], amount: number|boolean) => {
-      dispatch(updateValue(bank, index, indexes, amount));
+    onUpdateValue: (index: string, indexes: string[], amount: number|boolean) => {
+      dispatch(updateValue(index, indexes, amount));
     },
     onUpdateSavingHeader: (header: ISavingsHeader) => {
       dispatch(updateSavingHeader(header));

@@ -1,7 +1,8 @@
-import * as TYPES from '../actions/types';
 import _ from 'lodash';
 import uuid from 'uuid';
 
+import * as TYPES from '../actions/types';
+import * as Bank from '../bank';
 
 const INITIAL_STATE = {
   bank: {},
@@ -19,6 +20,7 @@ function bankReducer(state = INITIAL_STATE, action: any) {
         bankUpdated: false,
         bankLoaded: false
       });
+      
     case TYPES.BANK_LOAD_SUCCESS:
       return ({
         ...state,
@@ -26,6 +28,7 @@ function bankReducer(state = INITIAL_STATE, action: any) {
         bankUpdated: false,
         bankLoaded: true
       });
+
     case TYPES.BANK_LOAD_FAILURE:
       return ({
         ...state,
@@ -33,18 +36,27 @@ function bankReducer(state = INITIAL_STATE, action: any) {
         bankUpdated: false,
         bankLoaded: false
       });
-    case TYPES.BANK_UPDATE_VALUE:
+
+    case TYPES.BANK_UPDATE_VALUE: {
+      let new_bank = JSON.parse(JSON.stringify(state.bank));
+      
+      Bank.updateValue(new_bank, action.payload.index, action.payload.indexes, action.payload.amount);
+      Bank.calculateTotals(new_bank);
+      
       return ({
         ...state,
-        bank: action.payload.bank,
+        bank: new_bank,
         bankUpdated: true
       });
+    }
+
     case TYPES.BANK_SAVE_STARTED:
     case TYPES.HEADERS_SAVE_STARTED:
       return ({
         ...state,
         saveInProgress: true
       });
+
     case TYPES.BANK_SAVE_SUCCESS:
     case TYPES.HEADERS_SAVE_SUCCESS:
       return ({
@@ -52,6 +64,7 @@ function bankReducer(state = INITIAL_STATE, action: any) {
         bankUpdated: false,
         saveInProgress: false
       });
+      
     case TYPES.BANK_SAVE_FAILURE:
     case TYPES.HEADERS_SAVE_FAILURE:
       return ({
@@ -98,6 +111,7 @@ function bankReducer(state = INITIAL_STATE, action: any) {
         bankUpdated: true
       });
     }
+    
     case TYPES.HEADERS_SWITCH_SAVING: {
       let new_bank = JSON.parse(JSON.stringify(state.bank));
 

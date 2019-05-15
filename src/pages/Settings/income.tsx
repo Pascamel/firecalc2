@@ -1,26 +1,18 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import { updateValue, newIncomeHeader, updateIncomeHeader } from '../../actions';
-import { Row, Col } from 'reactstrap';
-import * as Bank from '../../bank';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { IIncomeHeader } from '../../bank/interfaces';
+import React, { Dispatch } from 'react';
+import { connect } from 'react-redux';
+import { Col, Row } from 'reactstrap';
 
+import { newIncomeHeader, updateIncomeHeader, updateValue } from '../../actions';
+import * as Bank from '../../bank';
+import { IIncomeHeader } from '../../bank/interfaces';
 
 interface IProps {
   index: number,
   header: any,
   bank: Bank.IBank,
   bankLoaded: boolean,
-
-  // editHeaderCallback: (type: string, header: any) => void;
-  // confirmEditHeaderCallback: (type: string, header: any) => void;
-  // cancelEditHeaderCallback: (type: string, header: any) => void;
-  // deleteHeaderCallback: (type: string, header: any) => void;
-  // moveUpHeaderCallback: (type: string, index: number) => void;
-  // moveDownHeaderCallback: (type: string, index: number) => void;
-
-  onUpdateValue: (bank: Bank.IBank, index: string, indexes: string[], amount: number|boolean) => void,
+  onUpdateValue: (index: string, indexes: string[], amount: number|boolean) => void
 }
 
 interface IState {
@@ -147,25 +139,11 @@ const mapStateToProps = (state: any) => {
   });
 }
 
-const mapDispatchToProps = (dispatch: any) => {
+const mapDispatchToProps = (dispatch: Dispatch<any>) => {
   return {
-    // onLoadBank: (uid: string) => {
-    //   dispatch(loadBank(uid));
-    // },
-    onUpdateValue: (bank: Bank.IBank, index: string, indexes: string[], amount: number|boolean) => {
-      dispatch(updateValue(bank, index, indexes, amount));
-    },
-    // onSaveBank: (uid: string, bank: Bank.IBank) => {
-    //   dispatch(saveHeaders(uid, bank));
-    // }
-
-    onNewIncomeHeader: (bank: Bank.IBank, header: IIncomeHeader) => {
-      dispatch(newIncomeHeader(bank, header));
-    },
-    onUpdateIncomeHeader: (bank: Bank.IBank, header: IIncomeHeader) => {
-      dispatch(updateIncomeHeader(bank, header));
+    onUpdateValue: (index: string, indexes: string[], amount: number|boolean) => {
+      dispatch(updateValue(index, indexes, amount));
     }
-  
   };
 };
 

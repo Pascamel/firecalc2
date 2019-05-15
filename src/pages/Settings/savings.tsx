@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { Dispatch } from 'react';
 import { connect } from 'react-redux';
-import { newSavingHeader } from '../../actions';
-import { Alert, Row, Col, Button } from 'reactstrap';
-import Saving from './saving';
-import * as Bank from '../../bank';
+import { Alert, Button, Col, Row } from 'reactstrap';
 
+import { newSavingHeader } from '../../actions';
+import * as Bank from '../../bank';
+import Saving from './saving';
 
 interface IProps {
   bank: Bank.IBank,
@@ -56,7 +56,7 @@ const mapStateToProps = (state: any) => {
   });
 }
 
-const mapDispatchToProps = (dispatch: any) => {
+const mapDispatchToProps = (dispatch: Dispatch<any>) => {
   return {
     onNewSavingHeader: (bank: Bank.IBank) => {
       dispatch(newSavingHeader(bank));

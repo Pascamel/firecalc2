@@ -1,8 +1,7 @@
 import * as React from 'react';
-import { Form, Input, Button } from 'reactstrap';
-import { auth } from '../../firebase';
-import FormGroup from 'reactstrap/lib/FormGroup';
+import { Button, Form, FormGroup, Input } from 'reactstrap';
 
+import { auth } from '../../firebase';
 
 interface IState {
   email?: string;

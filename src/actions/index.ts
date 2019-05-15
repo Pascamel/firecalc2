@@ -1,12 +1,12 @@
-import * as TYPES from './types';
-import * as Bank from '../bank';
-import { Dispatch } from 'redux';
 import _ from 'lodash';
-import { IIncomeHeader, ISavingsHeader } from '../bank/interfaces';
+import { Dispatch } from 'redux';
 
+import * as Bank from '../bank';
+import { IIncomeHeader, ISavingsHeader } from '../bank/interfaces';
+import * as TYPES from './types';
 
 export const loadBank = (uid: string) => {
-  return (dispatch: any) => {
+  return (dispatch: Dispatch<any>) => {
     const bank = {};
     dispatch(({
       type: TYPES.BANK_LOAD_STARTED,
@@ -28,16 +28,11 @@ export const loadBank = (uid: string) => {
 };
 
 
-export const updateValue = (bank: Bank.IBank, index: string, indexes: string[], amount: number|boolean) => {
+export const updateValue = (index: string, indexes: string[], amount: number|boolean) => {
   return (dispatch: Dispatch<any>) => {
-    Bank.updateValue(bank, index, indexes, amount);
-    Bank.calculateTotals(bank);
-  
     dispatch(({
       type: TYPES.BANK_UPDATE_VALUE,
-      payload: {
-        bank: JSON.parse(JSON.stringify(bank))
-      }
+      payload: {index, indexes, amount}
     }));
   };
 }

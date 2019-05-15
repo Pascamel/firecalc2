@@ -1,9 +1,9 @@
-import React from 'react';
-import _ from 'lodash';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import * as Bank from '../../bank';
-import { FireTR, FireTD, FireAmount, StaticAmount, StaticPercentage } from '../../components';
+import _ from 'lodash';
+import React from 'react';
 
+import * as Bank from '../../bank';
+import { FireAmount, FireTD, FireTR, StaticAmount, StaticPercentage } from '../../components';
 
 interface IProps {
   year: string,

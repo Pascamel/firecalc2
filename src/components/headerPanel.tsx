@@ -1,6 +1,5 @@
 import React from 'react';
-import { Container, Row, Col } from 'reactstrap';
-
+import { Col, Container, Row } from 'reactstrap';
 
 interface IProps {
   title: string;

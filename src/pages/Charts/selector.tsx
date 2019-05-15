@@ -1,11 +1,11 @@
-import React from 'react';
-import { Container, Row, Col, ButtonGroup, Button } from 'reactstrap';
-import _ from 'lodash';
-import * as ROUTES from '../../constants/routes';
-import * as CHARTS from '../../constants/charts';
-import { Mobile, NotMobile } from '../../components/Responsive';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import _ from 'lodash';
+import React from 'react';
+import { Button, ButtonGroup, Col, Container, Row } from 'reactstrap';
 
+import { Mobile, NotMobile } from '../../components/Responsive';
+import * as CHARTS from '../../constants/charts';
+import * as ROUTES from '../../constants/routes';
 
 interface IProps {
   history: any;

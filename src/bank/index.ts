@@ -1,9 +1,10 @@
 import _ from 'lodash';
-import { firestore } from '../firebase';
-import { IIncome, ISavings } from './interfaces';
-import * as formatters from './formatters';
-import helpers from '../helpers';
 import moment from 'moment';
+
+import { firestore } from '../firebase';
+import helpers from '../helpers';
+import * as formatters from './formatters';
+import { IIncome, ISavings } from './interfaces';
 
 export interface IBank {
   showDecimals: boolean;
@@ -295,7 +296,7 @@ export const calculateTotals = (bank: IBank) => {
             }
           } else {
             const prev = helpers.prevMonth(year, month);
-            bank.grandTotalMonthInstitution[year][month][header.id] = bank.grandTotalMonthInstitution[prev.year][prev.month][header.id];
+            bank.grandTotalMonthInstitution[year][month][header.id] = _.get(bank.grandTotalMonthInstitution, [prev.year, prev.month, header.id], 0);
           }
 
           bank.grandTotalMonthInstitution[year][month][header.id] += _.reduce(['P', 'I'], (acc, t) => acc + _.get(bank.savings, [year, month, header.id, t], 0), 0);

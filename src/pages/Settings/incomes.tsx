@@ -1,9 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Alert, Row, Col, Button } from 'reactstrap';
-import Income from './income';
-import * as Bank from '../../bank';
+import { Alert, Button, Col, Row } from 'reactstrap';
 
+import * as Bank from '../../bank';
+import Income from './income';
 
 interface IProps {
   bank: Bank.IBank,

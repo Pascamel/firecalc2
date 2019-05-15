@@ -1,9 +1,9 @@
 import React from 'react';
-import { Container, Row, Col, Alert } from 'reactstrap';
-import * as Bank from '../../bank';
-import Table from './table';
-import { LoadingPanel, SavePanel } from '../../components';
+import { Alert, Col, Container, Row } from 'reactstrap';
 
+import * as Bank from '../../bank';
+import { LoadingPanel, SavePanel } from '../../components';
+import Table from './table';
 
 interface IProps {}
 

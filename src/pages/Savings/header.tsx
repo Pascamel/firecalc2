@@ -1,4 +1,5 @@
 import React from 'react';
+
 import * as Bank from '../../bank';
 
 interface IProps {

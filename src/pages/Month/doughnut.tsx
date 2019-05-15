@@ -1,7 +1,6 @@
 import React from 'react';
 import { Doughnut as DoughnutLib } from 'react-chartjs-2';
 
-
 interface IProps {
   savingRate: number
 }

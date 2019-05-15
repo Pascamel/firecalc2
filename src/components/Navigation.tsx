@@ -1,26 +1,28 @@
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import _ from 'lodash';
 import React from 'react';
 import { connect } from 'react-redux';
-import { compose } from 'recompose';
+import { Link, NavLink, withRouter } from 'react-router-dom';
 import {
-  Container, Row, Col,
+  Col,
   Collapse,
+  Container,
   DropdownItem,
   DropdownMenu,
   DropdownToggle,
   Nav,
+  NavItem,
   Navbar,
   NavbarToggler,
-  NavItem,
+  Row,
   UncontrolledDropdown
 } from 'reactstrap';
-import { NavLink, Link, withRouter } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import _ from 'lodash';
-import * as ROUTES from '../constants/routes';
+import { compose } from 'recompose';
+
 import * as CHARTS from '../constants/charts';
+import * as ROUTES from '../constants/routes';
 import helpers from '../helpers';
 import { SignOutLink } from './SignOutLink';
-
 
 interface IProps {
   location: any,
