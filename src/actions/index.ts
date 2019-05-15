@@ -74,8 +74,6 @@ export const saveBank = (uid: string, bank: Bank.IBank) => {
   };
 }
 
-// hsdfuoasbduofbasoudhfbljashbdflhbfvlmhbnldkjfghjnlsdjkfghlkdsfjhglsdkjfhglksjdfhlkjsdhfglkjshd
-
 export const newSavingHeader = () => {
   return (dispatch: Dispatch<any>) => {
     dispatch(({
@@ -156,8 +154,6 @@ export const switchSavingHeaders = (index1: number, index2: number) => {
   };
 }
 
-// hsdfuoasbduofbasoudhfbljashbdflhbfvlmhbnldkjfghjnlsdjkfghlkdsfjhglsdkjfhglksjdfhlkjsdhfglkjshd
-
 export const newIncomeHeader = () => {
   return (dispatch: Dispatch<any>) => {
     dispatch(({
@@ -236,8 +232,6 @@ export const switchIncomeHeaders = (index1: number, index2: number) => {
     }));
   };
 }
-
-// hsdfuoasbduofbasoudhfbljashbdflhbfvlmhbnldkjfghjnlsdjkfghlkdsfjhglsdkjfhglksjdfhlkjsdhfglkjshd
 
 export const saveHeaders = (uid: string, bank: Bank.IBank) => {
   return (dispatch: Dispatch<any>) => {

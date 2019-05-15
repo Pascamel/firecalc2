@@ -25,8 +25,6 @@ class StartingPoint extends React.Component<IProps, {}> {
   }
 
   onValueChange = (type: string, value: number) => {
-    // this.setState({inputStartingCapital: value})
-
     this.props.onUpdateValue('headers', [type], value);
   }
 
