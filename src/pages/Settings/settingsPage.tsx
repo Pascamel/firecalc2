@@ -58,10 +58,7 @@ class SettingsPageBase extends React.Component<IProps, {}> {
 
     return (
       <React.Fragment>
-        <SavePanel label="Settings" 
-                   cancelChanges={this.cancelChanges}
-                   callback={() => {}} 
-                   saveClick={this.saveHeaders} />
+        <SavePanel label="Settings" />
         <Container fluid className="top-shadow">
           <Row>
             <Col className="pl-0 pr-0">

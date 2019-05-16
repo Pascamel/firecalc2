@@ -37,6 +37,15 @@ export const updateValue = (index: string, indexes: string[], amount: number|boo
   };
 }
 
+export const updateValueLocalStorage = (index: string, indexes: string[], amount: number|boolean) => {
+  return (dispatch: Dispatch<any>) => {
+    dispatch(({
+      type: TYPES.BANK_UPDATE_VALUE_LOCAL_STORAGE,
+      payload: {index, indexes, amount}
+    }));
+  };
+}
+
 export const saveBank = (uid: string, bank: Bank.IBank) => {
   return (dispatch: Dispatch<any>) => {
     dispatch(({

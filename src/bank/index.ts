@@ -233,7 +233,7 @@ export const calculateTotals = (bank: IBank) => {
     bank.savingRateYear[year] = {};
     if (!bank.networth[year]) bank.networth[year] = {};
 
-    bank.startOfYearAmount[year] = (year === bank.headers.firstYear.toString()) ? parseFloat(bank.headers.startingCapital) : bank.totalHolding[(parseInt(year) - 1)]['12'];
+    bank.startOfYearAmount[year] = (year === bank.headers.firstYear.toString()) ? parseFloat(bank.headers.startingCapital) : _.get(bank.totalHolding, [(parseInt(year) - 1), '12'], 0);
     const goal_year = _.get(bank.savingsYearHeaders, ['goals', year], 0);
     bank.monthlyGoal[year] = (goal_year - bank.startOfYearAmount[year]) /  _.keys(bank.savings[year]).length;
 

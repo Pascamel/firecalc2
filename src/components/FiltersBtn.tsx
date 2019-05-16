@@ -11,7 +11,6 @@ import ClickableItem from './ClickableItem';
 interface IProps {
   bankUpdated: boolean,
   bank: Bank.IBank
-  // callback: (index: string, indexes: string[], amount: any, updatedState: boolean) => void
 }
 
 interface IState {

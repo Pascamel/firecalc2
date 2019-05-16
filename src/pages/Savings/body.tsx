@@ -3,14 +3,14 @@ import _ from 'lodash';
 import React, { Dispatch } from 'react';
 import { connect } from 'react-redux';
 
-import { updateValue } from '../../actions';
+import { updateValueLocalStorage } from '../../actions';
 import * as Bank from '../../bank';
 import { FireAmount, FireTD, FireTR, StaticAmount, StaticPercentage } from '../../components';
 
 interface IProps {
   bank: Bank.IBank;
   year: string;
-  callback: (index: string, indexes: string[], amount: any, updatedState: boolean) => void
+  onUpdateValueLocalStorage: (index: string, indexes: string[], amount: number|boolean) => void;
 }
 
 interface IState {
@@ -28,11 +28,12 @@ class Body extends React.Component<IProps, IState> {
   handleClickToggle() {
     const newValue = !this.state.collapsed;
     this.setState({collapsed: newValue});
-    this.props.callback('savingsYearHeaders', ['collapsed', this.props.year], newValue, false);
+
+    this.props.onUpdateValueLocalStorage('savingsYearHeaders', ['collapsed', this.props.year], newValue);
   }
 
   render() {
-    const { year, bank, callback } = this.props;
+    const { year, bank } = this.props;
     
     return (
       <tbody>
@@ -166,8 +167,8 @@ const mapStateToProps = (state: any) => {
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => {
   return {
-    onUpdateValue: (index: string, indexes: string[], amount: number) => {
-      dispatch(updateValue(index, indexes, amount));
+    onUpdateValueLocalStorage: (index: string, indexes: string[], amount: number|boolean) => {
+      dispatch(updateValueLocalStorage(index, indexes, amount));
     }
   };
 };

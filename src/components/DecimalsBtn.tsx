@@ -3,13 +3,13 @@ import React, { Dispatch } from 'react';
 import { connect } from 'react-redux';
 import { Dropdown, DropdownItem, DropdownMenu, DropdownToggle } from 'reactstrap';
 
-import { updateValue } from '../actions';
+import { updateValueLocalStorage } from '../actions';
 import * as Bank from '../bank';
 
 interface IProps {
   bankUpdated: boolean, 
   bank: Bank.IBank,
-  onUpdateValue: (index: string, indexes: string[], amount: boolean) => void
+  onUpdateValueLocalStorage: (index: string, indexes: string[], amount: number|boolean) => void
 }
 
 interface IState {
@@ -33,7 +33,7 @@ class DecimalsBtn extends React.Component<IProps, IState> {
   }
 
   clickDecimal(decimal: boolean) {
-    this.props.onUpdateValue('showDecimals', [], decimal);
+    this.props.onUpdateValueLocalStorage('showDecimals', [], decimal);
   }
 
   render() {
@@ -62,8 +62,8 @@ const mapStateToProps = (state: any) => {
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => {
   return {
-    onUpdateValue: (index: string, indexes: string[], amount: boolean) => {
-      dispatch(updateValue(index, indexes, amount));
+    onUpdateValueLocalStorage: (index: string, indexes: string[], amount: number|boolean) => {
+      dispatch(updateValueLocalStorage(index, indexes, amount));
     }
   };
 };

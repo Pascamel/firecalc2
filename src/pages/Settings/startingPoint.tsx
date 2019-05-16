@@ -8,11 +8,10 @@ import * as Bank from '../../bank';
 import helpers from '../../helpers';
 
 interface IProps {
-  headers: any,
-  bank: Bank.IBank,
-  bankLoaded: boolean,
-  onUpdateValue: (index: string, indexes: string[], amount: number|boolean) => void,
-  updateCallback: (indexes: string[], value: number) => void
+  headers: any;
+  bank: Bank.IBank;
+  bankLoaded: boolean;
+  onUpdateValue: (index: string, indexes: string[], amount: number|boolean) => void;
 }
 
 class StartingPoint extends React.Component<IProps, {}> {

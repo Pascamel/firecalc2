@@ -40,7 +40,7 @@ class SavePanel extends React.Component<IProps, {}> {
   }
 
   render() {
-    const { bank, bankUpdated, saveInProgress, label, authUser } = this.props;
+    const { bankUpdated, saveInProgress, label } = this.props;
 
     return (
       <Container fluid className="alert alert-save alert-header">

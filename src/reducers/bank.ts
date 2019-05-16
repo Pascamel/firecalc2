@@ -50,6 +50,18 @@ function bankReducer(state = INITIAL_STATE, action: any) {
       });
     }
 
+    case TYPES.BANK_UPDATE_VALUE_LOCAL_STORAGE: {
+      let new_bank = JSON.parse(JSON.stringify(state.bank));
+
+      Bank.updateValue(new_bank, action.payload.index, action.payload.indexes, action.payload.amount);
+      Bank.saveLocalStorage(new_bank);
+
+      return ({
+        ...state,
+        bank: new_bank
+      });
+    }
+
     case TYPES.BANK_SAVE_STARTED:
     case TYPES.HEADERS_SAVE_STARTED:
       return ({
