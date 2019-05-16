@@ -5,8 +5,8 @@ import { Alert, Button, Col, Row } from 'reactstrap';
 import { newSavingHeader } from '../../actions';
 import { AppState } from '../../store';
 import * as Bank from '../../bank';
+import { ISavingsHeader } from '../../bank/interfaces';
 import Saving from './saving';
-
 
 interface IProps {
   bank: Bank.IBank;
@@ -36,7 +36,7 @@ class Savings extends React.Component<IProps, {}> {
             No headers
           </Col>
         </Row>}
-        {bank.headers.savings.map((header: any, key: number) => (
+        {bank.headers.savings.map((header: ISavingsHeader, key: number) => (
           <Saving key={key} header={header} index={key} />
         ))}
         <Row>

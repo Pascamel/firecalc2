@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { Alert, Col } from 'reactstrap';
 
 import * as Bank from '../../bank';
+import { ISavingsHeader } from '../../bank/interfaces';
 import { StaticAmount } from '../../components';
 import { AppState } from '../../store';
 import MonthIncome from './monthIncome';
@@ -33,7 +34,7 @@ class MonthFinances extends React.Component<IProps> {
               </span>
             </h3>
             <hr />
-            {bank.savingsInputs.filter((header: any) => header.type !== 'T').map((header: any, key: string) => (
+            {bank.savingsInputs.filter((header: ISavingsHeader) => header.type !== 'T').map((header: any, key: string) => (
               <MonthSavings key={key} header={header} {...this.props} />
             ))}
           </Alert>

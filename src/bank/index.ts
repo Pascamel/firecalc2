@@ -4,7 +4,7 @@ import moment from 'moment';
 import { firestore } from '../firebase';
 import helpers from '../helpers';
 import * as formatters from './formatters';
-import { IIncome, ISavings } from './interfaces';
+import { IIncome, IIncomeHeader, ISavings, ISavingsHeader } from './interfaces';
 
 export interface IBank {
   showDecimals: boolean;
@@ -238,7 +238,7 @@ export const calculateTotals = (bank: IBank) => {
     bank.monthlyGoal[year] = (goal_year - bank.startOfYearAmount[year]) /  _.keys(bank.savings[year]).length;
 
     //totalInstitution
-    _.each(bank.savingsInputs, (header: any) => {
+    _.each(bank.savingsInputs, (header: ISavingsHeader) => {
       if (!bank.totalInstitution[year][header.id]) bank.totalInstitution[year][header.id] = {};
       if (header.type === 'T') {
         bank.totalInstitution[year][header.id][header.type] =  _.reduce(['P', 'I'], (acc, t) => acc + bank.totalInstitution[year][header.id][t], 0);
@@ -249,7 +249,7 @@ export const calculateTotals = (bank: IBank) => {
 
     bank.totalYearPre[year] = 0;
     bank.totalYearPost[year] = 0; 
-    _.each(bank.incomeHeaders, (header: any) => {
+    _.each(bank.incomeHeaders, (header: IIncomeHeader) => {
       bank.yearlyIncome[year][header.id] = 0;
     });
 
@@ -277,7 +277,7 @@ export const calculateTotals = (bank: IBank) => {
       bank.goalYearToDate[year][month] = bank.totalHolding[year][month] - goal_total;
 
       // totalMonthInstitution
-      _.each(bank.savingsInputs, (header: any) => {
+      _.each(bank.savingsInputs, (header: ISavingsHeader) => {
         if (header.type === 'T') {
           bank.totalMonthInstitution[year][month] = {};
           bank.totalMonthInstitution[year][month][header.id] = _.reduce(['P', 'I'], (acc, t) => acc + _.get(bank.savings, [year, month, header.id, t]) || 0, 0)
@@ -286,7 +286,7 @@ export const calculateTotals = (bank: IBank) => {
 
       // grandTotalMonthInstitution
       bank.grandTotalMonthInstitution[year][month] = {};
-      _.each(bank.savingsInputs, (header: any) => {
+      _.each(bank.savingsInputs, (header: ISavingsHeader) => {
         if ((header.types.indexOf('T') === -1) || (header.type === 'T')) {
           if (month === bank.headers.firstMonth.toString() && year === bank.headers.firstYear.toString()) {
             if (header.id === bank.savingsInputs[0].id) {
@@ -307,7 +307,7 @@ export const calculateTotals = (bank: IBank) => {
       bank.totalMonthPost[year][month] = 0;
       bank.totalMonthIncome[year][month] = 0;
 
-      _.each(bank.incomeHeaders, (header: any) => {
+      _.each(bank.incomeHeaders, (header: IIncomeHeader) => {
         const amount: number = _.get(bank.income, [year, month, header.id], 0);
         if (amount === 0) return;
 
@@ -330,7 +330,7 @@ export const calculateTotals = (bank: IBank) => {
   });
 
   // grandTotalInstitution = (institution: string, type: string) => 123.45;
-  _.each(bank.savingsInputs, (header: any) => {
+  _.each(bank.savingsInputs, (header: ISavingsHeader) => {
     if (!bank.grandTotalInstitution[header.id]) bank.grandTotalInstitution[header.id] = {};
     if (header.type === 'T') {
       const value = _.reduce(['P', 'I'], (v, i) => v + bank.grandTotalInstitution[header.id][i], 0);

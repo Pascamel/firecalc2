@@ -15,7 +15,7 @@ import { AppState } from '../../store';
 
 interface IProps {
   index: number;
-  header: any;
+  header: ISavingsHeader;
   bank: Bank.IBank;
   bankLoaded: boolean;
   onUpdateValue: (index: string, indexes: string[], amount: number|boolean) => void;
@@ -73,7 +73,7 @@ class Saving extends React.Component<IProps, IState> {
       editLabel: this.props.header.label || '',
       editSublabel: this.props.header.sublabel || '',
       editIcon: this.props.header.icon || '',
-      editInterest: this.props.header.interest || ''
+      editInterest: this.props.header.interest || false
     });
   }
 

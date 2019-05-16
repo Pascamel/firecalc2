@@ -5,8 +5,8 @@ import { Alert, Button, Col, Row } from 'reactstrap';
 import { newIncomeHeader } from '../../actions';
 import { AppState } from '../../store';
 import * as Bank from '../../bank';
+import { IIncomeHeader } from '../../bank/interfaces';
 import Income from './income';
-
 
 interface IProps {
   bank: Bank.IBank;
@@ -36,7 +36,7 @@ class Incomes extends React.Component<IProps, {}> {
             No headers
           </Col>
         </Row>}
-        {bank.headers.incomes.map((header: any, key: number) => (
+        {bank.headers.incomes.map((header: IIncomeHeader, key: number) => (
           <Income key={key} header={header} index={key} />
         ))}
         <Row>
