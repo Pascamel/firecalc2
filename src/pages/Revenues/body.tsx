@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { updateValue } from '../../actions';
 import * as Bank from '../../bank';
 import { FireAmount, FireTD, FireTR, StaticAmount, StaticPercentage } from '../../components';
+import { AppState } from '../../store';
 
 interface IProps {
   year: string;
@@ -133,7 +134,7 @@ class RevenuesTableBody extends React.Component<IProps, IState> {
   }
 };
 
-const mapStateToProps = (state: any) => {
+const mapStateToProps = (state: AppState) => {
   return ({
     bank: state.bankState.bank
   });

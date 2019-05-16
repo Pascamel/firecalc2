@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { compose } from 'recompose';
 import * as ROUTES from '../constants/routes';
 import { firebase } from '../firebase';
+import { AppState } from '../store';
 
 
 interface IProps {
@@ -34,7 +35,7 @@ export const withAuthorization = (condition: any) => (Component: any) => {
     }
   }
 
-  const mapStateToProps = (state: any) => ({
+  const mapStateToProps = (state: AppState) => ({
     authUser: state.sessionState.authUser,
   });
 

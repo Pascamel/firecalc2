@@ -6,6 +6,7 @@ import { Dropdown, DropdownMenu, DropdownToggle } from 'reactstrap';
 
 import * as Bank from '../bank';
 import * as I from '../bank/interfaces';
+import { AppState } from '../store';
 import ClickableItem from './ClickableItem';
 
 interface IProps {
@@ -53,7 +54,7 @@ class FiltersBtn extends React.Component<IProps, IState> {
   }
 }
 
-const mapStateToProps = (state: any) => {
+const mapStateToProps = (state: AppState) => {
   return ({
     bank: state.bankState.bank,
     bankUpdated: state.bankState.bankUpdated,

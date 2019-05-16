@@ -13,6 +13,7 @@ import {
 } from '../../actions';
 import * as Bank from '../../bank';
 import { ISavingsHeader } from '../../bank/interfaces';
+import { AppState } from '../../store';
 
 interface IProps {
   index: number;
@@ -175,7 +176,7 @@ class Saving extends React.Component<IProps, IState> {
   }
 }
 
-const mapStateToProps = (state: any) => {
+const mapStateToProps = (state: AppState) => {
   return ({
     bank: state.bankState.bank,
     bankLoaded: state.bankState.bankLoaded

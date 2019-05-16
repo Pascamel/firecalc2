@@ -22,6 +22,7 @@ import { compose } from 'recompose';
 import * as CHARTS from '../constants/charts';
 import * as ROUTES from '../constants/routes';
 import helpers from '../helpers';
+import { AppState } from '../store';
 import { SignOutLink } from './SignOutLink';
 
 interface IProps {
@@ -203,7 +204,7 @@ class NavigationBase extends React.Component<any, IState> {
   }
 }
 
-const mapStateToProps = (state: any) => {
+const mapStateToProps = (state: AppState) => {
   return ({
     authUser: state.sessionState.authUser,
   });

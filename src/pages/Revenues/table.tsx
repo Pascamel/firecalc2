@@ -2,15 +2,15 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import * as Bank from '../../bank';
+import { AppState } from '../../store';
 import Body from './body';
 import Header from './header';
 
 interface IProps {
   bank: Bank.IBank
 }
-interface IState {}
 
-class Table extends React.Component<IProps, IState> {
+class Table extends React.Component<IProps, {}> {
   render() {
     const { bank } = this.props;
 
@@ -25,7 +25,7 @@ class Table extends React.Component<IProps, IState> {
   }
 }
 
-const mapStateToProps = (state: any) => {
+const mapStateToProps = (state: AppState) => {
   return ({
     bank: state.bankState.bank
   });

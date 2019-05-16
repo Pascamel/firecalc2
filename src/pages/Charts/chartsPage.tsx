@@ -12,6 +12,7 @@ import * as CHARTS from '../../constants/charts';
 import helpers from '../../helpers';
 import * as Charts from './charts';
 import Selector from './selector';
+import { AppState } from '../../store';
 
 interface IProps extends RouteComponentProps<{type: string}> {
   authUser: firebase.User|null;
@@ -50,17 +51,17 @@ class ChartsPageBase extends React.Component<IProps, IState> {
 
     if (!bankLoaded) return <LoadingPanel />;
     
-    const svsi: any = [['Date', 'Savings', 'Income']];
-    const nw: any = [['Date', 'New worth']];
-    const ts: any = [['Date', 'Savings']];
-    const nws: any = [['Date', 'New worth', 'Savings']];
-    const sb: any = [['Institution', 'Amount']];
-    const ae: any = [_.concat(['Date'], _(bank.savingsInputs)
+    const svsi: Array<Array<string>|Array<Date|number>> = [['Date', 'Savings', 'Income']];
+    const nw: Array<Array<string>|Array<Date|number>> = [['Date', 'New worth']];
+    const ts: Array<Array<string>|Array<Date|number>> = [['Date', 'Savings']];
+    const nws: Array<Array<string>|Array<Date|number>> = [['Date', 'New worth', 'Savings']];
+    const sb: Array<Array<string>|Array<Date|number>> = [['Institution', 'Amount']];
+    const ae: Array<Array<string>|Array<Date|number>> = [_.concat(['Date'], _(bank.savingsInputs)
       .filter((header) => (header.types.indexOf('T') === -1) || (header.type === 'T'))
       .map((header) => _(bank.savingsHeaders).keyBy('id').get([header.id, 'label'], 'N/A'))
       .value()
     )];
-    const bea: any = [['Date', 'Passive income', 'Expenses']];
+    const bea: Array<Array<string>|Array<Date|number>> = [['Date', 'Passive income', 'Expenses']];
 
     _.each(_.range(bank.headers.firstYear, new Date().getFullYear()+1), (y) => {
       const m1 = (y === bank.headers.firstYear) ? bank.headers.firstMonth : 1;
@@ -103,7 +104,7 @@ class ChartsPageBase extends React.Component<IProps, IState> {
           bea.push([
             new Date(y, m - 1), 
             Math.round(_.get(bank.networth, [y, m], 0) / 300),
-            _.get(bank.totalMonthIncome, [y, m], 0) - _.get(bank.totalMonthSavings, [y, m], 0)
+            Math.min(0, _.get(bank.totalMonthIncome, [y, m], 0) - _.get(bank.totalMonthSavings, [y, m], 0))
           ]);
         }
       });
@@ -124,6 +125,20 @@ class ChartsPageBase extends React.Component<IProps, IState> {
       }]);
     });
 
+    const chartsBlock = (mobile: boolean) => {
+      return (
+        <>                    
+          {type === CHARTS.URL.INCOME_VS_SAVINGS && <Charts.IncomeVsSavingsChart data={svsi} mobile={mobile} />}
+          {type === CHARTS.URL.NET_WORTH && <Charts.NetWorthChart data={nw} mobile={mobile} />}
+          {type === CHARTS.URL.TOTAL_SAVINGS && <Charts.TotalSavingsChart data={ts} mobile={mobile} />}
+          {type === CHARTS.URL.NET_WORTH_VS_SAVINGS && <Charts.NetWorthVsSavingsChart data={nws} mobile={mobile} />}
+          {type === CHARTS.URL.SAVINGS_BREAKDOWN && <Charts.SavingsBreakdownChart data={sb} mobile={mobile} />}
+          {type === CHARTS.URL.ALLOCATION_EVOLUTION && <Charts.AllocationEvolutionChart data={ae} mobile={mobile} />}
+          {type === CHARTS.URL.BREAK_EVEN_ANALYSIS && <Charts.BreakEvenAnalysisChart data={bea} mobile={mobile} />}
+        </>
+      );
+    }
+
     return (
       <>
         <Selector type={type} history={this.props.history} />
@@ -134,22 +149,10 @@ class ChartsPageBase extends React.Component<IProps, IState> {
                 <Row>
                   <Col>
                     <Mobile>                    
-                      {type === CHARTS.URL.INCOME_VS_SAVINGS && <Charts.IncomeVsSavingsChart data={svsi} mobile={true} />}
-                      {type === CHARTS.URL.NET_WORTH && <Charts.NetWorthChart data={nw} mobile={true} />}
-                      {type === CHARTS.URL.TOTAL_SAVINGS && <Charts.TotalSavingsChart data={ts} mobile={true} />}
-                      {type === CHARTS.URL.NET_WORTH_VS_SAVINGS && <Charts.NetWorthVsSavingsChart data={nws} mobile={true} />}
-                      {type === CHARTS.URL.SAVINGS_BREAKDOWN && <Charts.SavingsBreakdownChart data={sb} mobile={true} />}
-                      {type === CHARTS.URL.ALLOCATION_EVOLUTION && <Charts.AllocationEvolutionChart data={ae} mobile={true} />}
-                      {type === CHARTS.URL.BREAK_EVEN_ANALYSIS && <Charts.BreakEvenAnalysisChart data={bea} mobile={true} />}
+                      {chartsBlock(true)}
                     </Mobile>
                     <NotMobile>
-                      {type === CHARTS.URL.INCOME_VS_SAVINGS && <Charts.IncomeVsSavingsChart data={svsi} mobile={false} />}
-                      {type === CHARTS.URL.NET_WORTH && <Charts.NetWorthChart data={nw} mobile={false} />}
-                      {type === CHARTS.URL.TOTAL_SAVINGS && <Charts.TotalSavingsChart data={ts} mobile={false} />}
-                      {type === CHARTS.URL.NET_WORTH_VS_SAVINGS && <Charts.NetWorthVsSavingsChart data={nws} mobile={false} />}
-                      {type === CHARTS.URL.SAVINGS_BREAKDOWN && <Charts.SavingsBreakdownChart data={sb} mobile={false} />}
-                      {type === CHARTS.URL.ALLOCATION_EVOLUTION && <Charts.AllocationEvolutionChart data={ae} mobile={false} />}
-                      {type === CHARTS.URL.BREAK_EVEN_ANALYSIS && <Charts.BreakEvenAnalysisChart data={bea} mobile={false} />}
+                      {chartsBlock(false)}
                     </NotMobile>
                   </Col>
                 </Row> 
@@ -162,7 +165,7 @@ class ChartsPageBase extends React.Component<IProps, IState> {
   }
 }
 
-const mapStateToProps = (state: any) => {
+const mapStateToProps = (state: AppState) => {
   return ({
     authUser: state.sessionState.authUser,
     bank: state.bankState.bank,

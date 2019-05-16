@@ -3,8 +3,10 @@ import { connect } from 'react-redux';
 import { Alert, Button, Col, Row } from 'reactstrap';
 
 import { newSavingHeader } from '../../actions';
+import { AppState } from '../../store';
 import * as Bank from '../../bank';
 import Saving from './saving';
+
 
 interface IProps {
   bank: Bank.IBank;
@@ -47,7 +49,7 @@ class Savings extends React.Component<IProps, {}> {
   }
 }
 
-const mapStateToProps = (state: any) => {
+const mapStateToProps = (state: AppState) => {
   return ({
     bank: state.bankState.bank,
     bankLoaded: state.bankState.bankLoaded

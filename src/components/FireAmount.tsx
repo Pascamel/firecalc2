@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { updateValue } from '../actions';
 import * as Bank from '../bank';
 import helpers from '../helpers';
+import { AppState } from '../store';
 
 interface IProps {
   bank: Bank.IBank;
@@ -105,7 +106,7 @@ class FireAmount extends React.Component<IProps, IState> {
   }
 }
 
-const mapStateToProps = (state: any) => {
+const mapStateToProps = (state: AppState) => {
   return ({
     bank: state.bankState.bank,
     bankUpdated: state.bankState.bankUpdated

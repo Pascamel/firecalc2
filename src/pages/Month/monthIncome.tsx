@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 
 import * as Bank from '../../bank';
 import { FireAmount } from '../../components';
+import { AppState } from '../../store';
 
 interface IProps {
   bank: Bank.IBank;
@@ -41,7 +42,7 @@ class MonthIncome extends React.Component<IProps, IState> {
   }
 }
 
-const mapStateToProps = (state: any) => {
+const mapStateToProps = (state: AppState) => {
   return ({
     bank: state.bankState.bank
   });

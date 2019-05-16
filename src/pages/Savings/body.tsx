@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { updateValueLocalStorage } from '../../actions';
 import * as Bank from '../../bank';
 import { FireAmount, FireTD, FireTR, StaticAmount, StaticPercentage } from '../../components';
+import { AppState } from '../../store';
 
 interface IProps {
   bank: Bank.IBank;
@@ -159,7 +160,7 @@ class Body extends React.Component<IProps, IState> {
   }
 };
 
-const mapStateToProps = (state: any) => {
+const mapStateToProps = (state: AppState) => {
   return ({
     bank: state.bankState.bank
   });

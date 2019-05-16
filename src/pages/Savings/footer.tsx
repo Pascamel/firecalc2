@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 
 import * as Bank from '../../bank';
 import { StaticAmount } from '../../components';
+import { AppState } from '../../store';
 
 interface IProps {
   bank: Bank.IBank
@@ -39,7 +40,7 @@ class Footer extends React.Component<IProps, {}> {
   }
 }
 
-const mapStateToProps = (state: any) => {
+const mapStateToProps = (state: AppState) => {
   return ({
     bank: state.bankState.bank
   });

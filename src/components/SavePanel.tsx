@@ -5,8 +5,10 @@ import { Button, ButtonGroup, Col, Container, Row } from 'reactstrap';
 
 import { loadBank, saveBank, saveHeaders } from '../actions';
 import * as Bank from '../bank';
+import { AppState } from '../store';
 import DecimalsBtn from './DecimalsBtn';
 import FiltersBtn from './FiltersBtn';
+
 
 interface IProps {
   authUser: firebase.User;
@@ -92,7 +94,7 @@ class SavePanel extends React.Component<IProps, {}> {
   }
 } 
 
-const mapStateToProps = (state: any) => {
+const mapStateToProps = (state: AppState) => {
   return ({
     authUser: state.sessionState.authUser,
     bank: state.bankState.bank,

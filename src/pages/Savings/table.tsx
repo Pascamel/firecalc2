@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import * as Bank from '../../bank';
+import { AppState } from '../../store';
 import Body from './body';
 import Footer from './footer';
 import Header from './header';
@@ -26,7 +27,7 @@ class SavingsTable extends React.Component<IProps, {}> {
   }
 }
 
-const mapStateToProps = (state: any) => {
+const mapStateToProps = (state: AppState) => {
   return ({
     bank: state.bankState.bank
   });

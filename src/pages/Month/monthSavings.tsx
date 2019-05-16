@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import * as Bank from '../../bank';
 import * as formatters from '../../bank/formatters';
 import { FireAmount } from '../../components';
+import { AppState } from '../../store';
 
 interface IProps {
   bank: Bank.IBank;
@@ -48,7 +49,7 @@ class MonthSavings extends React.Component<IProps, IState> {
   }
 }
 
-const mapStateToProps = (state: any) => {
+const mapStateToProps = (state: AppState) => {
   return ({
     bank: state.bankState.bank
   });

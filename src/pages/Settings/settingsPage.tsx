@@ -6,6 +6,7 @@ import { Col, Container, Row } from 'reactstrap';
 import { loadBank, saveHeaders, updateValue } from '../../actions';
 import * as Bank from '../../bank';
 import { LoadingPanel, SavePanel } from '../../components';
+import { AppState } from '../../store';
 import Incomes from './incomes';
 import Savings from './savings';
 import StartingPoint from './startingPoint';
@@ -75,7 +76,7 @@ class SettingsPageBase extends React.Component<IProps, {}> {
   }
 }
 
-const mapStateToProps = (state: any) => {
+const mapStateToProps = (state: AppState) => {
   return ({
     authUser: state.sessionState.authUser,
     bank: state.bankState.bank,

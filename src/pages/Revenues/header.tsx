@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import * as Bank from '../../bank';
+import { AppState } from '../../store';
 
 interface IProps {
   bank: Bank.IBank
@@ -33,7 +34,7 @@ class Header extends React.Component<IProps, {}> {
   }
 }
 
-const mapStateToProps = (state: any) => {
+const mapStateToProps = (state: AppState) => {
   return ({
     bank: state.bankState.bank
   });

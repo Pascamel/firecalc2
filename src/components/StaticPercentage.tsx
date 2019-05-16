@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 
 import * as Bank from '../bank';
 import helpers from '../helpers';
+import { AppState } from '../store';
 
 interface IProps {
   Bank: Bank.IBank;
@@ -20,7 +21,7 @@ class StaticPercentage extends React.Component<IProps, {}> {
   }
 }
 
-const mapStateToProps = (state: any) => {
+const mapStateToProps = (state: AppState) => {
   return ({
     bank: state.bankState.bank
   });

@@ -5,6 +5,7 @@ import { Alert, Col } from 'reactstrap';
 
 import * as Bank from '../../bank';
 import { StaticAmount } from '../../components';
+import { AppState } from '../../store';
 import MonthIncome from './monthIncome';
 import MonthSavings from './monthSavings';
 
@@ -12,13 +13,11 @@ interface IProps {
   bank: Bank.IBank;
   month: string;
   year: string;
-  callbackSavings: (index: string, indexes: string[], amount: any, updatedState: boolean) => void;
-  callbackIncome: (index: string, indexes: string[], amount: any, updatedState: boolean) => void;
 }
 
 class MonthFinances extends React.Component<IProps> {
   render() {
-    const { month, year, bank, callbackSavings, callbackIncome } = this.props;
+    const { month, year, bank } = this.props;
 
     return (
       <React.Fragment>
@@ -61,7 +60,7 @@ class MonthFinances extends React.Component<IProps> {
   }
 }
 
-const mapStateToProps = (state: any) => {
+const mapStateToProps = (state: AppState) => {
   return ({
     bank: state.bankState.bank
   });

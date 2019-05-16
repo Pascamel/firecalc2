@@ -9,8 +9,10 @@ import * as Bank from '../../bank';
 import { LoadingPanel, SavePanel } from '../../components';
 import * as ROUTES from '../../constants/routes';
 import helpers from '../../helpers';
+import { AppState } from '../../store';
 import Charts from './charts';
 import Finances from './finances';
+
 
 interface IProps extends RouteComponentProps<{month: string, year: string}> {
   authUser: firebase.User|null;
@@ -116,7 +118,7 @@ class MonthPageBase extends React.Component<IProps, IState> {
   }
 }
 
-const mapStateToProps = (state: any) => {
+const mapStateToProps = (state: AppState) => {
   return ({
     authUser: state.sessionState.authUser,
     bank: state.bankState.bank,

@@ -5,6 +5,7 @@ import { Dropdown, DropdownItem, DropdownMenu, DropdownToggle } from 'reactstrap
 
 import { updateValueLocalStorage } from '../actions';
 import * as Bank from '../bank';
+import { AppState } from '../store';
 
 interface IProps {
   bankUpdated: boolean;
@@ -53,7 +54,7 @@ class DecimalsBtn extends React.Component<IProps, IState> {
   }
 }
 
-const mapStateToProps = (state: any) => {
+const mapStateToProps = (state: AppState) => {
   return ({
     bank: state.bankState.bank,
     bankUpdated: state.bankState.bankUpdated,

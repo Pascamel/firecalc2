@@ -5,6 +5,7 @@ import { Alert, Col, Row } from 'reactstrap';
 
 import * as Bank from '../../bank';
 import { FireAmount, StaticAmount } from '../../components';
+import { AppState } from '../../store';
 import Doughnut from './doughnut';
 import Progress from './progress';
 
@@ -77,7 +78,7 @@ class Charts extends React.Component<IProps, {}> {
   }
 }
 
-const mapStateToProps = (state: any) => {
+const mapStateToProps = (state: AppState) => {
   return ({
     bank: state.bankState.bank,
     bankUpdated: state.bankState.bankUpdated

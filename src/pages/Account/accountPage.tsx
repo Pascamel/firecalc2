@@ -3,8 +3,10 @@ import { connect } from 'react-redux';
 import { Col, Container, ListGroup, ListGroupItem, ListGroupItemHeading, Row } from 'reactstrap';
 
 import { HeaderPanel } from '../../components';
+import { AppState } from '../../store';
 import { PasswordForgetForm } from '../PasswordForget/pwForgetForm';
 import { PasswordChangeForm } from './PasswordChangeForm';
+
 
 class AccountPageBase2 extends React.Component<any, {}> {
   render() {
@@ -50,7 +52,7 @@ class AccountPageBase2 extends React.Component<any, {}> {
   }
 }
 
-const mapStateToProps = (state: any) => {
+const mapStateToProps = (state: AppState) => {
   return ({
     authUser: state.sessionState.authUser,
   });

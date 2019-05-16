@@ -5,6 +5,7 @@ import { Alert, Col, Container, Row } from 'reactstrap';
 import { loadBank, saveBank } from '../../actions';
 import * as Bank from '../../bank';
 import { LoadingPanel, SavePanel } from '../../components';
+import { AppState } from '../../store';
 import Table from './table';
 
 interface IProps {
@@ -53,7 +54,7 @@ class RevenuePageBase extends React.Component<IProps, {}> {
   }
 }
 
-const mapStateToProps = (state: any) => {
+const mapStateToProps = (state: AppState) => {
   return ({
     authUser: state.sessionState.authUser,
     bank: state.bankState.bank,
