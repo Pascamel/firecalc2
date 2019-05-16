@@ -179,38 +179,9 @@ export const updateIncomeHeader = (header: IIncomeHeader) => {
       payload: {
         header: {
           id: header.id,
-          $edit: true
-        }
-      }
-    }));
-  };
-}
-
-export const confirmUpdateIncomeHeader = (header: IIncomeHeader) => {
-  return (dispatch: Dispatch<any>) => {
-    dispatch(({
-      type: TYPES.HEADERS_UPDATE_INCOME,
-      payload: {
-        header: {
-          id: header.id,
-          $edit: false,
           label: header.label,
           pretax: header.pretax,
           count: header.count
-        }
-      }
-    }));
-  };
-}
-
-export const cancelUpdateIncomeHeader = (header: IIncomeHeader) => {
-  return (dispatch: Dispatch<any>) => {
-    dispatch(({
-      type: TYPES.HEADERS_UPDATE_INCOME,
-      payload: {
-        header: {
-          id: header.id,
-          $edit: false
         }
       }
     }));

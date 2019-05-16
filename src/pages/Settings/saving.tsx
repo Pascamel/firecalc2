@@ -4,8 +4,6 @@ import { connect } from 'react-redux';
 import { Col, Row } from 'reactstrap';
 
 import {
-  cancelUpdateSavingHeader,
-  confirmUpdateSavingHeader,
   deleteSavingHeader,
   switchSavingHeaders,
   updateSavingHeader,
@@ -22,13 +20,12 @@ interface IProps {
   bankLoaded: boolean;
   onUpdateValue: (index: string, indexes: string[], amount: number|boolean) => void;
   onUpdateSavingHeader: (header: ISavingsHeader) => void;
-  onConfirmUpdateSavingHeader: (header: ISavingsHeader) => void;
-  onCancelUpdateSavingHeader: (header: ISavingsHeader) => void;
   onDeleteSavingHeader: (header: ISavingsHeader) => void;
   onSwitchSavingHeaders: (index1: number, index2: number) => void;
 }
 
 interface IState {
+  edit: boolean;
   editLabel: string;
   editSublabel: string;
   editIcon: string;
@@ -40,6 +37,7 @@ class Saving extends React.Component<IProps, IState> {
     super(props);
 
     this.state = {
+      edit: false,
       editLabel: this.props.header.label || '',
       editSublabel: this.props.header.sublabel || '',
       editIcon: this.props.header.icon || '',
@@ -56,7 +54,7 @@ class Saving extends React.Component<IProps, IState> {
   }
 
   editHeader = (header: ISavingsHeader) => {
-    this.props.onUpdateSavingHeader(header);
+    this.setState({edit: true});
   }
 
   editHeaderConfirm = (header: ISavingsHeader) => {
@@ -65,18 +63,18 @@ class Saving extends React.Component<IProps, IState> {
     header.icon = this.state.editIcon;
     header.interest = this.state.editInterest;
 
-    this.props.onConfirmUpdateSavingHeader(header);
+    this.props.onUpdateSavingHeader(header);
+    this.setState({edit: false});
   }
 
   editHeaderCancel = (header: ISavingsHeader) => {
     this.setState({
+      edit: false,
       editLabel: this.props.header.label || '',
       editSublabel: this.props.header.sublabel || '',
       editIcon: this.props.header.icon || '',
       editInterest: this.props.header.interest || ''
     });
-    
-    this.props.onCancelUpdateSavingHeader(header);
   }
 
   removeHeader = (header: ISavingsHeader) => {
@@ -97,14 +95,15 @@ class Saving extends React.Component<IProps, IState> {
 
   render() {
     const { header, index, bank }  = this.props;
+    const { edit } = this.state;
 
     return (
       <Row className="form-headers">
         <Col xs={12} sm={2}>
-          {!header.$edit && <span className="label-fake-input">
+          {!edit && <span className="label-fake-input">
             {header.label}
           </span>}
-          {header.$edit && <input
+          {edit && <input
             type="text"
             name="editLabel"
             value={this.state.editLabel} 
@@ -113,10 +112,10 @@ class Saving extends React.Component<IProps, IState> {
           />}
         </Col>
         <Col xs={12} sm={2}>
-          {!header.$edit && <span className="label-fake-input">
+          {!edit && <span className="label-fake-input">
             {header.sublabel}
           </span>}
-          {header.$edit && <input
+          {edit && <input
             type="text"
             name="editSublabel"
             value={this.state.editSublabel} 
@@ -125,10 +124,10 @@ class Saving extends React.Component<IProps, IState> {
           />}
         </Col>
         <Col xs={12} sm={4}>
-          {!header.$edit && <span className="label-fake-input nowrap-ellipsis">
+          {!edit && <span className="label-fake-input nowrap-ellipsis">
             {header.icon}
           </span>}
-          {header.$edit && <input
+          {edit && <input
             type="text"       
             name="editIcon"
             value={this.state.editIcon} 
@@ -138,9 +137,9 @@ class Saving extends React.Component<IProps, IState> {
         </Col>
         <Col xs={5} sm={2}>
           <div className="checkbox">
-            {!header.$edit && <FontAwesomeIcon icon={['far', header.interest?'check-square':'square']} className="mr-1" />}
+            {!edit && <FontAwesomeIcon icon={['far', header.interest?'check-square':'square']} className="mr-1" />}
             <label>
-              {header.$edit && <input
+              {edit && <input
                 type="checkbox" 
                 name="editInterest" 
                 checked={this.state.editInterest} 
@@ -150,27 +149,25 @@ class Saving extends React.Component<IProps, IState> {
           </div>
         </Col>
         <Col xs={7} sm={2} className="text-right">
-          {header.$edit && <span className="btn btn-link" onClick={e => this.editHeaderConfirm(header)}>
+          {edit && <span className="btn btn-link" onClick={e => this.editHeaderConfirm(header)}>
             <FontAwesomeIcon icon="check" size="lg" />
           </span>}
-          {header.$edit && <span className="btn btn-link" onClick={e => this.editHeaderCancel(header)}>
+          {edit && <span className="btn btn-link" onClick={e => this.editHeaderCancel(header)}>
             <FontAwesomeIcon icon="times" size="lg" />
           </span>}
-          {!header.$edit && <span className="btn btn-link" onClick={e => this.editHeader(header)}>
+          {!edit && <span className="btn btn-link" onClick={e => this.editHeader(header)}>
             <FontAwesomeIcon icon="edit" size="lg" />
           </span>}
-          {!header.$edit && <span className="btn btn-link" onClick={e => this.removeHeader(header)}>
+          {!edit && <span className="btn btn-link" onClick={e => this.removeHeader(header)}>
             <FontAwesomeIcon icon="trash-alt" size="lg" />
           </span>}
-          {!header.$edit && <span className={`btn btn-link ${(index === 0) ? 'disabled' : ''}`} onClick={e => this.moveUpHeader(index)}>
+          {!edit && <span className={`btn btn-link ${(index === 0) ? 'disabled' : ''}`} onClick={e => this.moveUpHeader(index)}>
             <FontAwesomeIcon icon="chevron-up" size="lg" />
           </span>}
-          {!header.$edit && <span className={`btn btn-link ${(index >= bank.headers.savings.length-1) ? 'disabled' : ''}`} onClick={e => this.moveDownHeader(index)}>
+          {!edit && <span className={`btn btn-link ${(index >= bank.headers.savings.length-1) ? 'disabled' : ''}`} onClick={e => this.moveDownHeader(index)}>
             <FontAwesomeIcon icon="chevron-down" size="lg" />
           </span>}
         </Col>
-      {/* </div> */}
-      {/* </FormGroup> */}
       </Row>
     );
   }
@@ -191,12 +188,6 @@ const mapDispatchToProps = (dispatch: Dispatch<any>) => {
     onUpdateSavingHeader: (header: ISavingsHeader) => {
       dispatch(updateSavingHeader(header));
     },
-    onConfirmUpdateSavingHeader: (header: ISavingsHeader) => {
-      dispatch(confirmUpdateSavingHeader(header));
-    },
-    onCancelUpdateSavingHeader: (header: ISavingsHeader) => {
-      dispatch(cancelUpdateSavingHeader(header));
-    },
     onDeleteSavingHeader: (header: ISavingsHeader) => {
       dispatch(deleteSavingHeader(header));
     },
@@ -205,7 +196,6 @@ const mapDispatchToProps = (dispatch: Dispatch<any>) => {
     }
   };
 };
-
 
 export default connect(
   mapStateToProps, 
