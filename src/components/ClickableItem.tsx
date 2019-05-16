@@ -1,14 +1,17 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import _ from 'lodash';
-import React from 'react';
-import { Dropdown, DropdownItem, DropdownMenu, DropdownToggle } from 'reactstrap';
+import React, { Dispatch } from 'react';
+import { connect } from 'react-redux';
+import { DropdownItem } from 'reactstrap';
 
+import { updateValueLocalStorage } from '../actions';
 import * as Bank from '../bank';
 import * as formatters from '../bank/formatters';
 
 interface IProps {
   header: {id: string, type: string};
   bank: Bank.IBank;
+  onUpdateValueLocalStorage: (index: string, indexes: string[], amount: number|boolean) => void;
 }
 
 interface IState {
@@ -16,7 +19,7 @@ interface IState {
   hidden: boolean;
 }
 
-export default class ClickableItem extends React.Component<IProps, IState> {
+class ClickableItem extends React.Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
     
@@ -43,6 +46,7 @@ export default class ClickableItem extends React.Component<IProps, IState> {
 
   clickColumn() {
     this.setState({hidden: !this.state.hidden});
+    this.props.onUpdateValueLocalStorage('savingsHeadersHidden', [this.props.header.id, this.props.header.type], !this.state.hidden);
   }
 
   render() {
@@ -54,3 +58,13 @@ export default class ClickableItem extends React.Component<IProps, IState> {
     );
   }
 }
+
+const mapDispatchToProps = (dispatch: Dispatch<any>) => {
+  return {
+    onUpdateValueLocalStorage: (index: string, indexes: string[], amount: number|boolean) => {
+      dispatch(updateValueLocalStorage(index, indexes, amount));
+    }
+  };
+};
+
+export default connect(null, mapDispatchToProps)(ClickableItem);
