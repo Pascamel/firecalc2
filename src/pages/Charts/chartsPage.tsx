@@ -59,7 +59,8 @@ class ChartsPageBase extends React.Component<IProps, IState> {
       .filter((header) => (header.types.indexOf('T') === -1) || (header.type === 'T'))
       .map((header) => _(bank.savingsHeaders).keyBy('id').get([header.id, 'label'], 'N/A'))
       .value()
-    )]; 
+    )];
+    const bea: any = [['Date', 'Passive income', 'Expenses']];
 
     _.each(_.range(bank.headers.firstYear, new Date().getFullYear()+1), (y) => {
       const m1 = (y === bank.headers.firstYear) ? bank.headers.firstMonth : 1;
@@ -97,6 +98,14 @@ class ChartsPageBase extends React.Component<IProps, IState> {
           .value()
         );
         ae.push(ae1);
+
+        if (_.get(bank.networth, [y, m])) {
+          bea.push([
+            new Date(y, m - 1), 
+            Math.round(_.get(bank.networth, [y, m], 0) / 300),
+            _.get(bank.totalMonthIncome, [y, m], 0) - _.get(bank.totalMonthSavings, [y, m], 0)
+          ]);
+        }
       });
     });
 
@@ -116,9 +125,8 @@ class ChartsPageBase extends React.Component<IProps, IState> {
     });
 
     return (
-      <React.Fragment>
-
-        <Selector type={type} history={this.props.history} />}
+      <>
+        <Selector type={type} history={this.props.history} />
         <Container fluid className="top-shadow">
           <Row>
             <Col className="pl-0 pr-0">
@@ -132,6 +140,7 @@ class ChartsPageBase extends React.Component<IProps, IState> {
                       {type === CHARTS.URL.NET_WORTH_VS_SAVINGS && <Charts.NetWorthVsSavingsChart data={nws} mobile={true} />}
                       {type === CHARTS.URL.SAVINGS_BREAKDOWN && <Charts.SavingsBreakdownChart data={sb} mobile={true} />}
                       {type === CHARTS.URL.ALLOCATION_EVOLUTION && <Charts.AllocationEvolutionChart data={ae} mobile={true} />}
+                      {type === CHARTS.URL.BREAK_EVEN_ANALYSIS && <Charts.BreakEvenAnalysisChart data={bea} mobile={true} />}
                     </Mobile>
                     <NotMobile>
                       {type === CHARTS.URL.INCOME_VS_SAVINGS && <Charts.IncomeVsSavingsChart data={svsi} mobile={false} />}
@@ -140,14 +149,15 @@ class ChartsPageBase extends React.Component<IProps, IState> {
                       {type === CHARTS.URL.NET_WORTH_VS_SAVINGS && <Charts.NetWorthVsSavingsChart data={nws} mobile={false} />}
                       {type === CHARTS.URL.SAVINGS_BREAKDOWN && <Charts.SavingsBreakdownChart data={sb} mobile={false} />}
                       {type === CHARTS.URL.ALLOCATION_EVOLUTION && <Charts.AllocationEvolutionChart data={ae} mobile={false} />}
+                      {type === CHARTS.URL.BREAK_EVEN_ANALYSIS && <Charts.BreakEvenAnalysisChart data={bea} mobile={false} />}
                     </NotMobile>
                   </Col>
                 </Row> 
               </Container>
             </Col>
           </Row>
-        </Container>}
-      </React.Fragment>
+        </Container>
+      </>
     );
   }
 }
