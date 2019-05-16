@@ -15,22 +15,22 @@ import * as Bank from '../../bank';
 import { IIncomeHeader } from '../../bank/interfaces';
 
 interface IProps {
-  index: number,
-  header: any,
-  bank: Bank.IBank,
-  bankLoaded: boolean,
-  onUpdateValue: (index: string, indexes: string[], amount: number|boolean) => void,
-  onUpdateIncomeHeader: (header: IIncomeHeader) => void,
-  onConfirmUpdateIncomeHeader: (header: IIncomeHeader) => void,
-  onCancelUpdateIncomeHeader: (header: IIncomeHeader) => void,
-  onDeleteIncomeHeader: (header: IIncomeHeader) => void,
-  onSwitchIncomeHeaders: (index1: number, index2: number) => void,
+  index: number;
+  header: any;
+  bank: Bank.IBank;
+  bankLoaded: boolean;
+  onUpdateValue: (index: string, indexes: string[], amount: number|boolean) => void;
+  onUpdateIncomeHeader: (header: IIncomeHeader) => void;
+  onConfirmUpdateIncomeHeader: (header: IIncomeHeader) => void;
+  onCancelUpdateIncomeHeader: (header: IIncomeHeader) => void;
+  onDeleteIncomeHeader: (header: IIncomeHeader) => void;
+  onSwitchIncomeHeaders: (index1: number, index2: number) => void;
 }
 
 interface IState {
-  editLabel: string,
-  editPretax: boolean,
-  editCount: number
+  editLabel: string;
+  editPretax: boolean;
+  editCount: number;
 }
 
 class Income extends React.Component<IProps, IState> {

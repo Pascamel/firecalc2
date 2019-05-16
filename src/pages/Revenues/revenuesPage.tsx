@@ -8,13 +8,13 @@ import { LoadingPanel, SavePanel } from '../../components';
 import Table from './table';
 
 interface IProps {
-  authUser: firebase.User|null,
-  bank: Bank.IBank,
-  bankLoaded: boolean,
-  bankUpdated: boolean,
-  saveInProgress: boolean,
-  onLoadBank: (uid: string) => void,
-  onSaveBank: (uid: string, bank: Bank.IBank) => void
+  authUser: firebase.User|null;
+  bank: Bank.IBank;
+  bankLoaded: boolean;
+  bankUpdated: boolean;
+  saveInProgress: boolean;
+  onLoadBank: (uid: string) => void;
+  onSaveBank: (uid: string, bank: Bank.IBank) => void;
 }
 
 class RevenuePageBase extends React.Component<IProps, {}> {

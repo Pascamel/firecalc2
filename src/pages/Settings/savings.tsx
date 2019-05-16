@@ -7,9 +7,9 @@ import * as Bank from '../../bank';
 import Saving from './saving';
 
 interface IProps {
-  bank: Bank.IBank,
-  bankLoaded: boolean,
-  onNewSavingHeader: () => void
+  bank: Bank.IBank;
+  bankLoaded: boolean;
+  onNewSavingHeader: () => void;
 }
 
 class Savings extends React.Component<IProps, {}> {

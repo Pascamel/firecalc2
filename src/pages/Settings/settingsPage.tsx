@@ -11,14 +11,14 @@ import Savings from './savings';
 import StartingPoint from './startingPoint';
 
 interface IProps {
-  authUser: firebase.User|null,
-  bank: Bank.IBank,
-  bankLoaded: boolean,
-  bankUpdated: boolean,
-  saveInProgress: boolean,
-  onLoadBank: (uid: string) => void,
-  onUpdateValue: (index: string, indexes: string[], amount: number|boolean) => void,
-  onSaveBank: (uid: string, bank: Bank.IBank) => void
+  authUser: firebase.User|null;
+  bank: Bank.IBank;
+  bankLoaded: boolean;
+  bankUpdated: boolean;
+  saveInProgress: boolean;
+  onLoadBank: (uid: string) => void;
+  onUpdateValue: (index: string, indexes: string[], amount: number|boolean) => void;
+  onSaveBank: (uid: string, bank: Bank.IBank) => void;
 }
 
 class SettingsPageBase extends React.Component<IProps, {}> {

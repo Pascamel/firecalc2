@@ -6,8 +6,8 @@ import * as Bank from '../bank';
 import helpers from '../helpers';
 
 interface IProps {
-  Bank: Bank.IBank,
-  children: number
+  Bank: Bank.IBank;
+  children: number;
 }
 
 class StaticPercentage extends React.Component<IProps, {}> {

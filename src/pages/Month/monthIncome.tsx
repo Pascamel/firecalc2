@@ -6,12 +6,10 @@ import * as Bank from '../../bank';
 import { FireAmount } from '../../components';
 
 interface IProps {
-  bank: Bank.IBank,
-  header: any,
-  month: string,
-  year: string, 
-  callback: (index: string, indexes: string[], amount: any, updatedState: boolean) => void
-  data: string
+  bank: Bank.IBank;
+  header: any;
+  month: string;
+  year: string;
 }
 
 interface IState {
@@ -28,7 +26,7 @@ class MonthIncome extends React.Component<IProps, IState> {
   }
   
   render() {
-    const { header, month, year, callback, data, bank } = this.props;
+    const { header, month, year } = this.props;
 
     return (
       <React.Fragment>

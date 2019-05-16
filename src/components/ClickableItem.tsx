@@ -7,13 +7,13 @@ import * as Bank from '../bank';
 import * as formatters from '../bank/formatters';
 
 interface IProps {
-  header: {id: string, type: string},
-  bank: Bank.IBank
+  header: {id: string, type: string};
+  bank: Bank.IBank;
 }
 
 interface IState {
-  header_label: string,
-  hidden: boolean
+  header_label: string;
+  hidden: boolean;
 }
 
 export default class ClickableItem extends React.Component<IProps, IState> {

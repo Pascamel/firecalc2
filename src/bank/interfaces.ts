@@ -7,10 +7,10 @@ export interface IIncome {
 }
 
 export interface IIncomeHeader {
-  id: string,
-  label: string,
-  pretax: boolean,
-  count: number
+  id: string;
+  label: string;
+  pretax: boolean;
+  count: number;
 }
 
 export interface ISavings {
@@ -24,11 +24,11 @@ export interface ISavings {
 }
 
 export interface ISavingsHeader {
-  id: string,
-  interest: boolean,
-  label: string,
-  sublabel: string,
-  icon: string,
-  type: string,
-  types: string[]
+  id: string;
+  interest: boolean;
+  label: string;
+  sublabel: string;
+  icon: string;
+  type: string;
+  types: string[];
 }

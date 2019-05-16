@@ -2,11 +2,11 @@ import _ from 'lodash';
 import React from 'react';
 
 interface IProps {
-  show?: boolean,
-  hide?: boolean,
-  goal?: number,
-  threshold?: number,
-  span?: number
+  show?: boolean;
+  hide?: boolean;
+  goal?: number;
+  threshold?: number;
+  span?: number;
 }
 
 export default class FireTD extends React.Component<IProps, {}> {

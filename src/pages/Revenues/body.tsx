@@ -8,9 +8,9 @@ import * as Bank from '../../bank';
 import { FireAmount, FireTD, FireTR, StaticAmount, StaticPercentage } from '../../components';
 
 interface IProps {
-  year: string,
-  bank: Bank.IBank,
-  onUpdateValue: (index: string, indexes: string[], amount: number) => void
+  year: string;
+  bank: Bank.IBank;
+  onUpdateValue: (index: string, indexes: string[], amount: number) => void;
 }
 
 interface IState {

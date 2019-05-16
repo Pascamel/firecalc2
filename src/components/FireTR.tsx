@@ -2,8 +2,8 @@ import _ from 'lodash';
 import React from 'react';
 
 interface IProps {
-  show?: boolean,
-  hide?: boolean,
+  show?: boolean;
+  hide?: boolean;
 }
 
 export default class FireTR extends React.Component<IProps, {}> {

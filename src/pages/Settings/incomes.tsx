@@ -7,9 +7,9 @@ import * as Bank from '../../bank';
 import Income from './income';
 
 interface IProps {
-  bank: Bank.IBank,
-  bankLoaded: boolean,
-  onNewIncomeHeader: () => void
+  bank: Bank.IBank;
+  bankLoaded: boolean;
+  onNewIncomeHeader: () => void;
 }
 
 class Incomes extends React.Component<IProps, {}> {

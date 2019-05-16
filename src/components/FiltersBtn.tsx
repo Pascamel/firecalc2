@@ -9,12 +9,12 @@ import * as I from '../bank/interfaces';
 import ClickableItem from './ClickableItem';
 
 interface IProps {
-  bankUpdated: boolean,
-  bank: Bank.IBank
+  bankUpdated: boolean;
+  bank: Bank.IBank;
 }
 
 interface IState {
-  dropdownOpen: boolean
+  dropdownOpen: boolean;
 }
 
 class FiltersBtn extends React.Component<IProps, IState> {

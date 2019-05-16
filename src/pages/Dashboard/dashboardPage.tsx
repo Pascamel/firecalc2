@@ -9,8 +9,8 @@ import helpers from '../../helpers';
 import bankReducer from '../../reducers/bank';
 
 interface IState {
-  loading: boolean,
-  bank: Bank.IBank
+  loading: boolean;
+  bank: Bank.IBank;
 }
 
 export default class DashboardPageBase extends React.Component<{}, IState> {

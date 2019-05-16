@@ -3,18 +3,16 @@ import React, { Dispatch } from 'react';
 import { connect } from 'react-redux';
 import { Alert, Col, Row } from 'reactstrap';
 
-import { updateValue } from '../../actions';
 import * as Bank from '../../bank';
 import { FireAmount, StaticAmount } from '../../components';
 import Doughnut from './doughnut';
 import Progress from './progress';
 
 interface IProps {
-  month: string, 
-  year: string, 
-  bank: Bank.IBank,
-  bankUpdated: boolean,
-  onUpdateValue: (index: string, indexes: string[], amount: number) => void
+  month: string; 
+  year: string;
+  bank: Bank.IBank;
+  bankUpdated: boolean;
 }
 
 class Charts extends React.Component<IProps, {}> {
@@ -23,7 +21,7 @@ class Charts extends React.Component<IProps, {}> {
   }
 
   render() {    
-    const { month, year, bank, onUpdateValue } = this.props;
+    const { month, year, bank } = this.props;
     
     return (
       <React.Fragment>
@@ -86,21 +84,4 @@ const mapStateToProps = (state: any) => {
   });
 }
 
-const mapDispatchToProps = (dispatch: Dispatch<any>) => {
-  return {
-    // onLoadBank: (uid: string) => {
-    //   dispatch(loadBank(uid));
-    // },
-    onUpdateValue: (index: string, indexes: string[], amount: number) => {
-      dispatch(updateValue(index, indexes, amount));
-    },
-    // onSaveBank: (uid: string, bank: Bank.IBank) => {
-    //   dispatch(saveBank(uid, bank));
-    // }
-  };
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Charts);
+export default connect(mapStateToProps)(Charts);

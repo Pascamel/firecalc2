@@ -25,13 +25,13 @@ import helpers from '../helpers';
 import { SignOutLink } from './SignOutLink';
 
 interface IProps {
-  location: any,
-  authUser: firebase.User|null
+  location: any;
+  authUser: firebase.User|null;
 }
 
 interface IState {
-  isOpen: boolean,
-  authUser: firebase.User|null
+  isOpen: boolean;
+  authUser: firebase.User|null;
 }
 
 class NavigationAuth extends React.Component<IProps, IState> {

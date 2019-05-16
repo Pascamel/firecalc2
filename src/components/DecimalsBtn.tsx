@@ -7,13 +7,13 @@ import { updateValueLocalStorage } from '../actions';
 import * as Bank from '../bank';
 
 interface IProps {
-  bankUpdated: boolean, 
-  bank: Bank.IBank,
-  onUpdateValueLocalStorage: (index: string, indexes: string[], amount: number|boolean) => void
+  bankUpdated: boolean;
+  bank: Bank.IBank;
+  onUpdateValueLocalStorage: (index: string, indexes: string[], amount: number|boolean) => void;
 }
 
 interface IState {
-  dropdownOpen: boolean
+  dropdownOpen: boolean;
 }
 
 class DecimalsBtn extends React.Component<IProps, IState> {

@@ -8,20 +8,20 @@ import * as Bank from '../bank';
 import helpers from '../helpers';
 
 interface IProps {
-  bank: Bank.IBank,
-  extraClassName?: string,
-  ['callback-props']: string[],
-  ['display-if-zero']?: boolean,
-  onUpdateValue: (index: string, indexes: string[], amount: number) => void
+  bank: Bank.IBank;
+  extraClassName?: string;
+  ['callback-props']: string[];
+  ['display-if-zero']?: boolean;
+  onUpdateValue: (index: string, indexes: string[], amount: number) => void;
 }
 
 interface IState {
-  edit: boolean,
-  extraClassName: string,
-  readonly: boolean,
-  amount: number,
-  inputValue: string,
-  displayIfZero: boolean
+  edit: boolean;
+  extraClassName: string;
+  readonly: boolean;
+  amount: number;
+  inputValue: string;
+  displayIfZero: boolean;
 }
 
 class FireAmount extends React.Component<IProps, IState> {

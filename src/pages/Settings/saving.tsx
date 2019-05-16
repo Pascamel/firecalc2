@@ -15,23 +15,23 @@ import * as Bank from '../../bank';
 import { ISavingsHeader } from '../../bank/interfaces';
 
 interface IProps {
-  index: number,
-  header: any,
-  bank: Bank.IBank,
-  bankLoaded: boolean,
-  onUpdateValue: (index: string, indexes: string[], amount: number|boolean) => void,
-  onUpdateSavingHeader: (header: ISavingsHeader) => void,
-  onConfirmUpdateSavingHeader: (header: ISavingsHeader) => void,
-  onCancelUpdateSavingHeader: (header: ISavingsHeader) => void,
-  onDeleteSavingHeader: (header: ISavingsHeader) => void,
-  onSwitchSavingHeaders: (index1: number, index2: number) => void,
+  index: number;
+  header: any;
+  bank: Bank.IBank;
+  bankLoaded: boolean;
+  onUpdateValue: (index: string, indexes: string[], amount: number|boolean) => void;
+  onUpdateSavingHeader: (header: ISavingsHeader) => void;
+  onConfirmUpdateSavingHeader: (header: ISavingsHeader) => void;
+  onCancelUpdateSavingHeader: (header: ISavingsHeader) => void;
+  onDeleteSavingHeader: (header: ISavingsHeader) => void;
+  onSwitchSavingHeaders: (index1: number, index2: number) => void;
 }
 
 interface IState {
-  editLabel: string,
-  editSublabel: string,
-  editIcon: string,
-  editInterest: boolean
+  editLabel: string;
+  editSublabel: string;
+  editIcon: string;
+  editInterest: boolean;
 }
 
 class Saving extends React.Component<IProps, IState> {

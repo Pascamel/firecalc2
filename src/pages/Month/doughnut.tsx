@@ -5,9 +5,7 @@ interface IProps {
   savingRate: number
 }
 
-interface IState {}
-
-export default class Doughnut extends React.Component<IProps, IState> {
+export default class Doughnut extends React.Component<IProps, {}> {
   options: any;
 
   constructor (props: IProps) {

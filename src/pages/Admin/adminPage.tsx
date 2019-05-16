@@ -6,8 +6,8 @@ import { firestore } from '../../firebase';
 import ListUsers from './listUsers';
 
 interface IState {
-  loading: boolean,
-  users: any
+  loading: boolean;
+  users: any;
 }
 export default class AdminPageBase extends React.Component<{}, IState> {
   constructor(props: any) {

@@ -14,13 +14,13 @@ import * as Charts from './charts';
 import Selector from './selector';
 
 interface IProps extends RouteComponentProps<{type: string}> {
-  authUser: firebase.User|null,
-  bank: Bank.IBank,
-  bankLoaded: boolean
+  authUser: firebase.User|null;
+  bank: Bank.IBank;
+  bankLoaded: boolean;
 }
 
 interface IState {
-  type: string
+  type: string;
 }
 
 class ChartsPageBase extends React.Component<IProps, IState> {

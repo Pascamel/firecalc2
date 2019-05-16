@@ -13,19 +13,19 @@ import Charts from './charts';
 import Finances from './finances';
 
 interface IProps extends RouteComponentProps<{month: string, year: string}> {
-  authUser: firebase.User|null,
-  bank: Bank.IBank,
-  bankLoaded: boolean,
-  bankUpdated: boolean,
-  saveInProgress: boolean,
-  onLoadBank: (uid: string) => void,
-  onUpdateValue: (index: string, indexes: string[], amount: number) => void,
-  onSaveBank: (uid: string, bank: Bank.IBank) => void
+  authUser: firebase.User|null;
+  bank: Bank.IBank;
+  bankLoaded: boolean;
+  bankUpdated: boolean;
+  saveInProgress: boolean;
+  onLoadBank: (uid: string) => void;
+  onUpdateValue: (index: string, indexes: string[], amount: number) => void;
+  onSaveBank: (uid: string, bank: Bank.IBank) => void;
 }
 
 interface IState {
-  year: string,
-  month: string
+  year: string;
+  month: string;
 }
 
 class MonthPageBase extends React.Component<IProps, IState> {
@@ -59,18 +59,6 @@ class MonthPageBase extends React.Component<IProps, IState> {
     
     this.props.history.push(route);
     this.setState({month: month.toString(), year: year.toString()});
-  }
-
-  updateSavings = (index: string, indexes: string[], amount: number) => {
-    this.props.onUpdateValue(index, indexes, amount);
-  }
-
-  updateIncome = (index: string, indexes: string[], amount: number) => {
-    this.props.onUpdateValue(index, indexes, amount);
-  }
-
-  updateNetWorth = (index: string, indexes: string[], amount: number) => {
-    this.props.onUpdateValue(index, indexes, amount);
   }
 
   invalidRouteParams = () => {
@@ -115,12 +103,8 @@ class MonthPageBase extends React.Component<IProps, IState> {
               <Col className="pr-0 pl-0">
                 <Container>
                   <Row>
-                    <Finances callbackSavings={this.updateSavings} 
-                              callbackIncome={this.updateIncome} 
-                              bank={this.props.bank} 
-                              {...this.state} />
-                    <Charts callback={this.updateNetWorth} 
-                            {...this.state} />
+                    <Finances {...this.state} />
+                    <Charts {...this.state} />
                   </Row>
                 </Container>
               </Col>

@@ -9,16 +9,16 @@ import DecimalsBtn from './DecimalsBtn';
 import FiltersBtn from './FiltersBtn';
 
 interface IProps {
-  authUser: firebase.User,
-  label: string,
-  bankUpdated: boolean, 
-  saveInProgress: boolean, 
-  bank: Bank.IBank,
-  prevMonth?: () => void,
-  nextMonth?: () => void,
-  onLoadBank: (uid: string) => void,
-  onSaveBank: (uid: string, bank: Bank.IBank) => void,
-  onSaveHeaders: (uid: string, bank: Bank.IBank) => void
+  authUser: firebase.User;
+  label: string;
+  bankUpdated: boolean;
+  saveInProgress: boolean;
+  bank: Bank.IBank;
+  prevMonth?: () => void;
+  nextMonth?: () => void;
+  onLoadBank: (uid: string) => void;
+  onSaveBank: (uid: string, bank: Bank.IBank) => void;
+  onSaveHeaders: (uid: string, bank: Bank.IBank) => void;
 }
 
 class SavePanel extends React.Component<IProps, {}> {
