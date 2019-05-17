@@ -23,7 +23,7 @@ export class PasswordForgetForm extends React.Component<{}, IState> {
     this.state = { ...PasswordForgetForm.INITIAL_STATE };
   }
 
-  public onSubmit = (event: any) => {
+  public onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     if (!this.state.email) return;
 
     auth.doPasswordReset(this.state.email).then(() => {
@@ -63,7 +63,7 @@ export class PasswordForgetForm extends React.Component<{}, IState> {
     );
   }
 
-  private setStateWithEvent(event: any, columnType: string): void {
+  private setStateWithEvent(event: React.ChangeEvent<HTMLInputElement>, columnType: string): void {
     this.setState(
       PasswordForgetForm.propKey(columnType, (event.target as any).value)
     );

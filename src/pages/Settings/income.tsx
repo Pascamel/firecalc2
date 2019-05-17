@@ -45,7 +45,7 @@ class Income extends React.Component<IProps, IState> {
     this.handleInputChange = this.handleInputChange.bind(this);
   }
 
-  handleInputChange = (event: any) => {
+  handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const s: any = {};
     s[event.target.name] = event.target.type === 'checkbox' ? event.target.checked : event.target.value
     this.setState(s);

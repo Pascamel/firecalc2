@@ -32,7 +32,7 @@ export class PasswordChangeForm extends React.Component<IProps, IState> {
     this.state = { ...PasswordChangeForm.INITIAL_STATE };
   }
 
-  public onSubmit = (event: any) => {
+  public onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     if (!this.state.passwordOne) return;
     
     auth.doPasswordUpdate(this.state.passwordOne).then(() => {
@@ -76,7 +76,7 @@ export class PasswordChangeForm extends React.Component<IProps, IState> {
     );
   }
 
-  private setStateWithEvent(event: any, columnType: string): void {
+  private setStateWithEvent(event: React.ChangeEvent<HTMLInputElement>, columnType: string): void {
     this.setState(
       PasswordChangeForm.propKey(columnType, (event.target as any).value)
     );

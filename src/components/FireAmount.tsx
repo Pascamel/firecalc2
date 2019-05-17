@@ -84,9 +84,17 @@ class FireAmount extends React.Component<IProps, IState> {
     if (event.key === 'Escape') this.cancelEdit();
   }
 
-  render() {
-    if (!this) return;
+  componentDidUpdate(prevProps: IProps, prevState: IState, snapshot: any) {
+    if (this.props['callback-props'] === prevProps['callback-props']) return;
 
+    this.setState({
+      edit: false, 
+      amount: _.get(this.props.bank, this.props['callback-props'], 0), 
+      inputValue: _.get(this.props.bank, this.props['callback-props'], 0) ? _.get(this.props.bank, this.props['callback-props'], 0).toString() : ''
+    });
+  }
+
+  render() {
     const { readonly, edit, extraClassName, displayIfZero } = this.state;
 
     return (
@@ -98,7 +106,7 @@ class FireAmount extends React.Component<IProps, IState> {
           ref={(input) => {if (input != null) input.focus();}}
           className="form-control"
           defaultValue={this.state.amount ? this.state.amount.toString() : ''} 
-          onChange={(value:React.ChangeEvent<HTMLInputElement>) => this.onChange(value)} 
+          onChange={(value: React.ChangeEvent<HTMLInputElement>) => this.onChange(value)} 
           onKeyUp={this.handleKeyUp}  
         />}
       </div>
