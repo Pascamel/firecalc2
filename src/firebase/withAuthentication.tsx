@@ -1,17 +1,17 @@
 import React, { Component, Dispatch } from 'react';
 import { connect } from 'react-redux';
-import {Alert} from 'reactstrap';
+import  { Alert } from 'reactstrap';
 
 import { LoadingPanel } from '../components';
-import { firebase } from '../firebase';
+import { firebase as fb } from '../firebase';
 
 interface IProps {
-  authUser?: any;
-  onSetAuthUser?: any;
+  authUser?: firebase.User;
+  onSetAuthUser: (user: firebase.User|null) => void;
 }
 
 interface IState {
-  authUser?: any;
+  authUser?:   any;
   loading: boolean;
 }
 
@@ -30,7 +30,7 @@ export const withAuthentication = (WrappedComponent: any) => {
 
     public componentDidMount() {
       const { onSetAuthUser }: any = this.props;
-      firebase.auth.onAuthStateChanged(authUser => {
+      fb.auth.onAuthStateChanged(authUser => {
         this.setState({loading: false});
         if (authUser) {
           onSetAuthUser(authUser);

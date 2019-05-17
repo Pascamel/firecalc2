@@ -18,7 +18,7 @@ export const loadBank = (uid: string) => {
         type: TYPES.BANK_LOAD_SUCCESS,
         payload: {bank}
       }));
-    }).catch((error: any) => {
+    }).catch((error: Error) => {
       dispatch(({
         type: TYPES.BANK_LOAD_FAILURE,
         payload: {error}
@@ -62,19 +62,19 @@ export const saveBank = (uid: string, bank: Bank.IBank) => {
               bank: JSON.parse(JSON.stringify(bank))
             }
           }));
-        }).catch((error: any) => {
+        }).catch((error: Error) => {
           dispatch(({
             type: TYPES.BANK_SAVE_FAILURE,
             payload: {error}
           }));
         });
-      }).catch((error: any) => {
+      }).catch((error: Error) => {
         dispatch(({
           type: TYPES.BANK_SAVE_FAILURE,
           payload: {error}
         }));
       });
-    }).catch((error: any) => {
+    }).catch((error: Error) => {
       dispatch(({
         type: TYPES.BANK_SAVE_FAILURE,
         payload: {error}
@@ -225,7 +225,7 @@ export const saveHeaders = (uid: string, bank: Bank.IBank) => {
         type: TYPES.HEADERS_SAVE_SUCCESS,
         payload: {bank}
       }));
-    }).catch((error: any) => {
+    }).catch((error: Error) => {
       dispatch(({
         type: TYPES.HEADERS_SAVE_FAILURE,
         payload: {error}

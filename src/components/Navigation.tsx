@@ -18,6 +18,7 @@ import {
   UncontrolledDropdown
 } from 'reactstrap';
 import { compose } from 'recompose';
+import { LocationState } from 'history';
 
 import * as CHARTS from '../constants/charts';
 import * as ROUTES from '../constants/routes';
@@ -25,8 +26,9 @@ import helpers from '../helpers';
 import { AppState } from '../store';
 import { SignOutLink } from './SignOutLink';
 
+
 interface IProps {
-  location: any;
+  location: LocationState;
   authUser: firebase.User|null;
 }
 

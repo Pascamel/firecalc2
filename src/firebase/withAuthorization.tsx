@@ -3,13 +3,12 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { compose } from 'recompose';
 import * as ROUTES from '../constants/routes';
-import { firebase } from '../firebase';
+import { firebase as fb } from '../firebase';
 import { AppState } from '../store';
-
 
 interface IProps {
   history?: any,
-  authUser: any
+  authUser: firebase.User
 }
 
 export const withAuthorization = (condition: any) => (Component: any) => {
@@ -17,7 +16,7 @@ export const withAuthorization = (condition: any) => (Component: any) => {
     listener: any = () => {};
 
     public componentDidMount() {
-      this.listener = firebase.auth.onAuthStateChanged(authUser => {
+      this.listener = fb.auth.onAuthStateChanged(authUser => {
         if (!condition(authUser)) {
           this.props.history.push(ROUTES.SIGN_IN);
         }
