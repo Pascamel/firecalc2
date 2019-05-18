@@ -5,6 +5,7 @@ import { Alert, Col, Row } from 'reactstrap';
 
 import Bank from '../../bank';
 import { FireAmount, StaticAmount } from '../../components';
+import helpers from '../../helpers';
 import { AppState } from '../../store';
 import Doughnut from './doughnut';
 import Progress from './progress';
@@ -17,10 +18,6 @@ interface IProps {
 }
 
 class Charts extends React.Component<IProps, {}> {
-  clean_pct(pct: number) {
-    return Math.min(100, Math.max(0, 100 + 100 * pct));
-  }
-
   render() {    
     const { month, year, bank } = this.props;
     
@@ -41,11 +38,11 @@ class Charts extends React.Component<IProps, {}> {
             <Progress label="Month"
                       result={bank.goalMonth[year][month]}
                       goal={bank.monthlyGoal[year]} 
-                      percentage={this.clean_pct(bank.goalMonth[year][month] / bank.monthlyGoal[year])} />
+                      percentage={helpers.clean_percentage(bank.goalMonth[year][month] / bank.monthlyGoal[year])} />
             <Progress label="Year"
                       result={bank.goalYearToDate[year][month]} 
                       goal={parseInt(month) * bank.monthlyGoal[year]} 
-                      percentage={this.clean_pct(bank.goalYearToDate[year][month] / bank.monthlyGoal[year] / parseInt(month)) } />
+                      percentage={helpers.clean_percentage(bank.goalYearToDate[year][month] / bank.monthlyGoal[year] / parseInt(month))} />
             <hr />
             <Row>
               <Col className="col-6 chart-container">

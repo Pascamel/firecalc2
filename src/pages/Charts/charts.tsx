@@ -8,6 +8,10 @@ interface IProps {
   mobile: boolean
 }
 
+interface IYear {
+  year: number;
+}
+
 export class IncomeVsSavingsChart extends React.Component<IProps, {}> {
   render() {
     return (
@@ -182,6 +186,36 @@ export class AllocationEvolutionChart extends React.Component<IProps, {}> {
 }
 
 export class BreakEvenAnalysisChart extends React.Component<IProps, {}> {
+  render() {
+    return (
+      <Chart
+        chartType="LineChart"
+        width="100%"
+        height="460px"
+        loader={<LoadingPanel color="background" />}
+        data={this.props.data}
+        options={{
+          legend: { position: 'top', alignment: 'start' },
+          hAxis: { type: 'date'},
+          vAxis: { 
+            format: 'short'
+          },
+          series: {
+            0: { curveType: 'function' },
+            1: { curveType: 'function' },
+          },
+          chartArea: { 
+            width: this.props.mobile ? '80%' : '92%', 
+            right: this.props.mobile ? '5%' : '2%',
+            height: '80%'
+          }
+        }}
+      />
+    );
+  }
+}
+
+export class YearlyGoalBurnDown extends React.Component<IProps & IYear, {}> {
   render() {
     return (
       <Chart

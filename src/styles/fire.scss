@@ -1,12 +1,13 @@
+$bodytext: #212529;
 $background: #f1f1f1;
 
-$header-background: #224361;  //#004080;
+$header-background: #224361;
 $header-text-color: #fff;
-$header-btn-background: #fc994d; //ffc107;
+$header-btn-background: #fc994d;
 $header-btn-text-color: #fff;
 $header-btn-text-color-hover: #ffd1c7;
 
-$header-save-background: #224361;  //#004080;
+$header-save-background: #224361;
 $header-save-text-color: #fff;
 $header-save-btn-background: #ffc107;
 $header-save-btn-text-color: #fff;
@@ -26,26 +27,26 @@ label {
 }
 
 @media only screen and (min-width: 768px) {
-.nav-link { 
-  &.active {
-    position: relative;
+  .nav-link { 
+    &.active {
+      position: relative;
 
-    &:after {
-      bottom: -8px;
-      left: 50%;
-      border: solid transparent;
-      content: ' ';
-      height: 0;
-      width: 0;
-      position: absolute;
-      pointer-events: none;
-      border-color: rgba(136, 183, 213, 0);
-      border-bottom-color: $header-background;
-      border-width: 10px;
-      margin-left: -10px;
+      &:after {
+        bottom: -8px;
+        left: 50%;
+        border: solid transparent;
+        content: ' ';
+        height: 0;
+        width: 0;
+        position: absolute;
+        pointer-events: none;
+        border-color: rgba(136, 183, 213, 0);
+        border-bottom-color: $header-background;
+        border-width: 10px;
+        margin-left: -10px;
+      }
     }
   }
-}
 }
 
 .no-link {
@@ -103,6 +104,26 @@ html, body, #root {
     &:hover {
       color: #ddf;
       text-decoration: none;
+    }
+
+    &.disabled {
+      opacity: 1;
+      color: rgba(255, 255, 255, 0.5);
+      font-weight: bold;
+
+      &:after {
+        bottom: -14px;
+        left: 50%;
+        border: solid transparent;
+        content: ' ';
+        height: 0;
+        width: 0;
+        position: absolute;
+        pointer-events: none;
+        border-bottom-color: #d7d7d7;
+        border-width: 10px;
+        margin-left: -10px;
+      }
     }
   }
 }
@@ -306,4 +327,15 @@ html, body, #root {
 
 .bg-danger {
   background-color: #e62154 !important;
+}
+
+.list-group-item {
+  &.focus, 
+  &:focus {
+    box-shadow: none;
+  }
+}
+
+.list-group-item-link {
+  color: $bodytext;
 }
