@@ -3,9 +3,9 @@ import { connect } from 'react-redux';
 import { Alert, Button, Col, Row } from 'reactstrap';
 
 import { newSavingHeader } from '../../actions';
-import { AppState } from '../../store';
 import * as Bank from '../../bank';
 import { ISavingsHeader } from '../../bank/interfaces';
+import { AppState } from '../../store';
 import Saving from './saving';
 
 interface IProps {

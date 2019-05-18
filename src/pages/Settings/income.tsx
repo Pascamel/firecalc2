@@ -4,9 +4,9 @@ import { connect } from 'react-redux';
 import { Col, Row } from 'reactstrap';
 
 import {
-  updateIncomeHeader,
   deleteIncomeHeader,
   switchIncomeHeaders,
+  updateIncomeHeader,
   updateValue
 } from '../../actions';
 import * as Bank from '../../bank';
