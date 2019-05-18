@@ -23,6 +23,7 @@ export interface IBank {
   income: IIncome;
   savings: ISavings;
   networth: any;
+  expenses: any;
   savingsInputs: any;
   savingsInputsHidden: any;
   incomeHeaders: any;
@@ -62,16 +63,16 @@ export const load = async (uid: string): Promise<IBank> => {
   const snapshotHeaders = await firestore.getHeaders(uid);
   const snapshotSavings = await firestore.getSavings(uid);
   const snapshotRevenues = await firestore.getRevenues(uid);
-  const snapshotNetWorth = await firestore.getNetWorth(uid);
+  const snapshotOthers = await firestore.getOthers(uid);
 
-  if (!snapshotHeaders || !snapshotSavings || !snapshotRevenues || !snapshotNetWorth) return bank;
+  if (!snapshotHeaders || !snapshotSavings || !snapshotRevenues || !snapshotOthers) return bank;
 
   bank.lastupdate = {};
 
   if (_.get(snapshotHeaders.data(), 'last_update')) bank.lastupdate['headers'] = moment(_.get(snapshotHeaders.data(), 'last_update')).fromNow();
   if (_.get(snapshotSavings.data(), 'last_update')) bank.lastupdate['savings'] = moment(_.get(snapshotSavings.data(), 'last_update')).fromNow();
   if (_.get(snapshotRevenues.data(), 'last_update')) bank.lastupdate['income'] = moment(_.get(snapshotRevenues.data(), 'last_update')).fromNow();
-  if (_.get(snapshotNetWorth.data(), 'last_update')) bank.lastupdate['netWorth'] = moment(_.get(snapshotNetWorth.data(), 'last_update')).fromNow();
+  if (_.get(snapshotOthers.data(), 'last_update')) bank.lastupdate['others'] = moment(_.get(snapshotOthers.data(), 'last_update')).fromNow();
 
   bank.headers = snapshotHeaders.data() || [];
   let savings_data = _.get(snapshotSavings.data(), 'data', []);
@@ -85,7 +86,8 @@ export const load = async (uid: string): Promise<IBank> => {
 
   bank.income = formatters.formatIncome(revenues_data, bank.headers);
   bank.savings = formatters.formatSavings(savings_data, bank.headers);
-  bank.networth = _.get(snapshotNetWorth.data(), 'data', {});
+  bank.networth = _.get(snapshotOthers.data(), 'networth', {});
+  bank.expenses = _.get(snapshotOthers.data(), 'expenses', {});
 
   bank.savingsInputs = formatters.savingsInputs(bank.savingsHeaders, {});
   bank.savingsInputsHidden = formatters.savingsInputs(bank.savingsHeaders, bank.savingsHeadersHidden);
@@ -181,14 +183,15 @@ export const saveSavings = async (uid: string, bank: IBank) => {
   }
 };
 
-export const saveNetWorth = async (uid: string, bank: IBank) => {
+export const saveOthers = async (uid: string, bank: IBank) => {
   const payload = {
     last_update: (new Date()).getTime(),
-    data: JSON.parse(JSON.stringify(bank.networth))
+    expenses: JSON.parse(JSON.stringify(bank.expenses)),
+    networth: JSON.parse(JSON.stringify(bank.networth))
   };
 
   try {
-    await firestore.setNetWorth(uid, payload);
+    await firestore.setOthers(uid, payload);
     return true;
   } catch {
     return false;
@@ -232,6 +235,7 @@ export const calculateTotals = (bank: IBank) => {
     bank.savingRateMonth[year] = {};
     bank.savingRateYear[year] = {};
     if (!bank.networth[year]) bank.networth[year] = {};
+    if (!bank.expenses[year]) bank.expenses[year] = {};
 
     bank.startOfYearAmount[year] = (year === bank.headers.firstYear.toString()) ? parseFloat(bank.headers.startingCapital) : _.get(bank.totalHolding, [(parseInt(year) - 1), '12'], 0);
     const goal_year = _.get(bank.savingsYearHeaders, ['goals', year], 0);

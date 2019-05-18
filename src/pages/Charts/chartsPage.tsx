@@ -118,11 +118,14 @@ class ChartsPageBase extends React.Component<IProps, IState> {
           .value()
         ));
 
+        const manual_expense = _.get(bank.expenses, [y, m], 0);
+        const automatic_expenses = _.get(bank.totalMonthIncome, [y, m], 0) - _.get(bank.totalMonthSavings, [y, m], 0);
+
         if (_.get(bank.networth, [y, m])) {
           bea.push([
             new Date(y, m - 1), 
             Math.round(_.get(bank.networth, [y, m], 0) / 300),
-            Math.max(0, _.get(bank.totalMonthIncome, [y, m], 0) - _.get(bank.totalMonthSavings, [y, m], 0))
+            manual_expense != 0 ? manual_expense : Math.max(0, automatic_expenses)
           ]);
         }        
       });

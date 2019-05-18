@@ -33,6 +33,14 @@ class Charts extends React.Component<IProps, {}> {
                 <FireAmount extraClassName="label-fake-input pull-right" display-if-zero={true} callback-props={['networth', year, month]} />
               </Col>
             </Row>
+            <Row>
+              <Col>
+                <span className="label-fake-input">Expenses</span>
+              </Col>
+              <Col>
+                <FireAmount extraClassName="label-fake-input pull-right" display-if-zero={true} callback-props={['expenses', year, month]} />
+              </Col>
+            </Row>
           </Alert>
           <Alert color="background">
             <Progress label="Month"

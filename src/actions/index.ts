@@ -55,7 +55,7 @@ export const saveBank = (uid: string, bank: Bank.IBank) => {
 
     Bank.saveSavings(uid, bank).then(() => {
       Bank.saveIncome(uid, bank).then(() => {
-        Bank.saveNetWorth(uid, bank).then(() => {
+        Bank.saveOthers(uid, bank).then(() => {
           dispatch(({
             type: TYPES.BANK_SAVE_SUCCESS,
             payload: {
