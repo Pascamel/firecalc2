@@ -2,7 +2,7 @@ import _ from 'lodash';
 import uuid from 'uuid';
 
 import * as TYPES from '../actions/types';
-import * as Bank from '../bank';
+import Bank from '../bank';
 
 const INITIAL_STATE = {
   bank: {},

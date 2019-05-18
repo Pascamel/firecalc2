@@ -3,8 +3,7 @@ import { connect } from 'react-redux';
 import { Alert, Button, Col, Row } from 'reactstrap';
 
 import { newSavingHeader } from '../../actions';
-import * as Bank from '../../bank';
-import { ISavingsHeader } from '../../bank/interfaces';
+import Bank, { ISavingsHeader } from '../../bank';
 import { AppState } from '../../store';
 import Saving from './saving';
 

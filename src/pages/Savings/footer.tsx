@@ -2,7 +2,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
 import { connect } from 'react-redux';
 
-import * as Bank from '../../bank';
+import Bank from '../../bank';
 import { StaticAmount } from '../../components';
 import { AppState } from '../../store';
 

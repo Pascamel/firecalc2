@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Alert, Col, Container, Row } from 'reactstrap';
 
 import { loadBank, saveBank } from '../../actions';
-import * as Bank from '../../bank';
+import Bank from '../../bank';
 import { LoadingPanel, SavePanel } from '../../components';
 import { AppState } from '../../store';
 import Table from './table';

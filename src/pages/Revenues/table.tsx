@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import * as Bank from '../../bank';
+import Bank from '../../bank';
 import { AppState } from '../../store';
 import Body from './body';
 import Header from './header';

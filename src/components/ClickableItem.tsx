@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { DropdownItem } from 'reactstrap';
 
 import { updateValueLocalStorage } from '../actions';
-import * as Bank from '../bank';
+import Bank from '../bank';
 import * as formatters from '../bank/formatters';
 
 interface IProps {

@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import { Dispatch } from 'redux';
 
-import * as Bank from '../bank';
+import Bank from '../bank';
 import { IIncomeHeader, ISavingsHeader } from '../bank/interfaces';
 import * as TYPES from './types';
 

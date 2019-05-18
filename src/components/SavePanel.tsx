@@ -4,11 +4,10 @@ import { connect } from 'react-redux';
 import { Button, ButtonGroup, Col, Container, Row } from 'reactstrap';
 
 import { loadBank, saveBank, saveHeaders } from '../actions';
-import * as Bank from '../bank';
+import Bank from '../bank';
 import { AppState } from '../store';
 import DecimalsBtn from './DecimalsBtn';
 import FiltersBtn from './FiltersBtn';
-
 
 interface IProps {
   authUser: firebase.User;

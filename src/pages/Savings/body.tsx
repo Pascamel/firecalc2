@@ -4,7 +4,7 @@ import React, { Dispatch } from 'react';
 import { connect } from 'react-redux';
 
 import { updateValueLocalStorage } from '../../actions';
-import * as Bank from '../../bank';
+import Bank from '../../bank';
 import { FireAmount, FireTD, FireTR, StaticAmount, StaticPercentage } from '../../components';
 import { AppState } from '../../store';
 

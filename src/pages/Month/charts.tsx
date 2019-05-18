@@ -3,7 +3,7 @@ import React, { Dispatch } from 'react';
 import { connect } from 'react-redux';
 import { Alert, Col, Row } from 'reactstrap';
 
-import * as Bank from '../../bank';
+import Bank from '../../bank';
 import { FireAmount, StaticAmount } from '../../components';
 import { AppState } from '../../store';
 import Doughnut from './doughnut';

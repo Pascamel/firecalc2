@@ -2,7 +2,7 @@ import _ from 'lodash';
 import React from 'react';
 import { connect } from 'react-redux';
 
-import * as Bank from '../bank';
+import Bank from '../bank';
 import helpers from '../helpers';
 import { AppState } from '../store';
 

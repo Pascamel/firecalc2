@@ -9,8 +9,7 @@ import {
   updateIncomeHeader,
   updateValue
 } from '../../actions';
-import * as Bank from '../../bank';
-import { IIncomeHeader } from '../../bank/interfaces';
+import Bank, { IIncomeHeader } from '../../bank';
 import { AppState } from '../../store';
 
 interface IProps {

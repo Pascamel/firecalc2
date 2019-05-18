@@ -3,9 +3,8 @@ import { connect } from 'react-redux';
 import { Alert, Button, Col, Row } from 'reactstrap';
 
 import { newIncomeHeader } from '../../actions';
+import Bank, { IIncomeHeader } from '../../bank';
 import { AppState } from '../../store';
-import * as Bank from '../../bank';
-import { IIncomeHeader } from '../../bank/interfaces';
 import Income from './income';
 
 interface IProps {

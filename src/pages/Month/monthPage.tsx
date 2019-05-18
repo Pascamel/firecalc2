@@ -5,14 +5,13 @@ import { Swipe } from 'react-swipe-component';
 import { Col, Container, Row } from 'reactstrap';
 
 import { loadBank, saveBank, updateValue } from '../../actions';
-import * as Bank from '../../bank';
+import Bank from '../../bank';
 import { LoadingPanel, SavePanel } from '../../components';
 import * as ROUTES from '../../constants/routes';
 import helpers from '../../helpers';
 import { AppState } from '../../store';
 import Charts from './charts';
 import Finances from './finances';
-
 
 interface IProps extends RouteComponentProps<{month: string, year: string}> {
   authUser: firebase.User|null;

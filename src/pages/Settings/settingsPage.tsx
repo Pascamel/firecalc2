@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Col, Container, Row } from 'reactstrap';
 
 import { loadBank, saveHeaders, updateValue } from '../../actions';
-import * as Bank from '../../bank';
+import Bank from '../../bank';
 import { LoadingPanel, SavePanel } from '../../components';
 import { AppState } from '../../store';
 import Incomes from './incomes';

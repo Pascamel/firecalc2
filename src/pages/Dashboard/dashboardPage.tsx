@@ -2,7 +2,7 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { Col, Container, ListGroup, ListGroupItem, Row } from 'reactstrap';
 
-import * as Bank from '../../bank';
+import Bank from '../../bank';
 import { HeaderPanel, LoadingPanel } from '../../components';
 import * as ROUTES from '../../constants/routes';
 import helpers from '../../helpers';

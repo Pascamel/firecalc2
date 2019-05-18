@@ -5,7 +5,7 @@ import { RouteComponentProps } from 'react-router-dom';
 import { Col, Container, Row } from 'reactstrap';
 
 import { loadBank } from '../../actions';
-import * as Bank from '../../bank';
+import Bank from '../../bank';
 import { LoadingPanel } from '../../components';
 import { Mobile, NotMobile } from '../../components/Responsive';
 import * as CHARTS from '../../constants/charts';

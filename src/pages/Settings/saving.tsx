@@ -9,8 +9,7 @@ import {
   updateSavingHeader,
   updateValue
 } from '../../actions';
-import * as Bank from '../../bank';
-import { ISavingsHeader } from '../../bank/interfaces';
+import Bank, { ISavingsHeader } from '../../bank';
 import { AppState } from '../../store';
 
 interface IProps {

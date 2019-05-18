@@ -4,7 +4,7 @@ import React, { Dispatch } from 'react';
 import { connect } from 'react-redux';
 
 import { updateValue } from '../actions';
-import * as Bank from '../bank';
+import Bank from '../bank';
 import helpers from '../helpers';
 import { AppState } from '../store';
 

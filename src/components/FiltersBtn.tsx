@@ -4,8 +4,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Dropdown, DropdownMenu, DropdownToggle } from 'reactstrap';
 
-import * as Bank from '../bank';
-import * as I from '../bank/interfaces';
+import Bank, { ISavingsHeader } from '../bank';
 import { AppState } from '../store';
 import ClickableItem from './ClickableItem';
 
@@ -43,7 +42,7 @@ class FiltersBtn extends React.Component<IProps, IState> {
           <FontAwesomeIcon icon="columns" />
         </DropdownToggle>
         <DropdownMenu>
-          {bank.savingsInputs.map((header: I.ISavingsHeader, key: number) => (
+          {bank.savingsInputs.map((header: ISavingsHeader, key: number) => (
             <ClickableItem key={key} header={header} {...this.props} />
           ))}
           {/* <DropdownItem divider />

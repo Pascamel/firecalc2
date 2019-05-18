@@ -2,8 +2,7 @@ import _ from 'lodash';
 import React from 'react';
 import { connect } from 'react-redux';
 
-import * as Bank from '../../bank';
-import { IIncomeHeader } from '../../bank/interfaces';
+import Bank, { IIncomeHeader } from '../../bank';
 import { FireAmount } from '../../components';
 import { AppState } from '../../store';
 

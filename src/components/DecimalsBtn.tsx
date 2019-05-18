@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Dropdown, DropdownItem, DropdownMenu, DropdownToggle } from 'reactstrap';
 
 import { updateValueLocalStorage } from '../actions';
-import * as Bank from '../bank';
+import Bank from '../bank';
 import { AppState } from '../store';
 
 interface IProps {
