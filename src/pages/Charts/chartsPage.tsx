@@ -10,9 +10,9 @@ import { LoadingPanel } from '../../components';
 import { Mobile, NotMobile } from '../../components/Responsive';
 import * as CHARTS from '../../constants/charts';
 import helpers from '../../helpers';
+import { AppState } from '../../store';
 import * as Charts from './charts';
 import Selector from './selector';
-import { AppState } from '../../store';
 
 interface IProps extends RouteComponentProps<{type: string}> {
   authUser: firebase.User|null;
@@ -104,7 +104,7 @@ class ChartsPageBase extends React.Component<IProps, IState> {
           bea.push([
             new Date(y, m - 1), 
             Math.round(_.get(bank.networth, [y, m], 0) / 300),
-            Math.min(0, _.get(bank.totalMonthIncome, [y, m], 0) - _.get(bank.totalMonthSavings, [y, m], 0))
+            Math.max(0, _.get(bank.totalMonthIncome, [y, m], 0) - _.get(bank.totalMonthSavings, [y, m], 0))
           ]);
         }
       });
