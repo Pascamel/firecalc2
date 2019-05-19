@@ -77,6 +77,9 @@ class DashboardPageBase extends React.Component<IProps, {}> {
                           Last update <b>{bank.lastupdate.headers}</b>
                         </span>
                       </ListGroupItem>}
+                    </ListGroup>
+                    
+                    <ListGroup className="pt-3">
                       <ListGroupItem>
                         Build
                         <span className="pull-right">
