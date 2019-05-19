@@ -1,3 +1,5 @@
+import moment from 'moment';
+import preval from 'preval.macro';
 import React, { Dispatch } from 'react';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
@@ -39,6 +41,8 @@ class DashboardPageBase extends React.Component<IProps, {}> {
 
     if (!bankLoaded) return <LoadingPanel />;
 
+    const buildDate: string = moment(preval`module.exports = new Date();`).utc().format('YYYYMMDD-HHmmss');
+    
     return (
       <>
         <HeaderPanel title="Last updates" />
@@ -73,6 +77,12 @@ class DashboardPageBase extends React.Component<IProps, {}> {
                           Last update <b>{bank.lastupdate.headers}</b>
                         </span>
                       </ListGroupItem>}
+                      <ListGroupItem>
+                        Build
+                        <span className="pull-right">
+                          {buildDate}
+                        </span>
+                      </ListGroupItem>
                     </ListGroup>
                   </Col>
                 </Row>
@@ -94,9 +104,7 @@ const mapStateToProps = (state: AppState) => {
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => {
   return {
-    onLoadBank: (uid: string) => {
-      dispatch(loadBank(uid));
-    }
+    onLoadBank: (uid: string) => dispatch(loadBank(uid))
   };
 };
 
