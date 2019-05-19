@@ -2,16 +2,19 @@ import React, { Component, Dispatch } from 'react';
 import { connect } from 'react-redux';
 import  { Alert } from 'reactstrap';
 
+import { unloadBank } from '../actions';
+import * as TYPES from '../actions/types';
 import { LoadingPanel } from '../components';
 import { firebase as fb } from '../firebase';
 
 interface IProps {
   authUser?: firebase.User;
   onSetAuthUser: (user: firebase.User|null) => void;
+  onUnloadBank: () => void;
 }
 
 interface IState {
-  authUser?:   any;
+  authUser?: firebase.User|null;
   loading: boolean;
 }
 
@@ -29,14 +32,14 @@ export const withAuthentication = (WrappedComponent: any) => {
     }
 
     public componentDidMount() {
-      const { onSetAuthUser }: any = this.props;
       fb.auth.onAuthStateChanged(authUser => {
         this.setState({loading: false});
         if (authUser) {
-          onSetAuthUser(authUser);
+          this.props.onSetAuthUser(authUser);
           localStorage.setItem('authUser', JSON.stringify(authUser));
         } else {
-          onSetAuthUser(null);
+          this.props.onSetAuthUser(null);
+          this.props.onUnloadBank();
           localStorage.removeItem('authUser');
         }
       });
@@ -54,7 +57,11 @@ export const withAuthentication = (WrappedComponent: any) => {
   }
 
   const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
-    onSetAuthUser: (authUser: any) => dispatch({ type: 'AUTH_USER_SET', authUser })
+    onSetAuthUser: (authUser: any) => dispatch({ 
+      type: TYPES.AUTH_USER_SET, 
+      authUser 
+    }),
+    onUnloadBank: () => dispatch(unloadBank())
   });
 
   return connect(null, mapDispatchToProps)(WithAuthentication);

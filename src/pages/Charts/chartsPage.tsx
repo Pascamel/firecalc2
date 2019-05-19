@@ -218,9 +218,7 @@ const mapStateToProps = (state: AppState) => {
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => {
   return {
-    onLoadBank: (uid: string) => {
-      dispatch(loadBank(uid));
-    }
+    onLoadBank: (uid: string) => dispatch(loadBank(uid))
   };
 };
 

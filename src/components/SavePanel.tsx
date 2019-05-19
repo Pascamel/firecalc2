@@ -104,15 +104,9 @@ const mapStateToProps = (state: AppState) => {
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => {
   return {
-    onLoadBank: (uid: string) => {
-      dispatch(loadBank(uid));
-    },
-    onSaveBank: (uid: string, bank: Bank.IBank) => {
-      dispatch(saveBank(uid, bank));
-    },
-    onSaveHeaders: (uid: string, bank: Bank.IBank) => {
-      dispatch(saveHeaders(uid, bank));
-    }
+    onLoadBank: (uid: string) => dispatch(loadBank(uid)),
+    onSaveBank: (uid: string, bank: Bank.IBank) => dispatch(saveBank(uid, bank)),
+    onSaveHeaders: (uid: string, bank: Bank.IBank) => dispatch(saveHeaders(uid, bank))
   };
 };
 

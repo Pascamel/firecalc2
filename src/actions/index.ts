@@ -27,6 +27,16 @@ export const loadBank = (uid: string) => {
   };
 };
 
+export const unloadBank = () => {
+  return (dispatch: Dispatch<any>) => {
+    const bank = {};
+    dispatch(({
+      type: TYPES.BANK_LOAD_STARTED,
+      payload: {bank}
+    }))
+  }
+}
+
 
 export const updateValue = (index: string, indexes: string[], amount: number|boolean) => {
   return (dispatch: Dispatch<any>) => {
