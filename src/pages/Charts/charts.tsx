@@ -215,7 +215,7 @@ export class BreakEvenAnalysisChart extends React.Component<IProps, {}> {
   }
 }
 
-export class YearlyGoalBurnDown extends React.Component<IProps & IYear, {}> {
+export class YearlyGoalBurnUp extends React.Component<IProps & IYear, {}> {
   render() {
     return (
       <Chart

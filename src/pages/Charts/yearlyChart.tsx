@@ -77,7 +77,7 @@ class YearlyChart extends React.Component<IProps, IState> {
           </ButtonGroup>}
         </Col>
         <Col md={10} sm={12}>
-          {chart === CHARTS.URL.YEARLY_GOAL_BURNDOWN && <Charts.YearlyGoalBurnDown 
+          {chart === CHARTS.URL.YEARLY_GOAL_BURNUP && <Charts.YearlyGoalBurnUp
             data={data[year]} 
             mobile={mobile} year={this.state.year} />}
         </Col>

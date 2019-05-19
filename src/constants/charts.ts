@@ -5,7 +5,7 @@ export const NET_WORTH_VS_SAVINGS = 4;
 export const SAVINGS_BREAKDOWN = 5;
 export const ALLOCATION_EVOLUTION = 6;
 export const BREAK_EVEN_ANALYSIS = 7;
-export const YEARLY_GOAL_BURNDOWN = 8;
+export const YEARLY_GOAL_BURNUP = 8;
 
 interface IMapping {
   [key: string]: string;
@@ -19,7 +19,7 @@ export const LABELS: IMapping = {
   SAVINGS_BREAKDOWN: 'Savings breakdown',
   ALLOCATION_EVOLUTION: 'Allocation',
   BREAK_EVEN_ANALYSIS: 'Break-even point',
-  YEARLY_GOAL_BURNDOWN: 'Yearly burndown'
+  YEARLY_GOAL_BURNUP: 'Yearly burnup'
 };
 
 export const URL: IMapping = {
@@ -30,5 +30,5 @@ export const URL: IMapping = {
   SAVINGS_BREAKDOWN: 'savings-breakdown',
   ALLOCATION_EVOLUTION: 'allocation-evolution',
   BREAK_EVEN_ANALYSIS: 'break-even-analysis',
-  YEARLY_GOAL_BURNDOWN: 'yearly-goal-burndown'
+  YEARLY_GOAL_BURNUP: 'yearly-goal-burnup'
 };

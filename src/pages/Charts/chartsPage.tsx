@@ -36,7 +36,7 @@ interface IRecap {
   sb: ArrayDateNumber;
   ae: ArrayDateNumber;
   bea: ArrayDateNumber;
-  yb: YearlyArrayDateNumberNull
+  ybu: YearlyArrayDateNumberNull
 }
 
 class ChartsPageBase extends React.Component<IProps, IState> {
@@ -73,17 +73,13 @@ class ChartsPageBase extends React.Component<IProps, IState> {
       .value()
     )];
     const bea: ArrayDateNumber = [['Date', 'Passive income', 'Expenses']];
-    const yb: YearlyArrayDateNumberNull = {};
+    const ybu: YearlyArrayDateNumberNull = {};
 
     _.each(_.range(bank.headers.firstYear, new Date().getFullYear()+1), (y) => {
       const m1 = (y === bank.headers.firstYear) ? bank.headers.firstMonth : 1;
       const m2 = (y === (new Date().getFullYear())) ? (new Date().getMonth() + 1) : 12;
 
-      yb[y] = [['Date', 'Goal', 'Remaining'], [
-        new Date(y, 0, 1), 
-        12 * _.get(bank.monthlyGoal, y, 0),
-        12 * _.get(bank.monthlyGoal, y, 0)
-      ]]; 
+      ybu[y] = [['Date', 'Goal', 'Done'], [new Date(y, 0, 1), 0, 0]]; 
 
       _.each(_.range(m1, m2 + 1), (m) => {
         svsi.push([
@@ -131,10 +127,10 @@ class ChartsPageBase extends React.Component<IProps, IState> {
       });
 
       _.each(_.range(m1, 13), (m) => {
-        yb[y].push([
+        ybu[y].push([
           new Date(y, m, 0), // last day of m-1
-          (12 - m) * _.get(bank.monthlyGoal, y, 0),
-          (m <= m2) ? (12 - m) * _.get(bank.monthlyGoal, y, 0) - _.get(bank.goalYearToDate, [y, m], 0) : null
+          m * _.get(bank.monthlyGoal, y, 0),
+          (m <= m2) ? m * _.get(bank.monthlyGoal, y, 0) + _.get(bank.goalYearToDate, [y, m], 0) : null
         ]);
       });
     });
@@ -156,7 +152,7 @@ class ChartsPageBase extends React.Component<IProps, IState> {
 
     return { 
       svsi: svsi, 
-      nw, ts, nws, sb, ae, bea, yb 
+      nw, ts, nws, sb, ae, bea, ybu
     };
   }
   
@@ -172,7 +168,7 @@ class ChartsPageBase extends React.Component<IProps, IState> {
         {type === CHARTS.URL.SAVINGS_BREAKDOWN && <Charts.SavingsBreakdownChart data={recap.sb} mobile={mobile} />}
         {type === CHARTS.URL.ALLOCATION_EVOLUTION && <Charts.AllocationEvolutionChart data={recap.ae} mobile={mobile} />}
         {type === CHARTS.URL.BREAK_EVEN_ANALYSIS && <Charts.BreakEvenAnalysisChart data={recap.bea} mobile={mobile} />}
-        {type === CHARTS.URL.YEARLY_GOAL_BURNDOWN && <YearlyChart data={recap.yb} mobile={mobile} chart={type} />}
+        {type === CHARTS.URL.YEARLY_GOAL_BURNUP && <YearlyChart data={recap.ybu} mobile={mobile} chart={type} />}
       </>
     );
   }
