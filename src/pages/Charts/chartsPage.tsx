@@ -31,8 +31,6 @@ type YearlyArrayDateNumberNull = {[year:number]: Array<Array<string>|Array<Date|
 
 interface IRecap {
   svsi: ArrayDateNumber;
-  nw: ArrayDateNumber;
-  ts: ArrayDateNumber;
   nws: ArrayDateNumber;
   sb: ArrayDateNumber;
   ae: ArrayDateNumber;
@@ -66,9 +64,7 @@ class ChartsPageBase extends React.Component<IProps, IState> {
 
   mapBankToRecap = (bank: Bank.IBank) => {
     const svsi: ArrayDateNumber = [['Date', 'Savings', 'Income']];
-    const nw: ArrayDateNumber = [['Date', 'New worth']];
-    const ts: ArrayDateNumber = [['Date', 'Savings']];
-    const nws: ArrayDateNumber = [['Date', 'New worth', 'Savings']];
+    const nws: ArrayDateNumber = [['Date', 'Net Worth', 'Savings']];
     const sb: ArrayDateNumber = [['Institution', 'Amount']];
     const ae: ArrayDateNumber = [_.concat(['Date'], _(bank.savingsInputs)
       .filter((header) => (header.types.indexOf('T') === -1) || (header.type === 'T'))
@@ -91,25 +87,11 @@ class ChartsPageBase extends React.Component<IProps, IState> {
           _.get(bank.totalMonthIncome, [y, m], 0)
         ]);
 
-        if (_.get(bank.networth, [y, m])) {
-          nw.push([
-            new Date(y, m - 1), 
-            _.get(bank.networth, [y, m], 0)
-          ]);
-        }
-        
-        ts.push([
-          new Date(y, m - 1),
-          _.get(bank.totalHolding, [y, m], null)
+        nws.push([
+          new Date(y, m - 1), 
+          _.get(bank.networth, [y, m], null),
+          _.get(bank.totalHolding, [y, m], 0)
         ]);
-
-        if (_.get(bank.networth, [y, m])) {
-          nws.push([
-            new Date(y, m - 1), 
-            _.get(bank.networth, [y, m], 0),
-            _.get(bank.totalHolding, [y, m], 0)
-          ]);
-        }
 
         ae.push(_.concat([new Date(y, m - 1)], _(bank.savingsInputs)
           .filter((header) => (header.types.indexOf('T') === -1) || (header.type === 'T'))
@@ -153,7 +135,7 @@ class ChartsPageBase extends React.Component<IProps, IState> {
       }]);
     });
 
-    return {svsi, nw, ts, nws, sb, ae, bep, ybu};
+    return {svsi, nws, sb, ae, bep, ybu};
   }
   
   chartsBlock = (mobile: boolean, recap: IRecap) => {
@@ -162,12 +144,10 @@ class ChartsPageBase extends React.Component<IProps, IState> {
     return (
       <>                    
         {type === CHARTS.URL.INCOME_VS_SAVINGS && <Charts.IncomeVsSavingsChart data={recap.svsi} mobile={mobile} />}
-        {type === CHARTS.URL.NET_WORTH && <Charts.NetWorthChart data={recap.nw} mobile={mobile} />}
-        {type === CHARTS.URL.TOTAL_SAVINGS && <Charts.TotalSavingsChart data={recap.ts} mobile={mobile} />}
         {type === CHARTS.URL.NET_WORTH_VS_SAVINGS && <Charts.NetWorthVsSavingsChart data={recap.nws} mobile={mobile} />}
         {type === CHARTS.URL.SAVINGS_BREAKDOWN && <Charts.SavingsBreakdownChart data={recap.sb} mobile={mobile} />}
         {type === CHARTS.URL.ALLOCATION_EVOLUTION && <Charts.AllocationEvolutionChart data={recap.ae} mobile={mobile} />}
-        {type === CHARTS.URL.BREAK_EVEN_ANALYSIS && <Charts.BreakEvenAnalysisChart data={recap.bep} mobile={mobile} />}
+        {type === CHARTS.URL.BREAK_EVEN_POINT && <Charts.BreakEvenPointChart data={recap.bep} mobile={mobile} />}
         {type === CHARTS.URL.YEARLY_GOAL_BURNUP && <YearlyChart data={recap.ybu} mobile={mobile} chart={type} />}
         {type === CHARTS.URL.PROJECTION && <ProjectionChart mobile={mobile} chart={type} />}
       </>

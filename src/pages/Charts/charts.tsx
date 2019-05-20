@@ -45,60 +45,6 @@ export class IncomeVsSavingsChart extends React.Component<IProps, {}> {
   }
 }
 
-export class NetWorthChart extends React.Component<IProps, {}> {
-  render() {
-    return (
-      <Chart 
-        chartType="AreaChart"
-        width="100%"
-        height="460px"
-        loader={<LoadingPanel color="background" />}
-        data={this.props.data}
-        options={{
-          legend: 'none',
-          vAxis: { 
-            format: 'short'
-          },
-          chartArea: {
-            width: this.props.mobile ? '80%' : '92%', 
-            right: this.props.mobile ? '5%' : '2%',
-            height: '90%'
-          }
-        }}
-      />
-    );
-  }
-}
-
-export class TotalSavingsChart extends React.Component<IProps, {}> {
-  render() {
-    return (
-      <Chart 
-        chartType="AreaChart"
-        width="100%"
-        height="460px"
-        loader={<LoadingPanel color="background" />}
-        data={this.props.data}
-        legendToggle
-        options={{
-          legend: 'none',
-          vAxis: { 
-            format: 'short',
-            viewWindow: {
-              min: 0
-            }
-          },
-          chartArea: {
-            width: this.props.mobile ? '80%' : '92%', 
-            right: this.props.mobile ? '5%' : '2%',
-            height: '90%'
-          }
-        }}
-      />
-    );
-  }
-}
-
 export class NetWorthVsSavingsChart extends React.Component<IProps, {}> {
   render() {
     return (
@@ -185,7 +131,7 @@ export class AllocationEvolutionChart extends React.Component<IProps, {}> {
   }
 }
 
-export class BreakEvenAnalysisChart extends React.Component<IProps, {}> {
+export class BreakEvenPointChart extends React.Component<IProps, {}> {
   render() {
     return (
       <Chart
