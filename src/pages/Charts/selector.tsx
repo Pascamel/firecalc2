@@ -20,14 +20,14 @@ export default class Selector extends React.Component<IProps, {}> {
   }
 
   prevChart = (): void => {
-    const newIndex = (_.values(CHARTS.URL).indexOf(this.props.type) + _.keys(CHARTS.URL).length - 1) % 8;
+    const newIndex = (_.values(CHARTS.URL).indexOf(this.props.type) + _.keys(CHARTS.URL).length - 1) % _.keys(CHARTS.URL).length;
     const newRoute = _.get(CHARTS.URL, _.get(_.keys(CHARTS.URL), newIndex));
     
     this.props.history.push(ROUTES.CHARTS.replace(':type', newRoute));
   }
 
   nextChart = (): void => {
-    const newIndex = (_.values(CHARTS.URL).indexOf(this.props.type) + _.keys(CHARTS.URL).length + 1) % 8;
+    const newIndex = (_.values(CHARTS.URL).indexOf(this.props.type) + _.keys(CHARTS.URL).length + 1) % _.keys(CHARTS.URL).length;
     const newRoute = _.get(CHARTS.URL, _.get(_.keys(CHARTS.URL), newIndex));
     
     this.props.history.push(ROUTES.CHARTS.replace(':type', newRoute));

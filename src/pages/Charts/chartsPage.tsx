@@ -12,6 +12,7 @@ import * as CHARTS from '../../constants/charts';
 import helpers from '../../helpers';
 import { AppState } from '../../store';
 import * as Charts from './charts';
+import ProjectionChart from './projectionChart';
 import Selector from './selector';
 import YearlyChart from './yearlyChart';
 
@@ -35,7 +36,7 @@ interface IRecap {
   nws: ArrayDateNumber;
   sb: ArrayDateNumber;
   ae: ArrayDateNumber;
-  bea: ArrayDateNumber;
+  bep: ArrayDateNumber;
   ybu: YearlyArrayDateNumberNull
 }
 
@@ -50,7 +51,9 @@ class ChartsPageBase extends React.Component<IProps, IState> {
 
   componentDidMount() {
     const { authUser, onLoadBank, bankLoaded }: any = this.props;
-    if (!bankLoaded) onLoadBank(authUser.uid);
+    if (bankLoaded || !authUser ) return;
+    
+    onLoadBank(authUser.uid);
   }
 
   componentDidUpdate(prevProps: IProps, prevState: IState, snapshot: any) {
@@ -72,7 +75,7 @@ class ChartsPageBase extends React.Component<IProps, IState> {
       .map((header) => _(bank.savingsHeaders).keyBy('id').get([header.id, 'label'], 'N/A'))
       .value()
     )];
-    const bea: ArrayDateNumber = [['Date', 'Passive income', 'Expenses']];
+    const bep: ArrayDateNumber = [['Date', 'Passive income', 'Expenses']];
     const ybu: YearlyArrayDateNumberNull = {};
 
     _.each(_.range(bank.headers.firstYear, new Date().getFullYear()+1), (y) => {
@@ -118,14 +121,14 @@ class ChartsPageBase extends React.Component<IProps, IState> {
         const automatic_expenses = _.get(bank.totalMonthIncome, [y, m], 0) - _.get(bank.totalMonthSavings, [y, m], 0);
 
         if (_.get(bank.networth, [y, m])) {
-          bea.push([
+          bep.push([
             new Date(y, m - 1), 
             Math.round(_.get(bank.networth, [y, m], 0) / 300),
             manual_expense != 0 ? manual_expense : Math.max(0, automatic_expenses)
           ]);
         }        
       });
-
+      
       _.each(_.range(m1, 13), (m) => {
         ybu[y].push([
           new Date(y, m, 0), // last day of m-1
@@ -150,10 +153,7 @@ class ChartsPageBase extends React.Component<IProps, IState> {
       }]);
     });
 
-    return { 
-      svsi: svsi, 
-      nw, ts, nws, sb, ae, bea, ybu
-    };
+    return {svsi, nw, ts, nws, sb, ae, bep, ybu};
   }
   
   chartsBlock = (mobile: boolean, recap: IRecap) => {
@@ -167,8 +167,9 @@ class ChartsPageBase extends React.Component<IProps, IState> {
         {type === CHARTS.URL.NET_WORTH_VS_SAVINGS && <Charts.NetWorthVsSavingsChart data={recap.nws} mobile={mobile} />}
         {type === CHARTS.URL.SAVINGS_BREAKDOWN && <Charts.SavingsBreakdownChart data={recap.sb} mobile={mobile} />}
         {type === CHARTS.URL.ALLOCATION_EVOLUTION && <Charts.AllocationEvolutionChart data={recap.ae} mobile={mobile} />}
-        {type === CHARTS.URL.BREAK_EVEN_ANALYSIS && <Charts.BreakEvenAnalysisChart data={recap.bea} mobile={mobile} />}
+        {type === CHARTS.URL.BREAK_EVEN_ANALYSIS && <Charts.BreakEvenAnalysisChart data={recap.bep} mobile={mobile} />}
         {type === CHARTS.URL.YEARLY_GOAL_BURNUP && <YearlyChart data={recap.ybu} mobile={mobile} chart={type} />}
+        {type === CHARTS.URL.PROJECTION && <ProjectionChart mobile={mobile} chart={type} />}
       </>
     );
   }
