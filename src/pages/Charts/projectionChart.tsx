@@ -52,7 +52,7 @@ class ProjectionChart extends React.Component<IProps, IState> {
     const amount = _(last_year).values().last() || 0;
 
     const data = [
-      ['date', 'one', 'two'],
+      ['Date', '5%', '7%'],
       [new Date(year, month, 1), amount, amount]
     ];
 
@@ -75,7 +75,6 @@ class ProjectionChart extends React.Component<IProps, IState> {
             <Button color={this.state.savings === 90000 ? 'secondary' : 'outline-secondary'} onClick={() => this.setState({savings: 90000})}>90k</Button>
             <Button color={this.state.savings === 100000 ? 'secondary' : 'outline-secondary'} onClick={() => this.setState({savings: 100000})}>100k</Button>
           </ButtonGroup>
-
           <ButtonGroup className="btn-block" vertical>
             <Button color={this.state.duration === 10 ? 'secondary' : 'outline-secondary'} onClick={() => this.setState({duration: 10})}>10y</Button>
             <Button color={this.state.duration === 15 ? 'secondary' : 'outline-secondary'} onClick={() => this.setState({duration: 15})}>15y</Button>
