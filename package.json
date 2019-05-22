@@ -28,9 +28,11 @@
     "react-swipe-component": "^3.0.0",
     "reactstrap": "^7.1.0",
     "redux-thunk": "^2.3.0",
+    "source-map-explorer": "^1.8.0",
     "uuid": "^3.3.2"
   },
   "scripts": {
+    "analyze": "source-map-explorer 'build/static/js/*.js'",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
