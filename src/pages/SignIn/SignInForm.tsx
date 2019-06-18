@@ -34,7 +34,7 @@ export class SignInForm extends React.Component<InterfaceProps,InterfaceState> {
     this.state = { ...SignInForm.INITIAL_STATE };
   }
 
-  public onSubmit = (event: any) => {
+  public onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     const { email, password } = this.state;
     const { history } = this.props;
 
@@ -96,7 +96,7 @@ export class SignInForm extends React.Component<InterfaceProps,InterfaceState> {
     );
   }
 
-  private setStateWithEvent(event: any, columnType: string): void {
+  private setStateWithEvent(event: React.ChangeEvent<HTMLInputElement>, columnType: string): void {
     this.setState(SignInForm.propKey(columnType, (event.target as any).value));
   }
 }

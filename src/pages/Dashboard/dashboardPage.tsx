@@ -1,54 +1,58 @@
-import React from 'react';
-import { Container, Row, Col, ListGroup, ListGroupItem } from 'reactstrap';
-import { Bank } from '../../bank';
-import * as ROUTES from '../../constants/routes';
-import { LoadingPanel, HeaderPanel } from '../../components';
+import moment from 'moment';
+import preval from 'preval.macro';
+import React, { Dispatch } from 'react';
+import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
+import { Col, Container, ListGroup, ListGroupItem, Row } from 'reactstrap';
+
+import { loadBank } from '../../actions';
+import Bank from '../../bank';
+import { HeaderPanel, LoadingPanel } from '../../components';
+import * as ROUTES from '../../constants/routes';
 import helpers from '../../helpers';
+import { AppState } from '../../store';
 
-
-interface IState {
-  loading: boolean,
-  bank: Bank
+interface IProps {
+  authUser: firebase.User|null;
+  bank: Bank.IBank;
+  bankLoaded: boolean;
+  onLoadBank: (uid: string) => void;
 }
 
-export default class DashboardPageBase extends React.Component<{}, IState> {
+class DashboardPageBase extends React.Component<IProps, {}> {
   constructor(props: any) {
     super(props);
 
     this.state = {
       loading: true,
-      bank: new Bank()
+      bank: ({} as Bank.IBank)
     }
   }
 
   componentDidMount() {
-    this.state.bank.load().then(() => {
-      this.setState({bank: this.state.bank, loading: false});
-    }).catch(function(error) {
-    });
+    const { authUser, onLoadBank, bankLoaded } = this.props;
+    if (bankLoaded || !authUser ) return;
+    
+    onLoadBank(authUser.uid);
   }
 
   render() {
-    const { loading, bank } = this.state;
+    const { bankLoaded, bank } = this.props;
 
+    if (!bankLoaded) return <LoadingPanel />;
+
+    const buildDate: string = moment(preval`module.exports = new Date();`).utc().format('YYYYMMDD-HHmmss');
+    
     return (
-      <React.Fragment>
-        {loading && <LoadingPanel />}
-        {!loading && <HeaderPanel title="Last updates" />}
-        {!loading && <Container fluid className="top-shadow">
+      <>
+        <HeaderPanel title="Last updates" />
+        <Container fluid className="top-shadow">
           <Row>
             <Col>
               <Container>
                 <Row>
                   <Col>
                     <ListGroup flush>
-                      {bank.lastupdate.netWorth && <ListGroupItem>
-                        <NavLink to={helpers.currentMonthRoute()}>Net worth</NavLink>
-                        <span className="pull-right">
-                          Last update <b>{bank.lastupdate.netWorth}</b>
-                        </span>
-                      </ListGroupItem>}
                       {bank.lastupdate.savings && <ListGroupItem>
                         <NavLink to={ROUTES.SAVINGS}>Savings</NavLink>
                         <span className="pull-right">
@@ -61,6 +65,12 @@ export default class DashboardPageBase extends React.Component<{}, IState> {
                           Last update <b>{bank.lastupdate.income}</b>
                         </span>
                       </ListGroupItem>}
+                      {bank.lastupdate.others && <ListGroupItem>
+                        <NavLink to={helpers.currentMonthRoute()}>Others (Net worth, Expenses...)</NavLink>
+                        <span className="pull-right">
+                          Last update <b>{bank.lastupdate.others}</b>
+                        </span>
+                      </ListGroupItem>}
                       {bank.lastupdate.headers && <ListGroupItem>
                         <NavLink to={ROUTES.SETTINGS}>Settings</NavLink>
                         <span className="pull-right">
@@ -68,13 +78,40 @@ export default class DashboardPageBase extends React.Component<{}, IState> {
                         </span>
                       </ListGroupItem>}
                     </ListGroup>
+                    
+                    <ListGroup className="pt-3">
+                      <ListGroupItem>
+                        Build
+                        <span className="pull-right">
+                          {buildDate}
+                        </span>
+                      </ListGroupItem>
+                    </ListGroup>
                   </Col>
                 </Row>
               </Container>
             </Col>
           </Row>
-        </Container>}
-      </React.Fragment>
+        </Container>
+      </>
     );
   }
 }
+
+const mapStateToProps = (state: AppState) => {
+  return ({
+    bank: state.bankState.bank,
+    bankLoaded: state.bankState.bankLoaded
+  });
+}
+
+const mapDispatchToProps = (dispatch: Dispatch<any>) => {
+  return {
+    onLoadBank: (uid: string) => dispatch(loadBank(uid))
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(DashboardPageBase);

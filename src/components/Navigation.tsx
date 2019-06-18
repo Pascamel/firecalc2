@@ -1,34 +1,40 @@
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import _ from 'lodash';
 import React from 'react';
+import { connect } from 'react-redux';
+import { Link, NavLink, withRouter } from 'react-router-dom';
 import {
-  Container, Row, Col,
+  Col,
   Collapse,
+  Container,
   DropdownItem,
   DropdownMenu,
   DropdownToggle,
   Nav,
-  Navbar,
-  NavbarBrand,
-  NavbarToggler,
   NavItem,
+  Navbar,
+  NavbarToggler,
+  Row,
   UncontrolledDropdown
 } from 'reactstrap';
-import { NavLink, Link, withRouter } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import _ from 'lodash';
-import * as ROUTES from '../constants/routes';
+import { compose } from 'recompose';
+import { LocationState } from 'history';
+
 import * as CHARTS from '../constants/charts';
+import * as ROUTES from '../constants/routes';
 import helpers from '../helpers';
-import { AuthUserContext } from '../firebase/AuthUserContext';
+import { AppState } from '../store';
 import { SignOutLink } from './SignOutLink';
 
 
 interface IProps {
-  location: any,
-  authUser: firebase.User|null
+  location: LocationState;
+  authUser: firebase.User|null;
 }
 
 interface IState {
-  isOpen: boolean
+  isOpen: boolean;
+  authUser: firebase.User|null;
 }
 
 class NavigationAuth extends React.Component<IProps, IState> {
@@ -37,17 +43,18 @@ class NavigationAuth extends React.Component<IProps, IState> {
 
     this.toggle = this.toggle.bind(this);
     this.state = {
-      isOpen: false
+      isOpen: false,
+      authUser: null //needs cleaning
     };
   }
 
-  toggle () {
+  toggle() {
     this.setState({
       isOpen: !this.state.isOpen
     });
   }
 
-  toggleIfOpen () {
+  toggleIfOpen() {
     if (this.state.isOpen) this.toggle();
   }
 
@@ -58,13 +65,15 @@ class NavigationAuth extends React.Component<IProps, IState> {
     return classNames.join(' ');
   }
 
-  render () {
-    const {authUser} = this.props;
+  render() {
+    const { authUser } = this.props;
     const DEFAULT_CHART = ROUTES.CHARTS.replace(':type', CHARTS.URL.INCOME_VS_SAVINGS);
 
     return (
       <Navbar light expand="md">
-        <NavbarBrand href={ROUTES.DASHBOARD}>FireCalc</NavbarBrand>
+        <NavLink className="navbar-brand" to={ROUTES.DASHBOARD}>
+          FireCalc
+        </NavLink>
         <NavbarToggler onClick={this.toggle} />
         <Collapse isOpen={this.state.isOpen} navbar>
           <Nav navbar>
@@ -133,24 +142,27 @@ class NavigationNonAuth extends React.Component<{}, IState> {
 
     this.toggle = this.toggle.bind(this);
     this.state = {
-      isOpen: false
+      isOpen: false,
+      authUser: null
     };
   }
 
-  toggle () {
+  toggle() {
     this.setState({
       isOpen: !this.state.isOpen
     });
   }
 
-  toggleIfOpen () {
+  toggleIfOpen() {
     if (this.state.isOpen) this.toggle();
   }
 
-  render () {
+  render() {
     return (
       <Navbar light expand="md">
-        <NavbarBrand href={ROUTES.HOME}>FiReCalc</NavbarBrand>
+        <NavLink className="navbar-brand" to={ROUTES.DASHBOARD}>
+          FireCalc
+        </NavLink>
         <NavbarToggler onClick={this.toggle} />
         <Collapse isOpen={this.state.isOpen} navbar>
           <Nav className="ml-auto" navbar>
@@ -171,9 +183,9 @@ class NavigationNonAuth extends React.Component<{}, IState> {
   }
 }
 
-class NavigationBase extends React.Component<any, {}> {
-  render () {
-    const { location } = this.props;
+class NavigationBase extends React.Component<any, IState> {
+  render() {
+    const { location, authUser } = this.props;
     
     return (
       <Container fluid className="nav-container">
@@ -182,9 +194,8 @@ class NavigationBase extends React.Component<any, {}> {
             <Container>
               <Row>
                 <Col>
-                  <AuthUserContext.Consumer>
-                    {(authUser) => authUser ? <NavigationAuth authUser={authUser} location={location} /> : <NavigationNonAuth />}
-                  </AuthUserContext.Consumer>
+                  {authUser ? <NavigationAuth location={location} authUser={authUser} /> : 
+                  <NavigationNonAuth />}
                 </Col>
               </Row>
             </Container>
@@ -195,4 +206,13 @@ class NavigationBase extends React.Component<any, {}> {
   }
 }
 
-export const Navigation = withRouter(NavigationBase);
+const mapStateToProps = (state: AppState) => {
+  return ({
+    authUser: state.sessionState.authUser,
+  });
+}
+
+export const Navigation = compose(
+  withRouter, 
+  connect(mapStateToProps)
+)(NavigationBase)

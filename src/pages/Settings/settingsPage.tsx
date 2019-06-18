@@ -1,33 +1,30 @@
-import React from 'react';
-import { Container, Row, Col } from 'reactstrap';
 import _ from 'lodash';
-import uuid from 'uuid';
-import { Bank } from '../../bank';
+import React, { Dispatch } from 'react';
+import { connect } from 'react-redux';
+import { Col, Container, Row } from 'reactstrap';
+
+import { loadBank, saveHeaders, updateValue } from '../../actions';
+import Bank from '../../bank';
 import { LoadingPanel, SavePanel } from '../../components';
-import StartingPoint from './startingPoint';
-import Savings from './savings';
+import { AppState } from '../../store';
 import Incomes from './incomes';
+import Savings from './savings';
+import StartingPoint from './startingPoint';
 
-
-interface IState {
-  bank: Bank,
-  loading: boolean,
-  updated: boolean,
-  saveInProgress: boolean,
-  headers: any
+interface IProps {
+  authUser: firebase.User|null;
+  bank: Bank.IBank;
+  bankLoaded: boolean;
+  bankUpdated: boolean;
+  saveInProgress: boolean;
+  onLoadBank: (uid: string) => void;
+  onUpdateValue: (index: string, indexes: string[], amount: number|boolean) => void;
+  onSaveBank: (uid: string, bank: Bank.IBank) => void;
 }
 
-export default class SettingsPageBase extends React.Component<{}, IState> {
-  constructor(props: {}) {
+class SettingsPageBase extends React.Component<IProps, {}> {
+  constructor(props: IProps) {
     super(props);
-
-    this.state = {
-      bank: new Bank(),
-      loading: true,
-      updated: false,
-      saveInProgress: false,
-      headers: this.default_headers
-    };
   }
 
   default_headers = {
@@ -36,133 +33,74 @@ export default class SettingsPageBase extends React.Component<{}, IState> {
     startingCapital: 0
   }
 
-  componentDidMount () {
-    this.state.bank.load().then(() => {
-      this.setState({
-        bank: this.state.bank,
-        loading: false});
-    });
+  componentDidMount() {
+    const { authUser, onLoadBank, bankLoaded } = this.props;
+    if (bankLoaded || !authUser ) return;
+    
+    onLoadBank(authUser.uid);
   }
 
   cancelChanges = () => {
-    this.state.bank.load().then(() => {
-      this.setState({
-        updated: false,
-        bank: this.state.bank
-      });
-    });
+    if (!this.props.authUser) return;
+
+    this.props.onLoadBank(this.props.authUser.uid);
   }
 
   saveHeaders = () => {
-    this.setState({saveInProgress: true});
+    if (!this.props.authUser) return;
 
-    this.state.bank.saveHeaders().then((saved: boolean) => {
-      this.setState({
-        updated: !saved, 
-        saveInProgress: false
-      });
-    });
+    this.props.onSaveBank(this.props.authUser.uid, this.props.bank);
   }
 
-  callbacks = {
-    editHeaderCallback: (type: string, header: any) => {
-      _.each(this.state.bank.headers[type], (h) => {
-        if (h.id !== header.id) return;
-        h.$edit = true;
-      });
+  render() {
+    const { bank, bankLoaded, bankUpdated, saveInProgress } = this.props;
 
-      this.setState({bank: this.state.bank});
-    },
-
-    confirmEditHeaderCallback: (type: string, header: any) => {
-      _.each(this.state.bank.headers[type], (h) => {
-        if (h.id !== header.id) return;
-        h.$edit = false;
-      });
-
-      this.setState({bank: this.state.bank, updated: true});
-    },
-
-    cancelEditHeaderCallback: (type: string, header: any) => {
-      _.each(this.state.bank.headers[type], (h) => {
-        if (h.id !== header.id) return;
-        h.$edit = false;
-      });
-
-      this.setState({bank: this.state.bank});
-    },
-
-    deleteHeaderCallback: (type: string, header: any) => {
-      _.remove(this.state.bank.headers[type], (h: any) => h.id === header.id);
-
-      this.setState({bank: this.state.bank, updated: true});
-    },
-
-    moveUpHeaderCallback: (type: string, index: number) => {
-      if (index <= 0 || index >= this.state.bank.headers[type].length) return;
-
-      var tmp = this.state.bank.headers[type][index-1];
-      this.state.bank.headers[type][index-1] = this.state.bank.headers[type][index];
-      this.state.bank.headers[type][index] = tmp;
-
-      this.setState({bank: this.state.bank, updated: true});
-    },
-  
-    moveDownHeaderCallback: (type: string, index: number) => {
-      if (index < 0 || index >= this.state.bank.headers[type].length - 1) return;
-
-      var tmp = this.state.bank.headers[type][index+1];
-      this.state.bank.headers[type][index+1] = this.state.bank.headers[type][index];
-      this.state.bank.headers[type][index] = tmp;
-
-      this.setState({bank: this.state.bank, updated: true});
-    },
-
-    updateCallback: (indexes: string[], value: number) => {
-      let index = indexes.shift();
-      if (!index) return;
-
-      this.state.bank.updateValue(index, indexes, value);
-      this.setState({bank: this.state.bank, updated: true});
-    },
-
-    addHeaderCallback: (type: string) => {
-      let new_headers = JSON.parse(JSON.stringify(this.state.headers));
-      this.state.bank.headers[type].push({
-        $edit: true,
-        id: uuid.v4()
-      });
-  
-      this.setState({bank: this.state.bank, updated: true});
-    }
-  };
-  
-  render () {
-    const {loading, updated, bank, saveInProgress} = this.state;
+    if (!bankLoaded) return <LoadingPanel />;
 
     return (
       <React.Fragment>
-        {loading && <LoadingPanel />}
-        {!loading && <SavePanel label="Settings" 
-                                bank={bank}
-                                updated={updated}
-                                saveInProgress={saveInProgress}
-                                cancelChanges={this.cancelChanges}
-                                callback={() => {}} 
-                                saveClick={this.saveHeaders} />}
-        {!loading && <Container fluid className="top-shadow">
+        <SavePanel label="Settings" />
+        <Container fluid className="top-shadow">
           <Row>
             <Col className="pl-0 pr-0">
               <Container>
-                <StartingPoint {...this.state} {...this.callbacks} /> 
-                <Savings bank={bank} {...this.state} {...this.callbacks} /> 
-                <Incomes bank={bank} {...this.state} {...this.callbacks} /> 
+                <StartingPoint /> 
+                <Savings /> 
+                <Incomes /> 
               </Container>
             </Col>
           </Row>
-          
-        </Container>}
+        </Container>
       </React.Fragment>
     );
   }
 }
+
+const mapStateToProps = (state: AppState) => {
+  return ({
+    authUser: state.sessionState.authUser,
+    bank: state.bankState.bank,
+    bankLoaded: state.bankState.bankLoaded,
+    bankUpdated: state.bankState.bankUpdated,
+    saveInProgress: state.bankState.saveInProgress
+  });
+}
+
+const mapDispatchToProps = (dispatch: Dispatch<any>) => {
+  return {
+    onLoadBank: (uid: string) => {
+      dispatch(loadBank(uid));
+    },
+    onUpdateValue: (index: string, indexes: string[], amount: number|boolean) => {
+      dispatch(updateValue(index, indexes, amount));
+    },
+    onSaveBank: (uid: string, bank: Bank.IBank) => {
+      dispatch(saveHeaders(uid, bank));
+    }
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(SettingsPageBase);

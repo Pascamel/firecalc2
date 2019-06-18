@@ -1,21 +1,24 @@
-import React from 'react';
-import _ from 'lodash';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Bank } from '../../bank';
-import { FireTR, FireTD, FireAmount, StaticAmount, StaticPercentage } from '../../components';
+import _ from 'lodash';
+import React, { Dispatch } from 'react';
+import { connect } from 'react-redux';
 
+import { updateValue } from '../../actions';
+import Bank from '../../bank';
+import { FireAmount, FireTD, FireTR, StaticAmount, StaticPercentage } from '../../components';
+import { AppState } from '../../store';
 
 interface IProps {
-  year: string,
-  bank: Bank,
-  callback: (index: string, indexes: string[], amount: any, updatedState: boolean) => void
+  year: string;
+  bank: Bank.IBank;
+  onUpdateValue: (index: string, indexes: string[], amount: number) => void;
 }
 
 interface IState {
   collapsed: boolean;
 }
 
-export default class RevenuesTableBody extends React.Component<IProps, IState> {
+class RevenuesTableBody extends React.Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
 
@@ -26,11 +29,14 @@ export default class RevenuesTableBody extends React.Component<IProps, IState> {
   handleClickToggle() {
     const newValue = !this.state.collapsed;
     this.setState({collapsed: newValue});
-    this.props.callback('incomeYearHeaders', ['collapsed', this.props.year], newValue, false);
+  }
+
+  updateValue = (index: string, indexes: string[], amount: number, updatedState: boolean) => {
+    this.props.onUpdateValue(index, indexes, amount);
   }
 
   render() {
-    const {year, bank, callback} = this.props;
+    const { year, bank } = this.props;
 
     return (
       <tbody>
@@ -45,18 +51,18 @@ export default class RevenuesTableBody extends React.Component<IProps, IState> {
           </FireTD>
           {bank.incomeHeaders.map((header: any) => (
           <FireTD show={this.state.collapsed} key={header.id}>
-            <StaticAmount bank={bank} display-zero>
+            <StaticAmount display-zero>
               { bank.yearlyIncome[year][header.id] }
             </StaticAmount>
           </FireTD>
           ))}
           <FireTD show={this.state.collapsed}>
-            <StaticAmount bank={bank} display-zero>
+            <StaticAmount display-zero>
               { bank.totalYearPost[year] }
             </StaticAmount>
           </FireTD>
           <FireTD show={this.state.collapsed}>
-            <StaticAmount bank={bank} display-zero>
+            <StaticAmount display-zero>
               { bank.totalYearPre[year] }
             </StaticAmount>
           </FireTD>
@@ -72,21 +78,18 @@ export default class RevenuesTableBody extends React.Component<IProps, IState> {
           <td>{ month[0] }</td>
           {bank.incomeHeaders.map((header: any) => (
           <td key={year + '-' + month[0] + '-' + header.id}>
-            <FireAmount amount={month[1][header.id]}
-                        display-decimals={bank.showDecimals}
-                        callback-props={['income', year, month[0], header.id]} 
-                        callback={callback} />
+            <FireAmount callback-props={['income', year, month[0], header.id]} />
           </td>
           ))}
           {bank.totalMonthIncome[year][month[0]] === 0 && <td colSpan={3}></td>}
           {bank.totalMonthIncome[year][month[0]] !== 0 && <React.Fragment>
             <td>
-              <StaticAmount bank={bank}>
+              <StaticAmount>
                 { bank.totalMonthPost[year][month[0]] }
               </StaticAmount>
             </td>
             <td>
-              <StaticAmount bank={bank}>
+              <StaticAmount>
                 { bank.totalMonthPre[year][month[0]] }
               </StaticAmount>
             </td>
@@ -105,18 +108,18 @@ export default class RevenuesTableBody extends React.Component<IProps, IState> {
           </td>
           {bank.incomeHeaders.map((header: any) => (
           <td key={header.id}>
-            <StaticAmount bank={bank} display-zero>
+            <StaticAmount display-zero>
               { bank.yearlyIncome[year][header.id] }
             </StaticAmount>
           </td>
           ))}
           <td>
-            <StaticAmount bank={bank} display-zero>
+            <StaticAmount display-zero>
               { bank.totalYearPost[year] }
             </StaticAmount>
           </td>
           <td>
-            <StaticAmount bank={bank} display-zero>
+            <StaticAmount display-zero>
               { bank.totalYearPre[year] }
             </StaticAmount>
           </td>
@@ -130,3 +133,22 @@ export default class RevenuesTableBody extends React.Component<IProps, IState> {
     );
   }
 };
+
+const mapStateToProps = (state: AppState) => {
+  return ({
+    bank: state.bankState.bank
+  });
+}
+
+const mapDispatchToProps = (dispatch: Dispatch<any>) => {
+  return {
+    onUpdateValue: (index: string, indexes: string[], amount: number) => {
+      dispatch(updateValue(index, indexes, amount));
+    }
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(RevenuesTableBody);

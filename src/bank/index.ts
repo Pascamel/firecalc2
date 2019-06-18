@@ -1,3 +1,5 @@
-import Bank from './bank';
+import * as Bank from './bank';
 
-export { Bank };
+export default Bank;
+
+export * from './interfaces';

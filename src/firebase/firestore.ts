@@ -9,43 +9,12 @@ export const setUser = (uid: string, data: any) => firestore.collection('users')
 
 // Finance
 
-export const getHeaders = () => {
-  if (!auth.currentUser) return null;
-  return firestore.collection('headers').doc(auth.currentUser.uid).get();
-}
+export const getHeaders = (uid: string) => firestore.collection('headers').doc(uid).get();
+export const getRevenues = (uid: string) => firestore.collection('income').doc(uid).get();
+export const getSavings = (uid: string) => firestore.collection('savings').doc(uid).get();
+export const getOthers = (uid: string) => firestore.collection('others').doc(uid).get();
 
-export const getRevenues = () => {
-  if (!auth.currentUser) return null;
-  return firestore.collection('income').doc(auth.currentUser.uid).get();
-}
-
-export const getSavings = () => {
-  if (!auth.currentUser) return null;
-  return firestore.collection('savings').doc(auth.currentUser.uid).get();
-}
-
-export const getNetWorth = () => {
-  if (!auth.currentUser) return null;
-  return firestore.collection('networth').doc(auth.currentUser.uid).get();
-}
-
-export const setHeaders = (data: any) => {
-  if (!auth.currentUser) return;
-  firestore.collection('headers').doc(auth.currentUser.uid).set(data);
-}
-
-export const setRevenues = (data: any) => {
-  if (!auth.currentUser) return;
-  firestore.collection('income').doc(auth.currentUser.uid).set(data);
-}
-
-export const setSavings = (data: any) => {
-  if (!auth.currentUser) return;
-  firestore.collection('savings').doc(auth.currentUser.uid).set(data);
-}
-
-export const setNetWorth = (data: any) => {
-  if (!auth.currentUser) return;
-  firestore.collection('networth').doc(auth.currentUser.uid).set(data);
-}
-
+export const setHeaders = (uid: string, data: any) => firestore.collection('headers').doc(uid).set(data);
+export const setRevenues = (uid: string, data: any) => firestore.collection('income').doc(uid).set(data);
+export const setSavings = (uid: string, data: any) => firestore.collection('savings').doc(uid).set(data)
+export const setOthers = (uid: string, data: any) => firestore.collection('others').doc(uid).set(data);

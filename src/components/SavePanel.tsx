@@ -1,26 +1,47 @@
-import React from 'react';
-import { Row, Col, Container, ButtonGroup, Button } from 'reactstrap';
-import { FiltersBtn } from './FiltersBtn';
-import DecimalsBtn from './DecimalsBtn';
-import { Bank } from '../bank';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import React, { Dispatch } from 'react';
+import { connect } from 'react-redux';
+import { Button, ButtonGroup, Col, Container, Row } from 'reactstrap';
 
+import { loadBank, saveBank, saveHeaders } from '../actions';
+import Bank from '../bank';
+import { AppState } from '../store';
+import DecimalsBtn from './DecimalsBtn';
+import FiltersBtn from './FiltersBtn';
 
 interface IProps {
-  updated: boolean, 
-  saveInProgress: boolean, 
-  label: string, 
-  bank: Bank,
-  saveClick: () => void,
-  cancelChanges: () => void,
-  prevMonth?: () => void,
-  nextMonth?: () => void,
-  callback: (index: string, indexes: string[], amount: any, updatedState: boolean) => void
+  authUser: firebase.User;
+  label: string;
+  bankUpdated: boolean;
+  saveInProgress: boolean;
+  bank: Bank.IBank;
+  prevMonth?: () => void;
+  nextMonth?: () => void;
+  onLoadBank: (uid: string) => void;
+  onSaveBank: (uid: string, bank: Bank.IBank) => void;
+  onSaveHeaders: (uid: string, bank: Bank.IBank) => void;
 }
 
-export default class SavePanel extends React.Component<IProps, {}> {
+class SavePanel extends React.Component<IProps, {}> {
+
+  cancelClick() {
+    if (!this.props.authUser) return;
+
+    this.props.onLoadBank(this.props.authUser.uid);
+  }
+
+  saveClick() {
+    if (!this.props.authUser) return;
+
+    if (this.props.label === 'Settings') {
+      this.props.onSaveHeaders(this.props.authUser.uid, this.props.bank);
+    } else {
+      this.props.onSaveBank(this.props.authUser.uid, this.props.bank);
+    }
+  }
+
   render() {
-    const { updated, saveInProgress, label, saveClick, cancelChanges } = this.props;
+    const { bankUpdated, saveInProgress, label } = this.props;
 
     return (
       <Container fluid className="alert alert-save alert-header">
@@ -31,12 +52,12 @@ export default class SavePanel extends React.Component<IProps, {}> {
                 <Col className="text-center">
                 
                   {label === 'Savings' && <ButtonGroup className="pull-left">
-                    <FiltersBtn {...this.props} />
-                    <DecimalsBtn {...this.props} />
+                    <FiltersBtn />
+                    <DecimalsBtn />
                   </ButtonGroup>}
 
                   {label === 'Revenues' && <ButtonGroup className="pull-left">
-                    <DecimalsBtn {...this.props} />
+                    <DecimalsBtn />
                   </ButtonGroup>}
 
                   {['Savings', 'Revenues', 'Settings'].indexOf(label) === -1 && 
@@ -49,17 +70,17 @@ export default class SavePanel extends React.Component<IProps, {}> {
                     </Button>
                   </ButtonGroup>}
 
-                  <span className={`title nowrap-ellipsis ${updated ? 'text-warning' : ''}`}>
+                  <span className={`title nowrap-ellipsis ${bankUpdated ? 'text-warning' : ''}`}>
                     {label}
                   </span>
 
-                  <Button color={updated ? 'header' : 'outline-light'} className="btn-save" onClick={saveClick}>
+                  <Button color={bankUpdated ? 'header' : 'outline-light'} className="btn-save" onClick={() => this.saveClick()}>
                     {!saveInProgress && <FontAwesomeIcon icon={['far', 'save']} className="mr-1" />}
                     {saveInProgress && <FontAwesomeIcon icon="spinner" className="mr-1" spin />}
                     {saveInProgress ? 'Saving' : 'Save'}
                   </Button>
 
-                  {updated && <Button color="header" className="btn-cancel" onClick={cancelChanges}>
+                  {bankUpdated && !saveInProgress && <Button color="header" className="btn-cancel" onClick={() => this.cancelClick()}>
                     <FontAwesomeIcon icon="times" /> Cancel
                   </Button>}
                 </Col>
@@ -71,3 +92,25 @@ export default class SavePanel extends React.Component<IProps, {}> {
     );
   }
 } 
+
+const mapStateToProps = (state: AppState) => {
+  return ({
+    authUser: state.sessionState.authUser,
+    bank: state.bankState.bank,
+    bankUpdated: state.bankState.bankUpdated,
+    saveInProgress: state.bankState.saveInProgress
+  });
+}
+
+const mapDispatchToProps = (dispatch: Dispatch<any>) => {
+  return {
+    onLoadBank: (uid: string) => dispatch(loadBank(uid)),
+    onSaveBank: (uid: string, bank: Bank.IBank) => dispatch(saveBank(uid, bank)),
+    onSaveHeaders: (uid: string, bank: Bank.IBank) => dispatch(saveHeaders(uid, bank))
+  };
+};
+
+export default connect(
+  mapStateToProps, 
+  mapDispatchToProps
+)(SavePanel);

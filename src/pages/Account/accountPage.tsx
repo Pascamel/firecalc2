@@ -1,53 +1,61 @@
 import * as React from 'react';
-import { Container, Row, Col, ListGroup, ListGroupItem, ListGroupItemHeading } from 'reactstrap';
-import { AuthUserContext } from '../../firebase/AuthUserContext';
+import { connect } from 'react-redux';
+import { Col, Container, ListGroup, ListGroupItem, ListGroupItemHeading, Row } from 'reactstrap';
+
+import { HeaderPanel } from '../../components';
+import { AppState } from '../../store';
 import { PasswordForgetForm } from '../PasswordForget/pwForgetForm';
 import { PasswordChangeForm } from './PasswordChangeForm';
-import { HeaderPanel } from '../../components';
 
 
-export default class AccountPageBase extends React.Component {
-  render () {
+class AccountPageBase2 extends React.Component<any, {}> {
+  render() {
+    const { authUser } = this.props;
+
     return (
-      <AuthUserContext.Consumer>
-        {authUser => (
-          <React.Fragment>
-            <HeaderPanel title="My account" />
-            <Container fluid className="top-shadow">
-              <Row>
-                <Col>
-                  <Container>
-                    <Row>
-                      <Col>
-                        <ListGroup>     
-                          <ListGroupItem>
-                            <ListGroupItemHeading>
-                              Account
-                            </ListGroupItemHeading>
-                            {(authUser as any).email}
-                          </ListGroupItem>
-                          <ListGroupItem>
-                            <ListGroupItemHeading>
-                              Change your password
-                            </ListGroupItemHeading>
-                            <PasswordChangeForm />
-                          </ListGroupItem>
-                          <ListGroupItem>
-                            <ListGroupItemHeading>
-                              Reset your password
-                            </ListGroupItemHeading>
-                            <PasswordForgetForm />
-                          </ListGroupItem>
-                        </ListGroup>
-                      </Col>
-                    </Row>
-                  </Container>
-                </Col>
-              </Row>
-            </Container>
-          </React.Fragment>
-        )}
-      </AuthUserContext.Consumer>
+      <React.Fragment>
+        <HeaderPanel title="My account" />
+        <Container fluid className="top-shadow">
+          <Row>
+            <Col>
+              <Container>
+                <Row>
+                  <Col>
+                    <ListGroup>     
+                      <ListGroupItem>
+                        <ListGroupItemHeading>
+                          Account
+                        </ListGroupItemHeading>
+                        {(authUser as firebase.User).email}
+                      </ListGroupItem>
+                      <ListGroupItem>
+                        <ListGroupItemHeading>
+                          Change your password
+                        </ListGroupItemHeading>
+                        <PasswordChangeForm />
+                      </ListGroupItem>
+                      <ListGroupItem>
+                        <ListGroupItemHeading>
+                          Reset your password
+                        </ListGroupItemHeading>
+                        <PasswordForgetForm />
+                      </ListGroupItem>
+                    </ListGroup>
+                  </Col>
+                </Row>
+              </Container>
+            </Col>
+          </Row>
+        </Container>
+      </React.Fragment>
     );
   }
 }
+
+const mapStateToProps = (state: AppState) => {
+  return ({
+    authUser: state.sessionState.authUser,
+  });
+}
+
+export const AccountPageBase = connect(mapStateToProps)(AccountPageBase2);

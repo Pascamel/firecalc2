@@ -1,95 +1,81 @@
-import React from 'react';
-import { Container, Row, Col, Alert } from 'reactstrap';
+import React, { Dispatch } from 'react';
+import { connect } from 'react-redux';
+import { Alert, Col, Container, Row } from 'reactstrap';
+
+import { loadBank, saveBank } from '../../actions';
+import Bank from '../../bank';
 import { LoadingPanel, SavePanel } from '../../components';
-import { Bank } from '../../bank';
+import { AppState } from '../../store';
 import Table from './table';
 
-
-interface IProps {}
-
-interface IState {
-  bank: Bank,
-  loading: boolean,
-  updated: boolean,
-  saveInProgress: boolean
+interface IProps {
+  authUser: firebase.User|null;
+  bank: Bank.IBank;
+  bankLoaded: boolean;
+  bankUpdated: boolean;
+  saveInProgress: boolean;
+  onLoadBank: (uid: string) => void;
+  onSaveBank: (uid: string, bank: Bank.IBank) => void;
 }
 
-export default class RevenuePageBase extends React.Component<IProps, IState> {
-  constructor(props: IProps) {
-    super(props);
-
-    this.state = {
-      loading: true,
-      updated: false,
-      saveInProgress: false,
-      bank: new Bank()
-    };
-  }
-
+class RevenuePageBase extends React.Component<IProps, {}> {
   componentDidMount() {
-    this.state.bank.load().then(() => {
-      this.setState({bank: this.state.bank, loading: false});
-    }).catch(function(error) {});
-  }
-
-  updateValue = (index: string, indexes: string[], amount: number, updatedState: boolean) => {  
-    this.state.bank.updateValue(index, indexes, amount);
-    if (updatedState) {
-      this.setState({bank: this.state.bank, updated: true});
-    } else {
-      this.setState({bank: this.state.bank});
-      this.state.bank.saveLocalStorage();
-    }
-  }
-
-  saveData = () => {
-    this.setState({saveInProgress: true});
-
-    this.state.bank.saveIncome().then(() => {
-      this.setState({
-        updated: false, 
-        saveInProgress: false
-      });
-    }).catch((error) => {});
-  }
-
-  cancelChanges = () => {
-    this.state.bank.load().then(() => {
-      this.setState({
-        updated: false,
-        bank: this.state.bank
-      });
-    });
+    const { authUser, onLoadBank, bankLoaded } = this.props;
+    if (bankLoaded || !authUser ) return;
+    
+    onLoadBank(authUser.uid);
   }
 
   render() {
-    const { loading, updated } = this.state;
+    const { bank, bankLoaded, bankUpdated, saveInProgress } = this.props;
+
+    if (!bankLoaded) return <LoadingPanel />;
     
     return (
       <React.Fragment>
-        {loading && <LoadingPanel />}
-        {!loading && <SavePanel label="Revenues" 
-                                updated={updated} 
-                                saveClick={this.saveData} 
-                                cancelChanges={this.cancelChanges}
-                                callback={this.updateValue} 
-                                {...this.state} />}
-        {!loading && <Container fluid className="top-shadow">
+        <SavePanel label="Revenues" />
+        <Container fluid className="top-shadow">
           <Row>
             <Col className="pr-0 pl-0">
               <Container>
                 <Row>
                   <Col>
                     <Alert color="background">
-                      <Table {...this.state} callback={this.updateValue} />
+                      <Table />
                     </Alert>
                   </Col>
                 </Row>
               </Container>
             </Col>
           </Row>
-        </Container>}
+        </Container>
       </React.Fragment>
     );
   }
 }
+
+const mapStateToProps = (state: AppState) => {
+  return ({
+    authUser: state.sessionState.authUser,
+    bank: state.bankState.bank,
+    bankLoaded: state.bankState.bankLoaded,
+    bankUpdated: state.bankState.bankUpdated,
+    saveInProgress: state.bankState.saveInProgress
+  });
+}
+
+const mapDispatchToProps = (dispatch: Dispatch<any>) => {
+  return {
+    onLoadBank: (uid: string) => {
+      dispatch(loadBank(uid));
+    },
+    onSaveBank: (uid: string, bank: Bank.IBank) => {
+      dispatch(saveBank(uid, bank));
+    }
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(RevenuePageBase);

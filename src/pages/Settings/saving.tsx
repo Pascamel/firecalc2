@@ -1,34 +1,42 @@
-import React from 'react';
-import { Row, Col } from 'reactstrap';
-import { Bank } from '../../bank';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import React, { Dispatch } from 'react';
+import { connect } from 'react-redux';
+import { Col, Row } from 'reactstrap';
 
+import {
+  deleteSavingHeader,
+  switchSavingHeaders,
+  updateSavingHeader,
+  updateValue
+} from '../../actions';
+import Bank, { ISavingsHeader } from '../../bank';
+import { AppState } from '../../store';
 
 interface IProps {
-  index: number,
-  header: any,
-  bank: Bank,
-
-  editHeaderCallback: (type: string, header: any) => void;
-  confirmEditHeaderCallback: (type: string, header: any) => void;
-  cancelEditHeaderCallback: (type: string, header: any) => void;
-  deleteHeaderCallback: (type: string, header: any) => void;
-  moveUpHeaderCallback: (type: string, index: number) => void;
-  moveDownHeaderCallback: (type: string, index: number) => void;
+  index: number;
+  header: ISavingsHeader;
+  bank: Bank.IBank;
+  bankLoaded: boolean;
+  onUpdateValue: (index: string, indexes: string[], amount: number|boolean) => void;
+  onUpdateSavingHeader: (header: ISavingsHeader) => void;
+  onDeleteSavingHeader: (header: ISavingsHeader) => void;
+  onSwitchSavingHeaders: (index1: number, index2: number) => void;
 }
 
 interface IState {
-  editLabel: string,
-  editSublabel: string,
-  editIcon: string,
-  editInterest: boolean
+  edit: boolean;
+  editLabel: string;
+  editSublabel: string;
+  editIcon: string;
+  editInterest: boolean;
 }
 
-export default class Saving extends React.Component<IProps, IState> {
+class Saving extends React.Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
 
     this.state = {
+      edit: false,
       editLabel: this.props.header.label || '',
       editSublabel: this.props.header.sublabel || '',
       editIcon: this.props.header.icon || '',
@@ -38,56 +46,63 @@ export default class Saving extends React.Component<IProps, IState> {
     this.handleInputChange = this.handleInputChange.bind(this);
   }
 
-  handleInputChange = (event: any) => {
+  handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const s: any = {};
     s[event.target.name] = event.target.type === 'checkbox' ? event.target.checked : event.target.value;
     this.setState(s);
   }
 
-  editHeaderConfirm = (header: any) => {
+  editHeader = (header: ISavingsHeader) => {
+    this.setState({edit: true});
+  }
+
+  editHeaderConfirm = (header: ISavingsHeader) => {
     header.label = this.state.editLabel;
     header.sublabel = this.state.editSublabel;
     header.icon = this.state.editIcon;
     header.interest = this.state.editInterest;
-    this.props.confirmEditHeaderCallback('savings', header);
+
+    this.props.onUpdateSavingHeader(header);
+    this.setState({edit: false});
   }
 
-  editHeaderCancel = (header: any) => {
+  editHeaderCancel = (header: ISavingsHeader) => {
     this.setState({
+      edit: false,
       editLabel: this.props.header.label || '',
       editSublabel: this.props.header.sublabel || '',
       editIcon: this.props.header.icon || '',
-      editInterest: this.props.header.interest || ''
+      editInterest: this.props.header.interest || false
     });
-    this.props.cancelEditHeaderCallback('savings', header);
   }
 
-  editHeader = (header: any) => {
-    this.props.editHeaderCallback('savings', header);
+  removeHeader = (header: ISavingsHeader) => {
+    this.props.onDeleteSavingHeader(header);
   }
 
-  removeHeader = (header: any) => {
-    this.props.deleteHeaderCallback('savings', header);
+  moveUpHeader = (index: number) => {
+    if (index <= 0 || index >= this.props.bank.headers.savings.length) return;	
+
+    this.props.onSwitchSavingHeaders(index-1, index);
   }
 
-  moveUpHeader = (index: any) => {
-    this.props.moveUpHeaderCallback('savings', index);
+  moveDownHeader = (index: number) => {
+    if (index < 0 || index >= this.props.bank.headers.savings.length - 1) return;
+
+    this.props.onSwitchSavingHeaders(index, index+1);
   }
 
-  moveDownHeader = (index: any) => {
-    this.props.moveDownHeaderCallback('savings', index);
-  }
-
-  render () {
+  render() {
     const { header, index, bank }  = this.props;
+    const { edit } = this.state;
 
     return (
       <Row className="form-headers">
         <Col xs={12} sm={2}>
-          {!header.$edit && <span className="label-fake-input">
+          {!edit && <span className="label-fake-input">
             {header.label}
           </span>}
-          {header.$edit && <input
+          {edit && <input
             type="text"
             name="editLabel"
             value={this.state.editLabel} 
@@ -96,10 +111,10 @@ export default class Saving extends React.Component<IProps, IState> {
           />}
         </Col>
         <Col xs={12} sm={2}>
-          {!header.$edit && <span className="label-fake-input">
+          {!edit && <span className="label-fake-input">
             {header.sublabel}
           </span>}
-          {header.$edit && <input
+          {edit && <input
             type="text"
             name="editSublabel"
             value={this.state.editSublabel} 
@@ -108,10 +123,10 @@ export default class Saving extends React.Component<IProps, IState> {
           />}
         </Col>
         <Col xs={12} sm={4}>
-          {!header.$edit && <span className="label-fake-input nowrap-ellipsis">
+          {!edit && <span className="label-fake-input nowrap-ellipsis">
             {header.icon}
           </span>}
-          {header.$edit && <input
+          {edit && <input
             type="text"       
             name="editIcon"
             value={this.state.editIcon} 
@@ -121,9 +136,9 @@ export default class Saving extends React.Component<IProps, IState> {
         </Col>
         <Col xs={5} sm={2}>
           <div className="checkbox">
-            {!header.$edit && <FontAwesomeIcon icon={['far', header.interest?'check-square':'square']} className="mr-1" />}
+            {!edit && <FontAwesomeIcon icon={['far', header.interest?'check-square':'square']} className="mr-1" />}
             <label>
-              {header.$edit && <input
+              {edit && <input
                 type="checkbox" 
                 name="editInterest" 
                 checked={this.state.editInterest} 
@@ -133,28 +148,55 @@ export default class Saving extends React.Component<IProps, IState> {
           </div>
         </Col>
         <Col xs={7} sm={2} className="text-right">
-          {header.$edit && <span className="btn btn-link" onClick={e => this.editHeaderConfirm(header)}>
+          {edit && <span className="btn btn-link" onClick={e => this.editHeaderConfirm(header)}>
             <FontAwesomeIcon icon="check" size="lg" />
           </span>}
-          {header.$edit && <span className="btn btn-link" onClick={e => this.editHeaderCancel(header)}>
+          {edit && <span className="btn btn-link" onClick={e => this.editHeaderCancel(header)}>
             <FontAwesomeIcon icon="times" size="lg" />
           </span>}
-          {!header.$edit && <span className="btn btn-link" onClick={e => this.editHeader(header)}>
+          {!edit && <span className="btn btn-link" onClick={e => this.editHeader(header)}>
             <FontAwesomeIcon icon="edit" size="lg" />
           </span>}
-          {!header.$edit && <span className="btn btn-link" onClick={e => this.removeHeader(header)}>
+          {!edit && <span className="btn btn-link" onClick={e => this.removeHeader(header)}>
             <FontAwesomeIcon icon="trash-alt" size="lg" />
           </span>}
-          {!header.$edit && <span className={`btn btn-link ${(index === 0) ? 'disabled' : ''}`} onClick={e => this.moveUpHeader(index)}>
+          {!edit && <span className={`btn btn-link ${(index === 0) ? 'disabled' : ''}`} onClick={e => this.moveUpHeader(index)}>
             <FontAwesomeIcon icon="chevron-up" size="lg" />
           </span>}
-          {!header.$edit && <span className={`btn btn-link ${(index >= bank.headers.savings.length-1) ? 'disabled' : ''}`} onClick={e => this.moveDownHeader(index)}>
+          {!edit && <span className={`btn btn-link ${(index >= bank.headers.savings.length-1) ? 'disabled' : ''}`} onClick={e => this.moveDownHeader(index)}>
             <FontAwesomeIcon icon="chevron-down" size="lg" />
           </span>}
         </Col>
-      {/* </div> */}
-      {/* </FormGroup> */}
       </Row>
     );
   }
 }
+
+const mapStateToProps = (state: AppState) => {
+  return ({
+    bank: state.bankState.bank,
+    bankLoaded: state.bankState.bankLoaded
+  });
+}
+
+const mapDispatchToProps = (dispatch: Dispatch<any>) => {
+  return {
+    onUpdateValue: (index: string, indexes: string[], amount: number|boolean) => {
+      dispatch(updateValue(index, indexes, amount));
+    },
+    onUpdateSavingHeader: (header: ISavingsHeader) => {
+      dispatch(updateSavingHeader(header));
+    },
+    onDeleteSavingHeader: (header: ISavingsHeader) => {
+      dispatch(deleteSavingHeader(header));
+    },
+    onSwitchSavingHeaders: (index1: number, index2: number) => {
+      dispatch(switchSavingHeaders(index1, index2));
+    }
+  };
+};
+
+export default connect(
+  mapStateToProps, 
+  mapDispatchToProps
+)(Saving);

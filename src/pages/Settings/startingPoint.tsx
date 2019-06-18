@@ -1,19 +1,21 @@
-import React from 'react';
-import { Alert, Row, Col, Input } from 'reactstrap';
 import _ from 'lodash';
-import helpers from '../../helpers';
-import { Bank } from '../../bank';
-import Form from 'reactstrap/lib/Form';
-import CustomInput from 'reactstrap/lib/CustomInput';
+import React, { Dispatch } from 'react';
+import { connect } from 'react-redux';
+import { Alert, Col, CustomInput, Form, Input, Row } from 'reactstrap';
 
+import { updateValue } from '../../actions';
+import Bank from '../../bank';
+import helpers from '../../helpers';
+import { AppState } from '../../store';
 
 interface IProps {
-  headers: any,
-  bank: Bank,
-  updateCallback: (indexes: string[], value: number) => void
+  headers: any;
+  bank: Bank.IBank;
+  bankLoaded: boolean;
+  onUpdateValue: (index: string, indexes: string[], amount: number|boolean) => void;
 }
 
-export default class StartingPoint extends React.Component<IProps, {}> {
+class StartingPoint extends React.Component<IProps, {}> {
   currentYear: number;
 
   constructor(props: IProps) {
@@ -23,12 +25,13 @@ export default class StartingPoint extends React.Component<IProps, {}> {
   }
 
   onValueChange = (type: string, value: number) => {
-    this.setState({inputStartingCapital: value})
-    this.props.updateCallback(['headers', type], value);
+    this.props.onUpdateValue('headers', [type], value);
   }
 
   render() {
-    const {headers, bank} = this.props;
+    const {headers, bank, bankLoaded} = this.props;
+
+    if (!bankLoaded) return null;
 
     return (
       <Alert color="background">
@@ -77,3 +80,22 @@ export default class StartingPoint extends React.Component<IProps, {}> {
     );
   }
 }
+
+const mapStateToProps = (state: AppState) => {
+  return ({
+    bank: state.bankState.bank,
+    bankLoaded: state.bankState.bankLoaded
+  });
+}
+
+const mapDispatchToProps = (dispatch: Dispatch<any>) => {
+    return {
+    onUpdateValue: (index: string, indexes: string[], amount: number|boolean) => {
+      dispatch(updateValue(index, indexes, amount));
+    }
+  };
+}
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(StartingPoint);

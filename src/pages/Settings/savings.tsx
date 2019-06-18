@@ -1,27 +1,27 @@
-import React from 'react';
-import { Alert, Row, Col, Button } from 'reactstrap';
+import React, { Dispatch } from 'react';
+import { connect } from 'react-redux';
+import { Alert, Button, Col, Row } from 'reactstrap';
+
+import { newSavingHeader } from '../../actions';
+import Bank, { ISavingsHeader } from '../../bank';
+import { AppState } from '../../store';
 import Saving from './saving';
-import { Bank } from '../../bank';
 
 interface IProps {
-  bank: Bank,
-  addHeaderCallback: (type: string) => void;
-
-  editHeaderCallback: (type: string, header: any) => void;
-  confirmEditHeaderCallback: (type: string, header: any) => void;
-  cancelEditHeaderCallback: (type: string, header: any) => void;
-  deleteHeaderCallback: (type: string, header: any) => void;
-  moveUpHeaderCallback: (type: string, index: number) => void;
-  moveDownHeaderCallback: (type: string, index: number) => void;
+  bank: Bank.IBank;
+  bankLoaded: boolean;
+  onNewSavingHeader: () => void;
 }
 
-export default class Savings extends React.Component<IProps, {}> {
+class Savings extends React.Component<IProps, {}> {
   newHeader = () => {
-    this.props.addHeaderCallback('savings');
+    this.props.onNewSavingHeader();
   }
 
   render() {
-    const {bank} = this.props;
+    const { bank, bankLoaded } = this.props;
+
+    if (!bankLoaded) return null;
 
     return (
       <Alert color="background">
@@ -35,17 +35,35 @@ export default class Savings extends React.Component<IProps, {}> {
             No headers
           </Col>
         </Row>}
-        {bank.headers.savings.map((header: any, key: number) => (
-          <Saving key={key} header={header} index={key} {...this.props} />
+        {bank.headers.savings.map((header: ISavingsHeader, key: number) => (
+          <Saving key={key} header={header} index={key} />
         ))}
         <Row>
           <Col>
-            <Button block color="light" onClick={this.newHeader}>
-              Add New
-            </Button>
+            <Button block color="light" onClick={this.newHeader}>Add New</Button>
           </Col>
         </Row>
       </Alert>
     );
   }
 }
+
+const mapStateToProps = (state: AppState) => {
+  return ({
+    bank: state.bankState.bank,
+    bankLoaded: state.bankState.bankLoaded
+  });
+}
+
+const mapDispatchToProps = (dispatch: Dispatch<any>) => {
+  return {
+    onNewSavingHeader: () => {
+      dispatch(newSavingHeader());
+    },
+  };
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Savings);

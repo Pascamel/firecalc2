@@ -1,7 +1,7 @@
 import React from 'react';
-import { Row, Col, Progress as ProgressRS } from 'reactstrap';
-import helpers from '../../helpers';
+import { Col, Progress as ProgressRS, Row } from 'reactstrap';
 
+import helpers from '../../helpers';
 
 interface IProps {
   result: number, 
@@ -11,7 +11,7 @@ interface IProps {
 }
 
 export default class Progress extends React.Component<IProps, {}> {
-  render () {
+  render() {
     const { result, goal, percentage, label } = this.props
 
     return (

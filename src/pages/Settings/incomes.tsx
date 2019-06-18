@@ -1,27 +1,27 @@
-import React from 'react';
-import { Alert, Row, Col, Button } from 'reactstrap';
-import Income from './income';
-import { Bank } from '../../bank';
+import React, { Dispatch } from 'react';
+import { connect } from 'react-redux';
+import { Alert, Button, Col, Row } from 'reactstrap';
 
+import { newIncomeHeader } from '../../actions';
+import Bank, { IIncomeHeader } from '../../bank';
+import { AppState } from '../../store';
+import Income from './income';
 
 interface IProps {
-  bank: Bank,
-  addHeaderCallback: (type: string) => void;
-  editHeaderCallback: (type: string, header: any) => void;
-  confirmEditHeaderCallback: (type: string, header: any) => void;
-  cancelEditHeaderCallback: (type: string, header: any) => void;
-  deleteHeaderCallback: (type: string, header: any) => void;
-  moveUpHeaderCallback: (type: string, index: number) => void;
-  moveDownHeaderCallback: (type: string, index: number) => void;
+  bank: Bank.IBank;
+  bankLoaded: boolean;
+  onNewIncomeHeader: () => void;
 }
 
-export default class Incomes extends React.Component<IProps, {}> {
+class Incomes extends React.Component<IProps, {}> {
   newHeader = () => {
-    this.props.addHeaderCallback('incomes');
+    this.props.onNewIncomeHeader();
   }
 
   render() {
-    const { bank } = this.props;
+    const { bank, bankLoaded } = this.props;
+
+    if (!bankLoaded) return null;
 
     return (
       <Alert color="background">
@@ -30,17 +30,14 @@ export default class Incomes extends React.Component<IProps, {}> {
             <h3>Income</h3>
           </Col>
         </Row>
-
         {!bank.headers.incomes.length && <Row>
           <Col>
             No headers
           </Col>
         </Row>}
-
-        {bank.headers.incomes.map((header: any, key: number) => (
-          <Income key={key} header={header} index={key} {...this.props} />
+        {bank.headers.incomes.map((header: IIncomeHeader, key: number) => (
+          <Income key={key} header={header} index={key} />
         ))}
-
         <Row>
           <Col>
             <Button block color="light" onClick={this.newHeader}>Add new</Button>
@@ -50,3 +47,23 @@ export default class Incomes extends React.Component<IProps, {}> {
     );
   }
 }
+
+const mapStateToProps = (state: AppState) => {
+  return ({
+    bank: state.bankState.bank,
+    bankLoaded: state.bankState.bankLoaded
+  });
+}
+
+const mapDispatchToProps = (dispatch: Dispatch<any>) => {
+  return {
+    onNewIncomeHeader: () => {
+      dispatch(newIncomeHeader());
+    },
+  };
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Incomes);

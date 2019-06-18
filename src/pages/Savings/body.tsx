@@ -1,21 +1,24 @@
-import React from 'react';
-import _ from 'lodash';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Bank } from '../../bank';
-import { FireTR ,FireTD, FireAmount, StaticAmount, StaticPercentage } from '../../components';
+import _ from 'lodash';
+import React, { Dispatch } from 'react';
+import { connect } from 'react-redux';
 
+import { updateValueLocalStorage } from '../../actions';
+import Bank from '../../bank';
+import { FireAmount, FireTD, FireTR, StaticAmount, StaticPercentage } from '../../components';
+import { AppState } from '../../store';
 
 interface IProps {
-  bank: Bank;
+  bank: Bank.IBank;
   year: string;
-  callback: (index: string, indexes: string[], amount: any, updatedState: boolean) => void
+  onUpdateValueLocalStorage: (index: string, indexes: string[], amount: number|boolean) => void;
 }
 
 interface IState {
   collapsed: boolean;
 }
 
-export default class Body extends React.Component<IProps, IState> {
+class Body extends React.Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
 
@@ -26,11 +29,12 @@ export default class Body extends React.Component<IProps, IState> {
   handleClickToggle() {
     const newValue = !this.state.collapsed;
     this.setState({collapsed: newValue});
-    this.props.callback('savingsYearHeaders', ['collapsed', this.props.year], newValue, false);
+
+    this.props.onUpdateValueLocalStorage('savingsYearHeaders', ['collapsed', this.props.year], newValue);
   }
 
   render() {
-    const { year, bank, callback } = this.props;
+    const { year, bank } = this.props;
     
     return (
       <tbody>
@@ -44,17 +48,13 @@ export default class Body extends React.Component<IProps, IState> {
             </span>
             <span>
               Begins at <b>
-                <StaticAmount bank={bank}>
+                <StaticAmount>
                   { bank.startOfYearAmount[year] }
                 </StaticAmount>
               </b> - Goal is&nbsp;
-              <FireAmount amount={_.get(bank, ['savingsYearHeaders', 'goals', year])}
-                          extraClassName="bold"
-                          display-decimals={bank.showDecimals}
-                          callback-props={['savingsYearHeaders', 'goals', year]}
-                          callback={callback} />
+              <FireAmount extraClassName="bold" callback-props={['savingsYearHeaders', 'goals', year]} />
               &nbsp;(
-              <StaticAmount bank={bank}>
+              <StaticAmount>
                 { bank.monthlyGoal[year] }
               </StaticAmount>
               /mo)
@@ -62,7 +62,7 @@ export default class Body extends React.Component<IProps, IState> {
           </FireTD>
           {bank.savingsInputsHidden.map((amount: any, idx: number) => (
           <FireTD show={this.state.collapsed} key={idx}>
-            <StaticAmount bank={bank} display-zero>
+            <StaticAmount display-zero>
               { bank.totalInstitution[year][amount.id][amount.type] }
             </StaticAmount>
           </FireTD>
@@ -71,7 +71,7 @@ export default class Body extends React.Component<IProps, IState> {
             Total
           </FireTD>
           <FireTD show={this.state.collapsed}>
-            <StaticAmount bank={bank} display-zero>
+            <StaticAmount display-zero>
               { bank.totalHolding[this.props.year]['12'] }
             </StaticAmount>
           </FireTD>
@@ -79,7 +79,7 @@ export default class Body extends React.Component<IProps, IState> {
             {year}
           </FireTD>
           <FireTD show={this.state.collapsed} goal={bank.goalYearToDate[year]['12']} threshold={0}>
-            <StaticAmount bank={bank} display-zero>
+            <StaticAmount display-zero>
               { bank.goalYearToDate[year]['12'] }
             </StaticAmount>
           </FireTD>
@@ -94,35 +94,28 @@ export default class Body extends React.Component<IProps, IState> {
           <td>{ month[0] }</td>
           {bank.savingsInputsHidden.map((amount: any, idx: number) => (
           <td key={idx}>
-            {amount.type !== 'T' &&
-            <FireAmount amount={_.get(month, [1, amount.id, amount.type])} 
-                        display-decimals={bank.showDecimals}
-                        callback-props={['savings', year, month[0], amount.id, amount.type]} 
-                        callback={callback} />}
-            {amount.type === 'T' && 
-            <StaticAmount bank={bank}>
-              {bank.totalMonthInstitution[year][month[0]][amount.id]}
-            </StaticAmount>}
+            {amount.type !== 'T' && <FireAmount callback-props={['savings', year, month[0], amount.id, amount.type]} />}
+            {amount.type === 'T' && <StaticAmount>{bank.totalMonthInstitution[year][month[0]][amount.id]}</StaticAmount>}
           </td>
           ))}
           <td>
-            <StaticAmount bank={bank}>
+            <StaticAmount>
               { bank.totalMonthSavings[year][month[0]] }
             </StaticAmount>
           </td>
           <FireTD show={bank.totalMonthSavings[year][month[0]] === 0} span={4} />
           <FireTD hide={bank.totalMonthSavings[year][month[0]] === 0}>
-            <StaticAmount bank={bank}>
+            <StaticAmount>
               { bank.totalHolding[year][month[0]] }
             </StaticAmount>
           </FireTD>
           <FireTD hide={bank.totalMonthSavings[year][month[0]] === 0} goal={bank.goalMonth[year][month[0]]} threshold={0}>
-            <StaticAmount bank={bank}>
+            <StaticAmount>
               { bank.goalMonth[year][month[0]] }
             </StaticAmount>
           </FireTD>
           <FireTD hide={bank.totalMonthSavings[year][month[0]] === 0} goal={bank.goalYearToDate[year][month[0]]} threshold={0}>
-            <StaticAmount bank={bank} display-zero>
+            <StaticAmount display-zero>
               { bank.goalYearToDate[year][month[0]] }
             </StaticAmount>
           </FireTD>
@@ -139,20 +132,20 @@ export default class Body extends React.Component<IProps, IState> {
           </td>
           {bank.savingsInputsHidden.map((amount: any, idx: number) => (
           <td key={idx}>
-            <StaticAmount bank={bank} display-zero>
+            <StaticAmount display-zero>
               { bank.totalInstitution[year][amount.id][amount.type] }
             </StaticAmount>
           </td>
           ))}
           <td>Total</td>
           <td className="table-warning">
-            <StaticAmount bank={bank} display-zero>
+            <StaticAmount display-zero>
               { bank.totalHolding[year]['12'] }
             </StaticAmount>
           </td>
           <td>Goal</td>
           <FireTD goal={bank.goalYearToDate[year]['12']} threshold={0}>
-            <StaticAmount bank={bank} display-zero>
+            <StaticAmount display-zero>
               { bank.goalYearToDate[year]['12'] }
             </StaticAmount>
           </FireTD>
@@ -166,3 +159,22 @@ export default class Body extends React.Component<IProps, IState> {
     );
   }
 };
+
+const mapStateToProps = (state: AppState) => {
+  return ({
+    bank: state.bankState.bank
+  });
+}
+
+const mapDispatchToProps = (dispatch: Dispatch<any>) => {
+  return {
+    onUpdateValueLocalStorage: (index: string, indexes: string[], amount: number|boolean) => {
+      dispatch(updateValueLocalStorage(index, indexes, amount));
+    }
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Body);

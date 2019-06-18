@@ -1,9 +1,11 @@
+import { LocationState } from 'history';
 import * as React from 'react';
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
+
 import * as ROUTES from '../constants/routes';
 import { firebase } from '../firebase';
-import helpers from '../helpers';
 import { withAuthentication } from '../firebase/withAuthentication';
+import helpers from '../helpers';
 import { AccountPage } from '../pages/Account';
 import { HomePage } from '../pages/Home';
 import PasswordForgetPage from '../pages/PasswordForget';
@@ -20,9 +22,8 @@ import { ChartsPage } from '../pages/Charts';
 import { NotFoundPage } from '../pages/NotFound';
 import './icons';
 
-
 interface IProps {
-  location?: any;
+  location?: LocationState;
 }
 
 class AppComponent extends React.Component<IProps, {}> {

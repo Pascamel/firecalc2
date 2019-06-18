@@ -1,6 +1,6 @@
 import moment from 'moment';
-import * as ROUTES from '../constants/routes';
 
+import * as ROUTES from '../constants/routes';
 
 const amount = (number: number, display_if_zero: boolean, show_decimals: boolean) => {
   if ((!number || number === 0) && !display_if_zero) return '';
@@ -13,9 +13,13 @@ const amount = (number: number, display_if_zero: boolean, show_decimals: boolean
   );
 };    
 
-const percentage = (number: number) => {
-  return Number(100 * number).toFixed(2) + '%';     
+const percentage = (number: number, decimals: number = 2, plusSign: boolean = false) => {
+  return (plusSign && number >= 0 ? '+' : '') + Number(100 * number).toFixed(decimals) + '%';     
 };
+
+const clean_percentage = (percentage: number) => {
+  return Math.min(100, Math.max(0, 100 + 100 * percentage));
+}
 
 const goal = (value: number, threshold: number, success?: string, danger?: string) => {
   success = success || 'table-success';
@@ -79,6 +83,7 @@ const currentMonthRoute = () => {
 export default {
   amount, 
   percentage,
+  clean_percentage,
   goal,
   roundFloat,
   showIf,

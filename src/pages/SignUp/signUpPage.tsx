@@ -1,11 +1,11 @@
 import React from 'react';
-import { Container, Row, Col, Alert } from 'reactstrap';
+import { Alert, Col, Container, Row } from 'reactstrap';
+
 import { HeaderPanel } from '../../components';
 import { SignUpForm } from './signUpForm';
 
-
 export class SignUpPage extends React.Component<any, any> {
-  render () {
+  render() {
     return (
       <React.Fragment>
         <HeaderPanel title="Create an account" />

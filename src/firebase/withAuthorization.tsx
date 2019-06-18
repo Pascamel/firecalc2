@@ -1,11 +1,14 @@
 import * as React from 'react';
 import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { compose } from 'recompose';
 import * as ROUTES from '../constants/routes';
-import { firebase } from '../firebase';
-import { AuthUserContext } from './AuthUserContext';
+import { firebase as fb } from '../firebase';
+import { AppState } from '../store';
 
 interface IProps {
-  history?: any;
+  history?: any,
+  authUser: firebase.User
 }
 
 export const withAuthorization = (condition: any) => (Component: any) => {
@@ -13,7 +16,7 @@ export const withAuthorization = (condition: any) => (Component: any) => {
     listener: any = () => {};
 
     public componentDidMount() {
-      this.listener = firebase.auth.onAuthStateChanged(authUser => {
+      this.listener = fb.auth.onAuthStateChanged(authUser => {
         if (!condition(authUser)) {
           this.props.history.push(ROUTES.SIGN_IN);
         }
@@ -25,13 +28,18 @@ export const withAuthorization = (condition: any) => (Component: any) => {
     }
 
     public render() {
-      return (
-        <AuthUserContext.Consumer>
-          {authUser => (authUser ? <Component {...this.props} /> : null)}
-        </AuthUserContext.Consumer>
-      );
+      const { authUser } = this.props;
+
+      return authUser ? <Component {...this.props} /> : null;
     }
   }
 
-  return withRouter(WithAuthorization as any);
+  const mapStateToProps = (state: AppState) => ({
+    authUser: state.sessionState.authUser,
+  });
+
+  return compose(
+    withRouter,
+    connect(mapStateToProps),
+  )(WithAuthorization as any);
 };

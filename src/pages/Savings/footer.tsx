@@ -1,17 +1,18 @@
-import React from 'react';
-import { Bank } from '../../bank';
-import { StaticAmount } from '../../components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import React from 'react';
+import { connect } from 'react-redux';
+
+import Bank from '../../bank';
+import { StaticAmount } from '../../components';
+import { AppState } from '../../store';
 
 interface IProps {
-  bank: Bank
+  bank: Bank.IBank
 }
 
-interface IState {}
-
-export default class Footer extends React.Component<IProps, IState> {
+class Footer extends React.Component<IProps, {}> {
   render() {
-    const {bank} = this.props;
+    const { bank } = this.props;
 
     return (
       <tfoot>
@@ -21,14 +22,14 @@ export default class Footer extends React.Component<IProps, IState> {
           </td>
           {bank.savingsInputsHidden.map((amount: any, key: number) => (
           <td className="table-warning" key={key}>
-            <StaticAmount bank={bank} display-zero>
+            <StaticAmount display-zero>
               { bank.grandTotalInstitution[amount.id][amount.type] }
             </StaticAmount>
           </td>
           ))}
           <td>Total</td>
           <td className="table-warning">
-            <StaticAmount bank={bank} display-zero>
+            <StaticAmount display-zero>
               { bank && bank.grandTotalHolding }
             </StaticAmount>
           </td>
@@ -38,3 +39,11 @@ export default class Footer extends React.Component<IProps, IState> {
     );
   }
 }
+
+const mapStateToProps = (state: AppState) => {
+  return ({
+    bank: state.bankState.bank
+  });
+}
+
+export default connect(mapStateToProps)(Footer);

@@ -1,29 +1,25 @@
-import React from 'react';
-import { Row, Col, Alert } from 'reactstrap';
 import _ from 'lodash';
-import Progress from './progress';
-import Doughnut from './doughnut';
-import { Bank } from '../../bank';
-import { FireAmount, StaticAmount } from '../../components';
+import React, { Dispatch } from 'react';
+import { connect } from 'react-redux';
+import { Alert, Col, Row } from 'reactstrap';
 
+import Bank from '../../bank';
+import { FireAmount, StaticAmount } from '../../components';
+import helpers from '../../helpers';
+import { AppState } from '../../store';
+import Doughnut from './doughnut';
+import Progress from './progress';
 
 interface IProps {
-  month: string, 
-  year: string, 
-  bank: Bank,
-  callback: (index: string, indexes: string[], amount: any, updatedState: boolean) => void
+  month: string; 
+  year: string;
+  bank: Bank.IBank;
+  bankUpdated: boolean;
 }
 
-interface IState {}
-
-export default class Charts extends React.Component<IProps, IState> {
-
-  clean_pct(pct: number) {
-    return Math.min(100, Math.max(0, 100 + 100 * pct));
-  }
-
-  render() {
-    const { month, year, bank, callback } = this.props;
+class Charts extends React.Component<IProps, {}> {
+  render() {    
+    const { month, year, bank } = this.props;
     
     return (
       <React.Fragment>
@@ -34,12 +30,15 @@ export default class Charts extends React.Component<IProps, IState> {
                 <span className="label-fake-input">Net worth</span>
               </Col>
               <Col>
-                <FireAmount amount={_.get(bank, ['networth', year, month], 0)} 
-                            extraClassName="label-fake-input pull-right"
-                            display-if-zero={true}
-                            display-decimals={bank.showDecimals}
-                            callback-props={['networth', year, month]} 
-                            callback={callback} />
+                <FireAmount extraClassName="label-fake-input pull-right" display-if-zero={true} callback-props={['networth', year, month]} />
+              </Col>
+            </Row>
+            <Row>
+              <Col>
+                <span className="label-fake-input">Expenses</span>
+              </Col>
+              <Col>
+                <FireAmount extraClassName="label-fake-input pull-right" display-if-zero={true} callback-props={['expenses', year, month]} />
               </Col>
             </Row>
           </Alert>
@@ -47,11 +46,11 @@ export default class Charts extends React.Component<IProps, IState> {
             <Progress label="Month"
                       result={bank.goalMonth[year][month]}
                       goal={bank.monthlyGoal[year]} 
-                      percentage={this.clean_pct(bank.goalMonth[year][month] / bank.monthlyGoal[year])} />
+                      percentage={helpers.clean_percentage(bank.goalMonth[year][month] / bank.monthlyGoal[year])} />
             <Progress label="Year"
                       result={bank.goalYearToDate[year][month]} 
                       goal={parseInt(month) * bank.monthlyGoal[year]} 
-                      percentage={this.clean_pct(bank.goalYearToDate[year][month] / bank.monthlyGoal[year] / parseInt(month)) } />
+                      percentage={helpers.clean_percentage(bank.goalYearToDate[year][month] / bank.monthlyGoal[year] / parseInt(month))} />
             <hr />
             <Row>
               <Col className="col-6 chart-container">
@@ -71,7 +70,7 @@ export default class Charts extends React.Component<IProps, IState> {
                 Estimated expenses
                 <span className="pull-right text-secondary">
                   $
-                  <StaticAmount bank={bank} display-zero>
+                  <StaticAmount display-zero>
                     {_.get(bank.totalMonthIncome, [year, month], 0) - _.get(bank.totalMonthSavings, [year, month], 0)}
                   </StaticAmount>
                 </span>
@@ -83,3 +82,12 @@ export default class Charts extends React.Component<IProps, IState> {
     );
   }
 }
+
+const mapStateToProps = (state: AppState) => {
+  return ({
+    bank: state.bankState.bank,
+    bankUpdated: state.bankState.bankUpdated
+  });
+}
+
+export default connect(mapStateToProps)(Charts);

@@ -1,12 +1,11 @@
 import React from 'react';
 
-
 interface IProps {
   users: any
 }
 
 export default class ListUsers extends React.Component<IProps, {}> {
-  render () {
+  render() {
     const { users } = this.props;
 
     return (

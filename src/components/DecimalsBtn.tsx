@@ -1,20 +1,23 @@
-import React from 'react';
-import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
-import { Bank } from '../bank';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import React, { Dispatch } from 'react';
+import { connect } from 'react-redux';
+import { Dropdown, DropdownItem, DropdownMenu, DropdownToggle } from 'reactstrap';
 
+import { updateValueLocalStorage } from '../actions';
+import Bank from '../bank';
+import { AppState } from '../store';
 
 interface IProps {
-  updated: boolean, 
-  bank: Bank,
-  callback: (index: string, indexes: string[], amount: any, updatedState: boolean) => void
+  bankUpdated: boolean;
+  bank: Bank.IBank;
+  onUpdateValueLocalStorage: (index: string, indexes: string[], amount: number|boolean) => void;
 }
 
 interface IState {
-  dropdownOpen: boolean
+  dropdownOpen: boolean;
 }
 
-export default class DecimalsBtn extends React.Component<IProps, IState> {
+class DecimalsBtn extends React.Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
 
@@ -31,11 +34,11 @@ export default class DecimalsBtn extends React.Component<IProps, IState> {
   }
 
   clickDecimal(decimal: boolean) {
-    this.props.callback('showDecimals', [], decimal, false);
+    this.props.onUpdateValueLocalStorage('showDecimals', [], decimal);
   }
 
-  render () {
-    const {updated, bank} = this.props;
+  render() {
+    const { bank, bankUpdated } = this.props;
 
     return (
       <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
@@ -50,3 +53,23 @@ export default class DecimalsBtn extends React.Component<IProps, IState> {
     );
   }
 }
+
+const mapStateToProps = (state: AppState) => {
+  return ({
+    bank: state.bankState.bank,
+    bankUpdated: state.bankState.bankUpdated,
+  });
+}
+
+const mapDispatchToProps = (dispatch: Dispatch<any>) => {
+  return {
+    onUpdateValueLocalStorage: (index: string, indexes: string[], amount: number|boolean) => {
+      dispatch(updateValueLocalStorage(index, indexes, amount));
+    }
+  };
+};
+
+export default connect(
+  mapStateToProps, 
+  mapDispatchToProps
+)(DecimalsBtn);

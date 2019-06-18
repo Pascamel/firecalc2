@@ -1,12 +1,12 @@
 import _ from 'lodash';
-import { firestore } from '../firebase';
-import { IIncome, ISavings } from './interfaces';
-import * as formatters from './formatters';
-import helpers from '../helpers';
 import moment from 'moment';
 
+import { firestore } from '../firebase';
+import helpers from '../helpers';
+import * as formatters from './formatters';
+import { IIncome, IIncomeHeader, ISavings, ISavingsHeader } from './interfaces';
 
-export default class Bank {
+export interface IBank {
   showDecimals: boolean;
   savingsHeadersHidden: {
     [institution: string]: {
@@ -23,6 +23,7 @@ export default class Bank {
   income: IIncome;
   savings: ISavings;
   networth: any;
+  expenses: any;
   savingsInputs: any;
   savingsInputsHidden: any;
   incomeHeaders: any;
@@ -52,302 +53,302 @@ export default class Bank {
   yearlyIncome: any;
   savingRateMonth: any;
   savingRateYear: any;
+}
 
-  constructor() {
-    this.showDecimals = false;
-    this.savingsHeadersHidden = {};
-    this.income = {};
-    this.savings = {};
-    this.networth = {};
-  }
+export const load = async (uid: string): Promise<IBank> => {
 
-  load = async () => {
-    this.loadLocalStorage1();
-    const snapshotHeaders = await firestore.getHeaders();
-    const snapshotSavings = await firestore.getSavings();
-    const snapshotRevenues = await firestore.getRevenues();
-    const snapshotNetWorth = await firestore.getNetWorth();
+  let bank: IBank = ({} as any);
 
-    if (!snapshotHeaders || !snapshotSavings || !snapshotRevenues || !snapshotNetWorth) return;
+  loadLocalStorage1(bank);
+  const snapshotHeaders = await firestore.getHeaders(uid);
+  const snapshotSavings = await firestore.getSavings(uid);
+  const snapshotRevenues = await firestore.getRevenues(uid);
+  const snapshotOthers = await firestore.getOthers(uid);
 
-    this.lastupdate = {};
+  if (!snapshotHeaders || !snapshotSavings || !snapshotRevenues || !snapshotOthers) return bank;
 
-    if (_.get(snapshotHeaders.data(), 'last_update')) this.lastupdate['headers'] = moment(_.get(snapshotHeaders.data(), 'last_update')).fromNow();
-    if (_.get(snapshotSavings.data(), 'last_update')) this.lastupdate['savings'] = moment(_.get(snapshotSavings.data(), 'last_update')).fromNow();
-    if (_.get(snapshotRevenues.data(), 'last_update')) this.lastupdate['income'] = moment(_.get(snapshotRevenues.data(), 'last_update')).fromNow();
-    if (_.get(snapshotNetWorth.data(), 'last_update')) this.lastupdate['netWorth'] = moment(_.get(snapshotNetWorth.data(), 'last_update')).fromNow();
+  bank.lastupdate = {};
 
-    this.headers = snapshotHeaders.data() || [];
-    let savings_data = _.get(snapshotSavings.data(), 'data', []);
-    let revenues_data = _.get(snapshotRevenues.data(), 'data', []);
-    
-    this.incomeHeaders = formatters.formatIncomeHeaders(this.headers);
-    this.savingsHeaders = formatters.formatSavingsHeaders(this.headers);
+  if (_.get(snapshotHeaders.data(), 'last_update')) bank.lastupdate['headers'] = moment(_.get(snapshotHeaders.data(), 'last_update')).fromNow();
+  if (_.get(snapshotSavings.data(), 'last_update')) bank.lastupdate['savings'] = moment(_.get(snapshotSavings.data(), 'last_update')).fromNow();
+  if (_.get(snapshotRevenues.data(), 'last_update')) bank.lastupdate['income'] = moment(_.get(snapshotRevenues.data(), 'last_update')).fromNow();
+  if (_.get(snapshotOthers.data(), 'last_update')) bank.lastupdate['others'] = moment(_.get(snapshotOthers.data(), 'last_update')).fromNow();
 
-    this.incomeYearHeaders = {collapsed: {}};
-    this.savingsYearHeaders = _.get(snapshotSavings.data(), 'yearly_data', {collapsed: {}, goals: {}});
-
-    this.income = formatters.formatIncome(revenues_data, this.headers);
-    this.savings = formatters.formatSavings(savings_data, this.headers);
-    this.networth = _.get(snapshotNetWorth.data(), 'data', {});
-
-    this.savingsInputs = formatters.savingsInputs(this.savingsHeaders, {});
-    this.savingsInputsHidden = formatters.savingsInputs(this.savingsHeaders, this.savingsHeadersHidden);
-
-    this.savingsHeadersLine1 = formatters.savingsHeadersLine1(this.savingsHeaders, this.savingsHeadersHidden);
-    this.savingsHeadersLine2 = formatters.savingsHeadersLine2(this.savingsHeaders, this.savingsHeadersHidden);
+  bank.headers = snapshotHeaders.data() || [];
+  let savings_data = _.get(snapshotSavings.data(), 'data', []);
+  let revenues_data = _.get(snapshotRevenues.data(), 'data', []);
   
-    this.loadLocalStorage2();
-    this.calculateTotals();
+  bank.incomeHeaders = formatters.formatIncomeHeaders(bank.headers);
+  bank.savingsHeaders = formatters.formatSavingsHeaders(bank.headers);
+
+  bank.incomeYearHeaders = {collapsed: {}};
+  bank.savingsYearHeaders = _.get(snapshotSavings.data(), 'yearly_data', {collapsed: {}, goals: {}});
+
+  bank.income = formatters.formatIncome(revenues_data, bank.headers);
+  bank.savings = formatters.formatSavings(savings_data, bank.headers);
+  bank.networth = _.get(snapshotOthers.data(), 'networth', {});
+  bank.expenses = _.get(snapshotOthers.data(), 'expenses', {});
+
+  bank.savingsInputs = formatters.savingsInputs(bank.savingsHeaders, {});
+  bank.savingsInputsHidden = formatters.savingsInputs(bank.savingsHeaders, bank.savingsHeadersHidden);
+
+  bank.savingsHeadersLine1 = formatters.savingsHeadersLine1(bank.savingsHeaders, bank.savingsHeadersHidden);
+  bank.savingsHeadersLine2 = formatters.savingsHeadersLine2(bank.savingsHeaders, bank.savingsHeadersHidden);
+
+  loadLocalStorage2(bank);
+  calculateTotals(bank);
+
+  return bank;
+}
+
+export const loadLocalStorage1 = (bank: IBank) => {
+  if (!bank.savingsHeadersHidden) bank.savingsHeadersHidden = {};
+  _.each(JSON.parse(localStorage.getItem('savings_hidden') || '{}'), (value, key) => {
+    if (!bank.savingsHeadersHidden[key]) bank.savingsHeadersHidden[key] = {};
+    _.each(value, (v, t) => {
+      bank.savingsHeadersHidden[key][t] = v;
+    });
+  });
+}
+
+export const loadLocalStorage2 = (bank: IBank) => {
+  if (!bank.savingsYearHeaders.collapsed) bank.savingsYearHeaders.collapsed = {};
+  _.each(JSON.parse(localStorage.getItem('savings_collapsed') || '{}'), (value, key) => {
+    bank.savingsYearHeaders.collapsed[key] = value;
+  });
+
+  if (!bank.incomeYearHeaders.collapsed) bank.incomeYearHeaders.collapsed = {};
+  _.each(JSON.parse(localStorage.getItem('income_collapsed') || '{}'), (value, key) => {
+    bank.incomeYearHeaders.collapsed[key] = value;
+  });
+
+  bank.showDecimals = (parseInt(localStorage.getItem('show_decimals') || '1') > 0);
+};
+
+export const updateValue = (bank: IBank, index: string, indexes: string[], value: number|boolean) => {
+  if (indexes.length > 0) {
+    _.set(bank, _.concat([index], indexes), value);
+  } else {
+    _.set(bank, [index], value);
   }
+};
 
-  loadLocalStorage1 = () => {
-    _.each(JSON.parse(localStorage.getItem('savings_hidden') || '{}'), (value, key) => {
-      if (!this.savingsHeadersHidden[key]) this.savingsHeadersHidden[key] = {};
-      _.each(value, (v, t) => {
-        this.savingsHeadersHidden[key][t] = v;
-      });
-    });
+export const saveLocalStorage = (bank: IBank) => {
+  localStorage.setItem('savings_collapsed', JSON.stringify(bank.savingsYearHeaders.collapsed));
+  localStorage.setItem('income_collapsed', JSON.stringify(bank.incomeYearHeaders.collapsed));
+  localStorage.setItem('show_decimals', bank.showDecimals ? '1' : '0');
+  localStorage.setItem('savings_hidden', JSON.stringify(bank.savingsHeadersHidden));
+};
+
+export const saveHeaders = async (uid: string, bank: IBank) => {
+  const data = JSON.parse(JSON.stringify(bank.headers));
+  data.last_update = (new Date()).getTime();
+
+  try {
+    await firestore.setHeaders(uid, data);
+    return true;
+  } catch {
+    return false;
   }
+}
 
-  loadLocalStorage2 = () => {
-    if (!this.savingsYearHeaders.collapsed) this.savingsYearHeaders.collapsed = {};
-    _.each(JSON.parse(localStorage.getItem('savings_collapsed') || '{}'), (value, key) => {
-      this.savingsYearHeaders.collapsed[key] = value;
-    });
-
-    if (!this.incomeYearHeaders.collapsed) this.incomeYearHeaders.collapsed = {};
-    _.each(JSON.parse(localStorage.getItem('income_collapsed') || '{}'), (value, key) => {
-      this.incomeYearHeaders.collapsed[key] = value;
-    });
-
-    this.showDecimals = (parseInt(localStorage.getItem('show_decimals') || '1') > 0);
+export const saveIncome = async (uid: string, bank: IBank) => {
+  const payload = {
+    last_update: (new Date()).getTime(),
+    data: JSON.parse(JSON.stringify(formatters.formatIncomeToSave(bank.income))),
+    yearly_data: JSON.parse(JSON.stringify(bank.incomeYearHeaders))
   };
 
-  updateValue = (index: string, indexes: string[], value: number) => {
-    if (indexes.length > 0) {
-      _.set(this, _.concat([index], indexes), value);
-    } else {
-      _.set(this, [index], value);
-    }
-    this.calculateTotals();
-  };
-
-  saveLocalStorage = () => {
-    localStorage.setItem('savings_collapsed', JSON.stringify(this.savingsYearHeaders.collapsed));
-    localStorage.setItem('income_collapsed', JSON.stringify(this.incomeYearHeaders.collapsed));
-    localStorage.setItem('show_decimals', this.showDecimals ? '1' : '0');
-    localStorage.setItem('savings_hidden', JSON.stringify(this.savingsHeadersHidden));
-  };
-
-  saveHeaders = async () => {
-    const data = JSON.parse(JSON.stringify(this.headers));
-    data.last_update = (new Date()).getTime();
-
-    try {
-      await firestore.setHeaders(data);
-      return true;
-    } catch {
-      return false;
-    }
+  try {
+    await firestore.setRevenues(uid, payload);
+    return true;
+  } catch {
+    return false;
   }
+};
 
-  saveIncome = async () => {
-    const payload = {
-      last_update: (new Date()).getTime(),
-      data: JSON.parse(JSON.stringify(formatters.formatIncomeToSave(this.income))),
-      yearly_data: JSON.parse(JSON.stringify(this.incomeYearHeaders))
-    };
-
-    try {
-      await firestore.setRevenues(payload);
-      return true;
-    } catch {
-      return false;
-    }
+export const saveSavings = async (uid: string, bank: IBank) => {
+  const payload = {
+    last_update: (new Date()).getTime(),
+    data: JSON.parse(JSON.stringify(formatters.formatSavingstaToSave(bank.savings))),
+    yearly_data: JSON.parse(JSON.stringify(bank.savingsYearHeaders)),
+    hideDecimals: !bank.showDecimals
   };
 
-  saveSavings = async () => {
-    const payload = {
-      last_update: (new Date()).getTime(),
-      data: JSON.parse(JSON.stringify(formatters.formatSavingstaToSave(this.savings))),
-      yearly_data: JSON.parse(JSON.stringify(this.savingsYearHeaders)),
-      hideDecimals: !this.showDecimals
-    };
+  try {
+    await firestore.setSavings(uid, payload);
+    return true;
+  } catch {
+    return false;
+  }
+};
 
-    try {
-      await firestore.setSavings(payload);
-      return true;
-    } catch {
-      return false;
-    }
+export const saveOthers = async (uid: string, bank: IBank) => {
+  const payload = {
+    last_update: (new Date()).getTime(),
+    expenses: JSON.parse(JSON.stringify(bank.expenses)),
+    networth: JSON.parse(JSON.stringify(bank.networth))
   };
 
-  saveNetWorth = async () => {
-    const payload = {
-      last_update: (new Date()).getTime(),
-      data: JSON.parse(JSON.stringify(this.networth))
-    };
+  try {
+    await firestore.setOthers(uid, payload);
+    return true;
+  } catch {
+    return false;
+  }
+};
 
-    try {
-      await firestore.setNetWorth(payload);
-      return true;
-    } catch {
-      return false;
-    }
-  };
+export const calculateTotals = (bank: IBank) => {
+  bank.startOfYearAmount = {};
+  bank.totalMonthSavings = {};
+  bank.totalHolding = {};
+  bank.goalMonth = {};
+  bank.goalYearToDate = {};
+  bank.totalInstitution = {};
+  bank.totalMonthInstitution = {};
+  bank.grandTotalMonthInstitution = {};
+  bank.monthlyGoal = {};
+  bank.grandTotalInstitution = {};
 
-  calculateTotals = () => {
-    this.startOfYearAmount = {};
-    this.totalMonthSavings = {};
-    this.totalHolding = {};
-    this.goalMonth = {};
-    this.goalYearToDate = {};
-    this.totalInstitution = {};
-    this.totalMonthInstitution = {};
-    this.grandTotalMonthInstitution = {};
-    this.monthlyGoal = {};
-    this.grandTotalInstitution = {};
+  bank.totalMonthPre = {};
+  bank.totalMonthPost = {};
+  bank.totalMonthIncome = {};
+  bank.totalYearPre = {};
+  bank.totalYearPost = {};
+  bank.yearlyIncome = {};
+  bank.savingRateMonth = {};
+  bank.savingRateYear = {};
 
-    this.totalMonthPre = {};
-    this.totalMonthPost = {};
-    this.totalMonthIncome = {};
-    this.totalYearPre = {};
-    this.totalYearPost = {};
-    this.yearlyIncome = {};
-    this.savingRateMonth = {};
-    this.savingRateYear = {};
+  _.each(bank.savings, (year_data, year) => {
 
-    _.each(this.savings, (year_data, year) => {
+    bank.totalMonthSavings[year] = {};
+    bank.totalHolding[year] = {};
+    bank.goalMonth[year] = {};
+    bank.goalYearToDate[year] = {};
+    bank.totalInstitution[year] = {};
+    bank.totalMonthInstitution[year] = {};
+    bank.grandTotalMonthInstitution[year] = {};
+    bank.totalMonthPre[year] = {};
+    bank.totalMonthPost[year] = {};
+    bank.totalMonthIncome[year] = {};
+    bank.yearlyIncome[year] = {};
+    bank.savingRateMonth[year] = {};
+    bank.savingRateYear[year] = {};
+    if (!bank.networth[year]) bank.networth[year] = {};
+    if (!bank.expenses[year]) bank.expenses[year] = {};
 
-      this.totalMonthSavings[year] = {};
-      this.totalHolding[year] = {};
-      this.goalMonth[year] = {};
-      this.goalYearToDate[year] = {};
-      this.totalInstitution[year] = {};
-      this.totalMonthInstitution[year] = {};
-      this.grandTotalMonthInstitution[year] = {};
-      this.totalMonthPre[year] = {};
-      this.totalMonthPost[year] = {};
-      this.totalMonthIncome[year] = {};
-      this.yearlyIncome[year] = {};
-      this.savingRateMonth[year] = {};
-      this.savingRateYear[year] = {};
-      if (!this.networth[year]) this.networth[year] = {};
+    bank.startOfYearAmount[year] = (year === bank.headers.firstYear.toString()) ? parseFloat(bank.headers.startingCapital) : _.get(bank.totalHolding, [(parseInt(year) - 1), '12'], 0);
+    const goal_year = _.get(bank.savingsYearHeaders, ['goals', year], 0);
+    bank.monthlyGoal[year] = (goal_year - bank.startOfYearAmount[year]) /  _.keys(bank.savings[year]).length;
 
-      this.startOfYearAmount[year] = (year === this.headers.firstYear.toString()) ? parseFloat(this.headers.startingCapital) : this.totalHolding[(parseInt(year) - 1)]['12'];
-      const goal_year = _.get(this.savingsYearHeaders, ['goals', year], 0);
-      this.monthlyGoal[year] = (goal_year - this.startOfYearAmount[year]) /  _.keys(this.savings[year]).length;
-
-      //totalInstitution
-      _.each(this.savingsInputs, (header: any) => {
-        if (!this.totalInstitution[year][header.id]) this.totalInstitution[year][header.id] = {};
-        if (header.type === 'T') {
-          this.totalInstitution[year][header.id][header.type] =  _.reduce(['P', 'I'], (acc, t) => acc + this.totalInstitution[year][header.id][t], 0);
-        } else {
-          this.totalInstitution[year][header.id][header.type] = _.reduce(this.savings[year], (v, i) => v + _.get(i, [header.id, header.type], 0), 0);
-        }
-      });
-
-      this.totalYearPre[year] = 0;
-      this.totalYearPost[year] = 0; 
-      _.each(this.incomeHeaders, (header: any) => {
-        this.yearlyIncome[year][header.id] = 0;
-      });
-
-      _.each(year_data, (month_data, month) => {
-
-        // totalMonthSavings
-        this.totalMonthSavings[year][month] = _.reduce(month_data, (acc: number, v) => {
-          return acc + _.get(v, 'P', 0) + _.get(v, 'I', 0)
-        }, 0);
-
-        // totalHolding
-        if (month === this.headers.firstMonth.toString() && year === this.headers.firstYear.toString()) {
-          this.totalHolding[year][month] = parseFloat(this.headers.startingCapital) + this.totalMonthSavings[year][month]
-        } else {
-          const { year: pyear, month: pmonth } = helpers.prevMonth(year, month);
-          this.totalHolding[year][month] = this.totalHolding[pyear][pmonth] + this.totalMonthSavings[year][month]
-        }
-
-        // goalMonth
-        const goal = (goal_year - this.startOfYearAmount[year]) /  _.keys(this.savings[year]).length;
-        this.goalMonth[year][month] = this.totalMonthSavings[year][month] - this.monthlyGoal[year]; //goal;
-
-        // goalYearToDate
-        const goal_total = this.startOfYearAmount[year] + goal * (parseInt(month) + _.keys(this.savings[year]).length - 12);
-        this.goalYearToDate[year][month] = this.totalHolding[year][month] - goal_total;
-
-        // totalMonthInstitution
-        _.each(this.savingsInputs, (header: any) => {
-          if (header.type === 'T') {
-            this.totalMonthInstitution[year][month] = {};
-            this.totalMonthInstitution[year][month][header.id] = _.reduce(['P', 'I'], (acc, t) => acc + _.get(this.savings, [year, month, header.id, t]) || 0, 0)
-          }
-        });
-
-        // grandTotalMonthInstitution
-        this.grandTotalMonthInstitution[year][month] = {};
-        _.each(this.savingsInputs, (header: any) => {
-          if ((header.types.indexOf('T') === -1) || (header.type === 'T')) {
-            if (month === this.headers.firstMonth.toString() && year === this.headers.firstYear.toString()) {
-              if (header.id === this.savingsInputs[0].id) {
-                this.grandTotalMonthInstitution[year][month][header.id] = this.headers.startingCapital;
-              } else {
-                this.grandTotalMonthInstitution[year][month][header.id] = 0;
-              }
-            } else {
-              const prev = helpers.prevMonth(year, month);
-              this.grandTotalMonthInstitution[year][month][header.id] = this.grandTotalMonthInstitution[prev.year][prev.month][header.id];
-            }
-
-            this.grandTotalMonthInstitution[year][month][header.id] += _.reduce(['P', 'I'], (acc, t) => acc + _.get(this.savings, [year, month, header.id, t], 0), 0);
-          }
-        });
-
-        this.totalMonthPre[year][month] = 0;
-        this.totalMonthPost[year][month] = 0;
-        this.totalMonthIncome[year][month] = 0;
-
-        _.each(this.incomeHeaders, (header: any) => {
-          const amount: number = _.get(this.income, [year, month, header.id], 0);
-          if (amount === 0) return;
-
-          this.totalMonthPre[year][month] += header.pretax ? (amount / (header.count || 1)) : 0;
-          this.totalMonthPost[year][month] += header.pretax ? 0 : (amount / (header.count || 1));
-          this.totalMonthIncome[year][month] += amount / (header.count || 1);  
-
-          this.yearlyIncome[year][header.id] += amount;
-
-          this.totalYearPre[year] += header.pretax ? (amount / (header.count || 1)) : 0;
-          this.totalYearPost[year] += header.pretax ? 0 : (amount / (header.count || 1));
-        });
-
-        const im = this.totalMonthIncome[year][month];
-        this.savingRateMonth[year][month] = (im === 0) ? 0 : ((this.totalMonthSavings[year][month] / im) || 0);
-
-        let iy = _(_.range(1, parseInt(month) + 1)).reduce((sum, m) => sum + _.get(this.totalMonthIncome, [year, m.toString()], 0), 0);
-        this.savingRateYear[year][month] = (iy === 0) ? 0 : ((this.totalHolding[year][month] - this.startOfYearAmount[year]) / iy);
-      });
-    });
-
-    // grandTotalInstitution = (institution: string, type: string) => 123.45;
-    _.each(this.savingsInputs, (header: any) => {
-      if (!this.grandTotalInstitution[header.id]) this.grandTotalInstitution[header.id] = {};
+    //totalInstitution
+    _.each(bank.savingsInputs, (header: ISavingsHeader) => {
+      if (!bank.totalInstitution[year][header.id]) bank.totalInstitution[year][header.id] = {};
       if (header.type === 'T') {
-        const value = _.reduce(['P', 'I'], (v, i) => v + this.grandTotalInstitution[header.id][i], 0);
-        this.grandTotalInstitution[header.id][header.type] = value;
+        bank.totalInstitution[year][header.id][header.type] =  _.reduce(['P', 'I'], (acc, t) => acc + bank.totalInstitution[year][header.id][t], 0);
       } else {
-        const sp = (header.type === 'P' && _.findIndex(this.savingsInputs, (o: any) => { return o.id === header.id; }) === 0) ? this.headers.startingCapital : 0;
-        const ti = _(this.savings).keys().reduce((acc, year) => acc + this.totalInstitution[year][header.id][header.type], 0);
-        this.grandTotalInstitution[header.id][header.type] = sp + ti;
+        bank.totalInstitution[year][header.id][header.type] = _.reduce(bank.savings[year], (v, i) => v + _.get(i, [header.id, header.type], 0), 0);
       }
     });
 
-    // grandTotalHolding = () => 123.45;  
-    const year: any = _(this.savings).keys().last();
-    const month: any = _(this.savings[year]).keys().last();
+    bank.totalYearPre[year] = 0;
+    bank.totalYearPost[year] = 0; 
+    _.each(bank.incomeHeaders, (header: IIncomeHeader) => {
+      bank.yearlyIncome[year][header.id] = 0;
+    });
 
-    this.grandTotalHolding = this.totalHolding[year][month];  
-  }
+    _.each(year_data, (month_data, month) => {
+
+      // totalMonthSavings
+      bank.totalMonthSavings[year][month] = _.reduce(month_data, (acc: number, v) => {
+        return acc + _.get(v, 'P', 0) + _.get(v, 'I', 0)
+      }, 0);
+
+      // totalHolding
+      if (month === bank.headers.firstMonth.toString() && year === bank.headers.firstYear.toString()) {
+        bank.totalHolding[year][month] = parseFloat(bank.headers.startingCapital) + bank.totalMonthSavings[year][month]
+      } else {
+        const { year: pyear, month: pmonth } = helpers.prevMonth(year, month);
+        bank.totalHolding[year][month] = bank.totalHolding[pyear][pmonth] + bank.totalMonthSavings[year][month]
+      }
+
+      // goalMonth
+      const goal = (goal_year - bank.startOfYearAmount[year]) /  _.keys(bank.savings[year]).length;
+      bank.goalMonth[year][month] = bank.totalMonthSavings[year][month] - bank.monthlyGoal[year]; //goal;
+
+      // goalYearToDate
+      const goal_total = bank.startOfYearAmount[year] + goal * (parseInt(month) + _.keys(bank.savings[year]).length - 12);
+      bank.goalYearToDate[year][month] = bank.totalHolding[year][month] - goal_total;
+
+      // totalMonthInstitution
+      _.each(bank.savingsInputs, (header: ISavingsHeader) => {
+        if (header.type === 'T') {
+          bank.totalMonthInstitution[year][month] = {};
+          bank.totalMonthInstitution[year][month][header.id] = _.reduce(['P', 'I'], (acc, t) => acc + _.get(bank.savings, [year, month, header.id, t]) || 0, 0)
+        }
+      });
+
+      // grandTotalMonthInstitution
+      bank.grandTotalMonthInstitution[year][month] = {};
+      _.each(bank.savingsInputs, (header: ISavingsHeader) => {
+        if ((header.types.indexOf('T') === -1) || (header.type === 'T')) {
+          if (month === bank.headers.firstMonth.toString() && year === bank.headers.firstYear.toString()) {
+            if (header.id === bank.savingsInputs[0].id) {
+              bank.grandTotalMonthInstitution[year][month][header.id] = bank.headers.startingCapital;
+            } else {
+              bank.grandTotalMonthInstitution[year][month][header.id] = 0;
+            }
+          } else {
+            const prev = helpers.prevMonth(year, month);
+            bank.grandTotalMonthInstitution[year][month][header.id] = _.get(bank.grandTotalMonthInstitution, [prev.year, prev.month, header.id], 0);
+          }
+
+          bank.grandTotalMonthInstitution[year][month][header.id] += _.reduce(['P', 'I'], (acc, t) => acc + _.get(bank.savings, [year, month, header.id, t], 0), 0);
+        }
+      });
+
+      bank.totalMonthPre[year][month] = 0;
+      bank.totalMonthPost[year][month] = 0;
+      bank.totalMonthIncome[year][month] = 0;
+
+      _.each(bank.incomeHeaders, (header: IIncomeHeader) => {
+        const amount: number = _.get(bank.income, [year, month, header.id], 0);
+        if (amount === 0) return;
+
+        bank.totalMonthPre[year][month] += header.pretax ? (amount / (header.count || 1)) : 0;
+        bank.totalMonthPost[year][month] += header.pretax ? 0 : (amount / (header.count || 1));
+        bank.totalMonthIncome[year][month] += amount / (header.count || 1);  
+
+        bank.yearlyIncome[year][header.id] += amount;
+
+        bank.totalYearPre[year] += header.pretax ? (amount / (header.count || 1)) : 0;
+        bank.totalYearPost[year] += header.pretax ? 0 : (amount / (header.count || 1));
+      });
+
+      const im = bank.totalMonthIncome[year][month];
+      bank.savingRateMonth[year][month] = (im === 0) ? 0 : ((bank.totalMonthSavings[year][month] / im) || 0);
+
+      let iy = _(_.range(1, parseInt(month) + 1)).reduce((sum, m) => sum + _.get(bank.totalMonthIncome, [year, m.toString()], 0), 0);
+      bank.savingRateYear[year][month] = (iy === 0) ? 0 : ((bank.totalHolding[year][month] - bank.startOfYearAmount[year]) / iy);
+    });
+  });
+
+  // grandTotalInstitution = (institution: string, type: string) => 123.45;
+  _.each(bank.savingsInputs, (header: ISavingsHeader) => {
+    if (!bank.grandTotalInstitution[header.id]) bank.grandTotalInstitution[header.id] = {};
+    if (header.type === 'T') {
+      const value = _.reduce(['P', 'I'], (v, i) => v + bank.grandTotalInstitution[header.id][i], 0);
+      bank.grandTotalInstitution[header.id][header.type] = value;
+    } else {
+      const sp = (header.type === 'P' && _.findIndex(bank.savingsInputs, (o: any) => { return o.id === header.id; }) === 0) ? bank.headers.startingCapital : 0;
+      const ti = _(bank.savings).keys().reduce((acc, year) => acc + bank.totalInstitution[year][header.id][header.type], 0);
+      bank.grandTotalInstitution[header.id][header.type] = sp + ti;
+    }
+  });
+
+  // grandTotalHolding = () => 123.45;  
+  const year: any = _(bank.savings).keys().last();
+  const month: any = _(bank.savings[year]).keys().last();
+
+  bank.grandTotalHolding = bank.totalHolding[year][month];  
 }

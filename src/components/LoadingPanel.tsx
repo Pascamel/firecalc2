@@ -1,7 +1,6 @@
-import React from 'react';
-import { Container, Row, Col } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
+import React from 'react';
+import { Col, Container, Row } from 'reactstrap';
 
 interface IProps {
   color?: string;

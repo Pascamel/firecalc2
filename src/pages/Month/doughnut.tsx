@@ -1,14 +1,11 @@
 import React from 'react';
 import { Doughnut as DoughnutLib } from 'react-chartjs-2';
 
-
 interface IProps {
   savingRate: number
 }
 
-interface IState {}
-
-export default class Doughnut extends React.Component<IProps, IState> {
+export default class Doughnut extends React.Component<IProps, {}> {
   options: any;
 
   constructor (props: IProps) {

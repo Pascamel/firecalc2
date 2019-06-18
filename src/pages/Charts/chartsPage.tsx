@@ -1,134 +1,57 @@
-import React from 'react';
-import { Container, Row, Col } from 'reactstrap';
-import { RouteComponentProps } from 'react-router-dom';
 import _ from 'lodash';
-import { Bank } from '../../bank';
-import helpers from '../../helpers';
-import * as CHARTS from '../../constants/charts';
-import Selector from './selector';
-import { Mobile, NotMobile } from '../../components/Responsive';
+import React, { Dispatch } from 'react';
+import { connect } from 'react-redux';
+import { RouteComponentProps } from 'react-router-dom';
+import { Col, Container, Row } from 'reactstrap';
+
+import { loadBank } from '../../actions';
+import Bank from '../../bank';
 import { LoadingPanel } from '../../components';
-import { 
-  IncomeVsSavingsChart, 
-  NetWorthChart, 
-  TotalSavingsChart, 
-  NetWorthVsSavingsChart, 
-  SavingsBreakdownChart, 
-  AllocationEvolutionChart 
-} from './charts';
-import { ContentAdd, ContentContentCopy } from 'material-ui/svg-icons';
+import { Mobile, NotMobile } from '../../components/Responsive';
+import * as CHARTS from '../../constants/charts';
+import helpers from '../../helpers';
+import { AppState } from '../../store';
+import * as Charts from './charts';
+import ProjectionChart from './projectionChart';
+import Selector from './selector';
+import YearlyChart from './yearlyChart';
 
-
-interface IProps extends RouteComponentProps<{type: string}> {}
-
-interface IState {
-  loading: boolean,
-  bank: Bank,
-  type: string,
-  savings_vs_income: any,
-  net_worth: any
-  total_savings: any,
-  net_worth_vs_savings: any,
-  savings_breakdown: any,
-  allocation_evolution: any
-
+interface IProps extends RouteComponentProps<{type: string}> {
+  authUser: firebase.User|null;
+  bank: Bank.IBank;
+  bankLoaded: boolean;
 }
 
-export default class ChartsPageBase extends React.Component<IProps, IState> {
+interface IState {
+  type: string;
+}
+
+type ArrayDateNumber = Array<Array<string>|Array<Date|number>>;
+type YearlyArrayDateNumberNull = {[year:number]: Array<Array<string>|Array<Date|number|null>>};
+
+interface IRecap {
+  svsi: ArrayDateNumber;
+  nws: ArrayDateNumber;
+  sb: ArrayDateNumber;
+  ae: ArrayDateNumber;
+  bep: ArrayDateNumber;
+  ybu: YearlyArrayDateNumberNull
+}
+
+class ChartsPageBase extends React.Component<IProps, IState> {
   constructor (props: IProps) {
     super(props);
 
     this.state = {
-      loading: true,
-      bank: new Bank(),
       type: props.match.params.type || '',
-      savings_vs_income: [],
-      net_worth: [],
-      total_savings: [],
-      net_worth_vs_savings: [],
-      savings_breakdown: [],
-      allocation_evolution: []
     };
   }
 
   componentDidMount() {
-    this.state.bank.load().then(() => {
-      const svsi: any = [['Date', 'Savings', 'Income']];
-      const nw: any = [['Date', 'New worth']];
-      const ts: any = [['Date', 'Savings']];
-      const nws: any = [['Date', 'New worth', 'Savings']];
-      const sb: any = [['Institution', 'Amount']];
-      const ae: any = [_.concat(['Date'], _(this.state.bank.savingsInputs)
-        .filter((header) => (header.types.indexOf('T') === -1) || (header.type === 'T'))
-        .map((header) => _(this.state.bank.savingsHeaders).keyBy('id').get([header.id, 'label'], 'N/A'))
-        .value()
-      )]; 
-
-      _.each(_.range(this.state.bank.headers.firstYear, new Date().getFullYear()+1), (y) => {
-        const m1 = (y === this.state.bank.headers.firstYear) ? this.state.bank.headers.firstMonth : 1;
-        const m2 = (y === (new Date().getFullYear())) ? (new Date().getMonth() + 1) : 12;
-        _.each(_.range(m1, m2 + 1), (m) => {
-          svsi.push([
-            new Date(y, m - 1), 
-            _.get(this.state.bank.totalMonthSavings, [y, m], 0),
-            _.get(this.state.bank.totalMonthIncome, [y, m], 0)
-          ]);
-
-          if (_.get(this.state.bank.networth, [y, m])) {
-            nw.push([
-              new Date(y, m - 1), 
-              _.get(this.state.bank.networth, [y, m], 0)
-            ]);
-          }
-          
-          ts.push([
-            new Date(y, m - 1),
-            _.get(this.state.bank.totalHolding, [y, m], null)
-          ]);
-
-          if (_.get(this.state.bank.networth, [y, m])) {
-            nws.push([
-              new Date(y, m - 1), 
-              _.get(this.state.bank.networth, [y, m], 0),
-              _.get(this.state.bank.totalHolding, [y, m], 0)
-            ]);
-          }
-
-          let ae1: any = _.concat([new Date(y, m - 1)], _(this.state.bank.savingsInputs)
-            .filter((header) => (header.types.indexOf('T') === -1) || (header.type === 'T'))
-            .map((header) => this.state.bank.grandTotalMonthInstitution[y][m][header.id])
-            .value()
-          );
-          ae.push(ae1);
-        });
-      });
-
-      _(this.state.bank.savingsInputs).filter((header) => {
-        return (header.types.indexOf('T') === -1) || (header.type === 'T');
-      }).each((header) => {
-        const h = _(this.state.bank.savingsHeaders).keyBy('id').get([header.id]);
-        if (!h) return;
-
-        let header_label = h.label || 'N/A';
-        if (h.sublabel) header_label += ' > ' + h.sublabel;
-
-        sb.push([header_label, {
-          v: this.state.bank.grandTotalInstitution[header.id][header.type],
-          f: '$' + helpers.amount(this.state.bank.grandTotalInstitution[header.id][header.type], true, true) 
-        }]);
-      });
-      
-      this.setState({
-        bank: this.state.bank, 
-        loading: false,
-        savings_vs_income: svsi,
-        net_worth: nw,
-        total_savings: ts,
-        net_worth_vs_savings: nws,
-        savings_breakdown: sb,
-        allocation_evolution: ae
-      });
-    });
+    const { authUser, onLoadBank, bankLoaded }: any = this.props;
+    if (bankLoaded || !authUser ) return;
+    
+    onLoadBank(authUser.uid);
   }
 
   componentDidUpdate(prevProps: IProps, prevState: IState, snapshot: any) {
@@ -136,44 +59,147 @@ export default class ChartsPageBase extends React.Component<IProps, IState> {
     this.setState({
       type: this.props.match.params.type || ''
     });
+    this.mapBankToRecap(this.props.bank);
   }
 
-  charts = (type: string, mobile: boolean) => (
-    <>
-      {type === CHARTS.URL.INCOME_VS_SAVINGS && <IncomeVsSavingsChart data={this.state.savings_vs_income} mobile={mobile} />}
-      {type === CHARTS.URL.NET_WORTH && <NetWorthChart data={this.state.net_worth} mobile={mobile} />}
-      {type === CHARTS.URL.TOTAL_SAVINGS && <TotalSavingsChart data={this.state.total_savings} mobile={mobile} />}
-      {type === CHARTS.URL.NET_WORTH_VS_SAVINGS && <NetWorthVsSavingsChart data={this.state.net_worth_vs_savings} mobile={mobile} />}
-      {type === CHARTS.URL.SAVINGS_BREAKDOWN && <SavingsBreakdownChart data={this.state.savings_breakdown} mobile={mobile} />}
-      {type === CHARTS.URL.ALLOCATION_EVOLUTION && <AllocationEvolutionChart data={this.state.allocation_evolution} mobile={mobile} />}
-    </>
-  );
+  mapBankToRecap = (bank: Bank.IBank) => {
+    const svsi: ArrayDateNumber = [['Date', 'Savings', 'Income']];
+    const nws: ArrayDateNumber = [['Date', 'Net Worth', 'Savings']];
+    const sb: ArrayDateNumber = [['Institution', 'Amount']];
+    const ae: ArrayDateNumber = [_.concat(['Date'], _(bank.savingsInputs)
+      .filter((header) => (header.types.indexOf('T') === -1) || (header.type === 'T'))
+      .map((header) => _(bank.savingsHeaders).keyBy('id').get([header.id, 'label'], 'N/A'))
+      .value()
+    )];
+    const bep: ArrayDateNumber = [['Date', 'Passive income', 'Expenses']];
+    const ybu: YearlyArrayDateNumberNull = {};
+
+    _.each(_.range(bank.headers.firstYear, new Date().getFullYear()+1), (y) => {
+      const m1 = (y === bank.headers.firstYear) ? bank.headers.firstMonth : 1;
+      const m2 = (y === (new Date().getFullYear())) ? (new Date().getMonth() + 1) : 12;
+
+      ybu[y] = [['Date', 'Goal', 'Done'], [new Date(y, 0, 1), 0, 0]]; 
+
+      _.each(_.range(m1, m2 + 1), (m) => {
+        svsi.push([
+          new Date(y, m - 1), 
+          _.get(bank.totalMonthSavings, [y, m], 0),
+          _.get(bank.totalMonthIncome, [y, m], 0)
+        ]);
+
+        nws.push([
+          new Date(y, m - 1), 
+          _.get(bank.networth, [y, m], null),
+          _.get(bank.totalHolding, [y, m], 0)
+        ]);
+
+        ae.push(_.concat([new Date(y, m - 1)], _(bank.savingsInputs)
+          .filter((header) => (header.types.indexOf('T') === -1) || (header.type === 'T'))
+          .map((header) => bank.grandTotalMonthInstitution[y][m][header.id])
+          .value()
+        ));
+
+        const manual_expense = _.get(bank.expenses, [y, m], 0);
+        const automatic_expenses = _.get(bank.totalMonthIncome, [y, m], 0) - _.get(bank.totalMonthSavings, [y, m], 0);
+
+        if (_.get(bank.networth, [y, m])) {
+          bep.push([
+            new Date(y, m - 1), 
+            Math.round(_.get(bank.networth, [y, m], 0) / 300),
+            manual_expense != 0 ? manual_expense : Math.max(0, automatic_expenses)
+          ]);
+        }        
+      });
+      
+      _.each(_.range(m1, 13), (m) => {
+        ybu[y].push([
+          new Date(y, m, 0), // last day of m-1
+          m * _.get(bank.monthlyGoal, y, 0),
+          (m <= m2) ? m * _.get(bank.monthlyGoal, y, 0) + _.get(bank.goalYearToDate, [y, m], 0) : null
+        ]);
+      });
+    });
+
+    _(bank.savingsInputs).filter((header) => {
+      return (header.types.indexOf('T') === -1) || (header.type === 'T');
+    }).each((header) => {
+      const h = _(bank.savingsHeaders).keyBy('id').get([header.id]);
+      if (!h) return;
+
+      let header_label = h.label || 'N/A';
+      if (h.sublabel) header_label += ' > ' + h.sublabel;
+
+      sb.push([header_label, {
+        v: bank.grandTotalInstitution[header.id][header.type],
+        f: '$' + helpers.amount(bank.grandTotalInstitution[header.id][header.type], true, true) 
+      }]);
+    });
+
+    return {svsi, nws, sb, ae, bep, ybu};
+  }
   
-  render() {
-    const { loading, type } = this.state;
+  chartsBlock = (mobile: boolean, recap: IRecap) => {
+    const { type } = this.state;
+
     return (
-      <React.Fragment>
-        {loading && <LoadingPanel />}
-        {!loading && <Selector type={type} history={this.props.history} />}
-        {!loading && <Container fluid className="top-shadow">
+      <>                    
+        {type === CHARTS.URL.INCOME_VS_SAVINGS && <Charts.IncomeVsSavingsChart data={recap.svsi} mobile={mobile} />}
+        {type === CHARTS.URL.NET_WORTH_VS_SAVINGS && <Charts.NetWorthVsSavingsChart data={recap.nws} mobile={mobile} />}
+        {type === CHARTS.URL.SAVINGS_BREAKDOWN && <Charts.SavingsBreakdownChart data={recap.sb} mobile={mobile} />}
+        {type === CHARTS.URL.ALLOCATION_EVOLUTION && <Charts.AllocationEvolutionChart data={recap.ae} mobile={mobile} />}
+        {type === CHARTS.URL.BREAK_EVEN_POINT && <Charts.BreakEvenPointChart data={recap.bep} mobile={mobile} />}
+        {type === CHARTS.URL.YEARLY_GOAL_BURNUP && <YearlyChart data={recap.ybu} mobile={mobile} chart={type} />}
+        {type === CHARTS.URL.PROJECTION && <ProjectionChart mobile={mobile} chart={type} />}
+      </>
+    );
+  }
+
+  render() {    
+    if (!this.props.bankLoaded) return <LoadingPanel />;
+    
+    const recap = this.mapBankToRecap(this.props.bank);
+
+    return (
+      <>
+        <Selector type={this.state.type} history={this.props.history} />
+        <Container fluid className="top-shadow">
           <Row>
             <Col className="pl-0 pr-0">
               <Container>
                 <Row>
                   <Col>
-                    <Mobile>
-                      { this.charts(type, true) }
+                    <Mobile>                    
+                      {this.chartsBlock(true, recap)}
                     </Mobile>
                     <NotMobile>
-                      { this.charts(type, false) }
+                      {this.chartsBlock(false, recap)}
                     </NotMobile>
                   </Col>
                 </Row> 
               </Container>
             </Col>
           </Row>
-        </Container>}
-      </React.Fragment>
+        </Container>
+      </>
     );
   }
 }
+
+const mapStateToProps = (state: AppState) => {
+  return ({
+    authUser: state.sessionState.authUser,
+    bank: state.bankState.bank,
+    bankLoaded: state.bankState.bankLoaded
+  });
+}
+
+const mapDispatchToProps = (dispatch: Dispatch<any>) => {
+  return {
+    onLoadBank: (uid: string) => dispatch(loadBank(uid))
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ChartsPageBase);

@@ -4,7 +4,6 @@ import * as ROLES from '../../constants/roles';
 import { auth, firestore } from '../../firebase';
 import { FormGroup, Input, Button } from 'reactstrap';
 
-
 interface IProps {
   email?: string;
   error?: any;
@@ -37,7 +36,7 @@ export class SignUpForm extends React.Component<IProps, IState> {
     this.state = { ...SignUpForm.INITIAL_STATE };
   }
 
-  public onSubmit(event: any) {
+  public onSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
     const { email, passwordOne } = this.state;
@@ -98,7 +97,7 @@ export class SignUpForm extends React.Component<IProps, IState> {
     );
   }
 
-  private setStateWithEvent(event: any, columnType: string) {
+  private setStateWithEvent(event: React.ChangeEvent<HTMLInputElement>, columnType: string) {
     this.setState(SignUpForm.propKey(columnType, (event.target as any).value));
   }
 }

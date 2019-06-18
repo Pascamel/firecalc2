@@ -1,14 +1,14 @@
-import React from 'react';
-import { Container, Row, Col, ButtonGroup, Button } from 'reactstrap';
-import _ from 'lodash';
-import * as ROUTES from '../../constants/routes';
-import * as CHARTS from '../../constants/charts';
-import { Mobile, NotMobile } from '../../components/Responsive';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import _ from 'lodash';
+import React from 'react';
+import { Button, ButtonGroup, Col, Container, Row } from 'reactstrap';
 
+import { Mobile, NotMobile } from '../../components/Responsive';
+import * as CHARTS from '../../constants/charts';
+import * as ROUTES from '../../constants/routes';
 
 interface IProps {
-  history: any;
+  history: any,
   type: string
 }
 
@@ -20,20 +20,20 @@ export default class Selector extends React.Component<IProps, {}> {
   }
 
   prevChart = (): void => {
-    const newIndex = (_.values(CHARTS.URL).indexOf(this.props.type) + _.keys(CHARTS.URL).length - 1) % 6;
+    const newIndex = (_.values(CHARTS.URL).indexOf(this.props.type) + _.keys(CHARTS.URL).length - 1) % _.keys(CHARTS.URL).length;
     const newRoute = _.get(CHARTS.URL, _.get(_.keys(CHARTS.URL), newIndex));
     
     this.props.history.push(ROUTES.CHARTS.replace(':type', newRoute));
   }
 
   nextChart = (): void => {
-    const newIndex = (_.values(CHARTS.URL).indexOf(this.props.type) + _.keys(CHARTS.URL).length + 1) % 6;
+    const newIndex = (_.values(CHARTS.URL).indexOf(this.props.type) + _.keys(CHARTS.URL).length + 1) % _.keys(CHARTS.URL).length;
     const newRoute = _.get(CHARTS.URL, _.get(_.keys(CHARTS.URL), newIndex));
     
     this.props.history.push(ROUTES.CHARTS.replace(':type', newRoute));
   }
 
-  render () {
+  render() {
     const { type } = this.props;
     
     return (

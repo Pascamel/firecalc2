@@ -1,13 +1,13 @@
 import React from 'react';
-import { Container, Row, Col, Alert } from 'reactstrap';
-import { LoadingPanel, HeaderPanel } from '../../components';
-import ListUsers from './listUsers';
-import { firestore } from '../../firebase';
+import { Alert, Col, Container, Row } from 'reactstrap';
 
+import { HeaderPanel, LoadingPanel } from '../../components';
+import { firestore } from '../../firebase';
+import ListUsers from './listUsers';
 
 interface IState {
-  loading: boolean,
-  users: any
+  loading: boolean;
+  users: any;
 }
 export default class AdminPageBase extends React.Component<{}, IState> {
   constructor(props: any) {
