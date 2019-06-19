@@ -17,8 +17,6 @@ interface IProps extends RouteComponentProps<{month: string, year: string}> {
   authUser: firebase.User|null;
   bank: Bank.IBank;
   bankLoaded: boolean;
-  bankUpdated: boolean;
-  saveInProgress: boolean;
   onLoadBank: (uid: string) => void;
   onUpdateValue: (index: string, indexes: string[], amount: number) => void;
   onSaveBank: (uid: string, bank: Bank.IBank) => void;
@@ -72,7 +70,7 @@ class MonthPageBase extends React.Component<IProps, IState> {
     redirect = redirect || m < 1;
     redirect = redirect || m > 12;
     redirect = redirect || y < this.props.bank.headers.firstYear;
-    redirect = redirect || y === this.props.bank.headers.firstYear && m < this.props.bank.headers.firstMonth;
+    redirect = redirect || (y === this.props.bank.headers.firstYear && m < this.props.bank.headers.firstMonth);
     redirect = redirect || y > new Date().getFullYear() + 1
 
     return redirect;
@@ -80,7 +78,7 @@ class MonthPageBase extends React.Component<IProps, IState> {
 
   render() {
     const { month, year } = this.state;
-    const { bankLoaded, bankUpdated, saveInProgress } = this.props;
+    const { bankLoaded } = this.props;
 
     if (!bankLoaded) return <LoadingPanel />;
     
@@ -121,9 +119,7 @@ const mapStateToProps = (state: AppState) => {
   return ({
     authUser: state.sessionState.authUser,
     bank: state.bankState.bank,
-    bankLoaded: state.bankState.bankLoaded,
-    bankUpdated: state.bankState.bankUpdated,
-    saveInProgress: state.bankState.saveInProgress
+    bankLoaded: state.bankState.bankLoaded
   });
 }
 

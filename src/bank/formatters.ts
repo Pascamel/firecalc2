@@ -149,13 +149,6 @@ export const savingsHeadersLine2 = (savings: I.ISavingsHeader[], hidden: {}) => 
     .value();
 }
 
-const incomeHeaders = (headers: any) => {
-  return _.map(headers.incomes, (h, idx: number) => {
-    h.last = (idx === headers.incomes.length - 1);
-    return h;
-  });
-}
-
 export const formatSavingstaToSave = (savings: I.ISavings) => {
   let data: any[] = [];
 

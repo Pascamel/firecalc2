@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import React from 'react';
 import { connect } from 'react-redux';
 
@@ -7,7 +6,7 @@ import helpers from '../helpers';
 import { AppState } from '../store';
 
 interface IProps {
-  Bank: Bank.IBank;
+  bank: Bank.IBank;
   children: number;
 }
 

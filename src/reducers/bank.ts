@@ -181,7 +181,7 @@ function bankReducer(state = INITIAL_STATE, action: any) {
     case TYPES.HEADERS_SWITCH_INCOME: {
       let new_bank = JSON.parse(JSON.stringify(state.bank));
 
-      var tmp = new_bank.headers.incomes[action.payload.index1];	
+      let tmp = new_bank.headers.incomes[action.payload.index1];	
       new_bank.headers.incomes[action.payload.index1] = new_bank.headers.incomes[action.payload.index2];	
       new_bank.headers.incomes[action.payload.index2] = tmp;	
 

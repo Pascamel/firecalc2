@@ -1,5 +1,4 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import _ from 'lodash';
 import React from 'react';
 import { connect } from 'react-redux';
 import { Dropdown, DropdownMenu, DropdownToggle } from 'reactstrap';
@@ -9,7 +8,6 @@ import { AppState } from '../store';
 import ClickableItem from './ClickableItem';
 
 interface IProps {
-  bankUpdated: boolean;
   bank: Bank.IBank;
 }
 
@@ -34,7 +32,7 @@ class FiltersBtn extends React.Component<IProps, IState> {
   }
 
   render() {
-    const { bankUpdated, bank } = this.props;
+    const { bank } = this.props;
 
     return (
       <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle} className="mr-2">
@@ -55,8 +53,7 @@ class FiltersBtn extends React.Component<IProps, IState> {
 
 const mapStateToProps = (state: AppState) => {
   return ({
-    bank: state.bankState.bank,
-    bankUpdated: state.bankState.bankUpdated,
+    bank: state.bankState.bank
   });
 }
 

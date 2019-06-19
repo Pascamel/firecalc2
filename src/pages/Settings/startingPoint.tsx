@@ -9,7 +9,6 @@ import helpers from '../../helpers';
 import { AppState } from '../../store';
 
 interface IProps {
-  headers: any;
   bank: Bank.IBank;
   bankLoaded: boolean;
   onUpdateValue: (index: string, indexes: string[], amount: number|boolean) => void;
@@ -29,7 +28,7 @@ class StartingPoint extends React.Component<IProps, {}> {
   }
 
   render() {
-    const {headers, bank, bankLoaded} = this.props;
+    const {bank, bankLoaded} = this.props;
 
     if (!bankLoaded) return null;
 

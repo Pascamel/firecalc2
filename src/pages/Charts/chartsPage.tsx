@@ -108,7 +108,7 @@ class ChartsPageBase extends React.Component<IProps, IState> {
           bep.push([
             new Date(y, m, 0), 
             Math.round(_.get(bank.networth, [y, m], 0) / 300),
-            manual_expense != 0 ? manual_expense : Math.max(0, automatic_expenses)
+            manual_expense !== 0 ? manual_expense : Math.max(0, automatic_expenses)
           ]);
         }        
       });
@@ -151,7 +151,7 @@ class ChartsPageBase extends React.Component<IProps, IState> {
         {type === CHARTS.URL.ALLOCATION_EVOLUTION && <Charts.AllocationEvolutionChart data={recap.sae} mobile={mobile} />}
         {type === CHARTS.URL.BREAK_EVEN_POINT && <Charts.BreakEvenPointChart data={recap.bep} mobile={mobile} />}
         {type === CHARTS.URL.YEARLY_GOAL_BURNUP && <YearlyChart data={recap.ybu} mobile={mobile} chart={type} />}
-        {type === CHARTS.URL.PROJECTION && <ProjectionChart mobile={mobile} chart={type} />}
+        {type === CHARTS.URL.PROJECTION && <ProjectionChart mobile={mobile} />}
       </>
     );
   }

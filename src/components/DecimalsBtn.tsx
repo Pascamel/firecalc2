@@ -8,7 +8,6 @@ import Bank from '../bank';
 import { AppState } from '../store';
 
 interface IProps {
-  bankUpdated: boolean;
   bank: Bank.IBank;
   onUpdateValueLocalStorage: (index: string, indexes: string[], amount: number|boolean) => void;
 }
@@ -38,7 +37,7 @@ class DecimalsBtn extends React.Component<IProps, IState> {
   }
 
   render() {
-    const { bank, bankUpdated } = this.props;
+    const { bank } = this.props;
 
     return (
       <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
@@ -56,8 +55,7 @@ class DecimalsBtn extends React.Component<IProps, IState> {
 
 const mapStateToProps = (state: AppState) => {
   return ({
-    bank: state.bankState.bank,
-    bankUpdated: state.bankState.bankUpdated,
+    bank: state.bankState.bank
   });
 }
 
