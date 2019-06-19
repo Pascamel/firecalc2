@@ -33,7 +33,7 @@ interface IRecap {
   svsi: ArrayDateNumber;
   nws: ArrayDateNumber;
   sb: ArrayDateNumber;
-  ae: ArrayDateNumber;
+  sae: ArrayDateNumber;
   bep: ArrayDateNumber;
   ybu: YearlyArrayDateNumberNull
 }
@@ -66,7 +66,7 @@ class ChartsPageBase extends React.Component<IProps, IState> {
     const svsi: ArrayDateNumber = [['Date', 'Savings', 'Income']];
     const nws: ArrayDateNumber = [['Date', 'Net Worth', 'Savings']];
     const sb: ArrayDateNumber = [['Institution', 'Amount']];
-    const ae: ArrayDateNumber = [_.concat(['Date'], _(bank.savingsInputs)
+    const sae: ArrayDateNumber = [_.concat(['Date'], _(bank.savingsInputs)
       .filter((header) => (header.types.indexOf('T') === -1) || (header.type === 'T'))
       .map((header) => _(bank.savingsHeaders).keyBy('id').get([header.id, 'label'], 'N/A'))
       .value()
@@ -82,21 +82,23 @@ class ChartsPageBase extends React.Component<IProps, IState> {
 
       _.each(_.range(m1, m2 + 1), (m) => {
         svsi.push([
-          new Date(y, m - 1), 
+          new Date(y, m, 0), // last day of m-1
           _.get(bank.totalMonthSavings, [y, m], 0),
           _.get(bank.totalMonthIncome, [y, m], 0)
         ]);
 
         nws.push([
-          new Date(y, m - 1), 
+          new Date(y, m, 0),
           _.get(bank.networth, [y, m], null),
           _.get(bank.totalHolding, [y, m], 0)
         ]);
 
-        ae.push(_.concat([new Date(y, m - 1)], _(bank.savingsInputs)
-          .filter((header) => (header.types.indexOf('T') === -1) || (header.type === 'T'))
-          .map((header) => bank.grandTotalMonthInstitution[y][m][header.id])
-          .value()
+        sae.push(
+          _.concat([new Date(y, m, 0)],
+          _(bank.savingsInputs)
+            .filter((header) => (header.types.indexOf('T') === -1) || (header.type === 'T'))
+            .map((header) => bank.grandTotalMonthInstitution[y][m][header.id])
+            .value()
         ));
 
         const manual_expense = _.get(bank.expenses, [y, m], 0);
@@ -104,7 +106,7 @@ class ChartsPageBase extends React.Component<IProps, IState> {
 
         if (_.get(bank.networth, [y, m])) {
           bep.push([
-            new Date(y, m - 1), 
+            new Date(y, m, 0), 
             Math.round(_.get(bank.networth, [y, m], 0) / 300),
             manual_expense != 0 ? manual_expense : Math.max(0, automatic_expenses)
           ]);
@@ -113,7 +115,7 @@ class ChartsPageBase extends React.Component<IProps, IState> {
       
       _.each(_.range(m1, 13), (m) => {
         ybu[y].push([
-          new Date(y, m, 0), // last day of m-1
+          new Date(y, m, 0),
           m * _.get(bank.monthlyGoal, y, 0),
           (m <= m2) ? m * _.get(bank.monthlyGoal, y, 0) + _.get(bank.goalYearToDate, [y, m], 0) : null
         ]);
@@ -135,7 +137,7 @@ class ChartsPageBase extends React.Component<IProps, IState> {
       }]);
     });
 
-    return {svsi, nws, sb, ae, bep, ybu};
+    return {svsi, nws, sb, sae, bep, ybu};
   }
   
   chartsBlock = (mobile: boolean, recap: IRecap) => {
@@ -146,7 +148,7 @@ class ChartsPageBase extends React.Component<IProps, IState> {
         {type === CHARTS.URL.INCOME_VS_SAVINGS && <Charts.IncomeVsSavingsChart data={recap.svsi} mobile={mobile} />}
         {type === CHARTS.URL.NET_WORTH_VS_SAVINGS && <Charts.NetWorthVsSavingsChart data={recap.nws} mobile={mobile} />}
         {type === CHARTS.URL.SAVINGS_BREAKDOWN && <Charts.SavingsBreakdownChart data={recap.sb} mobile={mobile} />}
-        {type === CHARTS.URL.ALLOCATION_EVOLUTION && <Charts.AllocationEvolutionChart data={recap.ae} mobile={mobile} />}
+        {type === CHARTS.URL.ALLOCATION_EVOLUTION && <Charts.AllocationEvolutionChart data={recap.sae} mobile={mobile} />}
         {type === CHARTS.URL.BREAK_EVEN_POINT && <Charts.BreakEvenPointChart data={recap.bep} mobile={mobile} />}
         {type === CHARTS.URL.YEARLY_GOAL_BURNUP && <YearlyChart data={recap.ybu} mobile={mobile} chart={type} />}
         {type === CHARTS.URL.PROJECTION && <ProjectionChart mobile={mobile} chart={type} />}
