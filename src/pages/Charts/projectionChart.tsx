@@ -1,9 +1,8 @@
-import { faPowerOff } from '@fortawesome/free-solid-svg-icons';
 import _ from 'lodash';
 import React, { Dispatch } from 'react';
 import Chart from 'react-google-charts';
 import { connect } from 'react-redux';
-import { Col, Dropdown, DropdownItem, DropdownMenu, DropdownToggle, Row } from 'reactstrap';
+import { Col, Row } from 'reactstrap';
 import Button from 'reactstrap/lib/Button';
 import ButtonGroup from 'reactstrap/lib/ButtonGroup';
 

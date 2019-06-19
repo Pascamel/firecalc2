@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import React, { Dispatch } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { Alert, Col, Row } from 'reactstrap';
 

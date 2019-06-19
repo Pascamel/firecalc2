@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import React, { Dispatch } from 'react';
 import { connect } from 'react-redux';
 import { Col, Container, Row } from 'reactstrap';
@@ -15,18 +14,12 @@ interface IProps {
   authUser: firebase.User|null;
   bank: Bank.IBank;
   bankLoaded: boolean;
-  bankUpdated: boolean;
-  saveInProgress: boolean;
   onLoadBank: (uid: string) => void;
   onUpdateValue: (index: string, indexes: string[], amount: number|boolean) => void;
   onSaveBank: (uid: string, bank: Bank.IBank) => void;
 }
 
 class SettingsPageBase extends React.Component<IProps, {}> {
-  constructor(props: IProps) {
-    super(props);
-  }
-
   default_headers = {
     savings: [],
     incomes: [],
@@ -53,7 +46,7 @@ class SettingsPageBase extends React.Component<IProps, {}> {
   }
 
   render() {
-    const { bank, bankLoaded, bankUpdated, saveInProgress } = this.props;
+    const { bankLoaded } = this.props;
 
     if (!bankLoaded) return <LoadingPanel />;
 
@@ -80,9 +73,7 @@ const mapStateToProps = (state: AppState) => {
   return ({
     authUser: state.sessionState.authUser,
     bank: state.bankState.bank,
-    bankLoaded: state.bankState.bankLoaded,
-    bankUpdated: state.bankState.bankUpdated,
-    saveInProgress: state.bankState.saveInProgress
+    bankLoaded: state.bankState.bankLoaded
   });
 }
 

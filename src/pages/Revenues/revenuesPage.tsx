@@ -10,10 +10,7 @@ import Table from './table';
 
 interface IProps {
   authUser: firebase.User|null;
-  bank: Bank.IBank;
   bankLoaded: boolean;
-  bankUpdated: boolean;
-  saveInProgress: boolean;
   onLoadBank: (uid: string) => void;
   onSaveBank: (uid: string, bank: Bank.IBank) => void;
 }
@@ -27,7 +24,7 @@ class RevenuePageBase extends React.Component<IProps, {}> {
   }
 
   render() {
-    const { bank, bankLoaded, bankUpdated, saveInProgress } = this.props;
+    const { bankLoaded } = this.props;
 
     if (!bankLoaded) return <LoadingPanel />;
     
@@ -57,10 +54,7 @@ class RevenuePageBase extends React.Component<IProps, {}> {
 const mapStateToProps = (state: AppState) => {
   return ({
     authUser: state.sessionState.authUser,
-    bank: state.bankState.bank,
-    bankLoaded: state.bankState.bankLoaded,
-    bankUpdated: state.bankState.bankUpdated,
-    saveInProgress: state.bankState.saveInProgress
+    bankLoaded: state.bankState.bankLoaded
   });
 }
 

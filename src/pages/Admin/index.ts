@@ -13,7 +13,7 @@ const authCondition =  async (authUser: firebase.User) => {
   const data = user.data();
   if (!data) return false;
   
-  if (data.type != ROLES.ADMIN) return false;
+  if (data.type !== ROLES.ADMIN) return false;
     
   return true;
 }
