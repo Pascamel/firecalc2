@@ -1,4 +1,6 @@
+import _ from 'lodash';
 import React from 'react';
+import * as ROLES from '../../constants/roles';
 
 interface IProps {
   users: any
@@ -7,18 +9,33 @@ interface IProps {
 export default class ListUsers extends React.Component<IProps, {}> {
   render() {
     const { users } = this.props;
+    
+    const labelType = (type: number) => {
+      return _(ROLES).invert().get(type, 'none');
+    }
 
     return (
-      <React.Fragment>
+      <>
         <b>{users.length}</b> users
-        <ul className="list-unstyled">
-          {users.map((user: any) => (
-            <li key={user.id}>
-              {user.email} - {user.type} - {user.id}
-            </li>
-          ))}
-        </ul>
-      </React.Fragment>      
+        <table className="table table-striped mt-3">
+          <thead>
+            <tr>
+              <th style={{width: '30%'}}>one</th>
+              <th style={{width: '60%'}}>one</th>
+              <th style={{width: '10%'}}>one</th>
+            </tr>
+          </thead>
+          <tbody>
+            {users.map((user: any) => (
+              <tr key={user.id}>
+                <td>{user.id}</td>
+                <td>{user.email}</td>
+                <td>{labelType(user.type)}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </>      
     );
   }
 }

@@ -31,7 +31,7 @@ export default class AdminPageBase extends React.Component<{}, IState> {
   render() {
     const { users, loading } = this.state;
     return (
-      <React.Fragment>
+      <>
         {loading && <LoadingPanel />}
         {!loading && <HeaderPanel title="Admin" />}
         {!loading && <Container fluid className="top-shadow">
@@ -49,7 +49,7 @@ export default class AdminPageBase extends React.Component<{}, IState> {
             </Col>
           </Row>
         </Container>}
-      </React.Fragment>
+      </>
     );
   }
 }
