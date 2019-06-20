@@ -20,9 +20,9 @@ export default class ListUsers extends React.Component<IProps, {}> {
         <table className="table table-striped mt-3">
           <thead>
             <tr>
-              <th style={{width: '30%'}}>one</th>
-              <th style={{width: '60%'}}>one</th>
-              <th style={{width: '10%'}}>one</th>
+              <th style={{width: '30%'}}>ID</th>
+              <th style={{width: '60%'}}>Email</th>
+              <th style={{width: '10%'}}>Type</th>
             </tr>
           </thead>
           <tbody>
