@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React, { Dispatch } from 'react';
+import React, { Dispatch, useState } from 'react';
 import { connect } from 'react-redux';
 import { Dropdown, DropdownItem, DropdownMenu, DropdownToggle } from 'reactstrap';
 
@@ -12,45 +12,29 @@ interface IProps {
   onUpdateValueLocalStorage: (index: string, indexes: string[], amount: number|boolean) => void;
 }
 
-interface IState {
-  dropdownOpen: boolean;
-}
+function DecimalsBtn(props: IProps) {
+  const { bank, onUpdateValueLocalStorage } = props;
+  const [dropdownOpen, setDropdownOpen] = useState(false);
 
-class DecimalsBtn extends React.Component<IProps, IState> {
-  constructor(props: IProps) {
-    super(props);
-
-    this.toggle = this.toggle.bind(this);
-    this.state = {
-      dropdownOpen: false
-    };
+  const toggle = () => {
+    setDropdownOpen(!dropdownOpen);
   }
 
-  toggle() {
-    this.setState(prevState => ({
-      dropdownOpen: !prevState.dropdownOpen
-    }))
+  const clickDecimal = (decimal: boolean) => {
+    onUpdateValueLocalStorage('showDecimals', [], decimal);
   }
 
-  clickDecimal(decimal: boolean) {
-    this.props.onUpdateValueLocalStorage('showDecimals', [], decimal);
-  }
-
-  render() {
-    const { bank } = this.props;
-
-    return (
-      <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
-        <DropdownToggle color="outline-light">
-          <FontAwesomeIcon icon="university" />
-        </DropdownToggle>
-        <DropdownMenu>
-          <DropdownItem disabled={bank.showDecimals} onClick={() => this.clickDecimal(true)}>Decimals</DropdownItem>
-          <DropdownItem disabled={!bank.showDecimals} onClick={() => this.clickDecimal(false)}>Rounded</DropdownItem>
-        </DropdownMenu>
-      </Dropdown>
-    );
-  }
+  return (
+    <Dropdown isOpen={dropdownOpen} toggle={toggle}>
+      <DropdownToggle color="outline-light">
+        <FontAwesomeIcon icon="university" />
+      </DropdownToggle>
+      <DropdownMenu>
+        <DropdownItem disabled={bank.showDecimals} onClick={() => clickDecimal(true)}>Decimals</DropdownItem>
+        <DropdownItem disabled={!bank.showDecimals} onClick={() => clickDecimal(false)}>Rounded</DropdownItem>
+      </DropdownMenu>
+    </Dropdown>
+  );
 }
 
 const mapStateToProps = (state: AppState) => {

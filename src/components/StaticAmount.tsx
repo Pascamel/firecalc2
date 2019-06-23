@@ -12,16 +12,15 @@ interface IProps {
   ['display-zero']?: boolean
 }
 
-class StaticAmount extends React.Component<IProps, {}> {
-  render() {
-    const daz = _.has(this.props, 'display-zero');
+function StaticAmount(props: IProps) {
+  const { children, bank } = props;
+  const daz = _.has(props, 'display-zero');
 
-    return (
-      <React.Fragment>
-        {helpers.amount(this.props.children, daz, this.props.bank.showDecimals)} 
-      </React.Fragment>
-    );
-  }
+  return (
+    <React.Fragment>
+      {helpers.amount(children, daz, bank.showDecimals)} 
+    </React.Fragment>
+  );
 }
 
 const mapStateToProps = (state: AppState) => {
