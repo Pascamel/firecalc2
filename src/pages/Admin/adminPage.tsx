@@ -11,7 +11,7 @@ type UserType = {
   type?: number
 }
 
-export default function AdminPageBase () {
+const AdminPageBase = () => {
   const [loading, setLoading] = useState(true);
   const [users, setUsers] = useState<Array<UserType>>([]);
 
@@ -48,3 +48,5 @@ export default function AdminPageBase () {
     </>
   );
 }
+
+export default AdminPageBase;

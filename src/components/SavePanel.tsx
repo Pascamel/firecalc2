@@ -22,75 +22,83 @@ interface IProps {
   onSaveHeaders: (uid: string, bank: Bank.IBank) => void;
 }
 
-class SavePanel extends React.Component<IProps, {}> {
+const SavePanel = (props: IProps) => {
+  const {
+    authUser,
+    label,
+    bankUpdated,
+    saveInProgress,
+    bank,
+    prevMonth,
+    nextMonth,
+    onLoadBank,
+    onSaveBank,
+    onSaveHeaders,
+  } = props;
 
-  cancelClick() {
-    if (!this.props.authUser) return;
+  const cancelClick = () => {
+    if (!authUser) return;
 
-    this.props.onLoadBank(this.props.authUser.uid);
+    onLoadBank(authUser.uid);
   }
 
-  saveClick() {
-    if (!this.props.authUser) return;
+  const saveClick = () => {
+    if (!authUser) return;
 
-    if (this.props.label === 'Settings') {
-      this.props.onSaveHeaders(this.props.authUser.uid, this.props.bank);
+    if (label === 'Settings') {
+      onSaveHeaders(authUser.uid, bank);
     } else {
-      this.props.onSaveBank(this.props.authUser.uid, this.props.bank);
+      onSaveBank(authUser.uid, bank);
     }
   }
 
-  render() {
-    const { bankUpdated, saveInProgress, label } = this.props;
+  return (
+    <Container fluid className="alert alert-save alert-header">
+      <Row>
+        <Col className="pr-0 pl-0">
+          <Container>
+            <Row>
+              <Col className="text-center">
+              
+                {label === 'Savings' && <ButtonGroup className="pull-left">
+                  <FiltersBtn />
+                  <DecimalsBtn />
+                </ButtonGroup>}
 
-    return (
-      <Container fluid className="alert alert-save alert-header">
-        <Row>
-          <Col className="pr-0 pl-0">
-            <Container>
-              <Row>
-                <Col className="text-center">
-                
-                  {label === 'Savings' && <ButtonGroup className="pull-left">
-                    <FiltersBtn />
-                    <DecimalsBtn />
-                  </ButtonGroup>}
+                {label === 'Revenues' && <ButtonGroup className="pull-left">
+                  <DecimalsBtn />
+                </ButtonGroup>}
 
-                  {label === 'Revenues' && <ButtonGroup className="pull-left">
-                    <DecimalsBtn />
-                  </ButtonGroup>}
-
-                  {['Savings', 'Revenues', 'Settings'].indexOf(label) === -1 && 
-                  <ButtonGroup className="pull-left">
-                    <Button color="outline-light" onClick={this.props.prevMonth}>
-                      <FontAwesomeIcon icon="backward" />
-                    </Button>
-                    <Button color="outline-light" onClick={this.props.nextMonth}>
-                      <FontAwesomeIcon icon="forward" />
-                    </Button>
-                  </ButtonGroup>}
-
-                  <span className={`title nowrap-ellipsis ${bankUpdated ? 'text-warning' : ''}`}>
-                    {label}
-                  </span>
-
-                  <Button color={bankUpdated ? 'header' : 'outline-light'} className="btn-save" onClick={() => this.saveClick()}>
-                    {!saveInProgress && <FontAwesomeIcon icon={['far', 'save']} className="mr-1" />}
-                    {saveInProgress && <FontAwesomeIcon icon="spinner" className="mr-1" spin />}
-                    {saveInProgress ? 'Saving' : 'Save'}
+                {['Savings', 'Revenues', 'Settings'].indexOf(label) === -1 && 
+                <ButtonGroup className="pull-left">
+                  <Button color="outline-light" onClick={prevMonth}>
+                    <FontAwesomeIcon icon="backward" />
                   </Button>
+                  <Button color="outline-light" onClick={nextMonth}>
+                    <FontAwesomeIcon icon="forward" />
+                  </Button>
+                </ButtonGroup>}
 
-                  {bankUpdated && !saveInProgress && <Button color="header" className="btn-cancel" onClick={() => this.cancelClick()}>
-                    <FontAwesomeIcon icon="times" /> Cancel
-                  </Button>}
-                </Col>
-              </Row>
-            </Container>
-          </Col>
-        </Row>
-      </Container>
-    );
-  }
+                <span className={`title nowrap-ellipsis ${bankUpdated ? 'text-warning' : ''}`}>
+                  {label}
+                </span>
+
+                <Button color={bankUpdated ? 'header' : 'outline-light'} className="btn-save" onClick={saveClick}>
+                  {!saveInProgress && <FontAwesomeIcon icon={['far', 'save']} className="mr-1" />}
+                  {saveInProgress && <FontAwesomeIcon icon="spinner" className="mr-1" spin />}
+                  {saveInProgress ? 'Saving' : 'Save'}
+                </Button>
+
+                {bankUpdated && !saveInProgress && <Button color="header" className="btn-cancel" onClick={cancelClick}>
+                  <FontAwesomeIcon icon="times" /> Cancel
+                </Button>}
+              </Col>
+            </Row>
+          </Container>
+        </Col>
+      </Row>
+    </Container>
+  );
 } 
 
 const mapStateToProps = (state: AppState) => {

@@ -12,7 +12,7 @@ interface IProps {
   ['display-zero']?: boolean
 }
 
-function StaticAmount(props: IProps) {
+const StaticAmount = (props: IProps) => {
   const { children, bank } = props;
   const daz = _.has(props, 'display-zero');
 

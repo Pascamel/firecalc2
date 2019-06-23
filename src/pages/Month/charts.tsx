@@ -17,70 +17,68 @@ interface IProps {
   bankUpdated: boolean;
 }
 
-class Charts extends React.Component<IProps, {}> {
-  render() {    
-    const { month, year, bank } = this.props;
-    
-    return (
-      <React.Fragment>
-        <Col md={4} sm={12}>
-          <Alert color="background">
-            <Row>
-              <Col>
-                <span className="label-fake-input">Net worth</span>
-              </Col>
-              <Col>
-                <FireAmount extraClassName="label-fake-input pull-right" display-if-zero={true} callback-props={['networth', year, month]} />
-              </Col>
-            </Row>
-            <Row>
-              <Col>
-                <span className="label-fake-input">Expenses</span>
-              </Col>
-              <Col>
-                <FireAmount extraClassName="label-fake-input pull-right" display-if-zero={true} callback-props={['expenses', year, month]} />
-              </Col>
-            </Row>
-          </Alert>
-          <Alert color="background">
-            <Progress label="Month"
-                      result={bank.goalMonth[year][month]}
-                      goal={bank.monthlyGoal[year]} 
-                      percentage={helpers.clean_percentage(bank.goalMonth[year][month] / bank.monthlyGoal[year])} />
-            <Progress label="Year"
-                      result={bank.goalYearToDate[year][month]} 
-                      goal={parseInt(month) * bank.monthlyGoal[year]} 
-                      percentage={helpers.clean_percentage(bank.goalYearToDate[year][month] / bank.monthlyGoal[year] / parseInt(month))} />
-            <hr />
-            <Row>
-              <Col className="col-6 chart-container">
-                <Doughnut savingRate={bank.savingRateMonth[year][month]} />
-              </Col>
-              <Col className="col-6 chart-container">
-                <Doughnut savingRate={bank.savingRateYear[year][month]} />
-              </Col>
-            </Row>
-            <Row className="text-center">
-              <Col>Month</Col>
-              <Col>Year</Col>
-            </Row>
-            <hr />
-            <Row>
-              <Col>
-                Estimated expenses
-                <span className="pull-right text-secondary">
-                  $
-                  <StaticAmount display-zero>
-                    {_.get(bank.totalMonthIncome, [year, month], 0) - _.get(bank.totalMonthSavings, [year, month], 0)}
-                  </StaticAmount>
-                </span>
-              </Col>
-            </Row>
-          </Alert>
-        </Col>
-      </React.Fragment>
-    );
-  }
+const Charts = (props: IProps) => {
+  const { month, year, bank } = props;
+  
+  return (
+    <React.Fragment>
+      <Col md={4} sm={12}>
+        <Alert color="background">
+          <Row>
+            <Col>
+              <span className="label-fake-input">Net worth</span>
+            </Col>
+            <Col>
+              <FireAmount extraClassName="label-fake-input pull-right" display-if-zero={true} callback-props={['networth', year, month]} />
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              <span className="label-fake-input">Expenses</span>
+            </Col>
+            <Col>
+              <FireAmount extraClassName="label-fake-input pull-right" display-if-zero={true} callback-props={['expenses', year, month]} />
+            </Col>
+          </Row>
+        </Alert>
+        <Alert color="background">
+          <Progress label="Month"
+                    result={bank.goalMonth[year][month]}
+                    goal={bank.monthlyGoal[year]} 
+                    percentage={helpers.clean_percentage(bank.goalMonth[year][month] / bank.monthlyGoal[year])} />
+          <Progress label="Year"
+                    result={bank.goalYearToDate[year][month]} 
+                    goal={parseInt(month) * bank.monthlyGoal[year]} 
+                    percentage={helpers.clean_percentage(bank.goalYearToDate[year][month] / bank.monthlyGoal[year] / parseInt(month))} />
+          <hr />
+          <Row>
+            <Col className="col-6 chart-container">
+              <Doughnut savingRate={bank.savingRateMonth[year][month]} />
+            </Col>
+            <Col className="col-6 chart-container">
+              <Doughnut savingRate={bank.savingRateYear[year][month]} />
+            </Col>
+          </Row>
+          <Row className="text-center">
+            <Col>Month</Col>
+            <Col>Year</Col>
+          </Row>
+          <hr />
+          <Row>
+            <Col>
+              Estimated expenses
+              <span className="pull-right text-secondary">
+                $
+                <StaticAmount display-zero>
+                  {_.get(bank.totalMonthIncome, [year, month], 0) - _.get(bank.totalMonthSavings, [year, month], 0)}
+                </StaticAmount>
+              </span>
+            </Col>
+          </Row>
+        </Alert>
+      </Col>
+    </React.Fragment>
+  );
 }
 
 const mapStateToProps = (state: AppState) => {

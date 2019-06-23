@@ -15,7 +15,7 @@ interface IProps {
   onLoadBank: (uid: string) => void;
 }
 
-function SettingsPageBase (props: IProps) {
+const SettingsPageBase = (props: IProps) => {
   const { authUser ,bankLoaded, onLoadBank } = props;
   
   useEffect(() => {

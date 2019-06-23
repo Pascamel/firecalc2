@@ -15,7 +15,7 @@ interface IProps {
   onUpdateValueLocalStorage: (index: string, indexes: string[], amount: number|boolean) => void;
 }
 
-function ClickableItem(props: IProps) {
+const ClickableItem = (props: IProps) => {
   const { header, bank, onUpdateValueLocalStorage } = props;
     
   let hl = '';

@@ -5,7 +5,7 @@ interface IProps {
   title: string;
 }
 
-export default function HeaderPanel(props: IProps) {
+const HeaderPanel = (props: IProps) => {
   const { title } = props;
   
   return (
@@ -18,3 +18,5 @@ export default function HeaderPanel(props: IProps) {
     </Container>
   );
 }
+
+export default HeaderPanel;

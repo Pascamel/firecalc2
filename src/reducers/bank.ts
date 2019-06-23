@@ -11,7 +11,7 @@ const INITIAL_STATE = {
   saveInProgress: false
 };
 
-function bankReducer(state = INITIAL_STATE, action: any) {
+const bankReducer = (state = INITIAL_STATE, action: any) => {
   switch (action.type) {
     case TYPES.BANK_LOAD_STARTED:
       return ({

@@ -17,7 +17,7 @@ interface IProps {
   onSwitchIncomeHeaders: (index1: number, index2: number) => void;
 }
 
-function Income(props: IProps) {
+const Income = (props: IProps) => {
   const { index, header, bank, bankLoaded, onUpdateIncomeHeader, onDeleteIncomeHeader, onSwitchIncomeHeaders } = props;
   const [edit, setEdit] = useState(false);
   const [editLabel, setEditLabel] = useState(header.label);

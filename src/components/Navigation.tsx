@@ -35,7 +35,7 @@ interface IProps {
 //   authUser: firebase.User | null;
 // }
 
-function NavigationAuth(props: IProps) {
+const NavigationAuth = (props: IProps) => {
   const { location, authUser } = props;
   const [isOpen, setIsOpen] = useState(false);
   const DEFAULT_CHART = ROUTES.CHARTS.replace(':type', CHARTS.URL.INCOME_VS_SAVINGS);
@@ -121,7 +121,7 @@ function NavigationAuth(props: IProps) {
   );
 }
 
-function NavigationNonAuth(props: IProps) {
+const NavigationNonAuth = (props: IProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggle = () => {
@@ -156,10 +156,8 @@ function NavigationNonAuth(props: IProps) {
   );
 }
 
-function NavigationBase(props: any) {
+const NavigationBase = (props: any) => {
   const { location, authUser } = props;
-
-  console.log('props', props);
     
   return (
     <Container fluid className="nav-container">

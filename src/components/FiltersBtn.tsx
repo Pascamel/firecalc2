@@ -11,7 +11,7 @@ interface IProps {
   bank: Bank.IBank;
 }
 
-function FiltersBtn(props: IProps) {
+const FiltersBtn = (props: IProps) => {
   const { bank } = props;
   const [dropdownOpen, setDropdownOpen] = useState(false);
 

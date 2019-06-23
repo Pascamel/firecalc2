@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import React from 'react';
+
 import * as ROLES from '../../constants/roles';
 
 type UserType = {
@@ -12,7 +13,9 @@ interface IProps {
   users: Array<UserType>
 }
 
-export default function ListUsers({ users }: IProps) {
+const ListUsers = (props: IProps) => {
+  const { users } = props;
+  
   const labelType = (type: number) => {
     return _(ROLES).invert().get(type, 'none');
   }
@@ -41,3 +44,5 @@ export default function ListUsers({ users }: IProps) {
     </>      
   );
 }
+
+export default ListUsers;

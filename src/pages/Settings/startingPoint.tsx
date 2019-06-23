@@ -14,7 +14,7 @@ interface IProps {
   onUpdateValue: (index: string, indexes: string[], amount: number|boolean) => void;
 }
 
-function StartingPoint(props: IProps) {
+const StartingPoint = (props: IProps) => {
   const { bank, bankLoaded, onUpdateValue } = props;
   const currentYear = new Date().getFullYear();
 

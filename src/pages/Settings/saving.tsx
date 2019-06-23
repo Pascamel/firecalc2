@@ -25,7 +25,7 @@ interface IState {
   editInterest: boolean;
 }
 
-function Saving(props: IProps) {
+const Saving = (props: IProps) => {
   const { index, header, bank, bankLoaded, onUpdateSavingHeader, onDeleteSavingHeader, onSwitchSavingHeaders } = props;
   const [edit, setEdit] = useState(false);
   const [editLabel, setEditLabel] = useState(header.label || '');

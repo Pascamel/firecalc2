@@ -12,7 +12,7 @@ interface IProps {
   onUpdateValueLocalStorage: (index: string, indexes: string[], amount: number|boolean) => void;
 }
 
-function DecimalsBtn(props: IProps) {
+const DecimalsBtn = (props: IProps) => {
   const { bank, onUpdateValueLocalStorage } = props;
   const [dropdownOpen, setDropdownOpen] = useState(false);
 

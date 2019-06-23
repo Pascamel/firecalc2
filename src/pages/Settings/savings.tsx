@@ -13,7 +13,7 @@ interface IProps {
   onNewSavingHeader: () => void;
 }
 
-function Savings(props: IProps) {
+const Savings = (props: IProps) => {
   const { bank, bankLoaded, onNewSavingHeader } = props;
 
   if (!bankLoaded) return null;
