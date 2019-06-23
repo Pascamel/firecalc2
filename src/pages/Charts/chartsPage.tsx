@@ -48,7 +48,7 @@ interface IRecap {
   ybu: YearlyArrayDateNumberNull
 }
 
-class ChartsPageBase extends React.Component<IProps, IState> {
+class ChartsPageBase extends React.Component<IProps & RouteComponentProps, IState> {
   constructor (props: IProps) {
     super(props);
 

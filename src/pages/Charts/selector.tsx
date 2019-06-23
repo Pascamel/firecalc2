@@ -8,8 +8,8 @@ import * as CHARTS from '../../constants/charts';
 import * as ROUTES from '../../constants/routes';
 
 interface IProps {
-  history: any,
-  type: string
+  history: any;
+  type: string;
 }
 
 export default class Selector extends React.Component<IProps, {}> {
