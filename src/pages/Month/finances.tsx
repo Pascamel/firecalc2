@@ -33,7 +33,7 @@ class MonthFinances extends React.Component<IProps> {
               </span>
             </h3>
             <hr />
-            {bank.savingsInputs.filter((header: ISavingsHeader) => header.type !== 'T').map((header: any, key: string) => (
+            {bank.savingsInputs.filter((header) => header.type !== 'T').map((header, key) => (
               <MonthSavings key={key} header={header} {...this.props} />
             ))}
           </Alert>
@@ -50,7 +50,7 @@ class MonthFinances extends React.Component<IProps> {
               </span>
             </h3>
             <hr />
-            {bank.incomeHeaders.map((header: any, key: string) => (
+            {bank.incomeHeaders.map((header, key) => (
               <MonthIncome key={key} header={header} {...this.props} />
             ))}
           </Alert>

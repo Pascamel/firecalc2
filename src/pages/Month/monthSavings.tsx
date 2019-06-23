@@ -2,14 +2,14 @@ import _ from 'lodash';
 import React from 'react';
 import { connect } from 'react-redux';
 
-import Bank, { ISavingsHeader } from '../../bank';
+import Bank, { ISavingsHeaderLight } from '../../bank';
 import * as formatters from '../../bank/formatters';
 import { FireAmount } from '../../components';
 import { AppState } from '../../store';
 
 interface IProps {
   bank: Bank.IBank;
-  header: ISavingsHeader;
+  header: ISavingsHeaderLight;
   month: string;
   year: string;
 }
@@ -22,7 +22,7 @@ class MonthSavings extends React.Component<IProps, IState> {
   constructor (props: IProps) {
     super(props);
 
-    const h = _(props.bank.savingsHeaders).keyBy('id').get([props.header.id], 'N/A');
+    const h = _(props.bank.savingsHeaders).keyBy('id').get([props.header.id]);
 
     let header_label = h.label || 'N/A';
     if (h.sublabel) header_label += ' > ' + h.sublabel;

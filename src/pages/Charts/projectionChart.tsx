@@ -59,8 +59,8 @@ class ProjectionChart extends React.Component<IProps, IState> {
     for (i = 1; i <= this.state.duration; i++) {
       data.push([
         new Date(year + i, month, 1), 
-        data[data.length-1][1] * 1.05 + this.state.savings, 
-        data[data.length-1][2] * 1.07 + this.state.savings
+        _.get(data, [data.length-1, 1]) * 1.05 + this.state.savings, 
+        _.get(data, [data.length-1, 2]) * 1.07 + this.state.savings
       ]);
     }
     

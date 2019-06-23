@@ -26,8 +26,18 @@ interface IState {
   type: string;
 }
 
-type ArrayDateNumber = Array<Array<string>|Array<Date|number>>;
-type YearlyArrayDateNumberNull = {[year:number]: Array<Array<string>|Array<Date|number|null>>};
+type ArrayDateNumber = Array<
+  Array<string> |
+  Array<Date|number> |
+  Array<string|{v: number, f: string}>
+>;
+
+type YearlyArrayDateNumberNull = {
+  [year:number]: Array<
+    Array<string> |
+    Array<Date|number|null>
+  >
+};
 
 interface IRecap {
   svsi: ArrayDateNumber;
@@ -97,7 +107,7 @@ class ChartsPageBase extends React.Component<IProps, IState> {
           _.concat([new Date(y, m, 0)],
           _(bank.savingsInputs)
             .filter((header) => (header.types.indexOf('T') === -1) || (header.type === 'T'))
-            .map((header) => bank.grandTotalMonthInstitution[y][m][header.id])
+            .map((header) => _.get(bank.grandTotalMonthInstitution, [y, m, header.id]))
             .value()
         ));
 

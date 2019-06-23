@@ -84,7 +84,7 @@ class FireAmount extends React.Component<IProps, IState> {
     if (event.key === 'Escape') this.cancelEdit();
   }
 
-  componentDidUpdate(prevProps: IProps, prevState: IState, snapshot: any) {
+  componentDidUpdate(prevProps: IProps, prevState: IState) {
     if (this.props['callback-props'] === prevProps['callback-props']) return;
 
     this.setState({

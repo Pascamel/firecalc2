@@ -27,7 +27,7 @@ class ClickableItem extends React.Component<IProps, IState> {
     if (props.header.id === 'total') {
       hl = 'Totals';
     } else {
-      const h = _(props.bank.savingsHeaders).keyBy('id').get([props.header.id], 'N/A');
+      const h = _(props.bank.savingsHeaders).keyBy('id').get([props.header.id]);
 
       let header_label = h.label || 'N/A';
       if (h.sublabel) header_label += ' > ' + h.sublabel;
