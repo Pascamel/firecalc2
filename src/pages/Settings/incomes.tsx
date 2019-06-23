@@ -13,7 +13,8 @@ interface IProps {
   onNewIncomeHeader: () => void;
 }
 
-function Incomes ({bank, bankLoaded, onNewIncomeHeader}: IProps) {
+function Incomes (props: IProps) {
+  const {bank, bankLoaded, onNewIncomeHeader} = props;
   if (!bankLoaded) return null;
 
   return (
