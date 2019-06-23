@@ -25,8 +25,6 @@ function Income(props: IProps) {
   const [editCount, setEditCount] = useState(header.count);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const s: any = {};
-    s[event.target.name] = event.target.type === 'checkbox' ? event.target.checked : event.target.value
     if (event.target.name === 'editLabel') setEditLabel(event.target.value);
     if (event.target.name === 'editPretax') setEditPretax(event.target.checked);
     if (event.target.name === 'editCount') setEditCount(parseInt(event.target.value));
