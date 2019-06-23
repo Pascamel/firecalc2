@@ -301,8 +301,20 @@ html, body, #root {
   }
 }
 
-.mo-fire {
-  text-align: center;
+.piggy-wrapper {
+  position: relative;
+  background: #777;
+}
+.piggy-bank {
+  background: url(https://cdn.dribbble.com/users/1055986/screenshots/2887405/piggy-bank-2.gif) 50% 50% no-repeat; /* 50% 50% centers image in div */
+  background-size: 150%;
+  width: 400px;
+  height: 400px;
+  border-radius: 50%;
+  position: absolute;
+  top: 50px;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .chart-container {

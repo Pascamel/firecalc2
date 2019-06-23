@@ -3,7 +3,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Alert, Col } from 'reactstrap';
 
-import Bank, { ISavingsHeader } from '../../bank';
+import Bank from '../../bank';
 import { StaticAmount } from '../../components';
 import { AppState } from '../../store';
 import MonthIncome from './monthIncome';
