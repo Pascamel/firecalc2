@@ -33,7 +33,7 @@ const ProjectionChart = (props: IProps) => {
     if (!authUser || bankLoaded) return;
     
     onLoadBank(authUser.uid);
-  });
+  }, [bankLoaded, authUser, onLoadBank]);
 
   if (!bankLoaded) return <LoadingPanel />;
 

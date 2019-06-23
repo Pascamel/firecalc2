@@ -22,7 +22,7 @@ const SettingsPageBase = (props: IProps) => {
     if (bankLoaded || !authUser ) return;
     
     onLoadBank(authUser.uid);
-  })
+  }, [bankLoaded, authUser, onLoadBank]);
   
   if (!bankLoaded) return <LoadingPanel />;
 

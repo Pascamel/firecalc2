@@ -14,39 +14,24 @@ interface IProps {
   year: string;
 }
 
-interface IState {
-  label: string
-}
+const MonthSavings = (props: IProps) => {
+  const { header, bank, month, year } = props;
+  const h = _(bank.savingsHeaders).keyBy('id').get([props.header.id]);
 
-class MonthSavings extends React.Component<IProps, IState> {
-  constructor (props: IProps) {
-    super(props);
+  let label = h.label || 'N/A';
+  if (h.sublabel) label += ' > ' + h.sublabel;
+  if (h.interest) label += ' > ' + formatters.labelSavings(props.header.type);
 
-    const h = _(props.bank.savingsHeaders).keyBy('id').get([props.header.id]);
-
-    let header_label = h.label || 'N/A';
-    if (h.sublabel) header_label += ' > ' + h.sublabel;
-    if (h.interest) header_label += ' > ' + formatters.labelSavings(props.header.type);
-
-    this.state = {
-      label: header_label
-    }
-  }
-
-  render() {
-    const { header, month, year } = this.props;
-
-    return (
-      <React.Fragment>
-        <div className="month-amount">
-          <span className="label-fake-input smaller mb-1">{this.state.label}</span>
-          <div className="pull-right">
-            <FireAmount extraClassName="label-fake-input" display-if-zero={true} callback-props={['savings', year, month, header.id, header.type]} />
-          </div>
+  return (
+    <React.Fragment>
+      <div className="month-amount">
+        <span className="label-fake-input smaller mb-1">{label}</span>
+        <div className="pull-right">
+          <FireAmount extraClassName="label-fake-input" display-if-zero={true} callback-props={['savings', year, month, header.id, header.type]} />
         </div>
-      </React.Fragment>
-    );
-  }
+      </div>
+    </React.Fragment>
+  );
 }
 
 const mapStateToProps = (state: AppState) => {

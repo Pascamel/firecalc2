@@ -30,11 +30,6 @@ interface IProps {
   authUser?: firebase.User | null;
 }
 
-// interface IState {
-//   isOpen: boolean;
-//   authUser: firebase.User | null;
-// }
-
 const NavigationAuth = (props: IProps) => {
   const { location, authUser } = props;
   const [isOpen, setIsOpen] = useState(false);
