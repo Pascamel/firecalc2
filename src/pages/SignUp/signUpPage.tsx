@@ -7,7 +7,7 @@ import { SignUpForm } from './signUpForm';
 export class SignUpPage extends React.Component<any, any> {
   render() {
     return (
-      <React.Fragment>
+      <>
         <HeaderPanel title="Create an account" />
         <Container fluid className="top-shadow container-centered">
           <Row>
@@ -24,7 +24,7 @@ export class SignUpPage extends React.Component<any, any> {
             </Col>
           </Row>
         </Container>
-      </React.Fragment>
+      </>
     );
   }
 }

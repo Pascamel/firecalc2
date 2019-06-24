@@ -29,7 +29,7 @@ class SavingsPageBase extends React.Component<IProps, {}> {
     if (!bankLoaded) return <LoadingPanel />;
     
     return (
-      <React.Fragment>
+      <>
         <SavePanel label="Savings" />
         <Container fluid className="top-shadow">
           <Row>
@@ -46,7 +46,7 @@ class SavingsPageBase extends React.Component<IProps, {}> {
             </Col>
           </Row>
         </Container>
-      </React.Fragment>
+      </>
     );
   }
 }

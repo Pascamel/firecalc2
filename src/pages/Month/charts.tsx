@@ -21,7 +21,7 @@ const Charts = (props: IProps) => {
   const { month, year, bank } = props;
   
   return (
-    <React.Fragment>
+    <>
       <Col md={4} sm={12}>
         <Alert color="background">
           <Row>
@@ -77,7 +77,7 @@ const Charts = (props: IProps) => {
           </Row>
         </Alert>
       </Col>
-    </React.Fragment>
+    </>
   );
 }
 

@@ -10,9 +10,9 @@ const StaticPercentage = (props: IProps) => {
   const { children } = props;
 
   return (
-    <React.Fragment>
+    <>
       {helpers.percentage(children)}
-    </React.Fragment>
+    </>
   );
 }
 

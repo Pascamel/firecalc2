@@ -46,7 +46,7 @@ class AppComponent extends React.Component<IProps, {}> {
   public render() {
     return (
       <BrowserRouter>
-        <React.Fragment>
+        <>
           <Navigation />
           <Switch>
             <Route exact path={ROUTES.SIGN_UP} component={SignUp} />
@@ -64,7 +64,7 @@ class AppComponent extends React.Component<IProps, {}> {
             <Route path={ROUTES.ADMIN} component={AdminPage} />
             <Route path='*' component={NotFoundPage}/>
           </Switch>
-        </React.Fragment>
+        </>
       </BrowserRouter>
     );
   }

@@ -14,7 +14,7 @@ const Progress = (props: IProps) => {
   const { result, goal, percentage, label } = props
 
   return (
-    <React.Fragment>
+    <>
       <Row>
         <Col>
           <span>{label}</span>
@@ -35,7 +35,7 @@ const Progress = (props: IProps) => {
           </ProgressRS>
         </Col>
       </Row>
-    </React.Fragment>
+    </>
   );
 }
 

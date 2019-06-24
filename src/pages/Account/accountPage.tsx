@@ -15,7 +15,7 @@ const AccountPageBase2 = (props: IProps) => {
   const { authUser } = props;
 
   return (
-    <React.Fragment>
+    <>
       <HeaderPanel title="My account" />
       <Container fluid className="top-shadow">
         <Row>
@@ -49,7 +49,7 @@ const AccountPageBase2 = (props: IProps) => {
           </Col>
         </Row>
       </Container>
-    </React.Fragment>
+    </>
   );
 }
 

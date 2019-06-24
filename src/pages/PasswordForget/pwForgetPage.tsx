@@ -4,8 +4,7 @@ import { Alert, Col, Container, Row } from 'reactstrap';
 import { PasswordForgetForm } from './pwForgetForm';
 
 const PasswordForgetPage = () => (
-  <React.Fragment>
-    <Container className="container-centered">
+  <Container className="container-centered">
     <Row>
       <Col lg={{size: 4, offset: 4}} md={{size: 6, offset: 3}} sm="12">
         <Alert className="alert-login" color="background">  
@@ -15,7 +14,6 @@ const PasswordForgetPage = () => (
       </Col>
     </Row>
   </Container>
-  </React.Fragment>
 );
 
 export default PasswordForgetPage;

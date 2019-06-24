@@ -17,9 +17,9 @@ const StaticAmount = (props: IProps) => {
   const daz = _.has(props, 'display-zero');
 
   return (
-    <React.Fragment>
+    <>
       {helpers.amount(children, daz, bank.showDecimals)} 
-    </React.Fragment>
+    </>
   );
 }
 

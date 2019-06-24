@@ -28,10 +28,10 @@ const Doughnut = (props: IProps) => {
   };
 
   return (
-    <React.Fragment>
+    <>
       <DoughnutLib data={data} height={300} options={options}/>
       <span className="chart-label">{Math.round(savingRate * 100)}%</span>
-    </React.Fragment>
+    </>
   );
 }
 

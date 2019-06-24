@@ -23,14 +23,14 @@ const MonthSavings = (props: IProps) => {
   if (h.interest) label += ' > ' + formatters.labelSavings(props.header.type);
 
   return (
-    <React.Fragment>
+    <>
       <div className="month-amount">
         <span className="label-fake-input smaller mb-1">{label}</span>
         <div className="pull-right">
           <FireAmount extraClassName="label-fake-input" display-if-zero={true} callback-props={['savings', year, month, header.id, header.type]} />
         </div>
       </div>
-    </React.Fragment>
+    </>
   );
 }
 

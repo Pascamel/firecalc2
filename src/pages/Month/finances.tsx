@@ -19,7 +19,7 @@ const MonthFinances = (props: IProps) => {
   const { month, year, bank } = props;
 
   return (
-    <React.Fragment>
+    <>
       <Col md={4} sm={12}>
         <Alert color="background">
           <h3>
@@ -54,7 +54,7 @@ const MonthFinances = (props: IProps) => {
           ))}
         </Alert>
       </Col>
-    </React.Fragment>
+    </>
   );
 }
 

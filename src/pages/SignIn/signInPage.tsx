@@ -9,7 +9,7 @@ import { HeaderPanel } from '../../components';
 export class  SignInPage extends React.Component<any, any> {
   render() {
     return (
-      <React.Fragment>
+      <>
         <HeaderPanel title="Sign in" />
         <Container fluid className="top-shadow container-centered">
           <Row>
@@ -30,7 +30,7 @@ export class  SignInPage extends React.Component<any, any> {
             </Col>
           </Row>
         </Container>
-      </React.Fragment>
+      </>
     );
   }
 }

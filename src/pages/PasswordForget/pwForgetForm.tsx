@@ -40,7 +40,7 @@ export class PasswordForgetForm extends React.Component<{}, IState> {
     const isInvalid = email === '';
 
     return (
-      <React.Fragment>
+      <>
         <Form onSubmit={(event) => this.onSubmit(event)}>
           <FormGroup>
             <Input
@@ -59,7 +59,7 @@ export class PasswordForgetForm extends React.Component<{}, IState> {
         </Form>
 
         {error && <p>{error.message}</p>}
-      </React.Fragment>
+      </>
     );
   }
 

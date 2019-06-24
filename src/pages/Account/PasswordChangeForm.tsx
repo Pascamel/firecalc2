@@ -50,7 +50,7 @@ export class PasswordChangeForm extends React.Component<IProps, IState> {
     const isInvalid = passwordOne !== passwordTwo || passwordOne === '';
 
     return (
-      <React.Fragment>
+      <>
         <Form inline={true} onSubmit={event => this.onSubmit(event)}>
           <Input
             className="mb-2 mr-sm-2 mb-sm-0"
@@ -72,7 +72,7 @@ export class PasswordChangeForm extends React.Component<IProps, IState> {
         </Form>
 
         {error && <p>{error.message}</p>}
-      </React.Fragment>
+      </>
     );
   }
 

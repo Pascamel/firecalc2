@@ -27,7 +27,7 @@ const SettingsPageBase = (props: IProps) => {
   if (!bankLoaded) return <LoadingPanel />;
 
   return (
-    <React.Fragment>
+    <>
       <SavePanel label="Settings" />
       <Container fluid className="top-shadow">
         <Row>
@@ -40,7 +40,7 @@ const SettingsPageBase = (props: IProps) => {
           </Col>
         </Row>
       </Container>
-    </React.Fragment>
+    </>
   );
 }
 
