@@ -29,7 +29,7 @@ const MonthPageBase = (props: IProps & RouteComponentProps) => {
     if (bankLoaded || !authUser ) return;
     
     onLoadBank(authUser.uid);
-  }, [bankLoaded, authUser, onLoadBank]);
+  }, [authUser, bankLoaded, onLoadBank]);
 
   const prevMonth = () => {
     const p = helpers.prevMonth(year, month);

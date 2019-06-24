@@ -27,7 +27,7 @@ const DashboardPageBase = (props: IProps) => {
     if (bankLoaded || !authUser ) return;
     
     onLoadBank(authUser.uid);
-  }, [bankLoaded, authUser, onLoadBank]);
+  }, [authUser, bankLoaded, onLoadBank]);
   
   if (!bankLoaded) return <LoadingPanel />;  
   

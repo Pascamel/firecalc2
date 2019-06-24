@@ -50,7 +50,7 @@ const ChartsPageBase = (props: IProps & RouteComponentProps) => {
     if (bankLoaded || !authUser ) return;
     
     onLoadBank(authUser.uid);
-  }, [bankLoaded, authUser, onLoadBank]);
+  }, [authUser, bankLoaded, onLoadBank]);
 
   useEffect(() => {
     if (type === (match.params.type || '')) return;
