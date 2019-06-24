@@ -1,9 +1,8 @@
 import { LocationState } from 'history';
-import * as React from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 
 import * as ROUTES from '../constants/routes';
-import { firebase } from '../firebase';
 import { withAuthentication } from '../firebase/withAuthentication';
 import helpers from '../helpers';
 import { AccountPage } from '../pages/Account';
@@ -26,48 +25,28 @@ interface IProps {
   location?: LocationState;
 }
 
-class AppComponent extends React.Component<IProps, {}> {
-  constructor(props: IProps) {
-    super(props);
-
-    this.state = {
-      authUser: null
-    };
-  }
-
-  public componentDidMount() {
-    firebase.auth.onAuthStateChanged(authUser => {
-      authUser
-        ? this.setState(() => ({ authUser }))
-        : this.setState(() => ({ authUser: null }));
-    });
-  }
-
-  public render() {
-    return (
-      <BrowserRouter>
-        <>
-          <Navigation />
-          <Switch>
-            <Route exact path={ROUTES.SIGN_UP} component={SignUp} />
-            <Route exact path={ROUTES.SIGN_IN} component={SignIn} />
-            <Route exact path={ROUTES.PASSWORD_FORGET} component={PasswordForgetPage} />
-            <Route exact path={ROUTES.HOME} component={HomePage} />
-            <Route exact path={ROUTES.ACCOUNT} component={AccountPage} />
-            <Route exact path={ROUTES.DASHBOARD} component={DashboardPage} />
-            <Route path={ROUTES.MONTH} component={MonthPage} />
-            <Route exact path={ROUTES.MONTH_NO_PARAMS} render={() => (<Redirect to={helpers.currentMonthRoute()} />)} />
-            <Route exact path={ROUTES.REVENUES} component={RevenuesPage} />
-            <Route exact path={ROUTES.SAVINGS} component={SavingsPage} />
-            <Route path={ROUTES.CHARTS} component={ChartsPage} />
-            <Route exact path={ROUTES.SETTINGS} component={SettingsPage} />
-            <Route path={ROUTES.ADMIN} component={AdminPage} />
-            <Route path='*' component={NotFoundPage}/>
-          </Switch>
-        </>
-      </BrowserRouter>
-    );
-  }
-}
+const AppComponent = (props: IProps) => (
+  <BrowserRouter>
+    <>
+      <Navigation />
+      <Switch>
+        <Route exact path={ROUTES.SIGN_UP} component={SignUp} />
+        <Route exact path={ROUTES.SIGN_IN} component={SignIn} />
+        <Route exact path={ROUTES.PASSWORD_FORGET} component={PasswordForgetPage} />
+        <Route exact path={ROUTES.HOME} component={HomePage} />
+        <Route exact path={ROUTES.ACCOUNT} component={AccountPage} />
+        <Route exact path={ROUTES.DASHBOARD} component={DashboardPage} />
+        <Route path={ROUTES.MONTH} component={MonthPage} />
+        <Route exact path={ROUTES.MONTH_NO_PARAMS} render={() => (<Redirect to={helpers.currentMonthRoute()} />)} />
+        <Route exact path={ROUTES.REVENUES} component={RevenuesPage} />
+        <Route exact path={ROUTES.SAVINGS} component={SavingsPage} />
+        <Route path={ROUTES.CHARTS} component={ChartsPage} />
+        <Route exact path={ROUTES.SETTINGS} component={SettingsPage} />
+        <Route path={ROUTES.ADMIN} component={AdminPage} />
+        <Route path='*' component={NotFoundPage}/>
+      </Switch>
+    </>
+  </BrowserRouter>
+);
 
 export const App = withAuthentication(AppComponent);
