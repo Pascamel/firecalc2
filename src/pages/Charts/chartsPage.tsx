@@ -23,10 +23,6 @@ interface IProps extends RouteComponentProps<{type: string}> {
   onLoadBank: (uid: string) => void;
 }
 
-interface IState {
-  type: string;
-}
-
 type ArrayDateNumber = Array<Array<string> | Array<Date|number> | Array<string|{v: number, f: string}>>;
 
 type YearlyArrayDateNumberNull = {

@@ -16,10 +16,6 @@ interface IProps {
   chart: string
 }
 
-interface IState {
-  year: number;
-}
-
 const YearlyChart = (props: IProps) => {
   const { bank, data, mobile, chart } = props;
   const[year, setYear] = useState(new Date().getFullYear())

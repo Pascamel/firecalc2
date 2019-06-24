@@ -11,7 +11,7 @@ interface IProps {
   bank: Bank.IBank
 }
 
-const SavingsTable = (props: IProps) => {
+const Table = (props: IProps) => {
   const {bank} = props;
 
   return (
@@ -31,4 +31,4 @@ const mapStateToProps = (state: AppState) => {
   });
 }
 
-export default connect(mapStateToProps)(SavingsTable);
+export default connect(mapStateToProps)(Table);

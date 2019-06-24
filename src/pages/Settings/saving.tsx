@@ -17,14 +17,6 @@ interface IProps {
   onSwitchSavingHeaders: (index1: number, index2: number) => void;
 }
 
-interface IState {
-  edit: boolean;
-  editLabel: string;
-  editSublabel: string;
-  editIcon: string;
-  editInterest: boolean;
-}
-
 const Saving = (props: IProps) => {
   const { index, header, bank, bankLoaded, onUpdateSavingHeader, onDeleteSavingHeader, onSwitchSavingHeaders } = props;
   const [edit, setEdit] = useState(false);
