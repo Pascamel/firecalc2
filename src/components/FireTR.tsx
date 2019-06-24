@@ -4,23 +4,25 @@ import React from 'react';
 interface IProps {
   show?: boolean;
   hide?: boolean;
+  children?: any;
 }
 
-export default class FireTR extends React.Component<IProps, {}> {
-  render() {
-    const classNames = [];
+const FireTR = (props: IProps) => {
 
-    if (_.has(this.props, 'show') && !(this.props.show || false)) {
-      classNames.push('hidden');
-    }  
-    if (_.has(this.props, 'hide') && this.props.hide) {
-      classNames.push('hidden');
-    }
+  const classNames = [];
 
-    return (
-      <tr className={classNames.join(' ')}>
-        {this.props.children}
-      </tr>
-    );
+  if (_.has(props, 'show') && !(props.show || false)) {
+    classNames.push('hidden');
+  }  
+  if (_.has(props, 'hide') && props.hide) {
+    classNames.push('hidden');
   }
+
+  return (
+    <tr className={classNames.join(' ')}>
+      {props.children}
+    </tr>
+  );
 }
+
+export default FireTR;
