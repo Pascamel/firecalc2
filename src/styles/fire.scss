@@ -81,7 +81,7 @@ html, body, #root {
       .container {        
         height: 100%;
 
-        .alert {
+        .alert.form-container {
           position: absolute; 
           transform: translateY(-50%);
           top: 50%; 

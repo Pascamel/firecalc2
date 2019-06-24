@@ -1,60 +1,42 @@
-import * as React from 'react';
+import React, { useEffect, useState } from 'react';
 import * as ROUTES from '../../constants/routes';
 import { auth } from '../../firebase';
-import { FormGroup, Input, InputGroup, InputGroupAddon, InputGroupText, Button } from 'reactstrap';
+import { Alert, Button, Form, FormGroup, Input, InputGroup, InputGroupAddon, InputGroupText } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { RouteComponentProps } from 'react-router';
 
-interface InterfaceProps {
-  email?: string;
-  error?: any;
-  history?: any;
-  password?: string;
-}
 
-interface InterfaceState {
-  email: string;
-  error: any;
-  password: string;
-}
+export const SignInForm = (props: RouteComponentProps) => {
+  const [error, setError] = useState<Error|null>(null);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
-export class SignInForm extends React.Component<InterfaceProps, InterfaceState> {
-  private static INITIAL_STATE = {
-    email: '',
-    error: null,
-    password: ''
-  };
+  useEffect(() => {
+    if (error) {
+      window.setTimeout(() => {
+        setError(null);
+      }, 4000);
+    }
+  }, [error]);
 
-  private static propKey(propertyName: string, value: any): object {
-    return { [propertyName]: value };
-  }
-
-  constructor(props: InterfaceProps) {
-    super(props);
-
-    this.state = { ...SignInForm.INITIAL_STATE };
-  }
-
-  public onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    const { email, password } = this.state;
-    const { history } = this.props;
-
+  const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     auth.doSignInWithEmailAndPassword(email, password).then(() => {
-      this.setState(() => ({ ...SignInForm.INITIAL_STATE }));
-      history.push(ROUTES.HOME);
+      setError(null);
+      setEmail('');
+      setPassword('');
+      props.history.push(ROUTES.HOME);
     }).catch(error => {
-      this.setState(SignInForm.propKey('error', error));
+      setError(error);
     });
 
     event.preventDefault();
   };
 
-  public render() {
-    const { email, password, error } = this.state;
+  const isInvalid = password === '' || email === '';
 
-    const isInvalid = password === '' || email === '';
-
-    return (
-      <form onSubmit={event => this.onSubmit(event)}>
+  return (
+    <>
+      <Form onSubmit={onSubmit}>
         <FormGroup>
           <InputGroup className="mt-2">
             <InputGroupAddon addonType="prepend">
@@ -62,12 +44,7 @@ export class SignInForm extends React.Component<InterfaceProps, InterfaceState> 
                 <FontAwesomeIcon icon={['far', 'user']} />
               </InputGroupText>
             </InputGroupAddon>
-            <Input
-              value={email}
-              onChange={event => this.setStateWithEvent(event, 'email')}
-              type="text"
-              placeholder="Email Address" 
-            />
+            <Input value={email} onChange={e => setEmail(e.target.value)} type="text" placeholder="Email Address" />
           </InputGroup>
         </FormGroup>
         <FormGroup>
@@ -77,12 +54,7 @@ export class SignInForm extends React.Component<InterfaceProps, InterfaceState> 
                 <FontAwesomeIcon icon="unlock-alt" />
               </InputGroupText>
             </InputGroupAddon>
-            <Input
-              value={password}
-              onChange={event => this.setStateWithEvent(event, 'password')}
-              type="password"
-              placeholder="Password" 
-            />
+            <Input value={password} onChange={e => setPassword(e.target.value)} type="password" placeholder="Password" />
           </InputGroup>
         </FormGroup>
         <FormGroup>
@@ -90,13 +62,9 @@ export class SignInForm extends React.Component<InterfaceProps, InterfaceState> 
             Sign In
           </Button>
         </FormGroup>
+      </Form>
 
-        {error && <p>{error.message}</p>}
-      </form>
-    );
-  }
-
-  private setStateWithEvent(event: React.ChangeEvent<HTMLInputElement>, columnType: string): void {
-    this.setState(SignInForm.propKey(columnType, (event.target as any).value));
-  }
+      {error && <Alert color="danger">{error.message}</Alert>}
+    </>
+  );
 }

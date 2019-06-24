@@ -1,46 +1,18 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import * as ROUTES from '../../constants/routes';
 import * as ROLES from '../../constants/roles';
 import { auth, firestore } from '../../firebase';
-import { FormGroup, Input, Button } from 'reactstrap';
+import { Alert, Form, FormGroup, Input, Button } from 'reactstrap';
+import { RouteComponentProps } from 'react-router';
 
-interface IProps {
-  email?: string;
-  error?: any;
-  history?: any;
-  passwordOne?: string;
-  passwordTwo?: string;
-}
+export const SignUpForm = (props: RouteComponentProps) => {
+  const [email, setEmail] = useState('');
+  const [passwordOne, setPasswordOne] = useState('');
+  const [passwordTwo, setPasswordTwo] = useState('');
+  const [error, setError] = useState<Error|null>(null);
 
-interface IState {
-  email: string;
-  error: any;
-  passwordOne: string;
-  passwordTwo: string;
-}
-
-export class SignUpForm extends React.Component<IProps, IState> {
-  private static INITIAL_STATE = {
-    email: '',
-    error: null,
-    passwordOne: '',
-    passwordTwo: '',
-  };
-
-  private static propKey(propertyName: string, value: any): object {
-    return { [propertyName]: value };
-  }
-
-  constructor(props: IProps) {
-    super(props);
-    this.state = { ...SignUpForm.INITIAL_STATE };
-  }
-
-  public onSubmit(event: React.FormEvent<HTMLFormElement>) {
+  const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
-    const { email, passwordOne } = this.state;
-    const { history } = this.props;
 
     auth.doCreateUserWithEmailAndPassword(email, passwordOne).then((authUser: any) => {
       return firestore.setUser(authUser.user.uid, {
@@ -48,56 +20,36 @@ export class SignUpForm extends React.Component<IProps, IState> {
         type: ROLES.USER
       });
     }).then(() => {
-      this.setState(() => ({ ...SignUpForm.INITIAL_STATE }));
-      history.push(ROUTES.HOME);
+      setError(null);
+      setPasswordOne('');
+      setPasswordTwo('');
+      props.history.push(ROUTES.HOME);
     })
     .catch(error => {
-      this.setState(SignUpForm.propKey('error', error));
+      setError(error);
     });
   }
 
-  public render() {
-    const { email, passwordOne, passwordTwo, error } = this.state;
-    const isInvalid =passwordOne !== passwordTwo || passwordOne === '' || email === '';
+  const isInvalid = passwordOne !== passwordTwo || passwordOne === '' || email === '';
 
-    return (
-      <form onSubmit={(event) => this.onSubmit(event)}>
-        <FormGroup className="mt-2">
-          <Input
-            value={email}
-            onChange={event => this.setStateWithEvent(event, "email")}
-            type="text"
-            placeholder="Email Address"
-          />
-        </FormGroup>
-        <FormGroup>
-          <Input
-            value={passwordOne}
-            onChange={event => this.setStateWithEvent(event, "passwordOne")}
-            type="password"
-            placeholder="Password"
-          />
-        </FormGroup>
-        <FormGroup>
-          <Input
-            value={passwordTwo}
-            onChange={event => this.setStateWithEvent(event, "passwordTwo")}
-            type="password"
-            placeholder="Confirm Password"
-          />
-        </FormGroup>
-        <FormGroup>
-          <Button block color="primary" disabled={isInvalid} type="submit">
-            Sign Up
-          </Button>
-        </FormGroup>
+  return (
+    <Form onSubmit={onSubmit}>
+      <FormGroup className="mt-2">
+        <Input value={email} onChange={e => setEmail(e.target.value)} type="text" placeholder="Email Address" />
+      </FormGroup>
+      <FormGroup>
+        <Input value={passwordOne} onChange={e => setPasswordOne(e.target.value)} type="password" placeholder="Password" />
+      </FormGroup>
+      <FormGroup>
+        <Input value={passwordTwo} onChange={event => setPasswordTwo(event.target.value)} type="password" placeholder="Confirm Password" />
+      </FormGroup>
+      <FormGroup>
+        <Button block color="primary" disabled={isInvalid} type="submit">
+          Sign Up
+        </Button>
+      </FormGroup>
 
-        {error && <p>{error.message}</p>}
-      </form>
-    );
-  }
-
-  private setStateWithEvent(event: React.ChangeEvent<HTMLInputElement>, columnType: string) {
-    this.setState(SignUpForm.propKey(columnType, (event.target as any).value));
-  }
+      {error && <Alert color="danger">{error.message}</Alert>}
+    </Form>
+  );
 }

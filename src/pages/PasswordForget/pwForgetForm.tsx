@@ -1,71 +1,52 @@
-import * as React from 'react';
-import { Button, Form, FormGroup, Input } from 'reactstrap';
+import React, { useEffect, useState } from 'react';
+import { Alert, Button, Form, FormGroup, Input } from 'reactstrap';
 
 import { auth } from '../../firebase';
 
-interface IState {
-  email?: string;
-  error?: any;
-}
-export class PasswordForgetForm extends React.Component<{}, IState> {
-  private static INITIAL_STATE = {
-    email: '',
-    error: null
-  };
+export const PasswordForgetForm = () => {
+  const [success, setSuccess] = useState(false);
+  const [error, setError] = useState<Error|null>(null);
+  const [email, setEmail] = useState('');
 
-  private static propKey(propertyName: string, value: string) {
-    return { [propertyName]: value };
-  }
+  useEffect(() => {
+    if (success) {
+      window.setTimeout(() => {
+        setSuccess(false);
+      }, 4000);
+    }
+  }, [success]);
 
-  constructor(props: any) {
-    super(props);
+  const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    if (!email) return;
 
-    this.state = { ...PasswordForgetForm.INITIAL_STATE };
-  }
-
-  public onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    if (!this.state.email) return;
-
-    auth.doPasswordReset(this.state.email).then(() => {
-      this.setState(() => ({ ...PasswordForgetForm.INITIAL_STATE }));
+    auth.doPasswordReset(email).then(() => {
+      setSuccess(true);
+      setError(null);
+      setEmail('');
     }).catch(error => {
-      this.setState(PasswordForgetForm.propKey('error', error));
+      setError(error);
     });
 
     event.preventDefault();
   };
 
-  public render() {
-    const { email, error }: any = this.state;
-    const isInvalid = email === '';
+  const isInvalid = email === '';
 
-    return (
-      <>
-        <Form onSubmit={(event) => this.onSubmit(event)}>
-          <FormGroup>
-            <Input
-              className="mb-2 mr-sm-2 mb-sm-0"
-              type="text"
-              placeholder="Email Address"
-              value={email}
-              onChange={(event) => this.setStateWithEvent(event, 'email')}
-            />
-          </FormGroup>
-          <FormGroup>
-            <Button block disabled={isInvalid} type="submit" color="primary">
-              Reset My Password
-            </Button>
-          </FormGroup>
-        </Form>
+  return (
+    <>
+      {error && <Alert color="danger">{error.message}</Alert>}
+      {success && <Alert color="success">Password updated successfully!</Alert>}
 
-        {error && <p>{error.message}</p>}
-      </>
-    );
-  }
-
-  private setStateWithEvent(event: React.ChangeEvent<HTMLInputElement>, columnType: string): void {
-    this.setState(
-      PasswordForgetForm.propKey(columnType, (event.target as any).value)
-    );
-  }
+      <Form onSubmit={onSubmit}>
+        <FormGroup>
+          <Input className="mb-2 mr-sm-2 mb-sm-0" type="text" placeholder="Email Address" value={email} onChange={e => setEmail(e.target.value)} />
+        </FormGroup>
+        <FormGroup>
+          <Button block disabled={isInvalid} type="submit" color="primary">
+            Reset My Password
+          </Button>
+        </FormGroup>
+      </Form>
+    </>
+  );
 }
