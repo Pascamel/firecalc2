@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import React, { Dispatch } from 'react';
+import React, { Dispatch, useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router-dom';
 import { Col, Container, Row } from 'reactstrap';
@@ -20,23 +20,17 @@ interface IProps extends RouteComponentProps<{type: string}> {
   authUser: firebase.User|null;
   bank: Bank.IBank;
   bankLoaded: boolean;
+  onLoadBank: (uid: string) => void;
 }
 
 interface IState {
   type: string;
 }
 
-type ArrayDateNumber = Array<
-  Array<string> |
-  Array<Date|number> |
-  Array<string|{v: number, f: string}>
->;
+type ArrayDateNumber = Array<Array<string> | Array<Date|number> | Array<string|{v: number, f: string}>>;
 
 type YearlyArrayDateNumberNull = {
-  [year:number]: Array<
-    Array<string> |
-    Array<Date|number|null>
-  >
+  [year:number]: Array<Array<string> | Array<Date|number|null>>
 };
 
 interface IRecap {
@@ -48,31 +42,23 @@ interface IRecap {
   ybu: YearlyArrayDateNumberNull
 }
 
-class ChartsPageBase extends React.Component<IProps & RouteComponentProps, IState> {
-  constructor (props: IProps) {
-    super(props);
+const ChartsPageBase = (props: IProps & RouteComponentProps) => {
+  const { match, authUser, bank, onLoadBank, bankLoaded } = props; 
+  const [type, setType] = useState(match.params.type || '');
 
-    this.state = {
-      type: props.match.params.type || '',
-    };
-  }
-
-  componentDidMount() {
-    const { authUser, onLoadBank, bankLoaded }: any = this.props;
+  useEffect(() => {
     if (bankLoaded || !authUser ) return;
     
     onLoadBank(authUser.uid);
-  }
+  }, [bankLoaded, authUser, onLoadBank]);
 
-  componentDidUpdate(prevProps: IProps, prevState: IState, snapshot: any) {
-    if (this.state.type === (this.props.match.params.type || '')) return;
-    this.setState({
-      type: this.props.match.params.type || ''
-    });
-    this.mapBankToRecap(this.props.bank);
-  }
+  useEffect(() => {
+    if (type === (match.params.type || '')) return;
 
-  mapBankToRecap = (bank: Bank.IBank) => {
+    setType(match.params.type || '');
+  }, [match, bank, type]);
+
+  const mapBankToRecap = (bank: Bank.IBank) => {
     const svsi: ArrayDateNumber = [['Date', 'Savings', 'Income']];
     const nws: ArrayDateNumber = [['Date', 'Net Worth', 'Savings']];
     const sb: ArrayDateNumber = [['Institution', 'Amount']];
@@ -150,51 +136,45 @@ class ChartsPageBase extends React.Component<IProps & RouteComponentProps, IStat
     return {svsi, nws, sb, sae, bep, ybu};
   }
   
-  chartsBlock = (mobile: boolean, recap: IRecap) => {
-    const { type } = this.state;
+  const chartsBlock = (mobile: boolean, recap: IRecap) => (
+    <>                    
+      {type === CHARTS.URL.INCOME_VS_SAVINGS && <Charts.IncomeVsSavingsChart data={recap.svsi} mobile={mobile} />}
+      {type === CHARTS.URL.NET_WORTH_VS_SAVINGS && <Charts.NetWorthVsSavingsChart data={recap.nws} mobile={mobile} />}
+      {type === CHARTS.URL.SAVINGS_BREAKDOWN && <Charts.SavingsBreakdownChart data={recap.sb} mobile={mobile} />}
+      {type === CHARTS.URL.ALLOCATION_EVOLUTION && <Charts.AllocationEvolutionChart data={recap.sae} mobile={mobile} />}
+      {type === CHARTS.URL.BREAK_EVEN_POINT && <Charts.BreakEvenPointChart data={recap.bep} mobile={mobile} />}
+      {type === CHARTS.URL.YEARLY_GOAL_BURNUP && <YearlyChart data={recap.ybu} mobile={mobile} chart={type} />}
+      {type === CHARTS.URL.PROJECTION && <ProjectionChart mobile={mobile} />}
+    </>
+  );
 
-    return (
-      <>                    
-        {type === CHARTS.URL.INCOME_VS_SAVINGS && <Charts.IncomeVsSavingsChart data={recap.svsi} mobile={mobile} />}
-        {type === CHARTS.URL.NET_WORTH_VS_SAVINGS && <Charts.NetWorthVsSavingsChart data={recap.nws} mobile={mobile} />}
-        {type === CHARTS.URL.SAVINGS_BREAKDOWN && <Charts.SavingsBreakdownChart data={recap.sb} mobile={mobile} />}
-        {type === CHARTS.URL.ALLOCATION_EVOLUTION && <Charts.AllocationEvolutionChart data={recap.sae} mobile={mobile} />}
-        {type === CHARTS.URL.BREAK_EVEN_POINT && <Charts.BreakEvenPointChart data={recap.bep} mobile={mobile} />}
-        {type === CHARTS.URL.YEARLY_GOAL_BURNUP && <YearlyChart data={recap.ybu} mobile={mobile} chart={type} />}
-        {type === CHARTS.URL.PROJECTION && <ProjectionChart mobile={mobile} />}
-      </>
-    );
-  }
+  if (!bankLoaded) return <LoadingPanel />;
+  
+  const recap = mapBankToRecap(bank);
 
-  render() {    
-    if (!this.props.bankLoaded) return <LoadingPanel />;
-    
-    const recap = this.mapBankToRecap(this.props.bank);
-
-    return (
-      <>
-        <Selector type={this.state.type} history={this.props.history} />
-        <Container fluid className="top-shadow">
-          <Row>
-            <Col className="pl-0 pr-0">
-              <Container>
-                <Row>
-                  <Col>
-                    <Mobile>                    
-                      {this.chartsBlock(true, recap)}
-                    </Mobile>
-                    <NotMobile>
-                      {this.chartsBlock(false, recap)}
-                    </NotMobile>
-                  </Col>
-                </Row> 
-              </Container>
-            </Col>
-          </Row>
-        </Container>
-      </>
-    );
-  }
+  return (
+    <>
+      <Selector type={type} history={props.history} match={props.match} location={props.location} />
+      <Container fluid className="top-shadow">
+        <Row>
+          <Col className="pl-0 pr-0">
+            <Container>
+              <Row>
+                <Col>
+                  <Mobile>                    
+                    {chartsBlock(true, recap)}
+                  </Mobile>
+                  <NotMobile>
+                    {chartsBlock(false, recap)}
+                  </NotMobile>
+                </Col>
+              </Row> 
+            </Container>
+          </Col>
+        </Row>
+      </Container>
+    </>
+  );
 }
 
 const mapStateToProps = (state: AppState) => {

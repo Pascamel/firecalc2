@@ -3,7 +3,7 @@ import _ from 'lodash';
 import React, { Dispatch } from 'react';
 import { connect } from 'react-redux';
 
-import { updateValue } from '../../actions';
+import { updateValueLocalStorage } from '../../actions';
 import Bank from '../../bank';
 import { FireAmount, FireTD, FireTR, StaticAmount, StaticPercentage } from '../../components';
 import { AppState } from '../../store';
@@ -11,7 +11,7 @@ import { AppState } from '../../store';
 interface IProps {
   year: string;
   bank: Bank.IBank;
-  onUpdateValue: (index: string, indexes: string[], amount: number) => void;
+  onUpdateValueLocalStorage: (index: string, indexes: string[], amount: number | boolean) => void;
 }
 
 interface IState {
@@ -21,6 +21,7 @@ interface IState {
 class RevenuesTableBody extends React.Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
+    
 
     this.state = {collapsed: _.get(props.bank.incomeYearHeaders, ['collapsed', props.year], false)};
     this.handleClickToggle = this.handleClickToggle.bind(this);
@@ -29,10 +30,8 @@ class RevenuesTableBody extends React.Component<IProps, IState> {
   handleClickToggle() {
     const newValue = !this.state.collapsed;
     this.setState({collapsed: newValue});
-  }
 
-  updateValue = (index: string, indexes: string[], amount: number, updatedState: boolean) => {
-    this.props.onUpdateValue(index, indexes, amount);
+    this.props.onUpdateValueLocalStorage('incomeYearHeaders', ['collapsed', this.props.year], newValue);
   }
 
   render() {
@@ -82,7 +81,7 @@ class RevenuesTableBody extends React.Component<IProps, IState> {
           </td>
           ))}
           {bank.totalMonthIncome[year][month[0]] === 0 && <td colSpan={3}></td>}
-          {bank.totalMonthIncome[year][month[0]] !== 0 && <React.Fragment>
+          {bank.totalMonthIncome[year][month[0]] !== 0 && <>
             <td>
               <StaticAmount>
                 { bank.totalMonthPost[year][month[0]] }
@@ -98,7 +97,7 @@ class RevenuesTableBody extends React.Component<IProps, IState> {
                 { bank.savingRateMonth[year][month[0]] }
               </StaticPercentage>
             </FireTD>
-          </React.Fragment>}
+          </>}
         </FireTR>
         ))}
 
@@ -142,8 +141,8 @@ const mapStateToProps = (state: AppState) => {
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => {
   return {
-    onUpdateValue: (index: string, indexes: string[], amount: number) => {
-      dispatch(updateValue(index, indexes, amount));
+    onUpdateValueLocalStorage: (index: string, indexes: string[], amount: number | boolean) => {
+      dispatch(updateValueLocalStorage(index, indexes, amount));
     }
   };
 };

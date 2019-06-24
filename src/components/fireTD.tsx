@@ -7,29 +7,31 @@ interface IProps {
   goal?: number;
   threshold?: number;
   span?: number;
+  children?: React.ReactElement | string | null;
 }
 
-export default class FireTD extends React.Component<IProps, {}> {
-  render() {
-    const classNames = [];
+const FireTD = (props: IProps) => {
+  const classNames = [];
 
-    if (_.has(this.props, 'show') && !(this.props.show || false)) {
-      classNames.push('hidden');
-    }  
-    if (_.has(this.props, 'hide') && this.props.hide) {
-      classNames.push('hidden');
-    } 
-    if (_.has(this.props, 'goal') && _.has(this.props, 'threshold')) {
-      classNames.push(((this.props.goal || 0) >= (this.props.threshold || 0)) ? 'table-success' : 'table-danger');
-    }
-
-    let colSpan = 1;
-    if (_.has(this.props, 'span')) colSpan = this.props.span || 1;
-
-    return (
-      <td className={classNames.join(' ')} colSpan={colSpan}>
-        {this.props.children}
-      </td>
-    );
+  if (_.has(props, 'show') && !(props.show || false)) {
+    classNames.push('hidden');
+  }  
+  if (_.has(props, 'hide') && props.hide) {
+    classNames.push('hidden');
+  } 
+  if (_.has(props, 'goal') && _.has(props, 'threshold')) {
+    classNames.push(((props.goal || 0) >= (props.threshold || 0)) ? 'table-success' : 'table-danger');
   }
+
+  let colSpan = 1;
+  if (_.has(props, 'span')) colSpan = props.span || 1;
+
+  return (
+    <td className={classNames.join(' ')} colSpan={colSpan}>
+      {props.children}
+    </td>
+  );
+
 }
+
+export default FireTD;
