@@ -60,7 +60,7 @@ class Body extends React.Component<IProps, IState> {
               /mo)
             </span>
           </FireTD>
-          {bank.savingsInputsHidden.map((amount: any, idx: number) => (
+          {bank.savingsInputsHidden.map((amount, idx: number) => (
           <FireTD show={this.state.collapsed} key={idx}>
             <StaticAmount display-zero>
               { bank.totalInstitution[year][amount.id][amount.type] }
@@ -92,7 +92,7 @@ class Body extends React.Component<IProps, IState> {
         {Object.entries(bank.savings[year]).map((month, idx) => (
         <FireTR hide={this.state.collapsed} key={idx}>
           <td>{ month[0] }</td>
-          {bank.savingsInputsHidden.map((amount: any, idx: number) => (
+          {bank.savingsInputsHidden.map((amount, idx: number) => (
           <td key={idx}>
             {amount.type !== 'T' && <FireAmount callback-props={['savings', year, month[0], amount.id, amount.type]} />}
             {amount.type === 'T' && <StaticAmount>{bank.totalMonthInstitution[year][month[0]][amount.id]}</StaticAmount>}
@@ -130,7 +130,7 @@ class Body extends React.Component<IProps, IState> {
           <td>
             <FontAwesomeIcon icon={['far', 'calendar-alt']} />
           </td>
-          {bank.savingsInputsHidden.map((amount: any, idx: number) => (
+          {bank.savingsInputsHidden.map((amount, idx: number) => (
           <td key={idx}>
             <StaticAmount display-zero>
               { bank.totalInstitution[year][amount.id][amount.type] }

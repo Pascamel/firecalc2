@@ -3,6 +3,7 @@ import uuid from 'uuid';
 
 import * as TYPES from '../actions/types';
 import Bank from '../bank';
+import { IBank } from '../bank/bank';
 
 const INITIAL_STATE = {
   bank: {},
@@ -99,9 +100,9 @@ const bankReducer = (state = INITIAL_STATE, action: any) => {
     }
       
     case TYPES.HEADERS_UPDATE_SAVING: {
-      let new_bank = JSON.parse(JSON.stringify(state.bank));
+      let new_bank: IBank = JSON.parse(JSON.stringify(state.bank));
 
-      _(new_bank.headers.savings).each((h: any) => {
+      _(new_bank.headers.savings).each((h) => {
         if (h.id !== action.payload.header.id) return;
         Object.assign(h, action.payload.header);
       });

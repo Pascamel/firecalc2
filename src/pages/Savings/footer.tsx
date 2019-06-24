@@ -20,8 +20,8 @@ class Footer extends React.Component<IProps, {}> {
           <td>
             <FontAwesomeIcon icon="university" />
           </td>
-          {bank.savingsInputsHidden.map((amount: any, key: number) => (
-          <td className="table-warning" key={key}>
+          {bank.savingsInputsHidden.map((amount) => (
+          <td className="table-warning" key={amount.id+amount.type}>
             <StaticAmount display-zero>
               { bank.grandTotalInstitution[amount.id][amount.type] }
             </StaticAmount>

@@ -1,17 +1,17 @@
 import * as React from 'react';
-import { Form, Input, Button } from 'reactstrap';
+import { Button, Form, Input } from 'reactstrap';
+
 import { auth } from '../../firebase';
 
-
 interface IProps {
-  error?: any;
+  error?: string|null;
   history?: any;
   passwordOne?: string;
   passwordTwo?: string;
 }
 
 interface IState {
-  error?: any;
+  error?: string|null;
   passwordOne?: string;
   passwordTwo?: string;
 }

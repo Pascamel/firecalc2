@@ -49,7 +49,7 @@ class RevenuesTableBody extends React.Component<IProps, IState> {
               { year }
             </span>
           </FireTD>
-          {bank.incomeHeaders.map((header: any) => (
+          {bank.incomeHeaders.map((header) => (
           <FireTD show={this.state.collapsed} key={header.id}>
             <StaticAmount display-zero>
               { bank.yearlyIncome[year][header.id] }
@@ -76,7 +76,7 @@ class RevenuesTableBody extends React.Component<IProps, IState> {
         {Object.entries(bank.income[year]).map((month) => (
         <FireTR hide={this.state.collapsed} key={month[0]}>
           <td>{ month[0] }</td>
-          {bank.incomeHeaders.map((header: any) => (
+          {bank.incomeHeaders.map((header) => (
           <td key={year + '-' + month[0] + '-' + header.id}>
             <FireAmount callback-props={['income', year, month[0], header.id]} />
           </td>

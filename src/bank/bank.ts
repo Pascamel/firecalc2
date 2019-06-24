@@ -344,8 +344,8 @@ export const calculateTotals = (bank: IBank) => {
   });
 
   // grandTotalHolding = () => 123.45;  
-  const year: any = _(bank.savings).keys().last();
-  const month: any = _(bank.savings[year]).keys().last();
+  const year: string = _(bank.savings).keys().last() || '';
+  const month: string = _(bank.savings[year]).keys().last() || '';
 
   bank.grandTotalHolding = bank.totalHolding[year][month];  
 }
