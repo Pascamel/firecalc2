@@ -1,7 +1,7 @@
 import './icons';
 
 import { LocationState } from 'history';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
 
 import * as ROUTES from '../constants/routes';

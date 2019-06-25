@@ -27,13 +27,12 @@ interface IState {
 
 const FireAmount = (props: IProps) => {
   const { bank, onUpdateValue } = props;
-
-  const[readonly, setReadonly] = useState(_.last(props['callback-props']) === 'T');
-  const [extraClassName, setExtraClassName] = useState(props.extraClassName || '');
+  const [readonly,] = useState(_.last(props['callback-props']) === 'T');
+  const [extraClassName,] = useState(props.extraClassName || '');
   const [edit, setEdit] = useState(false);
   const [amount, setAmount] = useState(_.get(props.bank, props['callback-props'], 0));
   const [inputValue, setInputValue] = useState(_.get(props.bank, props['callback-props'], 0) ? _.get(props.bank, props['callback-props'], 0).toString() : '');
-  const [displayIfZero, setDisplayIfZero] = useState(props['display-if-zero'] || false);
+  const [displayIfZero,] = useState(props['display-if-zero'] || false);
     
   const setEditMode = () => {
     if (readonly) return;
@@ -80,7 +79,7 @@ const FireAmount = (props: IProps) => {
     setEdit(false);
     setAmount(_.get(bank, props['callback-props'], 0));
     setInputValue(_.get(bank, props['callback-props'], 0) ? _.get(bank, props['callback-props'], 0).toString() : '');
-  }, [props['callback-props']])
+  }, [bank, props])
 
   return (
     <div className={`amount-container ${readonly ? 'read-only' : ''} ${extraClassName}`} onKeyDown={handleKeyDown}>
