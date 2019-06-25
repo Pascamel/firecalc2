@@ -1,12 +1,12 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import _ from 'lodash';
 import React from 'react';
+import { RouteComponentProps } from 'react-router';
 import { Button, ButtonGroup, Col, Container, Row } from 'reactstrap';
 
-import { Mobile, NotMobile } from '../../components/Responsive';
+import { Mobile, NotMobile } from '../../components';
 import * as CHARTS from '../../constants/charts';
 import * as ROUTES from '../../constants/routes';
-import { RouteComponentProps } from 'react-router';
 
 interface IProps {
   type: string;

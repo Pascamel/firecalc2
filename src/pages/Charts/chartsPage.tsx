@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import React, { Dispatch, useState, useEffect } from 'react';
+import React, { Dispatch, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router-dom';
 import { Col, Container, Row } from 'reactstrap';
@@ -7,7 +7,7 @@ import { Col, Container, Row } from 'reactstrap';
 import { loadBank } from '../../actions';
 import Bank from '../../bank';
 import { LoadingPanel } from '../../components';
-import { Mobile, NotMobile } from '../../components/Responsive';
+import { Mobile, NotMobile } from '../../components';
 import * as CHARTS from '../../constants/charts';
 import helpers from '../../helpers';
 import { AppState } from '../../store';
