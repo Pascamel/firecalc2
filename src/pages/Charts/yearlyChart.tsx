@@ -16,12 +16,12 @@ interface IProps {
   bank: Bank.IBank;
   data: {[year: number]: Array<Array<string>|Array<Date|number|null>>};
   mobile: boolean; 
-  chart: string
+  chart: string;
 }
 
 const YearlyChart = (props: IProps & RouteComponentProps) => {
   const { bank, data, mobile, chart } = props;
-  const[year, setYear] = useState(parseInt(_.get(props, 'match.params.year')) || new Date().getFullYear())
+  const [year, setYear] = useState(parseInt(_.get(props, 'match.params.year')) || new Date().getFullYear())
 
   const clickDate = (y: number) => {
     const route = ROUTES.CHARTS_YEAR.replace(':type', chart).replace(':year', y.toString());
@@ -32,14 +32,12 @@ const YearlyChart = (props: IProps & RouteComponentProps) => {
   const prevYear = () => {
     const route = ROUTES.CHARTS_YEAR.replace(':type', chart).replace(':year', (year - 1).toString());
     props.history.push(route);
-    console.log('route', route);
     setYear(year - 1);
   }
 
   const nextYear = () => {
     const route = ROUTES.CHARTS_YEAR.replace(':type', chart).replace(':year', (year + 1).toString());
     props.history.push(route);
-    console.log('route', route);
     setYear(year + 1);
   }
 

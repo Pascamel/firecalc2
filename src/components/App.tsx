@@ -41,7 +41,7 @@ const AppComponent = (props: IProps) => (
         <Route exact path={ROUTES.MONTH_NO_PARAMS} render={() => (<Redirect to={helpers.currentMonthRoute()} />)} />
         <Route exact path={ROUTES.REVENUES} component={RevenuesPage} />
         <Route exact path={ROUTES.SAVINGS} component={SavingsPage} />
-        <Route path={ROUTES.CHARTS_YEAR_AMOUNT} component={ChartsPage} />
+        <Route path={ROUTES.CHARTS_YEARS_AMOUNT} component={ChartsPage} />
         <Route path={ROUTES.CHARTS_YEAR} component={ChartsPage} />
         <Route path={ROUTES.CHARTS} component={ChartsPage} />
         <Route exact path={ROUTES.SETTINGS} component={SettingsPage} />
