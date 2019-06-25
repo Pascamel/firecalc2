@@ -1,10 +1,13 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import _ from 'lodash';
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
+import { RouteComponentProps } from 'react-router';
 import { Badge, Button, ButtonGroup, Col, ListGroup, ListGroupItem, Row } from 'reactstrap';
 
 import Bank from '../../bank';
 import * as CHARTS from '../../constants/charts';
+import * as ROUTES from '../../constants/routes';
 import helpers from '../../helpers';
 import { AppState } from '../../store';
 import * as Charts from './charts';
@@ -16,19 +19,27 @@ interface IProps {
   chart: string
 }
 
-const YearlyChart = (props: IProps) => {
+const YearlyChart = (props: IProps & RouteComponentProps) => {
   const { bank, data, mobile, chart } = props;
-  const[year, setYear] = useState(new Date().getFullYear())
+  const[year, setYear] = useState(parseInt(_.get(props, 'match.params.year')) || new Date().getFullYear())
 
   const clickDate = (y: number) => {
+    const route = ROUTES.CHARTS_YEAR.replace(':type', chart).replace(':year', y.toString());
+    props.history.push(route);
     setYear(y);
   }
 
   const prevYear = () => {
+    const route = ROUTES.CHARTS_YEAR.replace(':type', chart).replace(':year', (year - 1).toString());
+    props.history.push(route);
+    console.log('route', route);
     setYear(year - 1);
   }
 
   const nextYear = () => {
+    const route = ROUTES.CHARTS_YEAR.replace(':type', chart).replace(':year', (year + 1).toString());
+    props.history.push(route);
+    console.log('route', route);
     setYear(year + 1);
   }
 

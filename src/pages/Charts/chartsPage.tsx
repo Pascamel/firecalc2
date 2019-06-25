@@ -139,7 +139,7 @@ const ChartsPageBase = (props: IProps & RouteComponentProps) => {
       {type === CHARTS.URL.SAVINGS_BREAKDOWN && <Charts.SavingsBreakdownChart data={recap.sb} mobile={mobile} />}
       {type === CHARTS.URL.ALLOCATION_EVOLUTION && <Charts.AllocationEvolutionChart data={recap.sae} mobile={mobile} />}
       {type === CHARTS.URL.BREAK_EVEN_POINT && <Charts.BreakEvenPointChart data={recap.bep} mobile={mobile} />}
-      {type === CHARTS.URL.YEARLY_GOAL_BURNUP && <YearlyChart data={recap.ybu} mobile={mobile} chart={type} />}
+      {type === CHARTS.URL.YEARLY_GOAL_BURNUP && <YearlyChart data={recap.ybu} mobile={mobile} chart={type} {...props} />}
       {type === CHARTS.URL.PROJECTION && <ProjectionChart mobile={mobile} />}
     </>
   );
