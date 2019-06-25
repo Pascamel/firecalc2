@@ -11,10 +11,11 @@ import * as ROUTES from '../../constants/routes';
 import helpers from '../../helpers';
 import { AppState } from '../../store';
 import * as Charts from './charts';
+import { IYearlyChartData } from './interfaces';
 
 interface IProps {
   bank: Bank.IBank;
-  data: {[year: number]: Array<Array<string>|Array<Date|number|null>>};
+  data: {[year: number]: IYearlyChartData};
   mobile: boolean; 
   chart: string;
 }

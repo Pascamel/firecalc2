@@ -15,6 +15,7 @@ import * as Charts from './charts';
 import ProjectionChart from './projectionChart';
 import Selector from './selector';
 import YearlyChart from './yearlyChart';
+import { IArrayDateNumber, IYearlyArrayDateNumberNull } from './interfaces';
 
 interface IProps extends RouteComponentProps<{type: string}> {
   authUser: firebase.User|null;
@@ -23,19 +24,13 @@ interface IProps extends RouteComponentProps<{type: string}> {
   onLoadBank: (uid: string) => void;
 }
 
-type ArrayDateNumber = Array<Array<string> | Array<Date|number> | Array<string|{v: number, f: string}>>;
-
-type YearlyArrayDateNumberNull = {
-  [year:number]: Array<Array<string> | Array<Date|number|null>>
-};
-
 interface IRecap {
-  svsi: ArrayDateNumber;
-  nws: ArrayDateNumber;
-  sb: ArrayDateNumber;
-  sae: ArrayDateNumber;
-  bep: ArrayDateNumber;
-  ybu: YearlyArrayDateNumberNull
+  svsi: IArrayDateNumber;
+  nws: IArrayDateNumber;
+  sb: IArrayDateNumber;
+  sae: IArrayDateNumber;
+  bep: IArrayDateNumber;
+  ybu: IYearlyArrayDateNumberNull;
 }
 
 const ChartsPageBase = (props: IProps & RouteComponentProps) => {
@@ -55,16 +50,16 @@ const ChartsPageBase = (props: IProps & RouteComponentProps) => {
   }, [match, bank, type]);
 
   const mapBankToRecap = (bank: Bank.IBank) => {
-    const svsi: ArrayDateNumber = [['Date', 'Savings', 'Income']];
-    const nws: ArrayDateNumber = [['Date', 'Net Worth', 'Savings']];
-    const sb: ArrayDateNumber = [['Institution', 'Amount']];
-    const sae: ArrayDateNumber = [_.concat(['Date'], _(bank.savingsInputs)
+    const svsi: IArrayDateNumber = [['Date', 'Savings', 'Income']];
+    const nws: IArrayDateNumber = [['Date', 'Net Worth', 'Savings']];
+    const sb: IArrayDateNumber = [['Institution', 'Amount']];
+    const sae: IArrayDateNumber = [_.concat(['Date'], _(bank.savingsInputs)
       .filter((header) => (header.types.indexOf('T') === -1) || (header.type === 'T'))
       .map((header) => _(bank.savingsHeaders).keyBy('id').get([header.id, 'label'], 'N/A'))
       .value()
     )];
-    const bep: ArrayDateNumber = [['Date', 'Passive income', 'Expenses']];
-    const ybu: YearlyArrayDateNumberNull = {};
+    const bep: IArrayDateNumber = [['Date', 'Passive income', 'Expenses']];
+    const ybu: IYearlyArrayDateNumberNull = {};
 
     _.each(_.range(bank.headers.firstYear, new Date().getFullYear()+1), (y) => {
       const m1 = (y === bank.headers.firstYear) ? bank.headers.firstMonth : 1;

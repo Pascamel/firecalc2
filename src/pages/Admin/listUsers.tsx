@@ -3,14 +3,12 @@ import React from 'react';
 
 import * as ROLES from '../../constants/roles';
 
-type UserType = {
-  id: string,
-  email?: string,
-  type?: number
-}
-
 interface IProps {
-  users: Array<UserType>
+  users: Array<{
+    id: string,
+    email?: string,
+    type?: number
+  }>;
 }
 
 const ListUsers = (props: IProps) => {
@@ -32,11 +30,11 @@ const ListUsers = (props: IProps) => {
           </tr>
         </thead>
         <tbody>
-          {users.map((user: any) => (
+          {users.map((user) => (
             <tr key={user.id}>
               <td>{user.id}</td>
               <td>{user.email}</td>
-              <td>{labelType(user.type)}</td>
+              <td>{user.type ? labelType(user.type) : 'N/A'}</td>
             </tr>
           ))}
         </tbody>

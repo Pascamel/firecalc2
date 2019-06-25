@@ -44,7 +44,7 @@ const Selector = (props: IProps & RouteComponentProps) => {
                 <NotMobile>
                   <ButtonGroup>
                     {Object.entries(CHARTS.URL).map((t, key: number) => ( 
-                      <Button color="link" key={key} disabled={type===t[1]} onClick={(e: any) => goTo(t[0])}>
+                      <Button color="link" key={key} disabled={type===t[1]} onClick={() => goTo(t[0])}>
                         {_.get(CHARTS.LABELS, t[0])}
                       </Button>
                     ))}

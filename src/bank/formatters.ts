@@ -62,14 +62,14 @@ export const formatSavings = (data: any, headers: any) => {
   return result;
 }
 
-export const formatIncomeHeaders = (headers: any) => {
+export const formatIncomeHeaders = (headers: {incomes: I.IIncomeHeader[]}) => {
   return _.map(headers.incomes, (h, idx: number) => {
     h.last = (idx === headers.incomes.length - 1);
     return h;
   });
 }
 
-export const formatSavingsHeaders = (headers: any) => {
+export const formatSavingsHeaders = (headers: {savings: I.ISavingsHeader[]}) => {
   return headers.savings;
 }
 

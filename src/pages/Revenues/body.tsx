@@ -91,7 +91,7 @@ const Body = (props: IProps) => {
         <td>
           <FontAwesomeIcon icon={['far', 'calendar-alt']} />
         </td>
-        {bank.incomeHeaders.map((header: any) => (
+        {bank.incomeHeaders.map((header) => (
         <td key={header.id}>
           <StaticAmount display-zero>
             { bank.yearlyIncome[year][header.id] }

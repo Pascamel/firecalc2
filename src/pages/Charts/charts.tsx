@@ -2,10 +2,11 @@ import React from 'react';
 import { Chart } from 'react-google-charts';
 
 import { LoadingPanel } from '../../components';
+import { IArrayDateNumber, IYearlyArrayDateNumberNull, IYearlyChartData } from './interfaces';
 
 interface IProps {
-  data: any,
-  mobile: boolean
+  data:   IArrayDateNumber | IYearlyArrayDateNumberNull | IYearlyChartData;
+  mobile: boolean;
 }
 
 interface IYear {

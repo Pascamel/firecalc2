@@ -21,7 +21,7 @@ const Header = (props: IProps) => {
       </tr>
       <tr>
         <th></th>
-        {bank.incomeHeaders.map((header: any) => (
+        {bank.incomeHeaders.map((header) => (
           <th key={header.id} className={header.last ? 'separator' : ''}>{header.label}</th>
         ))}
         <th>Post</th>

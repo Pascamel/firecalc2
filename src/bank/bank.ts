@@ -337,7 +337,7 @@ export const calculateTotals = (bank: IBank) => {
       const value = _.reduce(['P', 'I'], (v, i) => v + bank.grandTotalInstitution[header.id][i], 0);
       bank.grandTotalInstitution[header.id][header.type] = value;
     } else {
-      const sp = (header.type === 'P' && _.findIndex(bank.savingsInputs, (o: any) => { return o.id === header.id; }) === 0) ? bank.headers.startingCapital : 0;
+      const sp = (header.type === 'P' && _.findIndex(bank.savingsInputs, o => { return o.id === header.id; }) === 0) ? bank.headers.startingCapital : 0;
       const ti = _(bank.savings).keys().reduce((acc, year) => acc + bank.totalInstitution[year][header.id][header.type], 0);
       bank.grandTotalInstitution[header.id][header.type] = sp + ti;
     }

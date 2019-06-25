@@ -11,6 +11,7 @@ export interface IIncomeHeader {
   label: string;
   pretax: boolean;
   count: number;
+  last?: boolean;
 }
 
 export interface IIncomeYearHeaders {

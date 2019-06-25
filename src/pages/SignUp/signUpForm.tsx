@@ -14,11 +14,13 @@ export const SignUpForm = (props: RouteComponentProps) => {
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    auth.doCreateUserWithEmailAndPassword(email, passwordOne).then((authUser: any) => {
-      return firestore.setUser(authUser.user.uid, {
-        email,
-        type: ROLES.USER
-      });
+    auth.doCreateUserWithEmailAndPassword(email, passwordOne).then((authUser: firebase.auth.UserCredential) => {
+      if (authUser.user) {
+        return firestore.setUser(authUser.user.uid, {
+          email,
+          type: ROLES.USER
+        });
+      }
     }).then(() => {
       setError(null);
       setPasswordOne('');
