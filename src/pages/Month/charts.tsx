@@ -52,10 +52,10 @@ const Charts = (props: IProps) => {
                     percentage={helpers.clean_percentage(bank.goalYearToDate[year][month] / bank.monthlyGoal[year] / parseInt(month))} />
           <hr />
           <Row>
-            <Col className="col-6 chart-container">
+            <Col className="col-6 month-chart-container">
               <Doughnut savingRate={bank.savingRateMonth[year][month]} />
             </Col>
-            <Col className="col-6 chart-container">
+            <Col className="col-6 month-chart-container">
               <Doughnut savingRate={bank.savingRateYear[year][month]} />
             </Col>
           </Row>

@@ -317,8 +317,16 @@ html, body, #root {
   transform: translateX(-50%);
 }
 
-.chart-container {
+.month-chart-container {
   position: relative;
+}
+
+.chart-container {
+  height: calc(100% - 120px);
+
+  div &:not(.btn-group-vertical) {
+    height: calc(100%);
+  }
 }
 
 .chart-label {

@@ -17,7 +17,7 @@ export const IncomeVsSavingsChart = (props: IProps) => (
   <Chart
     chartType="LineChart"
     width="100%"
-    height="460px"
+    height="99%"
     loader={<LoadingPanel color="background" />}
     data={props.data}
     options={{
@@ -46,7 +46,7 @@ export const NetWorthVsSavingsChart = (props: IProps) => (
   <Chart
     chartType="LineChart"
     width="100%"
-    height="460px"
+    height="99%"
     loader={<LoadingPanel color="background" />}
     data={props.data}
     options={{
@@ -72,7 +72,7 @@ export const SavingsBreakdownChart = (props: IProps) => (
   <Chart
     chartType="PieChart"
     width="100%"
-    height="460px"
+    height="99%"
     loader={<LoadingPanel color="background" />}
     data={props.data}
     options={{
@@ -93,7 +93,7 @@ export const AllocationEvolutionChart = (props: IProps) => (
   <Chart 
     chartType="AreaChart"
     width="100%"
-    height="460px"
+    height="99%"
     loader={<LoadingPanel color="background" />}
     data={props.data}
     legendToggle
@@ -120,7 +120,7 @@ export const BreakEvenPointChart = (props: IProps) => (
   <Chart
     chartType="LineChart"
     width="100%"
-    height="460px"
+    height="99%"
     loader={<LoadingPanel color="background" />}
     data={props.data}
     options={{
@@ -146,7 +146,7 @@ export const YearlyGoalBurnUp = (props: IProps & IYear) => (
   <Chart
     chartType="LineChart"
     width="100%"
-    height="460px"
+    height="99%"
     loader={<LoadingPanel color="background" />}
     data={props.data}
     options={{

@@ -146,7 +146,7 @@ const ChartsPageBase = (props: IProps & RouteComponentProps) => {
   return (
     <>
       <Selector type={type} history={props.history} match={props.match} location={props.location} />
-      <Container fluid className="top-shadow">
+      <Container fluid className="top-shadow chart-container">
         <Row>
           <Col className="pl-0 pr-0">
             <Container>
