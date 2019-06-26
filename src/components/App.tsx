@@ -10,7 +10,6 @@ import helpers from '../helpers';
 import { AccountPage } from '../pages/Account';
 import { AdminPage } from '../pages/Admin';
 import { ChartsPage } from '../pages/Charts';
-import { DashboardPage } from '../pages/Dashboard';
 import { HomePage } from '../pages/Home';
 import { MonthPage } from '../pages/Month';
 import { NotFoundPage } from '../pages/NotFound';
@@ -36,7 +35,6 @@ const AppComponent = (props: IProps) => (
         <Route exact path={ROUTES.PASSWORD_FORGET} component={PasswordForgetPage} />
         <Route exact path={ROUTES.HOME} component={HomePage} />
         <Route exact path={ROUTES.ACCOUNT} component={AccountPage} />
-        <Route exact path={ROUTES.DASHBOARD} component={DashboardPage} />
         <Route path={ROUTES.MONTH} component={MonthPage} />
         <Route exact path={ROUTES.MONTH_NO_PARAMS} render={() => (<Redirect to={helpers.currentMonthRoute()} />)} />
         <Route exact path={ROUTES.REVENUES} component={RevenuesPage} />

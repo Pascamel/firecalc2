@@ -25,7 +25,7 @@ export const withAuthorization = (condition: any) => (Component: any) => {
           if (!condition(authUser)) {
             this.props.history.push(ROUTES.SIGN_IN);
           }
-
+          
           return;
         } 
 
@@ -41,7 +41,7 @@ export const withAuthorization = (condition: any) => (Component: any) => {
         }
 
         // unknown auth
-        this.props.history.push(ROUTES.DASHBOARD);
+        this.props.history.push(ROUTES.HOME);
       });
     }
 

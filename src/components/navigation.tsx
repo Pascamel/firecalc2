@@ -52,7 +52,7 @@ const NavigationAuth = (props: IProps) => {
 
   return (
     <Navbar light expand="md">
-      <NavLink className="navbar-brand" to={ROUTES.DASHBOARD}>
+      <NavLink className="navbar-brand" to={ROUTES.HOME}>
         FireCalc
       </NavLink>
       <NavbarToggler onClick={toggle} />
@@ -129,7 +129,7 @@ const NavigationNonAuth = (props: IProps) => {
 
   return (
     <Navbar light expand="md">
-      <NavLink className="navbar-brand" to={ROUTES.DASHBOARD}>
+      <NavLink className="navbar-brand" to={ROUTES.HOME}>
         FireCalc
       </NavLink>
       <NavbarToggler onClick={toggle} />

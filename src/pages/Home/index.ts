@@ -1,3 +1,7 @@
-import { HomePage } from './homePage';
+import { withAuthorization } from '../../firebase/withAuthorization';
+import HomePageBase from './homePage'; 
 
-export { HomePage }; 
+
+const authCondition = (authUser: firebase.User) => !!authUser;
+
+export const HomePage = withAuthorization(authCondition)(HomePageBase);
