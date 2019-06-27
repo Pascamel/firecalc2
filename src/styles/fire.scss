@@ -328,8 +328,17 @@ html, body, #root {
 .chart-container {
   height: calc(100% - 120px);
 
-  div &:not(.btn-group-vertical) {
+  > div {
     height: calc(100%);
+    > div > div {
+      height: calc(100%);
+      > div {
+        height: calc(100%);
+        > div > div {
+          height: calc(100%);
+        }
+      }
+    }
   }
 }
 

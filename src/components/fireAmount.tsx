@@ -99,8 +99,7 @@ const FireAmount = (props: IProps) => {
 
 const mapStateToProps = (state: AppState) => {
   return ({
-    bank: state.bankState.bank,
-    bankUpdated: state.bankState.bankUpdated
+    bank: state.bankState.bank
   });
 }
 
