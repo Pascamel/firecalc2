@@ -12,7 +12,7 @@ import { AdminPage } from '../pages/Admin';
 import { ChartsPage } from '../pages/Charts';
 import { HomePage } from '../pages/Home';
 import { MonthPage } from '../pages/Month';
-import { NotFoundPage } from '../pages/NotFound';
+import { NotFoundPage, NotAuthorizedPage } from '../pages/Error';
 import PasswordForgetPage from '../pages/PasswordForget';
 import { RevenuesPage } from '../pages/Revenues';
 import { SavingsPage } from '../pages/Savings';
@@ -44,6 +44,7 @@ const AppComponent = (props: IProps) => (
         <Route path={ROUTES.CHARTS} component={ChartsPage} />
         <Route exact path={ROUTES.SETTINGS} component={SettingsPage} />
         <Route path={ROUTES.ADMIN} component={AdminPage} />
+        <Route exact path={ROUTES.NOT_AUTHORIZED} component={NotAuthorizedPage} />
         <Route path='*' component={NotFoundPage}/>
       </Switch>
     </>

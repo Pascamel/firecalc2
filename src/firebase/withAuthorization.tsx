@@ -23,7 +23,7 @@ export const withAuthorization = (condition: any) => (Component: any) => {
         // boolean based authentication
         if (typeof authCheckResult === 'boolean') {
           if (!condition(authUser)) {
-            this.props.history.push(ROUTES.SIGN_IN);
+            this.props.history.push(ROUTES.NOT_AUTHORIZED);
           }
           
           return;
@@ -33,7 +33,7 @@ export const withAuthorization = (condition: any) => (Component: any) => {
         if (typeof authCheckResult === 'object') {
           condition(authUser).then((res: boolean) => {
             if (!res) {
-              this.props.history.push(ROUTES.SIGN_IN);
+              this.props.history.push(ROUTES.NOT_AUTHORIZED);
             }
           });
 

@@ -51,8 +51,8 @@ const HomePageBase = (props: IProps) => {
           <Container>
             <Row>
               <Col xs={6}>
-                <div className="piggy-wrapper">
-                  <div className="piggy-bank" />
+                <div className="background-wrapper">
+                  <div className="background piggy-bank" />
                 </div>
               </Col>
               <Col xs={6} className="pt-5">

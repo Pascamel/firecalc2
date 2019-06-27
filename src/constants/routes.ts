@@ -13,3 +13,5 @@ export const SETTINGS = '/settings';
 export const CHARTS = '/chart/:type';
 export const CHARTS_YEAR = '/chart/:type/:year';
 export const CHARTS_YEARS_AMOUNT = '/chart/:type/:years/:amount';
+
+export const NOT_AUTHORIZED = '/access-denied';
