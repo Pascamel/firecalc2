@@ -61,7 +61,7 @@ const mapDispatchToProps = (dispatch: Dispatch<any>) => {
       dispatch(loadBank(uid));
     },
     onSaveBank: (uid: string, bank: Bank.IBank) => {
-      dispatch(saveBank(uid, bank));
+      dispatch(saveBank(uid, bank, false, true, false));
     }
   };
 };

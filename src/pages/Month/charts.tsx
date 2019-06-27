@@ -14,7 +14,6 @@ interface IProps {
   month: string; 
   year: string;
   bank: Bank.IBank;
-  bankUpdated: boolean;
 }
 
 const Charts = (props: IProps) => {
@@ -83,8 +82,7 @@ const Charts = (props: IProps) => {
 
 const mapStateToProps = (state: AppState) => {
   return ({
-    bank: state.bankState.bank,
-    bankUpdated: state.bankState.bankUpdated
+    bank: state.bankState.bank
   });
 }
 

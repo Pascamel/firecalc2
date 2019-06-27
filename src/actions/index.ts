@@ -55,34 +55,25 @@ export const updateValueLocalStorage = (index: string, indexes: string[], amount
   };
 }
 
-export const saveBank = (uid: string, bank: Bank.IBank) => {
+export const saveBank = (uid: string, bank: Bank.IBank, savings: boolean, income: boolean, settings: boolean) => {
   return (dispatch: Dispatch<any>) => {
     dispatch(({
       type: TYPES.BANK_SAVE_STARTED,
       payload: {bank}
     }));
 
-    Bank.saveSavings(uid, bank).then(() => {
-      Bank.saveIncome(uid, bank).then(() => {
-        Bank.saveOthers(uid, bank).then(() => {
-          dispatch(({
-            type: TYPES.BANK_SAVE_SUCCESS,
-            payload: {
-              bank: JSON.parse(JSON.stringify(bank))
-            }
-          }));
-        }).catch((error: Error) => {
-          dispatch(({
-            type: TYPES.BANK_SAVE_FAILURE,
-            payload: {error}
-          }));
-        });
-      }).catch((error: Error) => {
-        dispatch(({
-          type: TYPES.BANK_SAVE_FAILURE,
-          payload: {error}
-        }));
-      });
+    const promises = []
+    if (savings) promises.push(Bank.saveSavings(uid, bank));
+    if (income) promises.push(Bank.saveIncome(uid, bank));
+    if (settings) promises.push(Bank.saveOthers(uid, bank));
+
+    Promise.all(promises).then(() => {
+      dispatch(({
+        type: TYPES.BANK_SAVE_SUCCESS,
+        payload: {
+          bank: JSON.parse(JSON.stringify(bank))
+        }
+      }));
     }).catch((error: Error) => {
       dispatch(({
         type: TYPES.BANK_SAVE_FAILURE,

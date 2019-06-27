@@ -11,13 +11,16 @@ import { DecimalsBtn, FiltersBtn } from '.';
 interface IProps {
   authUser: firebase.User;
   label: string;
-  bankUpdated: boolean;
+  bankSavingsUpdated: boolean;
+  bankIncomeUpdated: boolean;
+  bankOthersUpdated: boolean;
+  bankUpdatedHeaders: boolean;
   saveInProgress: boolean;
   bank: Bank.IBank;
   prevMonth?: () => void;
   nextMonth?: () => void;
   onLoadBank: (uid: string) => void;
-  onSaveBank: (uid: string, bank: Bank.IBank) => void;
+  onSaveBank: (uid: string, bank: Bank.IBank, savings: boolean, income: boolean, settings: boolean) => void;
   onSaveHeaders: (uid: string, bank: Bank.IBank) => void;
 }
 
@@ -25,14 +28,17 @@ const SavePanel = (props: IProps) => {
   const {
     authUser,
     label,
-    bankUpdated,
+    bankSavingsUpdated,
+    bankIncomeUpdated,
+    bankOthersUpdated,
+    bankUpdatedHeaders,
     saveInProgress,
     bank,
     prevMonth,
     nextMonth,
     onLoadBank,
     onSaveBank,
-    onSaveHeaders,
+    onSaveHeaders
   } = props;
 
   const cancelClick = () => {
@@ -47,9 +53,11 @@ const SavePanel = (props: IProps) => {
     if (label === 'Settings') {
       onSaveHeaders(authUser.uid, bank);
     } else {
-      onSaveBank(authUser.uid, bank);
+      onSaveBank(authUser.uid, bank, bankSavingsUpdated, bankIncomeUpdated, bankOthersUpdated);
     }
   }
+
+  const bankUpdated = bankSavingsUpdated || bankIncomeUpdated || bankOthersUpdated || bankHeadersUpdated;
 
   return (
     <Container fluid className="alert alert-save alert-header">
@@ -104,7 +112,10 @@ const mapStateToProps = (state: AppState) => {
   return ({
     authUser: state.sessionState.authUser,
     bank: state.bankState.bank,
-    bankUpdated: state.bankState.bankUpdated,
+    bankSavingsUpdated: state.bankState.bankSavingsUpdated,
+    bankIncomeUpdated: state.bankState.bankIncomeUpdated,
+    bankOthersUpdated: state.bankState.bankOthersUpdated,
+    bankUpdatedHeaders: state.bankState.bankUpdatedHeaders,
     saveInProgress: state.bankState.saveInProgress
   });
 }
@@ -112,7 +123,7 @@ const mapStateToProps = (state: AppState) => {
 const mapDispatchToProps = (dispatch: Dispatch<any>) => {
   return {
     onLoadBank: (uid: string) => dispatch(loadBank(uid)),
-    onSaveBank: (uid: string, bank: Bank.IBank) => dispatch(saveBank(uid, bank)),
+    onSaveBank: (uid: string, bank: Bank.IBank, savings: boolean, income: boolean, settings: boolean) => dispatch(saveBank(uid, bank, savings, income, settings)),
     onSaveHeaders: (uid: string, bank: Bank.IBank) => dispatch(saveHeaders(uid, bank))
   };
 };
