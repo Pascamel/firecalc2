@@ -14,7 +14,7 @@ interface IProps {
   bankSavingsUpdated: boolean;
   bankIncomeUpdated: boolean;
   bankOthersUpdated: boolean;
-  bankUpdatedHeaders: boolean;
+  bankHeadersUpdated: boolean;
   saveInProgress: boolean;
   bank: Bank.IBank;
   prevMonth?: () => void;
@@ -31,7 +31,7 @@ const SavePanel = (props: IProps) => {
     bankSavingsUpdated,
     bankIncomeUpdated,
     bankOthersUpdated,
-    bankUpdatedHeaders,
+    bankHeadersUpdated,
     saveInProgress,
     bank,
     prevMonth,
@@ -115,7 +115,7 @@ const mapStateToProps = (state: AppState) => {
     bankSavingsUpdated: state.bankState.bankSavingsUpdated,
     bankIncomeUpdated: state.bankState.bankIncomeUpdated,
     bankOthersUpdated: state.bankState.bankOthersUpdated,
-    bankUpdatedHeaders: state.bankState.bankUpdatedHeaders,
+    bankHeadersUpdated: state.bankState.bankHeadersUpdated,
     saveInProgress: state.bankState.saveInProgress
   });
 }
