@@ -55,8 +55,6 @@ const bankReducer = (state = INITIAL_STATE, action: any) => {
       
       Bank.updateValue(new_bank, action.payload.index, action.payload.indexes, action.payload.amount);
       Bank.calculateTotals(new_bank);
-
-      console.log('action.payload.index', action.payload.index);
       
       return ({
         ...state,

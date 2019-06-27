@@ -16,14 +16,22 @@ const AdminPageBase = () => {
   const [users, setUsers] = useState<Array<UserType>>([]);
 
   useEffect(() => {
+    let isSubscribed = true
+
     firestore.getUsers().then(res => {
       const list: Array<UserType> = [];
       
       res.docs.forEach(doc => list.push({id: doc.id, ...doc.data()}));
 
-      setLoading(false);
-      setUsers(list);
+      if (isSubscribed) {
+        setLoading(false);
+        setUsers(list);
+      }
     });
+
+    return () => {
+      isSubscribed = false;
+    }
   }, []);
 
   return (
