@@ -95,7 +95,7 @@ const ProjectionChart = (props: IProps & RouteComponentProps) => {
         <Chart
           chartType="LineChart"
           width="100%"
-          height="460px"
+          height="99%"
           loader={<LoadingPanel color="background" />}
           data={data}
           options={{
