@@ -68,6 +68,15 @@ html, body, #root {
   padding-top: 1em;
 }
 
+a.media {
+  color: #aaa;
+
+  &:hover {
+    color: #888;
+    text-decoration: none;
+  }
+}
+
 .container-centered {
   height:100%;
   height: calc(100% - 120px);

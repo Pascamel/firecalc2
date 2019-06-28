@@ -2,8 +2,7 @@ import moment from 'moment';
 import preval from 'preval.macro';
 import React, { Dispatch, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { NavLink } from 'react-router-dom';
-import { Col, Container, ListGroup, ListGroupItem, Row } from 'reactstrap';
+import { Col, Container, ListGroup, ListGroupItem, Media, Row } from 'reactstrap';
 
 import { loadBank } from '../../actions';
 import Bank from '../../bank';
@@ -11,6 +10,15 @@ import { LoadingPanel } from '../../components';
 import * as ROUTES from '../../constants/routes';
 import helpers from '../../helpers';
 import { AppState } from '../../store';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { IconProp } from '@fortawesome/fontawesome-svg-core';
+
+interface IItemProps {
+  label: string;
+  value: string;
+  route: string;
+  icon: IconProp;
+};
 
 interface IProps {
   authUser: firebase.User|null;
@@ -19,15 +27,23 @@ interface IProps {
   onLoadBank: (uid: string) => void;
 }
 
-const Item = ({label, value, route}: {label: string, value: string, route: string}) => {
+const Item = (props: IItemProps) => {
+  const {label, value, route, icon} = props;
   if (!value) return null
 
   return (
     <ListGroupItem>
-      <NavLink to={route}>{label}</NavLink>
-      <span className="pull-right">
-        Last update <b>{value}</b>
-      </span>
+      <Media href={route}>
+        <Media left middle style={{width: '40px'}}>
+          <FontAwesomeIcon icon={icon} size="lg" />
+        </Media>
+        <Media body>
+          {label}
+        </Media>
+        <Media right>
+          <b>{value}</b>
+        </Media>
+      </Media>
     </ListGroupItem>
   );
 }
@@ -58,18 +74,13 @@ const HomePageBase = (props: IProps) => {
               <Col xs={6} className="pt-5">
                 <h4>Last update</h4>
                 <ListGroup flush>
-                  <Item label="Savings" value={bank.lastupdate.savings} route={ROUTES.SAVINGS} />
-                  <Item label="Revenues" value={bank.lastupdate.income} route={ROUTES.SAVINGS} />
-                  <Item label="Others (Net worth, Expenses...)" value={bank.lastupdate.others} route={helpers.currentMonthRoute()} />
-                  <Item label="Settings" value={bank.lastupdate.headers} route={ROUTES.SAVINGS} />
+                  <Item label="Savings" value={'Updated ' + bank.lastupdate.savings} route={ROUTES.SAVINGS} icon="piggy-bank" />
+                  <Item label="Revenues" value={'Updated ' + bank.lastupdate.income} route={ROUTES.SAVINGS} icon="user-tie" />
+                  <Item label="Others (Net worth, Expenses...)" value={'Updated ' + bank.lastupdate.others} route={helpers.currentMonthRoute()} icon="university" />
+                  <Item label="Settings" value={'Updated ' + bank.lastupdate.headers} route={ROUTES.SAVINGS} icon="cogs" />
                 </ListGroup>
                 <ListGroup className="pt-3">
-                  <ListGroupItem>
-                    Build
-                    <span className="pull-right">
-                      {buildDate}
-                    </span>
-                  </ListGroupItem>
+                  <Item label="Build" value={buildDate} route={ROUTES.HOME} icon="laptop-code" />
                 </ListGroup>
               </Col>
             </Row>
