@@ -3,7 +3,7 @@ import React, { ChangeEvent, Dispatch, KeyboardEvent, MouseEvent, useEffect, use
 import { connect } from 'react-redux';
 import { Alert, Input } from 'reactstrap';
 
-import { loadBank, updateValue } from '../../actions';
+import { updateValue } from '../../actions';
 import Bank from '../../bank';
 import { AppState } from '../../store';
 
@@ -24,7 +24,7 @@ const Notes = (props: IProps) => {
   useEffect(() => {
     if (bankLoaded) setValue(_.get(bank, ['notes', year, month], ''));
     setEdit(false);
-  }, [bankLoaded, year, month]);
+  }, [bankLoaded, bank, year, month]);
 
   const editMode = (e: MouseEvent<HTMLElement>) => {
     if (edit) return;
