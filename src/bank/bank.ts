@@ -20,6 +20,7 @@ export interface IBank {
   savings: I.ISavings;
   networth: I.IBankYearMonthString;
   expenses: I.IBankYearMonthAmount;
+  notes: I.IBankYearMonthString;
   savingsInputs: Array<I.ISavingsHeaderLight>;
   savingsInputsHidden: Array<I.ISavingsHeaderLight>;
   
@@ -85,6 +86,7 @@ export const load = async (uid: string): Promise<IBank> => {
   bank.savings = formatters.formatSavings(savings_data, bank.headers);
   bank.networth = _.get(snapshotOthers.data(), 'networth', {});
   bank.expenses = _.get(snapshotOthers.data(), 'expenses', {});
+  bank.notes = _.get(snapshotOthers.data(), 'notes', {});
 
   bank.savingsInputs = formatters.savingsInputs(bank.savingsHeaders, {});
   bank.savingsInputsHidden = formatters.savingsInputs(bank.savingsHeaders, bank.savingsHeadersHidden);
@@ -184,7 +186,8 @@ export const saveOthers = async (uid: string, bank: IBank) => {
   const payload = {
     last_update: (new Date()).getTime(),
     expenses: JSON.parse(JSON.stringify(bank.expenses)),
-    networth: JSON.parse(JSON.stringify(bank.networth))
+    networth: JSON.parse(JSON.stringify(bank.networth)),
+    notes: JSON.parse(JSON.stringify(bank.notes))
   };
 
   try {

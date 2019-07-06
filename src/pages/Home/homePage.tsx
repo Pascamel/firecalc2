@@ -1,3 +1,5 @@
+import { IconProp } from '@fortawesome/fontawesome-svg-core';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import moment from 'moment';
 import preval from 'preval.macro';
 import React, { Dispatch, useEffect } from 'react';
@@ -10,8 +12,6 @@ import { LoadingPanel } from '../../components';
 import * as ROUTES from '../../constants/routes';
 import helpers from '../../helpers';
 import { AppState } from '../../store';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { IconProp } from '@fortawesome/fontawesome-svg-core';
 
 interface IItemProps {
   label: string;
@@ -54,11 +54,11 @@ const HomePageBase = (props: IProps) => {
 
   useEffect(() => {
     if (bankLoaded || !authUser ) return;
-
-    onLoadBank(authUser.uid);
+    
+    if (authUser) onLoadBank(authUser.uid);
   }, [authUser, bankLoaded, onLoadBank]);
   
-  if (!bankLoaded) return <LoadingPanel color="none" />;  
+  if (!bankLoaded) return <LoadingPanel color="none" />; 
 
   return (
     <Container fluid className="top-shadow">
@@ -88,7 +88,6 @@ const HomePageBase = (props: IProps) => {
         </Col>
       </Row>
     </Container>
-    
   );
 };
 

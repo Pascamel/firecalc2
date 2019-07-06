@@ -1,7 +1,6 @@
 import React, { Dispatch, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Redirect, RouteComponentProps } from 'react-router-dom';
-import { Swipe } from 'react-swipe-component';
 import { Col, Container, Row } from 'reactstrap';
 
 import { loadBank } from '../../actions';
@@ -80,20 +79,18 @@ const MonthPageBase = (props: IProps & RouteComponentProps) => {
   return (
     <>
       <SavePanel label={`${helpers.labelMonth(month)} ${year}`} prevMonth={prevMonth} nextMonth={nextMonth} />
-      <Swipe detectMouse={false} detectTouch={true} onSwipedLeft={nextMonth} onSwipedRight={prevMonth} >
-        <Container fluid className="top-shadow">
-          <Row>
-            <Col className="pr-0 pl-0">
-              <Container>
-                <Row>
-                  <Finances month={month} year={year} />
-                  <Charts month={month} year={year} />
-                </Row>
-              </Container>
-            </Col>
-          </Row>
-        </Container>
-      </Swipe>}
+      <Container fluid className="top-shadow">
+        <Row>
+          <Col className="pr-0 pl-0">
+            <Container>
+              <Row>
+                <Finances month={month} year={year} />
+                <Charts month={month} year={year} />
+              </Row>
+            </Container>
+          </Col>
+        </Row>
+      </Container>
     </>
   )
 }

@@ -37,7 +37,7 @@ export const unloadBank = () => {
 }
 
 
-export const updateValue = (index: string, indexes: string[], amount: number|boolean) => {
+export const updateValue = (index: string, indexes: string[], amount: number|boolean|string) => {
   return (dispatch: Dispatch<any>) => {
     dispatch(({
       type: TYPES.BANK_UPDATE_VALUE,

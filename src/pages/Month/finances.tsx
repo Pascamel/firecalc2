@@ -8,6 +8,7 @@ import { StaticAmount } from '../../components';
 import { AppState } from '../../store';
 import MonthIncome from './monthIncome';
 import MonthSavings from './monthSavings';
+import Notes from './notes';
 
 interface IProps {
   bank: Bank.IBank;
@@ -53,6 +54,7 @@ const MonthFinances = (props: IProps) => {
             <MonthIncome key={key} header={header} month={month} year={year} />
           ))}
         </Alert>
+        <Notes month={month} year={year} />
       </Col>
     </>
   );

@@ -61,7 +61,7 @@ const bankReducer = (state = INITIAL_STATE, action: any) => {
         bank: new_bank,
         bankSavingsUpdated: (action.payload.index === 'savings'),
         bankIncomeUpdated: (action.payload.index === 'income'),
-        bankOthersUpdated: (action.payload.index === 'networth' || action.payload.index === 'expenses'),
+        bankOthersUpdated: (action.payload.index === 'networth' || action.payload.index === 'expenses' || action.payload.index === 'notes'),
         bankHeadersUpdated: (action.payload.index === 'headers')
       });
     }
