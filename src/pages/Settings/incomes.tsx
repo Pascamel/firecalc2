@@ -13,39 +13,32 @@ interface IProps {
   onNewIncomeHeader: () => void;
 }
 
-class Incomes extends React.Component<IProps, {}> {
-  newHeader = () => {
-    this.props.onNewIncomeHeader();
-  }
+const Incomes = (props: IProps) => {
+  const {bank, bankLoaded, onNewIncomeHeader} = props;
+  if (!bankLoaded) return null;
 
-  render() {
-    const { bank, bankLoaded } = this.props;
-
-    if (!bankLoaded) return null;
-
-    return (
-      <Alert color="background">
-        <Row>
-          <Col>
-            <h3>Income</h3>
-          </Col>
-        </Row>
-        {!bank.headers.incomes.length && <Row>
-          <Col>
-            No headers
-          </Col>
-        </Row>}
-        {bank.headers.incomes.map((header: IIncomeHeader, key: number) => (
-          <Income key={key} header={header} index={key} />
-        ))}
-        <Row>
-          <Col>
-            <Button block color="light" onClick={this.newHeader}>Add new</Button>
-          </Col>
-        </Row>
-      </Alert>
-    );
-  }
+  return (
+    <Alert color="background">
+      <Row>
+        <Col>
+          <h3>Income</h3>
+        </Col>
+      </Row>
+      {!bank.headers.incomes.length && <Row>
+        <Col>
+          No headers
+        </Col>
+      </Row>}
+      {bank.headers.incomes.map((header: IIncomeHeader, key: number) => (
+        <Income key={key} header={header} index={key} />
+      ))}
+      <Row>
+        <Col>
+          <Button block color="light" onClick={onNewIncomeHeader}>Add new</Button>
+        </Col>
+      </Row>
+    </Alert>
+  );
 }
 
 const mapStateToProps = (state: AppState) => {

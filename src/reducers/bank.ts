@@ -3,21 +3,28 @@ import uuid from 'uuid';
 
 import * as TYPES from '../actions/types';
 import Bank from '../bank';
+import { IBank } from '../bank/bank';
 
 const INITIAL_STATE = {
   bank: {},
   bankLoaded: false,
-  bankUpdated: false,
+  bankSavingsUpdated: false,
+  bankIncomeUpdated: false,
+  bankOthersUpdated: false,
+  bankHeadersUpdated: false,
   saveInProgress: false
 };
 
-function bankReducer(state = INITIAL_STATE, action: any) {
+const bankReducer = (state = INITIAL_STATE, action: any) => {
   switch (action.type) {
     case TYPES.BANK_LOAD_STARTED:
       return ({
         ...state,
         bank: action.payload.bank,
-        bankUpdated: false,
+        bankSavingsUpdated: false,
+        bankIncomeUpdated: false,
+        bankOthersUpdated: false,
+        bankHeadersUpdated: false,
         bankLoaded: false
       });
       
@@ -25,7 +32,10 @@ function bankReducer(state = INITIAL_STATE, action: any) {
       return ({
         ...state,
         bank: action.payload.bank,
-        bankUpdated: false,
+        bankSavingsUpdated: false,
+        bankIncomeUpdated: false,
+        bankOthersUpdated: false,
+        bankHeadersUpdated: false,
         bankLoaded: true
       });
 
@@ -33,7 +43,10 @@ function bankReducer(state = INITIAL_STATE, action: any) {
       return ({
         ...state,
         bank: null,
-        bankUpdated: false,
+        bankSavingsUpdated: false,
+        bankIncomeUpdated: false,
+        bankOthersUpdated: false,
+        bankHeadersUpdated: false,
         bankLoaded: false
       });
 
@@ -46,7 +59,10 @@ function bankReducer(state = INITIAL_STATE, action: any) {
       return ({
         ...state,
         bank: new_bank,
-        bankUpdated: true
+        bankSavingsUpdated: (action.payload.index === 'savings'),
+        bankIncomeUpdated: (action.payload.index === 'income'),
+        bankOthersUpdated: (action.payload.index === 'networth' || action.payload.index === 'expenses' || action.payload.index === 'notes'),
+        bankHeadersUpdated: (action.payload.index === 'headers')
       });
     }
 
@@ -70,10 +86,19 @@ function bankReducer(state = INITIAL_STATE, action: any) {
       });
 
     case TYPES.BANK_SAVE_SUCCESS:
+      return ({
+        ...state,
+        bankSavingsUpdated: false,
+        bankIncomeUpdated: false,
+        bankOthersUpdated: false,
+        bankHeadersUpdated: false,
+        saveInProgress: false
+      });
+
     case TYPES.HEADERS_SAVE_SUCCESS:
       return ({
         ...state,
-        bankUpdated: false,
+        bankHeadersUpdated: false,
         saveInProgress: false
       });
       
@@ -94,14 +119,14 @@ function bankReducer(state = INITIAL_STATE, action: any) {
       return ({
         ...state,
         bank: new_bank,
-        bankUpdated: true
+        bankHeadersUpdated: true
       });
     }
       
     case TYPES.HEADERS_UPDATE_SAVING: {
-      let new_bank = JSON.parse(JSON.stringify(state.bank));
+      let new_bank: IBank = JSON.parse(JSON.stringify(state.bank));
 
-      _(new_bank.headers.savings).each((h: any) => {
+      _(new_bank.headers.savings).each((h) => {
         if (h.id !== action.payload.header.id) return;
         Object.assign(h, action.payload.header);
       });
@@ -109,7 +134,7 @@ function bankReducer(state = INITIAL_STATE, action: any) {
       return ({
         ...state,
         bank: new_bank,
-        bankUpdated: true
+        bankHeadersUpdated: true
       });
     }
 
@@ -120,7 +145,7 @@ function bankReducer(state = INITIAL_STATE, action: any) {
       return({
         ...state,
         bank: new_bank,
-        bankUpdated: true
+        bankHeadersUpdated: true
       });
     }
     
@@ -134,7 +159,7 @@ function bankReducer(state = INITIAL_STATE, action: any) {
       return({
         ...state,
         bank: new_bank,
-        bankUpdated: true
+        bankHeadersUpdated: true
       });
     }
 
@@ -148,7 +173,7 @@ function bankReducer(state = INITIAL_STATE, action: any) {
       return ({
         ...state,
         bank: new_bank,
-        bankUpdated: true
+        bankHeadersUpdated: true
       });
     }
     
@@ -163,7 +188,7 @@ function bankReducer(state = INITIAL_STATE, action: any) {
       return ({
         ...state,
         bank: new_bank,
-        bankUpdated: true
+        bankHeadersUpdated: true
       });
     }
 
@@ -174,7 +199,7 @@ function bankReducer(state = INITIAL_STATE, action: any) {
       return({
         ...state,
         bank: new_bank,
-        bankUpdated: true
+        bankHeadersUpdated: true
       });
     }
     
@@ -188,7 +213,7 @@ function bankReducer(state = INITIAL_STATE, action: any) {
       return({
         ...state,
         bank: new_bank,
-        bankUpdated: true
+        bankHeadersUpdated: true
       });
     }
     default:

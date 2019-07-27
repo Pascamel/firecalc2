@@ -13,39 +13,33 @@ interface IProps {
   onNewSavingHeader: () => void;
 }
 
-class Savings extends React.Component<IProps, {}> {
-  newHeader = () => {
-    this.props.onNewSavingHeader();
-  }
+const Savings = (props: IProps) => {
+  const { bank, bankLoaded, onNewSavingHeader } = props;
 
-  render() {
-    const { bank, bankLoaded } = this.props;
+  if (!bankLoaded) return null;
 
-    if (!bankLoaded) return null;
-
-    return (
-      <Alert color="background">
-        <Row>
-          <Col>
-            <h3>Savings</h3>
-          </Col>
-        </Row>
-        {!bank.headers.savings.length && <Row>
-          <Col>
-            No headers
-          </Col>
-        </Row>}
-        {bank.headers.savings.map((header: ISavingsHeader, key: number) => (
-          <Saving key={key} header={header} index={key} />
-        ))}
-        <Row>
-          <Col>
-            <Button block color="light" onClick={this.newHeader}>Add New</Button>
-          </Col>
-        </Row>
-      </Alert>
-    );
-  }
+  return (
+    <Alert color="background">
+      <Row>
+        <Col>
+          <h3>Savings</h3>
+        </Col>
+      </Row>
+      {!bank.headers.savings.length && <Row>
+        <Col>
+          No headers
+        </Col>
+      </Row>}
+      {bank.headers.savings.map((header: ISavingsHeader, key: number) => (
+        <Saving key={key} header={header} index={key} />
+      ))}
+      <Row>
+        <Col>
+          <Button block color="light" onClick={onNewSavingHeader}>Add New</Button>
+        </Col>
+      </Row>
+    </Alert>
+  );
 }
 
 const mapStateToProps = (state: AppState) => {

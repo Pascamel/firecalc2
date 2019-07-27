@@ -68,6 +68,15 @@ html, body, #root {
   padding-top: 1em;
 }
 
+a.media {
+  color: #aaa;
+
+  &:hover {
+    color: #888;
+    text-decoration: none;
+  }
+}
+
 .container-centered {
   height:100%;
   height: calc(100% - 120px);
@@ -81,7 +90,7 @@ html, body, #root {
       .container {        
         height: 100%;
 
-        .alert {
+        .alert.form-container {
           position: absolute; 
           transform: translateY(-50%);
           top: 50%; 
@@ -130,6 +139,10 @@ html, body, #root {
 
 .alert-background {
   background-color: #fff;
+}
+
+.alert-none {
+  background-color: transparent;
 }
 
 .pre-loading {
@@ -301,12 +314,51 @@ html, body, #root {
   }
 }
 
-.mo-fire {
-  text-align: center;
+.background-wrapper {
+  position: relative;
+  background: #777;
+}
+
+.background {
+  width: 400px;
+  height: 400px;
+  border-radius: 50%;
+  position: absolute;
+  top: 50px;
+  left: 50%;
+  transform: translateX(-50%);
+
+  &.piggy-bank {
+    background: url(https://cdn.dribbble.com/users/1055986/screenshots/2887405/piggy-bank-2.gif) 50% 50% no-repeat;
+    background-size: 150%;
+  }
+  
+  &.error-403 {
+    background: #fff url(https://cdn.dribbble.com/users/761395/screenshots/6245146/error_403.jpg) 50% 50% no-repeat;
+    background-size: 120%;
+  }
+}
+
+.month-chart-container {
+  position: relative;
 }
 
 .chart-container {
-  position: relative;
+  height: calc(100% - 120px);
+
+  > div {
+    height: calc(100%);
+    max-height: 600px;
+    > div > div {
+      height: calc(100%);
+      > div {
+        height: calc(100%);
+        > div > div {
+          height: calc(100%);
+        }
+      }
+    }
+  }
 }
 
 .chart-label {

@@ -1,84 +1,63 @@
-import * as React from 'react';
-import { Form, Input, Button } from 'reactstrap';
+import React, { useState, useEffect } from 'react';
+import { Alert, Button, Form, Input } from 'reactstrap';
+
 import { auth } from '../../firebase';
 
+export const PasswordChangeForm = () => {
+  const [success, setSuccess] = useState(false);
+  const [error, setError] = useState<Error|null>(null);
+  const [passwordOne, setPasswordOne] = useState('');
+  const [passwordTwo, setPasswordTwo] = useState('');
 
-interface IProps {
-  error?: any;
-  history?: any;
-  passwordOne?: string;
-  passwordTwo?: string;
-}
+  useEffect(() => {
+    if (success) {
+      window.setTimeout(() => {
+        setSuccess(false);
+      }, 4000);
+    }
+  }, [success]);
 
-interface IState {
-  error?: any;
-  passwordOne?: string;
-  passwordTwo?: string;
-}
-
-export class PasswordChangeForm extends React.Component<IProps, IState> {
-  private static INITIAL_STATE = {
-    error: null,
-    passwordOne: '',
-    passwordTwo: ''
-  };
-
-  private static propKey(propertyName: string, value: string): object {
-    return { [propertyName]: value };
-  }
-
-  constructor(props: IProps) {
-    super(props);
-    this.state = { ...PasswordChangeForm.INITIAL_STATE };
-  }
-
-  public onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    if (!this.state.passwordOne) return;
+  const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    if (!passwordOne) return;
     
-    auth.doPasswordUpdate(this.state.passwordOne).then(() => {
-      this.setState(() => ({ ...PasswordChangeForm.INITIAL_STATE }));
+    auth.doPasswordUpdate(passwordOne).then(() => {
+      setSuccess(true);
+      setError(null);
+      setPasswordOne('');
+      setPasswordTwo('');
     }).catch(error => {
-      this.setState(PasswordChangeForm.propKey('error', error));
+      setError(error);
     });
 
     event.preventDefault();
   };
 
-  public render() {
-    const { passwordOne, passwordTwo, error }: any = this.state;
+  const isInvalid = passwordOne !== passwordTwo || passwordOne === '';
 
-    const isInvalid = passwordOne !== passwordTwo || passwordOne === '';
-
-    return (
-      <React.Fragment>
-        <Form inline={true} onSubmit={event => this.onSubmit(event)}>
-          <Input
-            className="mb-2 mr-sm-2 mb-sm-0"
-            type="password" 
-            placeholder="New Password" 
-            value={passwordOne} 
-            onChange={event => this.setStateWithEvent(event, "passwordOne")} 
-          />
-          <Input
-            className="mb-2 mr-sm-2 mb-sm-0"
-            type="password" 
-            placeholder="Confirm New Password" 
-            value={passwordTwo} 
-            onChange={event => this.setStateWithEvent(event, "passwordTwo")} 
-          />
-          <Button disabled={isInvalid} type="submit">
-            Change My Password
-          </Button>          
-        </Form>
-
-        {error && <p>{error.message}</p>}
-      </React.Fragment>
-    );
-  }
-
-  private setStateWithEvent(event: React.ChangeEvent<HTMLInputElement>, columnType: string): void {
-    this.setState(
-      PasswordChangeForm.propKey(columnType, (event.target as any).value)
-    );
-  }
+  return (
+    <>
+      {error && <Alert color="danger">{error.message}</Alert>}
+      {success && <Alert color="success">Password updated successfully!</Alert>}
+      
+      <Form inline={true} onSubmit={onSubmit}>
+        <Input
+          className="mb-2 mr-sm-2 mb-sm-0"
+          type="password" 
+          placeholder="New Password" 
+          value={passwordOne} 
+          onChange={event => setPasswordOne(event.target.value)} 
+        />
+        <Input
+          className="mb-2 mr-sm-2 mb-sm-0"
+          type="password" 
+          placeholder="Confirm New Password" 
+          value={passwordTwo} 
+          onChange={event => setPasswordTwo(event.target.value)} 
+        />
+        <Button disabled={isInvalid} type="submit">
+          Change My Password
+        </Button>          
+      </Form>      
+    </>
+  );
 }

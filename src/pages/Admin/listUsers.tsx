@@ -1,24 +1,32 @@
 import React from 'react';
 
+import { IUser } from './interfaces';
+import User from './user';
+
 interface IProps {
-  users: any
+  users: Array<IUser>;
 }
 
-export default class ListUsers extends React.Component<IProps, {}> {
-  render() {
-    const { users } = this.props;
-
-    return (
-      <React.Fragment>
-        <b>{users.length}</b> users
-        <ul className="list-unstyled">
-          {users.map((user: any) => (
-            <li key={user.id}>
-              {user.email} - {user.type} - {user.id}
-            </li>
-          ))}
-        </ul>
-      </React.Fragment>      
-    );
-  }
+const ListUsers = (props: IProps) => {
+  const { users } = props;
+  
+  return (
+    <>
+      <b>{users.length}</b> users
+      <table className="table mt-3">
+        <thead>
+          <tr>
+            <th style={{width: '2%'}}></th>
+            <th style={{width: '30%'}}>ID</th>
+            <th style={{width: '58%'}}>Email</th>
+            <th style={{width: '10%'}}>Type</th>
+          </tr>
+        </thead>
+        {users.map(user => <User key={user.id} user={user} />)}
+      </table>
+    </>      
+  );
 }
+
+
+export default ListUsers;

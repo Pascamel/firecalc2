@@ -4,7 +4,7 @@ const INITIAL_STATE = {
   authUser: null,
 };
 
-function sessionReducer(state = INITIAL_STATE, action: any) {
+const sessionReducer = (state = INITIAL_STATE, action: any) => {
   switch (action.type) {
     case TYPES.AUTH_USER_SET: {
       return ({

@@ -13,33 +13,20 @@ interface IProps {
   year: string;
 }
 
-interface IState {
-  label: string
-}
-
-class MonthIncome extends React.Component<IProps, IState> {
-  constructor(props: IProps) {
-    super(props);
-
-    this.state = {
-      label: _(props.bank.incomeHeaders).keyBy('id').get([props.header.id, 'label'], 'N/A')
-    };
-  }
+const MonthIncome = (props: IProps) => {
+  const { header, bank, month, year } = props;
+  const label = _(bank.incomeHeaders).keyBy('id').get([header.id, 'label'], 'N/A');
   
-  render() {
-    const { header, month, year } = this.props;
-
-    return (
-      <React.Fragment>
-        <div className="month-amount">
-          <span className="label-fake-input smaller mb-1">{this.state.label}</span>
-          <div className="pull-right">
-            <FireAmount extraClassName="label-fake-input" display-if-zero={true} callback-props={['income', year, month, header.id]} />
-          </div>
+  return (
+    <>
+      <div className="month-amount">
+        <span className="label-fake-input smaller mb-1">{label}</span>
+        <div className="pull-right">
+          <FireAmount extraClassName="label-fake-input" display-if-zero={true} callback-props={['income', year, month, header.id]} />
         </div>
-      </React.Fragment>
-    );
-  }
+      </div>
+    </>
+  );
 }
 
 const mapStateToProps = (state: AppState) => {

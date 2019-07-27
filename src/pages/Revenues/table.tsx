@@ -10,19 +10,17 @@ interface IProps {
   bank: Bank.IBank
 }
 
-class Table extends React.Component<IProps, {}> {
-  render() {
-    const { bank } = this.props;
+const Table = (props: IProps) => {
+  const { bank } = props;
 
-    return (
-      <table className="table table-striped table-finances">
-        <Header />
-        {Object.entries(bank.income).map((year) => (
-        <Body key={year[0]} year={year[0]} />
-        ))}
-      </table>
-    );
-  }
+  return (
+    <table className="table table-striped table-finances">
+      <Header />
+      {Object.entries(bank.income).map((year) => (
+      <Body key={year[0]} year={year[0]} />
+      ))}
+    </table>
+  );
 }
 
 const mapStateToProps = (state: AppState) => {

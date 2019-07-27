@@ -3,11 +3,12 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Alert, Col } from 'reactstrap';
 
-import Bank, { ISavingsHeader } from '../../bank';
+import Bank from '../../bank';
 import { StaticAmount } from '../../components';
 import { AppState } from '../../store';
 import MonthIncome from './monthIncome';
 import MonthSavings from './monthSavings';
+import Notes from './notes';
 
 interface IProps {
   bank: Bank.IBank;
@@ -15,49 +16,48 @@ interface IProps {
   year: string;
 }
 
-class MonthFinances extends React.Component<IProps> {
-  render() {
-    const { month, year, bank } = this.props;
+const MonthFinances = (props: IProps) => {
+  const { month, year, bank } = props;
 
-    return (
-      <React.Fragment>
-        <Col md={4} sm={12}>
-          <Alert color="background">
-            <h3>
-              Savings
-              <span className="pull-right text-secondary font-weight-normal">
-                $
-                <StaticAmount display-zero>
-                  {_.get(bank.totalMonthSavings, [year, month], 0)}
-                </StaticAmount>
-              </span>
-            </h3>
-            <hr />
-            {bank.savingsInputs.filter((header: ISavingsHeader) => header.type !== 'T').map((header: any, key: string) => (
-              <MonthSavings key={key} header={header} {...this.props} />
-            ))}
-          </Alert>
-        </Col>
-        <Col md={4} sm={12}>
-          <Alert color="background">
-            <h3>
-              Income
-              <span className="pull-right text-secondary font-weight-normal">
-                $
-                <StaticAmount display-zero>
-                  {_.get(bank.totalMonthIncome, [year, month], 0)}
-                </StaticAmount>
-              </span>
-            </h3>
-            <hr />
-            {bank.incomeHeaders.map((header: any, key: string) => (
-              <MonthIncome key={key} header={header} {...this.props} />
-            ))}
-          </Alert>
-        </Col>
-      </React.Fragment>
-    );
-  }
+  return (
+    <>
+      <Col md={4} sm={12}>
+        <Alert color="background">
+          <h3>
+            Savings
+            <span className="pull-right text-secondary font-weight-normal">
+              $
+              <StaticAmount display-zero>
+                {_.get(bank.totalMonthSavings, [year, month], 0)}
+              </StaticAmount>
+            </span>
+          </h3>
+          <hr />
+          {bank.savingsInputs.filter((header) => header.type !== 'T').map((header, key) => (
+            <MonthSavings key={key} header={header} month={month} year={year} />
+          ))}
+        </Alert>
+      </Col>
+      <Col md={4} sm={12}>
+        <Alert color="background">
+          <h3>
+            Income
+            <span className="pull-right text-secondary font-weight-normal">
+              $
+              <StaticAmount display-zero>
+                {_.get(bank.totalMonthIncome, [year, month], 0)}
+              </StaticAmount>
+            </span>
+          </h3>
+          <hr />
+          {bank.incomeHeaders.map((header, key) => (
+            <MonthIncome key={key} header={header} month={month} year={year} />
+          ))}
+        </Alert>
+        <Notes month={month} year={year} />
+      </Col>
+    </>
+  );
 }
 
 const mapStateToProps = (state: AppState) => {

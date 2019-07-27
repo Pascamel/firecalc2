@@ -1,4 +1,4 @@
-import React, { Dispatch } from 'react';
+import React, { Dispatch, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Alert, Col, Container, Row } from 'reactstrap';
 
@@ -15,40 +15,37 @@ interface IProps {
   onSaveBank: (uid: string, bank: Bank.IBank) => void;
 }
 
-class SavingsPageBase extends React.Component<IProps, {}> {
-  componentDidMount() {
-    const { authUser, onLoadBank, bankLoaded } = this.props;
+const SavingsPageBase = (props: IProps) => {
+  const { authUser, onLoadBank, bankLoaded } = props;
+
+  useEffect(() => {
     if (bankLoaded || !authUser ) return;
     
     onLoadBank(authUser.uid);
-  }
+  }, [authUser, bankLoaded, onLoadBank]);
 
-  render() {
-    const { bankLoaded } = this.props;
-
-    if (!bankLoaded) return <LoadingPanel />;
-    
-    return (
-      <React.Fragment>
-        <SavePanel label="Savings" />
-        <Container fluid className="top-shadow">
-          <Row>
-            <Col className="pr-0 pl-0">
-              <Container>
-                <Row>
-                  <Col>
-                    <Alert color="background">
-                      <Table />
-                    </Alert>
-                  </Col>
-                </Row>
-              </Container>
-            </Col>
-          </Row>
-        </Container>
-      </React.Fragment>
-    );
-  }
+  if (!bankLoaded) return <LoadingPanel />;
+  
+  return (
+    <>
+      <SavePanel label="Savings" />
+      <Container fluid className="top-shadow">
+        <Row>
+          <Col className="pr-0 pl-0">
+            <Container>
+              <Row>
+                <Col>
+                  <Alert color="background">
+                    <Table />
+                  </Alert>
+                </Col>
+              </Row>
+            </Container>
+          </Col>
+        </Row>
+      </Container>
+    </>
+  );
 }
 
 const mapStateToProps = (state: AppState) => {
@@ -64,7 +61,7 @@ const mapDispatchToProps = (dispatch: Dispatch<any>) => {
       dispatch(loadBank(uid));
     },
     onSaveBank: (uid: string, bank: Bank.IBank) => {
-      dispatch(saveBank(uid, bank));
+      dispatch(saveBank(uid, bank, true, false, false));
     }
   };
 };

@@ -14,70 +14,61 @@ interface IProps {
   onUpdateValue: (index: string, indexes: string[], amount: number|boolean) => void;
 }
 
-class StartingPoint extends React.Component<IProps, {}> {
-  currentYear: number;
+const StartingPoint = (props: IProps) => {
+  const { bank, bankLoaded, onUpdateValue } = props;
+  const currentYear = new Date().getFullYear();
 
-  constructor(props: IProps) {
-    super(props);
-
-    this.currentYear = new Date().getFullYear();
+  const onValueChange = (type: string, value: number) => {
+    onUpdateValue('headers', [type], value);
   }
 
-  onValueChange = (type: string, value: number) => {
-    this.props.onUpdateValue('headers', [type], value);
-  }
+  if (!bankLoaded) return null;
 
-  render() {
-    const {bank, bankLoaded} = this.props;
-
-    if (!bankLoaded) return null;
-
-    return (
-      <Alert color="background">
-        <Row>
-          <Col>
-            <h3>Starting point</h3>
-          </Col>
-        </Row>
-        <Row>
-          <Col>
-            <Form inline={true}>
-              <label className="d-none d-sm-inline-block">Starting Capital</label>
-              <Input
-                type="text"
-                value={bank.headers.startingCapital} 
-                onChange={(e) => this.onValueChange('startingCapital', parseFloat(e.target.value) || 0)}
-                className="col-xs-12 col-sm-1 ml-0 ml-sm-2 mr-0 mr-sm-2"
-              />
-              <label className="d-none d-sm-inline-block">First month</label>
-              <CustomInput
-                type="select"
-                id="firstMonth"
-                value={bank.headers.firstMonth}
-                onChange={(e) => this.onValueChange('firstMonth', parseInt(e.target.value) || 0)} 
-                className="ml-0 ml-sm-2 mr-0 mr-sm-2 mt-2 mt-sm-0"
-              >
-                {_.range(1, 13).map((m, key) => (
-                  <option value={m} key={key}>{helpers.labelMonth(m.toString())}</option>
-                ))}
-              </CustomInput>
-              <CustomInput
-                type="select"
-                id="firstYear"
-                value={bank.headers.firstYear}
-                onChange={(e) => this.onValueChange('firstYear', parseInt(e.target.value) || 0)}
-                className="mt-2 mt-sm-0"
-              >
-                {_.range(this.currentYear - 10, this.currentYear + 1).map((y, key) => (
-                  <option value={y} key={key}>{y}</option>
-                ))}
-              </CustomInput>
-            </Form>
-          </Col>
-        </Row>
-      </Alert>
-    );
-  }
+  return (
+    <Alert color="background">
+      <Row>
+        <Col>
+          <h3>Starting point</h3>
+        </Col>
+      </Row>
+      <Row>
+        <Col>
+          <Form inline={true}>
+            <label className="d-none d-sm-inline-block">Starting Capital</label>
+            <Input
+              type="text"
+              value={bank.headers.startingCapital} 
+              onChange={(e) => onValueChange('startingCapital', parseFloat(e.target.value) || 0)}
+              className="col-xs-12 col-sm-1 ml-0 ml-sm-2 mr-0 mr-sm-2"
+            />
+            <label className="d-none d-sm-inline-block">First month</label>
+            <CustomInput
+              type="select"
+              id="firstMonth"
+              value={bank.headers.firstMonth}
+              onChange={(e) => onValueChange('firstMonth', parseInt(e.target.value) || 0)} 
+              className="ml-0 ml-sm-2 mr-0 mr-sm-2 mt-2 mt-sm-0"
+            >
+              {_.range(1, 13).map((m, key) => (
+                <option value={m} key={key}>{helpers.labelMonth(m.toString())}</option>
+              ))}
+            </CustomInput>
+            <CustomInput
+              type="select"
+              id="firstYear"
+              value={bank.headers.firstYear}
+              onChange={(e) => onValueChange('firstYear', parseInt(e.target.value) || 0)}
+              className="mt-2 mt-sm-0"
+            >
+              {_.range(currentYear - 10, currentYear + 1).map((y, key) => (
+                <option value={y} key={key}>{y}</option>
+              ))}
+            </CustomInput>
+          </Form>
+        </Col>
+      </Row>
+    </Alert>
+  );
 }
 
 const mapStateToProps = (state: AppState) => {
@@ -88,7 +79,7 @@ const mapStateToProps = (state: AppState) => {
 }
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => {
-    return {
+  return {
     onUpdateValue: (index: string, indexes: string[], amount: number|boolean) => {
       dispatch(updateValue(index, indexes, amount));
     }

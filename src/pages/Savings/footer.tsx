@@ -10,34 +10,32 @@ interface IProps {
   bank: Bank.IBank
 }
 
-class Footer extends React.Component<IProps, {}> {
-  render() {
-    const { bank } = this.props;
+const Footer = (props: IProps) => {
+  const { bank } = props;
 
-    return (
-      <tfoot>
-        <tr>
-          <td>
-            <FontAwesomeIcon icon="university" />
-          </td>
-          {bank.savingsInputsHidden.map((amount: any, key: number) => (
-          <td className="table-warning" key={key}>
-            <StaticAmount display-zero>
-              { bank.grandTotalInstitution[amount.id][amount.type] }
-            </StaticAmount>
-          </td>
-          ))}
-          <td>Total</td>
-          <td className="table-warning">
-            <StaticAmount display-zero>
-              { bank && bank.grandTotalHolding }
-            </StaticAmount>
-          </td>
-          <td colSpan={3}></td>
-        </tr>
-      </tfoot>
-    );
-  }
+  return (
+    <tfoot>
+      <tr>
+        <td>
+          <FontAwesomeIcon icon="university" />
+        </td>
+        {bank.savingsInputsHidden.map((amount) => (
+        <td className="table-warning" key={amount.id+amount.type}>
+          <StaticAmount display-zero>
+            { bank.grandTotalInstitution[amount.id][amount.type] }
+          </StaticAmount>
+        </td>
+        ))}
+        <td>Total</td>
+        <td className="table-warning">
+          <StaticAmount display-zero>
+            { bank && bank.grandTotalHolding }
+          </StaticAmount>
+        </td>
+        <td colSpan={3}></td>
+      </tr>
+    </tfoot>
+  );
 }
 
 const mapStateToProps = (state: AppState) => {
