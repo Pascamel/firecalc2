@@ -41,7 +41,7 @@ const Notes = (props: IProps) => {
     if (e.key === 'Enter') {
       setValue(editValue);
       setEdit(false);
-      onUpdateValue('notes', [year, month], 'coucou');
+      onUpdateValue('notes', [year, month], editValue);
     } else if (e.key === 'Escape') {
       setEdit(false);
     }

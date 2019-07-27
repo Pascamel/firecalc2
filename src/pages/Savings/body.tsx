@@ -23,7 +23,7 @@ const Body = (props: IProps) => {
     setCollapsed(!collapsed);
   }    
 
-  return (
+  return (    
     <tbody>
       <tr>
         <td className="td-chevron" onClick={handleClickToggle}>
