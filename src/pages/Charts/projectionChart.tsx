@@ -52,7 +52,7 @@ const ProjectionChart = (props: IProps & RouteComponentProps) => {
     onLoadBank(authUser.uid);
   }, [authUser, bankLoaded, onLoadBank]);
 
-  const setRouteSavings = (s: number) => {
+  const setRouteAmount = (s: number) => {
     const route = ROUTES.CHARTS_YEARS_AMOUNT
       .replace(':type', chart)
       .replace(':years', years.toString())
@@ -62,7 +62,7 @@ const ProjectionChart = (props: IProps & RouteComponentProps) => {
     setAmount(s);
   }
 
-  const setRouteDuration = (y: number) => {
+  const setRouteYears = (y: number) => {
     const route = ROUTES.CHARTS_YEARS_AMOUNT
       .replace(':type', chart)
       .replace(':years', y.toString())
@@ -72,18 +72,32 @@ const ProjectionChart = (props: IProps & RouteComponentProps) => {
     setYears(y);
   }
 
+  const prevAmount = () => {
+    const index = DEFAULT_AMOUNTS.indexOf(amount);
+    if (index <= 0) return;
+
+    setRouteAmount(DEFAULT_AMOUNTS[index - 1]);
+  }
+
+  const nextAmount = () => {
+    const index = DEFAULT_AMOUNTS.indexOf(amount);
+    if (index >= DEFAULT_AMOUNTS.length - 1) return;
+
+    setRouteAmount(DEFAULT_AMOUNTS[index + 1]);
+  }
+
   const prevYear = () => {
     const index = DEFAULT_YEARS.indexOf(years);
     if (index <= 0) return;
 
-    setRouteDuration(DEFAULT_YEARS[index - 1]);
+    setRouteYears(DEFAULT_YEARS[index - 1]);
   }
 
   const nextYear = () => {
     const index = DEFAULT_YEARS.indexOf(years);
     if (index >= DEFAULT_YEARS.length - 1) return;
 
-    setRouteDuration(DEFAULT_YEARS[index + 1]);
+    setRouteYears(DEFAULT_YEARS[index + 1]);
   }
 
   const data = [
@@ -107,7 +121,7 @@ const ProjectionChart = (props: IProps & RouteComponentProps) => {
         {!mobile && 
         <ListGroup>
           {DEFAULT_AMOUNTS.map(v => (
-            <ListGroupItem key={v} className="text-left" color={amount === v ? 'secondary' : 'link'} tag={Button} onClick={() => setRouteSavings(v)}>
+            <ListGroupItem key={v} className="text-left" color={amount === v ? 'secondary' : 'link'} tag={Button} onClick={() => setRouteAmount(v)}>
               $<StaticAmount display-zero hide-decimals>
                 {v}
               </StaticAmount>
@@ -124,13 +138,13 @@ const ProjectionChart = (props: IProps & RouteComponentProps) => {
         </ListGroup>}
         {!mobile && <ListGroup className="mt-3">
           {DEFAULT_YEARS.map(v => (
-            <ListGroupItem key={v} className="text-left" color={years === v ? 'secondary' : 'link'} tag={Button} onClick={() => setRouteDuration(v)}>
+            <ListGroupItem key={v} className="text-left" color={years === v ? 'secondary' : 'link'} tag={Button} onClick={() => setRouteYears(v)}>
               {v} years
             </ListGroupItem>
           ))}
         </ListGroup>}
         {mobile && <ButtonGroup style={{width: '100%'}} color="light" className="mb-3">
-          <Button color="outline-secondary" onClick={prevYear} disabled={amount === DEFAULT_AMOUNTS[0]}>
+          <Button color="outline-secondary" onClick={prevAmount} disabled={amount === DEFAULT_AMOUNTS[0]}>
             <FontAwesomeIcon icon="backward" />
           </Button>
           <Button color="outline-secondary" disabled={true} block>
@@ -138,7 +152,7 @@ const ProjectionChart = (props: IProps & RouteComponentProps) => {
               {amount}
             </StaticAmount>
           </Button>
-          <Button color="outline-secondary" onClick={nextYear} disabled={amount === DEFAULT_AMOUNTS[DEFAULT_AMOUNTS.length - 1]}>
+          <Button color="outline-secondary" onClick={nextAmount} disabled={amount === DEFAULT_AMOUNTS[DEFAULT_AMOUNTS.length - 1]}>
             <FontAwesomeIcon icon="forward" />
           </Button>
         </ButtonGroup>}
@@ -154,7 +168,7 @@ const ProjectionChart = (props: IProps & RouteComponentProps) => {
           </Button>
         </ButtonGroup>}
       </Col>
-      <Col md={10} sm={12}>
+      <Col md={10} sm={12} className="chart-container">
         <Chart
           chartType="LineChart"
           width="100%"

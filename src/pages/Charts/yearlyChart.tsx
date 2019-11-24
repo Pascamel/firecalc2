@@ -73,7 +73,7 @@ const YearlyChart = (props: IProps & RouteComponentProps) => {
           </Button>
         </ButtonGroup>}
       </Col>
-      <Col md={10} sm={12}>
+      <Col md={10} sm={12} className="chart-container">
         {chart === CHARTS.URL.YEARLY_GOAL_BURNUP && <Charts.YearlyGoalBurnUp data={data[year]} mobile={mobile} year={year} />}
       </Col>
     </Row>
