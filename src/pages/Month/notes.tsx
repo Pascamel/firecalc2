@@ -38,7 +38,16 @@ const Notes = (props: IProps) => {
   }
 
   const keyDown = (e: KeyboardEvent) => {
-    if (e.key === 'Enter') {
+    if (e.key === 'Enter' && e.ctrlKey) {
+      const element = document.getElementById('notesTextArea') as HTMLTextAreaElement;
+      const begin = element.selectionStart;
+      const end = element.selectionEnd;
+
+      setEditValue(element.value.substring(0, begin) + '\n' + element.value.substring(end, element.value.length));
+      setTimeout(() => {
+        element.setSelectionRange(begin, end);
+      }, 10);
+    } else if (e.key === 'Enter') {
       setValue(editValue);
       setEdit(false);
       onUpdateValue('notes', [year, month], editValue);
@@ -51,7 +60,7 @@ const Notes = (props: IProps) => {
     <Alert color="background" onClick={editMode}>
       <p><b>Notes</b></p>
       {!edit && <span>{value && value.length ? value : 'No note created yet'}</span>}
-      {edit && <Input 
+      {edit && <Input id="notesTextArea"
       innerRef={(input) => {if (input != null) input.focus();}}
       type="textarea" value={editValue} onChange={change} onKeyDown={keyDown}  />}
     </Alert>
