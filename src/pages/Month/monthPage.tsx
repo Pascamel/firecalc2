@@ -5,7 +5,7 @@ import { Col, Container, Row } from 'reactstrap';
 
 import { loadBank } from '../../actions';
 import Bank from '../../bank';
-import { LoadingPanel, SavePanel } from '../../components';
+import { LoadingPanel, Mobile, NotMobile, SavePanel } from '../../components';
 import * as ROUTES from '../../constants/routes';
 import helpers from '../../helpers';
 import { AppState } from '../../store';
@@ -78,7 +78,12 @@ const MonthPageBase = (props: IProps & RouteComponentProps) => {
 
   return (
     <>
-      <SavePanel label={`${helpers.labelMonth(month)} ${year}`} prevMonth={prevMonth} nextMonth={nextMonth} />
+      <Mobile>
+        <SavePanel label={helpers.labelMonth(month, year, true)} prevMonth={prevMonth} nextMonth={nextMonth} />
+      </Mobile>
+      <NotMobile>
+        <SavePanel label={helpers.labelMonth(month, year)} prevMonth={prevMonth} nextMonth={nextMonth} />
+      </NotMobile>
       <Container fluid className="top-shadow">
         <Row>
           <Col className="pr-0 pl-0">

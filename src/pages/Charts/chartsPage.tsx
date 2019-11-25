@@ -6,16 +6,15 @@ import { Col, Container, Row } from 'reactstrap';
 
 import { loadBank } from '../../actions';
 import Bank from '../../bank';
-import { LoadingPanel } from '../../components';
-import { Mobile, NotMobile } from '../../components';
+import { LoadingPanel, Mobile, NotMobile } from '../../components';
 import * as CHARTS from '../../constants/charts';
 import helpers from '../../helpers';
 import { AppState } from '../../store';
 import * as Charts from './charts';
+import { IArrayDateNumber, IYearlyArrayDateNumberNull } from './interfaces';
 import ProjectionChart from './projectionChart';
 import Selector from './selector';
 import YearlyChart from './yearlyChart';
-import { IArrayDateNumber, IYearlyArrayDateNumberNull } from './interfaces';
 
 interface IProps extends RouteComponentProps<{type: string}> {
   authUser: firebase.User|null;

@@ -44,8 +44,10 @@ const hideIf = (bool: boolean, className?: string) => {
   return bool ? className : '';
 };
 
-const labelMonth = (m: string) => {
-  return moment().month(parseInt(m) - 1).format('MMMM');
+const labelMonth = (m: string, y: string = '', shortened: boolean = false) => {
+  const month = moment().month(parseInt(m) - 1).format(shortened ? 'MMM' : 'MMMM');
+
+  return (y.length < 4) ? month : `${month} ${shortened ? y.slice(-2) : y}`;
 }
 
 const prevMonth = (year: string, month: string) => {

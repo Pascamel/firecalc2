@@ -8,7 +8,7 @@ import { Col, Container, ListGroup, ListGroupItem, Media, Row } from 'reactstrap
 
 import { loadBank } from '../../actions';
 import Bank from '../../bank';
-import { LoadingPanel } from '../../components';
+import { LoadingPanel, Mobile, NotMobile } from '../../components';
 import * as ROUTES from '../../constants/routes';
 import helpers from '../../helpers';
 import { AppState } from '../../store';
@@ -66,12 +66,19 @@ const HomePageBase = (props: IProps) => {
         <Col>
           <Container>
             <Row>
-              <Col xs={6}>
-                <div className="background-wrapper">
-                  <div className="background piggy-bank" />
-                </div>
+              <Col md={6} xs={12}>
+                <Mobile>                    
+                  <div className="background-wrapper mobile">
+                    <div className="background mobile piggy-bank" />
+                  </div>
+                </Mobile>
+                <NotMobile>
+                  <div className="background-wrapper">
+                    <div className="background piggy-bank" />
+                  </div>
+                </NotMobile>
               </Col>
-              <Col xs={6} className="pt-5">
+              <Col md={6} xs={12} className="pt-5">
                 <h4>Last update</h4>
                 <ListGroup flush>
                   <Item label="Savings" value={'Updated ' + bank.lastupdate.savings} route={ROUTES.SAVINGS} icon="piggy-bank" />
