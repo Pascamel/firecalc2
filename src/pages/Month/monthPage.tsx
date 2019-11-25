@@ -32,7 +32,7 @@ const MonthPageBase = (props: IProps & RouteComponentProps) => {
 
   const prevMonth = () => {
     const p = helpers.prevMonth(year, month);
-    const route = ROUTES.MONTH.replace(':year', year).replace(':month', month);
+    const route = ROUTES.MONTH.replace(':year', p.year).replace(':month', p.month);
 
     history.push(route);
     setMonth(p.month.toString());
@@ -40,8 +40,8 @@ const MonthPageBase = (props: IProps & RouteComponentProps) => {
   }
 
   const nextMonth = () => {
-    const n = helpers.nextMonth(year, month)
-    const route = ROUTES.MONTH.replace(':year', year).replace(':month', month);
+    const n = helpers.nextMonth(year, month);
+    const route = ROUTES.MONTH.replace(':year', n.year).replace(':month', n.month);
     
     history.push(route);
     setMonth(n.month.toString());
