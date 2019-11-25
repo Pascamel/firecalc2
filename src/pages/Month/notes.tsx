@@ -59,10 +59,14 @@ const Notes = (props: IProps) => {
   return (
     <Alert color="background" onClick={editMode}>
       <p><b>Notes</b></p>
-      {!edit && <span>{value && value.length ? value : 'No note created yet'}</span>}
+      {!edit && <span className="text-newline">{value && value.length ? value : 'No note created yet'}</span>}
       {edit && <Input id="notesTextArea"
-      innerRef={(input) => {if (input != null) input.focus();}}
-      type="textarea" value={editValue} onChange={change} onKeyDown={keyDown}  />}
+                      innerRef={(input) => {if (input != null) input.focus();}}
+                      type="textarea" 
+                      value={editValue} 
+                      onChange={change} 
+                      onKeyDown={keyDown}  
+      />}
     </Alert>
   )
 }
