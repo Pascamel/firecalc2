@@ -45,7 +45,7 @@ const Notes = (props: IProps) => {
 
       setEditValue(element.value.substring(0, begin) + '\n' + element.value.substring(end, element.value.length));
       setTimeout(() => {
-        element.setSelectionRange(begin, end);
+        element.setSelectionRange(begin + 1, end + 1);
       }, 10);
     } else if (e.key === 'Enter') {
       setValue(editValue);
