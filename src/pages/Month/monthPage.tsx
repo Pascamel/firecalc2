@@ -76,13 +76,24 @@ const MonthPageBase = (props: IProps & RouteComponentProps) => {
     }}/>
   }
 
+  const m = parseInt(month);
+  const y = parseInt(year);
+
+  const savePanelProps = {
+    prevMonth,
+    prevMonthDisabled: (y < bank.headers.firstYear) || (y === bank.headers.firstYear && m <= bank.headers.firstMonth),
+    nextMonth,
+    nextMonthDisabled: (y > new Date().getFullYear()) || (y === new Date().getFullYear() && m === 12)
+  };
+  
+
   return (
     <>
       <Mobile>
-        <SavePanel label={helpers.labelMonth(month, year, true)} prevMonth={prevMonth} nextMonth={nextMonth} />
+        <SavePanel label={helpers.labelMonth(month, year, true)} {...savePanelProps} />
       </Mobile>
       <NotMobile>
-        <SavePanel label={helpers.labelMonth(month, year)} prevMonth={prevMonth} nextMonth={nextMonth} />
+        <SavePanel label={helpers.labelMonth(month, year)} {...savePanelProps} />
       </NotMobile>
       <Container fluid className="top-shadow">
         <Row>

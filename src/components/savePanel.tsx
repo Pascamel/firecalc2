@@ -19,6 +19,8 @@ interface IProps {
   bank: Bank.IBank;
   prevMonth?: () => void;
   nextMonth?: () => void;
+  prevMonthDisabled?: boolean;
+  nextMonthDisabled?: boolean;
   onLoadBank: (uid: string) => void;
   onSaveBank: (uid: string, bank: Bank.IBank, savings: boolean, income: boolean, settings: boolean) => void;
   onSaveHeaders: (uid: string, bank: Bank.IBank) => void;
@@ -36,6 +38,8 @@ const SavePanel = (props: IProps) => {
     bank,
     prevMonth,
     nextMonth,
+    prevMonthDisabled,
+    nextMonthDisabled,
     onLoadBank,
     onSaveBank,
     onSaveHeaders
@@ -78,10 +82,10 @@ const SavePanel = (props: IProps) => {
 
                 {['Savings', 'Revenues', 'Settings'].indexOf(label) === -1 && 
                 <ButtonGroup className="pull-left">
-                  <Button color="outline-light" onClick={prevMonth}>
+                  <Button color="outline-light" onClick={prevMonth} disabled={prevMonthDisabled}>
                     <FontAwesomeIcon icon="backward" />
                   </Button>
-                  <Button color="outline-light" onClick={nextMonth}>
+                  <Button color="outline-light" onClick={nextMonth} disabled={nextMonthDisabled}>
                     <FontAwesomeIcon icon="forward" />
                   </Button>
                 </ButtonGroup>}
