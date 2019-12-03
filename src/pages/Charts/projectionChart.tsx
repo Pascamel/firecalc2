@@ -36,7 +36,7 @@ const ProjectionChart = (props: IProps & RouteComponentProps) => {
   const last_year = _(bank.networth).values().last();
   const year = parseInt(_(bank.networth).keys().last() || '0');
   const month = parseInt(_(last_year).keys().last() || '0');
-  const savings = _(last_year).values().last() || 0;
+  const savings = parseFloat(_(last_year).values().last() || '0');
 
   const [tooltipValue, setTooltipValue] = useState(0);
   const [tooltipOpen, setTooltipOpen] = useState(false);
@@ -105,11 +105,11 @@ const ProjectionChart = (props: IProps & RouteComponentProps) => {
     [new Date(year, month, 1), savings, savings]
   ];
 
-  for (let i = 1; i <= years; i++) {
+  for (let i = 1; i <= years; i++) {    
     data.push([
       new Date(year + i, month, 1), 
-      _.get(data, [data.length-1, 1]) * 1.05 + amount, 
-      _.get(data, [data.length-1, 2]) * 1.07 + amount
+      (_.get(data, [data.length-1, 1]) as number) * 1.05 + amount, 
+      (_.get(data, [data.length-1, 2]) as number) * 1.07 + amount
     ]);
   }
 

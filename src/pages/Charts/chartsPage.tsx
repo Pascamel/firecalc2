@@ -11,7 +11,7 @@ import * as CHARTS from '../../constants/charts';
 import helpers from '../../helpers';
 import { AppState } from '../../store';
 import * as Charts from './charts';
-import { IArrayDateNumber, IYearlyArrayDateNumberNull } from './interfaces';
+import { IArrayDateNumber, IArrayDateNumberNull, IYearlyArrayDateNumberNull } from './interfaces';
 import ProjectionChart from './projectionChart';
 import Selector from './selector';
 import YearlyChart from './yearlyChart';
@@ -25,7 +25,7 @@ interface IProps extends RouteComponentProps<{type: string}> {
 
 interface IRecap {
   svsi: IArrayDateNumber;
-  nws: IArrayDateNumber;
+  nws: IArrayDateNumberNull;
   sb: IArrayDateNumber;
   sae: IArrayDateNumber;
   bep: IArrayDateNumber;
@@ -50,7 +50,7 @@ const ChartsPageBase = (props: IProps & RouteComponentProps) => {
 
   const mapBankToRecap = (bank: Bank.IBank) => {
     const svsi: IArrayDateNumber = [['Date', 'Savings', 'Income']];
-    const nws: IArrayDateNumber = [['Date', 'Net Worth', 'Savings']];
+    const nws: IArrayDateNumberNull = [['Date', 'Net Worth', 'Savings']];
     const sb: IArrayDateNumber = [['Institution', 'Amount']];
     const sae: IArrayDateNumber = [_.concat(['Date'], _(bank.savingsInputs)
       .filter((header) => (header.types.indexOf('T') === -1) || (header.type === 'T'))
@@ -75,17 +75,16 @@ const ChartsPageBase = (props: IProps & RouteComponentProps) => {
 
         nws.push([
           new Date(y, m, 0),
-          _.get(bank.networth, [y, m], null),
+          _.get(bank.networth, [y, m], null) as number|null,
           _.get(bank.totalHolding, [y, m], 0)
         ]);
 
-        sae.push(
-          _.concat([new Date(y, m, 0)],
-          _(bank.savingsInputs)
-            .filter((header) => (header.types.indexOf('T') === -1) || (header.type === 'T'))
-            .map((header) => _.get(bank.grandTotalMonthInstitution, [y, m, header.id]))
-            .value()
-        ));
+        var sae_values = _(bank.savingsInputs)
+          .filter((header) => (header.types.indexOf('T') === -1) || (header.type === 'T'))
+          .map((header) => _.get(bank.grandTotalMonthInstitution, [y, m, header.id]))
+          .value();
+
+        sae.push([new Date(y, m, 0), ...sae_values]);
 
         const manual_expense = _.get(bank.expenses, [y, m], 0);
         const automatic_expenses = _.get(bank.totalMonthIncome, [y, m], 0) - _.get(bank.totalMonthSavings, [y, m], 0);
@@ -93,7 +92,7 @@ const ChartsPageBase = (props: IProps & RouteComponentProps) => {
         if (_.get(bank.networth, [y, m])) {
           bep.push([
             new Date(y, m, 0), 
-            Math.round(_.get(bank.networth, [y, m], 0) / 300),
+            Math.round(parseFloat(_.get(bank.networth, [y, m], '0')) / 300),
             manual_expense !== 0 ? manual_expense : Math.max(0, automatic_expenses)
           ]);
         }        
