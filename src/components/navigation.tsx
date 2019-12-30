@@ -161,8 +161,7 @@ const NavigationBase = (props: any) => {
           <Container>
             <Row>
               <Col>
-                {authUser ? <NavigationAuth location={location} authUser={authUser} /> : 
-                <NavigationNonAuth location={location} authUser={authUser} />}
+                {authUser ? <NavigationAuth location={location} authUser={authUser} /> : <NavigationNonAuth location={location} authUser={authUser} />}
               </Col>
             </Row>
           </Container>
