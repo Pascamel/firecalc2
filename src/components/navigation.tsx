@@ -23,7 +23,7 @@ import * as CHARTS from '../constants/charts';
 import * as ROUTES from '../constants/routes';
 import helpers from '../helpers';
 import { AppState } from '../store';
-import { SignOutLink } from '.';
+import { DarkSwitcher, SignOutLink } from '.';
 
 interface IProps {
   location?: LocationState;
@@ -103,6 +103,9 @@ const NavigationAuth = (props: IProps) => {
                 <Link className="no-link" to={ROUTES.ACCOUNT} onClick={toggleIfOpen}>
                   Account
                 </Link>
+              </DropdownItem>
+              <DropdownItem>
+                <DarkSwitcher />
               </DropdownItem>
               <DropdownItem divider />
               <DropdownItem>

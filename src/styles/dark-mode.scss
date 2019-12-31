@@ -1,0 +1,135 @@
+$bodyText: #ddd;
+$bodyBackground: #222;
+$headerText: #bbb;
+$headerBackground: #224361;
+$alertBackground: #444;
+$testGreen: #00bc8c;
+$testRed: #e74b6c;
+
+body.dark-mode {
+  color: $bodyText;
+  background: $bodyBackground;
+
+  .nav-container {
+    background: $bodyBackground;
+  }
+
+  .navbar-light {
+    .navbar-brand {
+      color: #fff;
+    }
+
+    .navbar-nav {
+      .nav-link {
+        color: $headerText;
+
+        &:hover {
+          color: #fff;
+        }
+
+        &.active {
+          color: #fff;
+        }
+      }
+    }        
+  } 
+
+  .alert-header {
+    background: $headerBackground;
+  }
+
+  .dropdown-menu {    
+    background: $bodyBackground;
+    border: 1px solid $alertBackground;
+  }
+
+  .no-link {
+    color: $bodyText;
+    &:hover {
+      color: $bodyText;
+    }
+  }
+
+
+  .dropdown-divider {
+      border-top: 1px solid #444;
+  }
+
+  .top-shadow {
+    -webkit-box-shadow: inset 0 2em 3em -1em rgba(255, 255, 255, 0.15);
+    box-shadow: inset 0 2em 3em -1em rgba(0, 0, 0, 0.15);
+    padding-top: 1em;
+  }
+
+  #root {
+    background: $bodyBackground;
+  }
+
+  .alert-background {
+    background: $alertBackground;
+  }
+
+  .table {
+    color: $bodyText;
+
+    thead {
+      th {
+        vertical-align: bottom;
+        border-bottom: 2px solid #222;
+      }
+    }
+
+    tbody {
+      border-top: 2px solid #222;
+    }
+
+
+    th, td {
+      border-top: 1px solid #222;
+    }
+  }
+
+  .table-success, .table-success > th, .table-success > td {
+    background-color: $testGreen; // #c3e6cb;
+  }
+
+  .table-danger, .table-danger > th, .table-danger > td {
+    background-color: $testRed; // #f5c6cb;
+  }
+
+  .month-amount {
+    &:hover {
+      background: #4b4b4b;
+    }
+  }
+
+  .chart-label {
+    color: #bbb;
+    text-shadow: -1px 0 $alertBackground, 0 1px $alertBackground, 1px 0 $alertBackground, 0 -1px $alertBackground;
+  }
+
+  .bg-success {
+    background-color: $testGreen !important;
+  }
+  
+  .bg-danger {
+    background-color: $testRed !important;
+  }
+
+  .text-secondary {
+    color: #999 !important;
+  }
+
+  .list-group-item {
+    background-color: $alertBackground;
+  }
+
+  a.media {
+    color: $bodyText;
+  
+    &:hover {
+      color: #bbb;
+      text-decoration: none;
+    }
+  }
+}

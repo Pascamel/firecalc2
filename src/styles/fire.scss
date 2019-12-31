@@ -57,8 +57,10 @@ label {
   }
 }
 
-html, body, #root {
-  height:100%;
+html, body, #root, .sfsgsdf {
+  height: calc(100%);
+}
+body, #root, .nav-container {
   background: $background;
 }
 
