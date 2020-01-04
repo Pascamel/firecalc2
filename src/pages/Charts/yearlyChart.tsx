@@ -18,6 +18,7 @@ interface IProps {
   data: {[year: number]: IYearlyChartData};
   mobile: boolean; 
   chart: string;
+  darkMode: boolean;
 }
 
 const YearlyChart = (props: IProps & RouteComponentProps) => {
@@ -74,7 +75,7 @@ const YearlyChart = (props: IProps & RouteComponentProps) => {
         </ButtonGroup>}
       </Col>
       <Col md={10} sm={12} className="chart-container">
-        {chart === CHARTS.URL.YEARLY_GOAL_BURNUP && <Charts.YearlyGoalBurnUp data={data[year]} mobile={mobile} year={year} />}
+        {chart === CHARTS.URL.YEARLY_GOAL_BURNUP && <Charts.YearlyGoalBurnUp data={data[year]} mobile={mobile} year={year} darkMode />}
       </Col>
     </Row>
   );
@@ -83,6 +84,7 @@ const YearlyChart = (props: IProps & RouteComponentProps) => {
 const mapStateToProps = (state: AppState) => {
   return ({
     bank: state.bankState.bank,
+    darkMode: state.sessionState.darkMode,
   });
 }
 

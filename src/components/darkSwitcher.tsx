@@ -1,4 +1,4 @@
-import React, { Dispatch } from 'react';
+import React, { Dispatch, useEffect } from 'react';
 import { connect } from 'react-redux';
 
 import { setDarkMode } from '../actions';
@@ -10,7 +10,15 @@ interface IProps {
 }
 
 const DarkSwitcher = (props: IProps) => {
+  useEffect(() => {
+    const ls = parseInt(localStorage.getItem('darkMode') || '0');
+    if (ls > 0) {
+      props.onSetDarkMode(true);
+    }
+  }, []);
+
   const handleClick = () => {
+    localStorage.setItem('darkMode', !props.darkMode ? '1' : '0');
     props.onSetDarkMode(!props.darkMode);
   };
 

@@ -14,7 +14,6 @@ const sessionReducer = (state = INITIAL_STATE, action: any) => {
       });
     }
     case TYPES.SET_DARK_MODE:
-      console.log('reducer', action)
       return ({
         ...state,
         darkMode: action.payload.darkMode,

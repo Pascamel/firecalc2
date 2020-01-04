@@ -7,6 +7,7 @@ import { IArrayDateNumber, IYearlyArrayDateNumberNull, IYearlyChartData } from '
 interface IProps {
   data:   IArrayDateNumber | IYearlyArrayDateNumberNull | IYearlyChartData;
   mobile: boolean;
+  darkMode: boolean;
 }
 
 interface IYear {
@@ -22,8 +23,13 @@ export const IncomeVsSavingsChart = (props: IProps) => (
     data={props.data}
     options={{
       legend: { position: 'top', alignment: 'start' },
+      backgroundColor: props.darkMode ? '#000' : '#fff',
       hAxis: { type: 'date'},
       vAxis: { 
+        color: '#fff',
+        textStyle: {
+          color: '#fff',
+        },
         format: 'short',
         viewWindow: {
           min: 0
@@ -51,6 +57,7 @@ export const NetWorthVsSavingsChart = (props: IProps) => (
     data={props.data}
     options={{
       legend: { position: 'top', alignment: 'start' },
+      backgroundColor: props.darkMode ? '#000' : '#fff',
       hAxis: { type: 'date'},
       vAxis: { 
         format: 'short'
@@ -79,6 +86,7 @@ export const SavingsBreakdownChart = (props: IProps) => (
       legend: {
         position: props.mobile ? 'bottom' : 'labeled',
       },
+      backgroundColor: props.darkMode ? '#000' : '#fff',
       pieSliceText: 'value',
       pieStartAngle: 100,
       chartArea: {
@@ -100,6 +108,7 @@ export const AllocationEvolutionChart = (props: IProps) => (
     options={{
       isStacked: true,
       legend: { position: 'top', alignment: 'start' },
+      backgroundColor: props.darkMode ? '#000' : '#fff',
       hAxis: { type: 'date'},
       vAxis: { 
         format: 'short',
@@ -125,6 +134,7 @@ export const BreakEvenPointChart = (props: IProps) => (
     data={props.data}
     options={{
       legend: { position: 'top', alignment: 'start' },
+      backgroundColor: props.darkMode ? '#000' : '#fff',
       hAxis: { type: 'date'},
       vAxis: { 
         format: 'short'
@@ -151,6 +161,7 @@ export const YearlyGoalBurnUp = (props: IProps & IYear) => (
     data={props.data}
     options={{
       legend: { position: 'top', alignment: 'start' },
+      backgroundColor: props.darkMode ? '#000' : '#fff',
       hAxis: { type: 'date'},
       vAxis: { 
         format: 'short'

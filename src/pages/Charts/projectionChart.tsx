@@ -20,6 +20,7 @@ interface IProps {
   mobile: boolean;
   chart: string;
   onLoadBank: (uid: string) => void;
+  darkMode: boolean;
 }
 
 const ProjectionChart = (props: IProps & RouteComponentProps) => {
@@ -184,6 +185,7 @@ const ProjectionChart = (props: IProps & RouteComponentProps) => {
           data={data}
           options={{
             legend: { position: 'top', alignment: 'start' },
+            backgroundColor: props.darkMode ? '#000' : '#fff',
             hAxis: { type: 'date'},
             vAxis: { 
               format: 'short'
@@ -208,7 +210,8 @@ const mapStateToProps = (state: AppState) => {
   return ({
     authUser: state.sessionState.authUser,
     bank: state.bankState.bank,
-    bankLoaded: state.bankState.bankLoaded
+    bankLoaded: state.bankState.bankLoaded,
+    darkMode: state.sessionState.darkMode,
   });
 }
 
