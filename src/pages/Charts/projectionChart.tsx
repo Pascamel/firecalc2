@@ -32,9 +32,15 @@ const ProjectionChart = (props: IProps & RouteComponentProps) => {
   const { authUser, bank, mobile, chart, onLoadBank, bankLoaded } = props;
   const [amount, setAmount] = useState(parseInt(_.get(props, 'match.params.amount')) || DEFAULT_AMOUNT);
   const [years, setYears] = useState(parseInt(_.get(props, 'match.params.years')) || DEFAULT_YEAR);
-  
-  const last_year = _(bank.networth).values().last();
-  const year = parseInt(_(bank.networth).keys().last() || '0');
+
+  const networthActualValues = Object.keys(bank.networth)
+    .filter(k => _.keys(bank.networth[k]).length > 0)
+    .reduce((object, k) => {
+      object[k] = bank.networth[k]
+      return object;
+    }, {} as {[year: string]: any});
+  const last_year = _(networthActualValues).values().last();
+  const year = parseInt(_(networthActualValues).keys().last() || '0');
   const month = parseInt(_(last_year).keys().last() || '0');
   const savings = parseFloat(_(last_year).values().last() || '0');
 
