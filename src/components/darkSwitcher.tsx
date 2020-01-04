@@ -16,22 +16,10 @@ const DarkSwitcher = (props: IProps) => {
 
   return (
     <span className="no-link" onClick={handleClick}>
+      <i className={`fa fa-lg ${props.darkMode ? 'fa-lightbulb-o' : 'fa-moon-o'} pr-2`} />   
       {props.darkMode ? 'Turn on the light' : 'Go Dark'}
     </span>
   )
-  
-  // return (
-  //   <div className="checkbox">
-  //     <label>
-  //       <input
-  //         type="checkbox" 
-  //         name="editInterest" 
-  //         checked={props.darkMode || false} 
-  //         onChange={handleClick} 
-  //       /> DARK MODE
-  //     </label>
-  //   </div>
-  // );
 }
 
 const mapStateToProps = (state: AppState) => {

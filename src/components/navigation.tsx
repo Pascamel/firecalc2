@@ -101,6 +101,7 @@ const NavigationAuth = (props: IProps) => {
             <DropdownMenu right>
               <DropdownItem >
                 <Link className="no-link" to={ROUTES.ACCOUNT} onClick={toggleIfOpen}>
+                  <i className="fa fa-lg fa-user pr-2" />
                   Account
                 </Link>
               </DropdownItem>
