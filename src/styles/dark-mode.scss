@@ -36,6 +36,14 @@ body.dark-mode {
 
   .alert-header {
     background: $headerBackground;
+
+    .btn-link {
+      &.disabled {
+        &:after {
+          border-bottom-color: $bodyBackground;
+        }
+      }
+    }
   }
 
   .dropdown-menu {    

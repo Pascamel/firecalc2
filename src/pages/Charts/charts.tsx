@@ -14,6 +14,20 @@ interface IYear {
   year: number;
 }
 
+const axisProperties = (props: IProps) => {
+  return {
+    textStyle: { color: props.darkMode ? '#ccc' : '#333'}, 
+    baselineColor: props.darkMode ? '#777' : '#333',
+    gridlines: { color: props.darkMode ? '#777' : '#333' }
+  };
+};
+
+const backgroundColorProperty = (props: IProps) => {
+  return {
+    backgroundColor: props.darkMode ? '#1b1b1b' : '#fff'
+  }
+};
+
 export const IncomeVsSavingsChart = (props: IProps) => (
   <Chart
     chartType="LineChart"
@@ -22,14 +36,17 @@ export const IncomeVsSavingsChart = (props: IProps) => (
     loader={<LoadingPanel color="background" />}
     data={props.data}
     options={{
-      legend: { position: 'top', alignment: 'start' },
-      backgroundColor: props.darkMode ? '#000' : '#fff',
-      hAxis: { type: 'date'},
+      legend: { 
+        position: 'top',
+        alignment: 'start'
+      },
+      ...backgroundColorProperty(props),
+      hAxis: { 
+        ...axisProperties(props),
+        type: 'date'
+      },
       vAxis: { 
-        color: '#fff',
-        textStyle: {
-          color: '#fff',
-        },
+        ...axisProperties(props),
         format: 'short',
         viewWindow: {
           min: 0
@@ -56,10 +73,17 @@ export const NetWorthVsSavingsChart = (props: IProps) => (
     loader={<LoadingPanel color="background" />}
     data={props.data}
     options={{
-      legend: { position: 'top', alignment: 'start' },
-      backgroundColor: props.darkMode ? '#000' : '#fff',
-      hAxis: { type: 'date'},
+      legend: { 
+        position: 'top',
+        alignment: 'start'
+      },
+      ...backgroundColorProperty(props),
+      hAxis: { 
+        ...axisProperties(props),
+        type: 'date'
+      },
       vAxis: { 
+        ...axisProperties(props),
         format: 'short'
       },
       series: {
@@ -85,8 +109,9 @@ export const SavingsBreakdownChart = (props: IProps) => (
     options={{
       legend: {
         position: props.mobile ? 'bottom' : 'labeled',
+        textStyle: { color: props.darkMode ? '#ccc' : '#333'}
       },
-      backgroundColor: props.darkMode ? '#000' : '#fff',
+      ...backgroundColorProperty(props),
       pieSliceText: 'value',
       pieStartAngle: 100,
       chartArea: {
@@ -107,10 +132,17 @@ export const AllocationEvolutionChart = (props: IProps) => (
     legendToggle
     options={{
       isStacked: true,
-      legend: { position: 'top', alignment: 'start' },
-      backgroundColor: props.darkMode ? '#000' : '#fff',
-      hAxis: { type: 'date'},
+      legend: {
+        position: 'top',
+        alignment: 'start'
+      },
+      ...backgroundColorProperty(props),
+      hAxis: { 
+        ...axisProperties(props),
+        type: 'date'
+      },
       vAxis: { 
+        ...axisProperties(props),
         format: 'short',
         viewWindow: {
           min: 0
@@ -133,10 +165,17 @@ export const BreakEvenPointChart = (props: IProps) => (
     loader={<LoadingPanel color="background" />}
     data={props.data}
     options={{
-      legend: { position: 'top', alignment: 'start' },
-      backgroundColor: props.darkMode ? '#000' : '#fff',
-      hAxis: { type: 'date'},
+      legend: {
+        position: 'top',
+        alignment: 'start'
+      },
+      ...backgroundColorProperty(props),
+      hAxis: { 
+        ...axisProperties(props),
+        type: 'date'
+      },
       vAxis: { 
+        ...axisProperties(props),
         format: 'short'
       },
       series: {
@@ -160,10 +199,17 @@ export const YearlyGoalBurnUp = (props: IProps & IYear) => (
     loader={<LoadingPanel color="background" />}
     data={props.data}
     options={{
-      legend: { position: 'top', alignment: 'start' },
-      backgroundColor: props.darkMode ? '#000' : '#fff',
-      hAxis: { type: 'date'},
+      legend: {
+        position: 'top',
+        alignment: 'start'
+      },
+      ...backgroundColorProperty(props),
+      hAxis: { 
+        ...axisProperties(props),
+        type: 'date'
+      },
       vAxis: { 
+        ...axisProperties(props),
         format: 'short'
       },
       series: {
