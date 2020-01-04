@@ -39,6 +39,7 @@ const ProjectionChart = (props: IProps & RouteComponentProps) => {
       object[k] = bank.networth[k]
       return object;
     }, {} as {[year: string]: any});
+
   const last_year = _(networthActualValues).values().last();
   const year = parseInt(_(networthActualValues).keys().last() || '0');
   const month = parseInt(_(last_year).keys().last() || '0');
