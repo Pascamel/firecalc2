@@ -1,6 +1,5 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import _ from 'lodash';
-// import Tooltip from 'material-ui/internal/Tooltip';
 import React, { Dispatch, useEffect, useState } from 'react';
 import Chart from 'react-google-charts';
 import { connect } from 'react-redux';
@@ -191,7 +190,7 @@ const ProjectionChart = (props: IProps & RouteComponentProps) => {
               position: 'top', 
               alignment: 'start' 
             },
-            backgroundColor: props.darkMode ? '#000' : '#fff',
+            backgroundColor: props.darkMode ? '#1b1b1b' : '#fff',
             hAxis: {
               textStyle: {
                 color: props.darkMode ? '#ccc' : '#333'

@@ -150,12 +150,20 @@ body.dark-mode {
     }
   }
 
+  .table-striped tbody tr:nth-of-type(odd) {
+    background-color: rgba(0, 0, 0, 0.125);
+  }
+
   .table-success, .table-success > th, .table-success > td {
-    background-color: $successColor; // #c3e6cb;
+    background-color: $successColor;
   }
 
   .table-danger, .table-danger > th, .table-danger > td {
-    background-color: $errorColor; // #f5c6cb;
+    background-color: $errorColor;
+  }
+
+  .table-warning {
+    background-color: #555;
   }
 
   .month-amount {
@@ -181,10 +189,6 @@ body.dark-mode {
     color: #999 !important;
   }
 
-  .list-group-item {
-    background-color: $alertBackground;
-  }
-
   a.media {
     color: $bodyText;
   
@@ -192,5 +196,24 @@ body.dark-mode {
       color: #bbb;
       text-decoration: none;
     }
+  }
+
+  .list-group-item {
+    background-color: $alertBackground;
+  }
+
+  .list-group-item-link {
+    color: #ccc;
+
+    &:hover, &:active {
+      background-color: #333;
+      border-color: #333;
+    }
+  }
+
+  .list-group-item-secondary {
+    background-color: #333;
+    color: #fff;
+    border-color: #333;
   }
 }
