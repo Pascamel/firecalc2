@@ -1,7 +1,7 @@
 $bodyText: #ddd;
 $bodyBackground: #222;
 $headerText: #bbb;
-$headerBackground: #224361;
+$headerBackground: #375a7f;
 $alertBackground: #444;
 $testGreen: #00bc8c;
 $testRed: #e74b6c;
@@ -34,6 +34,16 @@ body.dark-mode {
     }        
   } 
 
+  @media only screen and (min-width: 768px) {
+    .nav-link { 
+      &.active {
+        &:after {
+          border-bottom-color: $headerBackground;
+        }
+      }
+    }
+  }
+
   .alert-header {
     background: $headerBackground;
 
@@ -58,6 +68,40 @@ body.dark-mode {
     }
   }
 
+  .btn-link {
+    color: #ccc;
+
+    &:hover {
+      color:#999;
+    }
+  }
+
+  .form-headers {
+    .btn-primary {
+      color: #212529;
+      background-color: #f8f9fa;
+      border-color: #f8f9fa;
+    }
+
+    .btn-light {
+      color: #fff;
+      background-color: #6c757d;
+      border-color: #6c757d;
+    }
+  
+    
+    .btn-light.disabled, .btn-light:disabled {
+      color: #fff;
+      background-color: #6c757d;
+      border-color: #6c757d;
+    }
+
+    .btn-secondary.disabled, .btn-secondary:disabled {
+      color: #212529;
+      background-color: #f8f9fa;
+      border-color: #f8f9fa;
+    }
+  }
 
   .dropdown-divider {
       border-top: 1px solid #444;

@@ -32,7 +32,7 @@ const Incomes = (props: IProps) => {
       {bank.headers.incomes.map((header: IIncomeHeader, key: number) => (
         <Income key={key} header={header} index={key} />
       ))}
-      <Row>
+      <Row className="form-headers">
         <Col>
           <Button block color="light" onClick={onNewIncomeHeader}>Add new</Button>
         </Col>

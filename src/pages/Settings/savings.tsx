@@ -33,7 +33,7 @@ const Savings = (props: IProps) => {
       {bank.headers.savings.map((header: ISavingsHeader, key: number) => (
         <Saving key={key} header={header} index={key} />
       ))}
-      <Row>
+      <Row className="form-headers">
         <Col>
           <Button block color="light" onClick={onNewSavingHeader}>Add New</Button>
         </Col>
