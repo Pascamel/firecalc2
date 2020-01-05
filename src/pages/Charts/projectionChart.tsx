@@ -113,7 +113,7 @@ const ProjectionChart = (props: IProps & RouteComponentProps) => {
     [new Date(year, month, 1), savings, savings]
   ];
 
-  for (let i = 1; i <= years; i++) {    
+  for (let i = 1; i <= years; i++) {
     data.push([
       new Date(year + i, month, 1), 
       (_.get(data, [data.length-1, 1]) as number) * 1.05 + amount, 
@@ -184,17 +184,43 @@ const ProjectionChart = (props: IProps & RouteComponentProps) => {
           loader={<LoadingPanel color="background" />}
           data={data}
           options={{
-            legend: { position: 'top', alignment: 'start' },
+            legend: {
+              textStyle: {
+                color: props.darkMode ? '#ccc' : '#333' 
+              },
+              position: 'top', 
+              alignment: 'start' 
+            },
             backgroundColor: props.darkMode ? '#000' : '#fff',
-            hAxis: { type: 'date'},
-            vAxis: { 
+            hAxis: {
+              textStyle: {
+                color: props.darkMode ? '#ccc' : '#333'
+              }, 
+              baselineColor: props.darkMode ? '#777' : '#333',
+              gridlines: {
+                color: props.darkMode ? '#777' : '#333' 
+              },
+              type: 'date'
+            },
+            vAxis: {
+              textStyle: {
+                color: props.darkMode ? '#ccc' : '#333'
+              }, 
+              baselineColor: props.darkMode ? '#777' : '#333',
+              gridlines: {
+                color: props.darkMode ? '#777' : '#333'
+              },
               format: 'short'
             },
             series: {
-              0: { curveType: 'function' },
-              1: { curveType: 'function' },
+              0: {
+                curveType: 'function'
+              },
+              1: {
+                curveType: 'function'
+              },
             },
-            chartArea: { 
+            chartArea: {
               width: mobile ? '80%' : '92%', 
               right: mobile ? '5%' : '2%',
               height: '80%'

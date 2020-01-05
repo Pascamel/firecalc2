@@ -27,7 +27,7 @@ label {
 }
 
 @media only screen and (min-width: 768px) {
-  .nav-link { 
+  .nav-link {
     &.active {
       position: relative;
 
@@ -93,7 +93,7 @@ a.media {
     .col {
       height:100%;
 
-      .container {        
+      .container {
         height: 100%;
 
         .alert.form-container {

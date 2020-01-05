@@ -35,7 +35,7 @@ body.dark-mode {
   } 
 
   @media only screen and (min-width: 768px) {
-    .nav-link { 
+    .nav-link {
       &.active {
         &:after {
           border-bottom-color: $headerBackground;
@@ -65,7 +65,7 @@ body.dark-mode {
     }
   }
 
-  .dropdown-menu {    
+  .dropdown-menu {
     background: $bodyBackground;
     border: 1px solid $alertBackground;
   }
