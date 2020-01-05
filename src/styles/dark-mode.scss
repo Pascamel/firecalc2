@@ -3,8 +3,8 @@ $bodyBackground: #222;
 $headerText: #bbb;
 $headerBackground: #375a7f;
 $alertBackground: #444;
-$testGreen: #00bc8c;
-$testRed: #e74b6c;
+$successColor: #00bc8c;
+$errorColor: #e74b6c;
 
 body.dark-mode {
   color: $bodyText;
@@ -53,6 +53,15 @@ body.dark-mode {
           border-bottom-color: $bodyBackground;
         }
       }
+    }
+  }
+
+  .btn-header {
+    background: #88a9c7;
+    color: #092a48;
+  
+    &:hover {
+      background: #a1c2e0;
     }
   }
 
@@ -142,11 +151,11 @@ body.dark-mode {
   }
 
   .table-success, .table-success > th, .table-success > td {
-    background-color: $testGreen; // #c3e6cb;
+    background-color: $successColor; // #c3e6cb;
   }
 
   .table-danger, .table-danger > th, .table-danger > td {
-    background-color: $testRed; // #f5c6cb;
+    background-color: $errorColor; // #f5c6cb;
   }
 
   .month-amount {
@@ -161,11 +170,11 @@ body.dark-mode {
   }
 
   .bg-success {
-    background-color: $testGreen !important;
+    background-color: $successColor !important;
   }
   
   .bg-danger {
-    background-color: $testRed !important;
+    background-color: $errorColor !important;
   }
 
   .text-secondary {
