@@ -10,12 +10,13 @@ interface IProps {
 }
 
 const DarkSwitcher = (props: IProps) => {
+  const { onSetDarkMode } = props;
   useEffect(() => {
     const ls = parseInt(localStorage.getItem('darkMode') || '0');
     if (ls > 0) {
-      props.onSetDarkMode(true);
+      onSetDarkMode(true);
     }
-  }, []);
+  }, [onSetDarkMode]);
 
   const handleClick = () => {
     localStorage.setItem('darkMode', !props.darkMode ? '1' : '0');
