@@ -21,7 +21,7 @@ interface IProps {
   darkMode: boolean;
 }
 
-const YearlyChart = (props: IProps & RouteComponentProps) => {
+const YearlyGoalBurnUpChart = (props: IProps & RouteComponentProps) => {
   const { bank, data, mobile, chart } = props;
   const [year, setYear] = useState(parseInt(_.get(props, 'match.params.year')) || new Date().getFullYear())
 
@@ -48,7 +48,7 @@ const YearlyChart = (props: IProps & RouteComponentProps) => {
 
     return bank.goalYearToDate[y][month] / bank.monthlyGoal[y] / 12
   }
-    
+
   return (
     <Row>
       <Col md={2} sm={12}>
@@ -75,7 +75,9 @@ const YearlyChart = (props: IProps & RouteComponentProps) => {
         </ButtonGroup>}
       </Col>
       <Col md={10} sm={12} className="chart-container">
-        {chart === CHARTS.URL.YEARLY_GOAL_BURNUP && <Charts.YearlyGoalBurnUp data={data[year]} mobile={mobile} year={year} darkMode />}
+        {chart === CHARTS.URL.YEARLY_GOAL_BURNUP && (
+          <Charts.YearlyGoalBurnUp data={data[year]} mobile={mobile} year={year} darkMode />
+        )}
       </Col>
     </Row>
   );
@@ -88,4 +90,4 @@ const mapStateToProps = (state: AppState) => {
   });
 }
 
-export default connect(mapStateToProps)(YearlyChart);
+export default connect(mapStateToProps)(YearlyGoalBurnUpChart);

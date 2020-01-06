@@ -14,7 +14,8 @@ import * as Charts from './charts';
 import { IArrayDateNumber, IArrayDateNumberNull, IYearlyArrayDateNumberNull } from './interfaces';
 import ProjectionChart from './projectionChart';
 import Selector from './selector';
-import YearlyChart from './yearlyChart';
+import YearlyBreakdown from './yearlyBreakdown';
+import YearlyGoalBurnUpChart from './yearlyGoalBurnUpChart';
 
 interface IProps extends RouteComponentProps<{type: string}> {
   authUser: firebase.User|null;
@@ -127,13 +128,13 @@ const ChartsPageBase = (props: IProps & RouteComponentProps) => {
   }
   
   const chartsBlock = (mobile: boolean, recap: IRecap) => (
-    <>                    
-      {type === CHARTS.URL.INCOME_VS_SAVINGS && <Charts.IncomeVsSavingsChart data={recap.svsi} mobile={mobile} darkMode={props.darkMode} />}
-      {type === CHARTS.URL.NET_WORTH_VS_SAVINGS && <Charts.NetWorthVsSavingsChart data={recap.nws} mobile={mobile} darkMode={props.darkMode} />}
+    <>
+      {type === CHARTS.URL.INCOME_VS_SAVINGS && <YearlyBreakdown chart={type} data={recap.svsi} mobile={mobile} {...props} />}
+      {type === CHARTS.URL.NET_WORTH_VS_SAVINGS && <YearlyBreakdown chart={type} data={recap.nws} mobile={mobile} {...props} />}
       {type === CHARTS.URL.SAVINGS_BREAKDOWN && <Charts.SavingsBreakdownChart data={recap.sb} mobile={mobile} darkMode={props.darkMode} />}
-      {type === CHARTS.URL.ALLOCATION_EVOLUTION && <Charts.AllocationEvolutionChart data={recap.sae} mobile={mobile} darkMode={props.darkMode} />}
-      {type === CHARTS.URL.BREAK_EVEN_POINT && <Charts.BreakEvenPointChart data={recap.bep} mobile={mobile} darkMode={props.darkMode} />}
-      {type === CHARTS.URL.YEARLY_GOAL_BURNUP && <YearlyChart data={recap.ybu} mobile={mobile} chart={type} {...props} />}
+      {type === CHARTS.URL.ALLOCATION_EVOLUTION && <YearlyBreakdown chart={type} data={recap.sae} mobile={mobile} {...props} />}
+      {type === CHARTS.URL.BREAK_EVEN_POINT && <YearlyBreakdown chart={type} data={recap.bep} mobile={mobile} {...props} />}
+      {type === CHARTS.URL.YEARLY_GOAL_BURNUP && <YearlyGoalBurnUpChart data={recap.ybu} mobile={mobile} chart={type} {...props} />}
       {type === CHARTS.URL.PROJECTION && <ProjectionChart mobile={mobile} chart={type} {...props} />}
     </>
   );
