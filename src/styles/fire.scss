@@ -27,7 +27,7 @@ label {
 }
 
 @media only screen and (min-width: 768px) {
-  .nav-link { 
+  .nav-link {
     &.active {
       position: relative;
 
@@ -57,8 +57,14 @@ label {
   }
 }
 
-html, body, #root {
-  height:100%;
+.dark-mode-switcher {
+  color: #ccc;
+}
+
+html, body, #root, .sfsgsdf {
+  height: calc(100%);
+}
+body, #root, .nav-container {
   background: $background;
 }
 
@@ -87,7 +93,7 @@ a.media {
     .col {
       height:100%;
 
-      .container {        
+      .container {
         height: 100%;
 
         .alert.form-container {
@@ -294,7 +300,7 @@ a.media {
 
   span.title {
     font-size: 2rem;
-    color: $header-text-color; // #333;
+    color: $header-text-color;
     display: inline-block;
     text-align: center;
     width: calc(100% - 200px);
@@ -314,9 +320,16 @@ a.media {
   }
 }
 
+.text-newline {
+  white-space: pre-line;
+}
+
 .background-wrapper {
   position: relative;
-  background: #777;
+
+  &.mobile {
+    min-height: 300px;
+  }
 }
 
 .background {
@@ -327,6 +340,11 @@ a.media {
   top: 50px;
   left: 50%;
   transform: translateX(-50%);
+
+  &.mobile {
+    width: 250px;
+    height: 250px;
+  }
 
   &.piggy-bank {
     background: url(https://cdn.dribbble.com/users/1055986/screenshots/2887405/piggy-bank-2.gif) 50% 50% no-repeat;

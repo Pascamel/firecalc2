@@ -1,5 +1,6 @@
 import App from './app';
 import ClickableItem from './clickableItem';
+import DarkSwitcher from './darkSwitcher';
 import DecimalsBtn from './decimalsBtn';
 import FiltersBtn from './filtersBtn';
 import FireAmount from './fireAmount';
@@ -17,6 +18,7 @@ import StaticPercentage from './staticPercentage';
 export { 
   App,
   ClickableItem,
+  DarkSwitcher,
   DecimalsBtn,
   FiltersBtn,
   FireTR,

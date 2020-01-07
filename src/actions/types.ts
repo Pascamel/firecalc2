@@ -1,4 +1,5 @@
 export const AUTH_USER_SET = 'AUTH_USER_SET';
+export const SET_DARK_MODE = 'SET_DARK_MODE';
 
 export const BANK_LOAD_STARTED = 'BANK_LOAD_STARTED';
 export const BANK_LOAD_SUCCESS = 'BANK_LOAD_SUCCESS';

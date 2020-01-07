@@ -2,6 +2,7 @@ import * as TYPES from '../actions/types';
 
 const INITIAL_STATE = {
   authUser: null,
+  darkMode: null,
 };
 
 const sessionReducer = (state = INITIAL_STATE, action: any) => {
@@ -12,6 +13,11 @@ const sessionReducer = (state = INITIAL_STATE, action: any) => {
         authUser: action.authUser,
       });
     }
+    case TYPES.SET_DARK_MODE:
+      return ({
+        ...state,
+        darkMode: action.payload.darkMode,
+      })
     default:
       return state;
   }

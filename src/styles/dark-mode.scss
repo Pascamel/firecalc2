@@ -1,0 +1,219 @@
+$bodyText: #ddd;
+$bodyBackground: #222;
+$headerText: #bbb;
+$headerBackground: #375a7f;
+$alertBackground: #444;
+$successColor: #008958;
+$errorColor: #c12546;
+
+body.dark-mode {
+  color: $bodyText;
+  background: $bodyBackground;
+
+  .nav-container {
+    background: $bodyBackground;
+  }
+
+  .navbar-light {
+    .navbar-brand {
+      color: #fff;
+    }
+
+    .navbar-nav {
+      .nav-link {
+        color: $headerText;
+
+        &:hover {
+          color: #fff;
+        }
+
+        &.active {
+          color: #fff;
+        }
+      }
+    }        
+  } 
+
+  @media only screen and (min-width: 768px) {
+    .nav-link {
+      &.active {
+        &:after {
+          border-bottom-color: $headerBackground;
+        }
+      }
+    }
+  }
+
+  .alert-header {
+    background: $headerBackground;
+
+    .btn-link {
+      &.disabled {
+        &:after {
+          border-bottom-color: $bodyBackground;
+        }
+      }
+    }
+  }
+
+  .btn-header {
+    background: #88a9c7;
+    color: #092a48;
+  
+    &:hover {
+      background: #a1c2e0;
+    }
+  }
+
+  .dropdown-menu {
+    background: $bodyBackground;
+    border: 1px solid $alertBackground;
+  }
+
+  .no-link {
+    color: $bodyText;
+    &:hover {
+      color: $bodyText;
+    }
+  }
+
+  .btn-link {
+    color: #ccc;
+
+    &:hover {
+      color:#999;
+    }
+  }
+
+  .form-headers {
+    .btn-primary {
+      color: #212529;
+      background-color: #f8f9fa;
+      border-color: #f8f9fa;
+    }
+
+    .btn-light {
+      color: #fff;
+      background-color: #6c757d;
+      border-color: #6c757d;
+    }
+  
+    
+    .btn-light.disabled, .btn-light:disabled {
+      color: #fff;
+      background-color: #6c757d;
+      border-color: #6c757d;
+    }
+
+    .btn-secondary.disabled, .btn-secondary:disabled {
+      color: #212529;
+      background-color: #f8f9fa;
+      border-color: #f8f9fa;
+    }
+  }
+
+  .dropdown-divider {
+      border-top: 1px solid #444;
+  }
+
+  .top-shadow {
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    padding-top: 1em;
+  }
+
+  #root {
+    background: $bodyBackground;
+  }
+
+  .alert-background {
+    background: $alertBackground;
+  }
+
+  .table {
+    color: $bodyText;
+
+    thead {
+      th {
+        vertical-align: bottom;
+        border-bottom: 2px solid #222;
+      }
+    }
+
+    tbody {
+      border-top: 2px solid #222;
+    }
+
+
+    th, td {
+      border-top: 1px solid #222;
+    }
+  }
+
+  .table-striped tbody tr:nth-of-type(odd) {
+    background-color: rgba(0, 0, 0, 0.125);
+  }
+
+  .table-success, .table-success > th, .table-success > td {
+    background-color: $successColor;
+  }
+
+  .table-danger, .table-danger > th, .table-danger > td {
+    background-color: $errorColor;
+  }
+
+  .table-warning {
+    background-color: #666;
+  }
+
+  .month-amount {
+    &:hover {
+      background: #4b4b4b;
+    }
+  }
+
+  .chart-label {
+    color: #bbb;
+    text-shadow: -1px 0 $alertBackground, 0 1px $alertBackground, 1px 0 $alertBackground, 0 -1px $alertBackground;
+  }
+
+  .bg-success {
+    background-color: $successColor !important;
+  }
+  
+  .bg-danger {
+    background-color: $errorColor !important;
+  }
+
+  .text-secondary {
+    color: #999 !important;
+  }
+
+  a.media {
+    color: $bodyText;
+  
+    &:hover {
+      color: #bbb;
+      text-decoration: none;
+    }
+  }
+
+  .list-group-item {
+    background-color: $alertBackground;
+  }
+
+  .list-group-item-link {
+    color: #ccc;
+
+    &:hover, &:active {
+      background-color: #333;
+      border-color: #333;
+    }
+  }
+
+  .list-group-item-secondary {
+    background-color: #333;
+    color: #fff;
+    border-color: #333;
+  }
+}

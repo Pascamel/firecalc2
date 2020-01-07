@@ -5,7 +5,7 @@ import { Col, Container, Row } from 'reactstrap';
 
 import { loadBank } from '../../actions';
 import Bank from '../../bank';
-import { LoadingPanel, SavePanel } from '../../components';
+import { LoadingPanel, Mobile, NotMobile, SavePanel } from '../../components';
 import * as ROUTES from '../../constants/routes';
 import helpers from '../../helpers';
 import { AppState } from '../../store';
@@ -32,7 +32,7 @@ const MonthPageBase = (props: IProps & RouteComponentProps) => {
 
   const prevMonth = () => {
     const p = helpers.prevMonth(year, month);
-    const route = ROUTES.MONTH.replace(':year', year).replace(':month', month);
+    const route = ROUTES.MONTH.replace(':year', p.year).replace(':month', p.month);
 
     history.push(route);
     setMonth(p.month.toString());
@@ -40,8 +40,8 @@ const MonthPageBase = (props: IProps & RouteComponentProps) => {
   }
 
   const nextMonth = () => {
-    const n = helpers.nextMonth(year, month)
-    const route = ROUTES.MONTH.replace(':year', year).replace(':month', month);
+    const n = helpers.nextMonth(year, month);
+    const route = ROUTES.MONTH.replace(':year', n.year).replace(':month', n.month);
     
     history.push(route);
     setMonth(n.month.toString());
@@ -76,9 +76,25 @@ const MonthPageBase = (props: IProps & RouteComponentProps) => {
     }}/>
   }
 
+  const m = parseInt(month);
+  const y = parseInt(year);
+
+  const savePanelProps = {
+    prevMonth,
+    prevMonthDisabled: (y < bank.headers.firstYear) || (y === bank.headers.firstYear && m <= bank.headers.firstMonth),
+    nextMonth,
+    nextMonthDisabled: (y > new Date().getFullYear()) || (y === new Date().getFullYear() && m === 12)
+  };
+  
+
   return (
     <>
-      <SavePanel label={`${helpers.labelMonth(month)} ${year}`} prevMonth={prevMonth} nextMonth={nextMonth} />
+      <Mobile>
+        <SavePanel label={helpers.labelMonth(month, year, true)} {...savePanelProps} />
+      </Mobile>
+      <NotMobile>
+        <SavePanel label={helpers.labelMonth(month, year)} {...savePanelProps} />
+      </NotMobile>
       <Container fluid className="top-shadow">
         <Row>
           <Col className="pr-0 pl-0">

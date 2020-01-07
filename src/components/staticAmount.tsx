@@ -10,15 +10,17 @@ interface IProps {
   children: number,
   bank: Bank.IBank
   ['display-zero']?: boolean
+  ['hide-decimals']?: boolean
 }
 
 const StaticAmount = (props: IProps) => {
   const { children, bank } = props;
   const daz = _.has(props, 'display-zero');
+  const hd = _.has(props, 'hide-decimals');
 
   return (
     <>
-      {helpers.amount(children, daz, bank.showDecimals)} 
+      {helpers.amount(children, daz, !hd && bank.showDecimals)} 
     </>
   );
 }

@@ -1,6 +1,6 @@
 import _ from 'lodash';
-import * as I from './interfaces';
 
+import * as I from './interfaces';
 
 export const labelSavings = (saving: string) => {
   const labels = {
@@ -80,7 +80,7 @@ export const savingsInputs = (savings: I.ISavingsHeader[], hidden: {}) => {
         id: header.id, type: 'P', types: []
       }];
       if (header.interest) _.each(['I', 'T'], (t) => headers.push({id: header.id, type: t, types: []})); 
-      _.each(headers, (item) => { 
+      _.each(headers, (item) => {
         _.each(headers, (h) => {
           item.types.push(h.type)
         });

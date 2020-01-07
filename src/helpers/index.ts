@@ -6,7 +6,7 @@ const amount = (number: number, display_if_zero: boolean, show_decimals: boolean
   if ((!number || number === 0) && !display_if_zero) return '';
 
   return Number(number || 0).toLocaleString(
-    undefined, { 
+    undefined, {
       minimumFractionDigits: show_decimals ? 2 : 0,
       maximumFractionDigits: show_decimals ? 2 : 0
     }
@@ -44,8 +44,10 @@ const hideIf = (bool: boolean, className?: string) => {
   return bool ? className : '';
 };
 
-const labelMonth = (m: string) => {
-  return moment().month(parseInt(m) - 1).format('MMMM');
+const labelMonth = (m: string, y: string = '', shortened: boolean = false) => {
+  const month = moment().month(parseInt(m) - 1).format(shortened ? 'MMM' : 'MMMM');
+
+  return (y.length < 4) ? month : `${month} ${shortened ? y.slice(-2) : y}`;
 }
 
 const prevMonth = (year: string, month: string) => {

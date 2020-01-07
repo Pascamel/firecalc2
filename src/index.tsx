@@ -4,6 +4,7 @@ import '../node_modules/font-awesome/css/font-awesome.min.css';
 import './styles/fire.scss';
 import './styles/tables.scss';
 import './styles/404.scss';
+import './styles/dark-mode.scss';
 
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';

@@ -233,3 +233,12 @@ export const saveHeaders = (uid: string, bank: Bank.IBank) => {
     });
   };
 }
+
+export const setDarkMode = (darkMode: boolean) => {
+  return (dispatch: Dispatch<any>) => {
+    dispatch(({
+      type: TYPES.SET_DARK_MODE,
+      payload: {darkMode}
+    }));
+  }
+}
