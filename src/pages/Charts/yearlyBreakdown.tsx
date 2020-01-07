@@ -21,7 +21,7 @@ interface IProps {
 
 const YearlyBreakdown = (props: IProps & RouteComponentProps) => {
   const { chart, data, mobile, darkMode, bank } = props;
-  const [year, setYear] = useState(2016); //0);
+  const [year, setYear] = useState(0);
 
   const dataYears = [0, ..._.uniq(Object.entries(data).filter(v => (v[1][0] instanceof Date)).map(v => v[1][0].getFullYear()))];
 
