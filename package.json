@@ -40,7 +40,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "storybook": "start-storybook -p 9009 -s public",
+    "build-storybook": "build-storybook -s public"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -52,6 +53,8 @@
     "not op_mini all"
   ],
   "devDependencies": {
+    "@babel/core": "^7.7.7",
+    "@storybook/react": "^5.2.8",
     "@types/jest": "24.0.9",
     "@types/lodash": "^4.14.149",
     "@types/material-ui": "^0.21.7",
@@ -66,6 +69,7 @@
     "@types/react-router-dom": "^4.3.5",
     "@types/reactstrap": "^7.1.6",
     "@types/recompose": "^0.30.7",
+    "babel-loader": "^8.0.6",
     "node-sass": "^4.13.0",
     "react-sticky": "^6.0.3",
     "recompose": "^0.30.0",
