@@ -84,7 +84,9 @@ const FireAmount = (props: IProps) => {
 
   return (
     <div className={`amount-container ${readonly ? 'read-only' : ''} ${extraClassName}`} onKeyDown={handleKeyDown}>
-      {!edit && <Text className="amount" onClick={setEditMode} content={helpers.amount(amount, displayIfZero, bank.showDecimals || false)} />}
+      {!edit && <Text className="amount" onClick={setEditMode}>
+        {helpers.amount(amount, displayIfZero, bank.showDecimals || false)}
+      </Text>}
       {edit && <input
         ref={(input) => {if (input != null) input.focus();}}
         className="form-control"

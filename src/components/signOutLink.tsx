@@ -3,6 +3,7 @@ import { RouteComponentProps, withRouter } from 'react-router';
 
 import * as ROUTES from '../constants/routes';
 import { auth } from '../firebase';
+import Text from './text';
 
 const SignOutLink = (props: RouteComponentProps) => {
   const { history } = props;
@@ -14,10 +15,12 @@ const SignOutLink = (props: RouteComponentProps) => {
   }
 
   return (
-    <span className="no-link" onClick={click}>
-      <i className="fa fa-lg fa-sign-out pr-2" />
-      Sign Out
-    </span>
+    <Text className="no-link" onClick={click}>
+      <>
+        <i className="fa fa-lg fa-sign-out pr-2" />
+        Sign Out
+      </>
+    </Text>
   );
 }
 

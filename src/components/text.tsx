@@ -3,13 +3,17 @@ import React from 'react';
 interface IProps {
   className?: any;
   onClick?: any;
-  content: string;
+  children: JSX.Element | string;
 }
 
 const Text = (props: IProps) => {
-  const {content, ...otherProps} = props;
+  const {children, ...otherProps} = props;
   
-  return <span {...otherProps}>{content}</span>
+  return (
+    <span {...otherProps}>
+      {children}
+    </span>
+    );
 }
 
 export default Text;

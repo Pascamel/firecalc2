@@ -54,7 +54,7 @@ const Selector = (props: IProps & RouteComponentProps) => {
                   <Button color="outline-light" className="pull-left" onClick={prevChart}>
                     <FontAwesomeIcon icon="backward" />
                   </Button>
-                  <Text content={_.get(_.values(CHARTS.LABELS), _.values(CHARTS.URL).indexOf(type))} />
+                  <Text>{_.get(_.values(CHARTS.LABELS), _.values(CHARTS.URL).indexOf(type))}</Text>
                   <Button color="outline-light" className="pull-right" onClick={nextChart}>
                     <FontAwesomeIcon icon="forward" />
                   </Button>

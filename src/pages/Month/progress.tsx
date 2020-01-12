@@ -19,10 +19,10 @@ const Progress = (props: IProps) => {
     <>
       <Row>
         <Col>
-          <Text content={label} />
+          <Text>{label}</Text>
         </Col>
         <Col className="text-right">
-          {result !== 0 && <Text className={result >= 0 ? 'text-success':'text-danger'} content={text} />}
+          {result !== 0 && <Text className={result >= 0 ? 'text-success':'text-danger'}>{text}</Text>}
         </Col>
       </Row>
       <Row>

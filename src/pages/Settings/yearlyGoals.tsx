@@ -22,7 +22,7 @@ interface IYoyLabel {
 const YoyLabel: React.FunctionComponent<IYoyLabel> = (props) => {
   const { year, bank } = props;
   const currentYear = new Date().getFullYear();
-  const defaultLabel = <Text content="-" />;
+  const defaultLabel = <Text>-</Text>;
   
   if (year <= bank.headers.firstYear) return defaultLabel;
   if (year > currentYear + 1) return defaultLabel;

@@ -39,7 +39,7 @@ const Doughnut = (props: IProps) => {
   return (
     <>
       <DoughnutLib data={data} height={300} options={options}/>
-      <Text className="chart-label" content={`${Math.round(savingRate * 100)}%`} />
+      <Text className="chart-label">{`${Math.round(savingRate * 100)}%`}</Text>
     </>
   );
 }

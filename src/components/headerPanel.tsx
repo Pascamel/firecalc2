@@ -14,7 +14,7 @@ const HeaderPanel = (props: IProps) => {
     <Container fluid className="alert alert-save alert-header">
       <Row>
         <Col>
-          <Text className="title" content={title} />
+          <Text className="title">{title}</Text>
         </Col>
       </Row>
     </Container>

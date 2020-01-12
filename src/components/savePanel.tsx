@@ -93,7 +93,9 @@ const SavePanel = (props: IProps) => {
                   </Button>
                 </ButtonGroup>}
 
-                <Text className={`title nowrap-ellipsis ${bankUpdated ? 'text-warning' : ''}`} content={label} />
+                <Text className={`title nowrap-ellipsis ${bankUpdated ? 'text-warning' : ''}`}>
+                  {label}
+                </Text>
 
                 <Button color={bankUpdated ? 'header' : 'outline-light'} className="btn-save" onClick={saveClick}>
                   {!saveInProgress && <FontAwesomeIcon icon={['far', 'save']} className="mr-1" />}

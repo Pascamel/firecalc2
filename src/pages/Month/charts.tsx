@@ -26,7 +26,7 @@ const Charts = (props: IProps) => {
         <Alert color="background">
           <Row>
             <Col>
-              <Text className="label-fake-input" content="Net Worth" />
+              <Text className="label-fake-input">Net Worth</Text>
             </Col>
             <Col>
               <FireAmount extraClassName="label-fake-input pull-right" display-if-zero={true} callback-props={['networth', year, month]} />
@@ -34,7 +34,7 @@ const Charts = (props: IProps) => {
           </Row>
           <Row>
             <Col>
-              <Text className="label-fake-input" content="Expenses" />
+              <Text className="label-fake-input">Expenses</Text>
             </Col>
             <Col>
               <FireAmount extraClassName="label-fake-input pull-right" display-if-zero={true} callback-props={['expenses', year, month]} />
@@ -66,8 +66,10 @@ const Charts = (props: IProps) => {
           <hr />
           <Row>
             <Col>
-              <Text content="Estimated expenses" />
-              <Text className="pull-right text-secondary" content={`$${helpers.amount(estimatedExpenses, true, bank.showDecimals)}`} />
+              <Text>Estimated expenses</Text>
+              <Text className="pull-right text-secondary">
+                {`$${helpers.amount(estimatedExpenses, true, bank.showDecimals)}`}
+              </Text>
             </Col>
           </Row>
         </Alert>

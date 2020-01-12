@@ -30,7 +30,7 @@ const Body = (props: IProps) => {
           <FontAwesomeIcon icon={collapsed ? 'chevron-right' : 'chevron-down'} />
         </td>
         <FireTD show={!collapsed} span={bank.incomeHeaders.length + 3}>
-          <Text className="pull-left pl-2" content={year} />
+          <Text className="pull-left pl-2">{year}</Text>
         </FireTD>
         {bank.incomeHeaders.map((header) => (
         <FireTD show={collapsed} key={header.id}>

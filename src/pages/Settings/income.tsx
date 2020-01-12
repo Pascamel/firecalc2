@@ -5,6 +5,7 @@ import { Col, Row } from 'reactstrap';
 
 import { deleteIncomeHeader, switchIncomeHeaders, updateIncomeHeader } from '../../actions';
 import Bank, { IIncomeHeader } from '../../bank';
+import { Text } from '../../components';
 import { AppState } from '../../store';
 
 interface IProps {
@@ -92,7 +93,7 @@ const Income = (props: IProps) => {
               defaultChecked={editPretax}                          
               onChange={handleInputChange} 
             />}
-            <span className="ml-1">Pre-tax</span>
+            <Text className="ml-1">Pre-tax</Text>
           </label>
         </div>
         {!edit && <div className="btn-group ml-3">
