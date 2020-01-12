@@ -57,7 +57,7 @@ const NavigationAuth = (props: IProps) => {
       </NavLink>
       <NavbarToggler onClick={toggle} />
       <Collapse isOpen={isOpen} navbar>
-        <Nav navbar>
+        <Nav navbar className="main-nav-bar">
           <NavItem>
             <NavLink className={navLinkClass(ROUTES.MONTH)} to={helpers.currentMonthRoute()} onClick={toggleIfOpen}>
               <FontAwesomeIcon icon={['far', 'calendar-alt']} className="mr-1" />

@@ -56,8 +56,10 @@ const SavePanel = (props: IProps) => {
 
     if (label === 'Settings') {
       onSaveHeaders(authUser.uid, bank);
-    } else {
-      onSaveBank(authUser.uid, bank, bankSavingsUpdated, bankIncomeUpdated, bankOthersUpdated);
+    }
+
+    if (bankSavingsUpdated || bankIncomeUpdated || bankOthersUpdated) {
+      onSaveBank(authUser.uid, bank, bankSavingsUpdated, bankIncomeUpdated, bankOthersUpdated);  
     }
   }
 

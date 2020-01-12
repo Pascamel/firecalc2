@@ -55,11 +55,11 @@ const bankReducer = (state = INITIAL_STATE, action: any) => {
       
       Bank.updateValue(new_bank, action.payload.index, action.payload.indexes, action.payload.amount);
       Bank.calculateTotals(new_bank);
-      
+
       return ({
         ...state,
         bank: new_bank,
-        bankSavingsUpdated: (action.payload.index === 'savings'),
+        bankSavingsUpdated: (action.payload.index === 'savings') || (action.payload.index === 'savingsYearHeaders' && action.payload.indexes.length > 0 && action.payload.indexes[0] === 'goals'),
         bankIncomeUpdated: (action.payload.index === 'income'),
         bankOthersUpdated: (action.payload.index === 'networth' || action.payload.index === 'expenses' || action.payload.index === 'notes'),
         bankHeadersUpdated: (action.payload.index === 'headers')

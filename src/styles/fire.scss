@@ -27,25 +27,35 @@ label {
 }
 
 @media only screen and (min-width: 768px) {
-  .nav-link {
-    &.active {
-      position: relative;
+  .main-nav-bar {
+    .nav-link {
+      &.active {
+        position: relative;
 
-      &:after {
-        bottom: -8px;
-        left: 50%;
-        border: solid transparent;
-        content: ' ';
-        height: 0;
-        width: 0;
-        position: absolute;
-        pointer-events: none;
-        border-color: rgba(136, 183, 213, 0);
-        border-bottom-color: $header-background;
-        border-width: 10px;
-        margin-left: -10px;
+        &:after {
+          bottom: -8px;
+          left: 50%;
+          border: solid transparent;
+          content: ' ';
+          height: 0;
+          width: 0;
+          position: absolute;
+          pointer-events: none;
+          border-color: rgba(136, 183, 213, 0);
+          border-bottom-color: $header-background;
+          border-width: 10px;
+          margin-left: -10px;
+        }
       }
     }
+  }
+}
+
+.tab-nav-bar {
+  .nav-link.active {
+    background-color: transparent;
+    border-color: #ccc #ccc transparent;
+    font-weight: bold;
   }
 }
 
