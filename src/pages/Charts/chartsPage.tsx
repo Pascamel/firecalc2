@@ -152,7 +152,7 @@ const ChartsPageBase = (props: IProps & RouteComponentProps) => {
             <Container>
               <Row>
                 <Col>
-                  <Mobile>                    
+                  <Mobile>
                     {chartsBlock(true, recap)}
                   </Mobile>
                   <NotMobile>

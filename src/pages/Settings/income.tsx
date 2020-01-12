@@ -82,7 +82,7 @@ const Income = (props: IProps) => {
             className="form-control" 
           />}
       </Col>
-      <Col xs={12} sm={3}>
+      <Col xs={7} sm={3}>
         <div className="inline">
           {!edit && <FontAwesomeIcon icon={['far', header.pretax?'check-square':'square']} />}
           <label>
@@ -104,7 +104,7 @@ const Income = (props: IProps) => {
           <label className={`btn ${editCount === 2 ? 'btn-primary' : 'btn-light'}`} onClick={e => {setEditCount(2)}}>2</label>
         </div>}
       </Col>
-      <Col xs={12} sm={3} className="text-right">
+      <Col xs={5} sm={3} className="text-right">
         {edit && <span className="btn btn-link" onClick={editHeaderConfirm}>
           <FontAwesomeIcon icon="check" size="lg" />
         </span>}

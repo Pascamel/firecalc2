@@ -1,9 +1,10 @@
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { Dispatch, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { Col, Container, Nav, NavItem, NavLink, Row, TabContent, TabPane } from 'reactstrap';
+import { Button, ButtonGroup, Col, Container, ListGroup, ListGroupItem, Nav, NavItem, NavLink, Row, TabContent, TabPane } from 'reactstrap';
 
 import { loadBank } from '../../actions';
-import { LoadingPanel, SavePanel } from '../../components';
+import { LoadingPanel, Mobile, NotMobile, SavePanel } from '../../components';
 import { AppState } from '../../store';
 import Incomes from './incomes';
 import Savings from './savings';
@@ -42,19 +43,33 @@ const tabsContent: tabsContentType = {
   }
 };
 
+const tabsKeys = Object.keys(tabsContent);
+
 const SettingsPageBase = (props: IProps) => {
   const { authUser, bankLoaded, onLoadBank } = props;
   const [activeTab, setActiveTab] = useState('yearly-goals'); //'starting-point');
-
-  const toggle = (tab: string) => {
-    if(activeTab !== tab) setActiveTab(tab);
-  }
   
   useEffect(() => {
     if (bankLoaded || !authUser ) return;
     
     onLoadBank(authUser.uid);
   }, [authUser, bankLoaded, onLoadBank]);
+
+  const toggle = (tab: string) => {
+    if(activeTab !== tab) setActiveTab(tab);
+  }
+
+  const prevSetting = () => {
+    const newIndex = (tabsKeys.indexOf(activeTab) + tabsKeys.length - 1) % tabsKeys.length;
+
+    setActiveTab(tabsKeys[newIndex]);
+  }
+
+  const nextSetting = () => {
+    const newIndex = (tabsKeys.indexOf(activeTab) + tabsKeys.length + 1) % tabsKeys.length;
+    
+    setActiveTab(tabsKeys[newIndex]);
+  }
   
   if (!bankLoaded) return <LoadingPanel />;
 
@@ -65,22 +80,35 @@ const SettingsPageBase = (props: IProps) => {
         <Row>
           <Col className="pl-0 pr-0">
             <Container>
-              <Nav tabs className="tab-nav-bar">
-                {Object.keys(tabsContent).map(key => (
-                  <NavItem key={key}>
-                    <NavLink className={activeTab === key ? 'active' : ''} onClick={() => { toggle(key); }}>
-                      {tabsContent[key].label}
-                    </NavLink>
-                  </NavItem>
-                ))}
-              </Nav>
-              <TabContent activeTab={activeTab}>
-                {Object.keys(tabsContent).map(key => (
-                  <TabPane tabId={key} key={key}>
-                    {tabsContent[key].component}
-                  </TabPane>
-                ))}
-              </TabContent>
+              <Row>
+                <Col md={2} sm={12}>
+                  <NotMobile>
+                    <ListGroup>
+                      {Object.keys(tabsContent).map(key => ( 
+                        <ListGroupItem key={key} className="text-left" color={activeTab === key ? 'secondary' : 'link'} tag={Button} onClick={() => toggle(key)}>
+                          {tabsContent[key].label}
+                        </ListGroupItem>
+                      ))} 
+                    </ListGroup>
+                  </NotMobile>
+                  <Mobile>
+                    <ButtonGroup style={{width: '100%'}} color="light" className="mb-3">
+                      <Button color="outline-secondary" onClick={prevSetting}>
+                        <FontAwesomeIcon icon="backward" />
+                      </Button>
+                      <Button color="outline-secondary" disabled={true} block>
+                      {tabsContent[activeTab].label}
+                      </Button>
+                      <Button color="outline-secondary" onClick={nextSetting}>
+                        <FontAwesomeIcon icon="forward" />
+                      </Button>
+                    </ButtonGroup>
+                  </Mobile>
+                </Col>
+                <Col md={10} sm={12}>
+                  {tabsContent[activeTab].component}
+                </Col>
+              </Row>
             </Container>
           </Col>
         </Row>
