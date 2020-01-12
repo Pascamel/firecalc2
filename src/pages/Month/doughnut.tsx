@@ -2,6 +2,7 @@ import React from 'react';
 import { Doughnut as DoughnutLib } from 'react-chartjs-2';
 import { connect } from 'react-redux';
 
+import { Text } from '../../components';
 import { AppState } from '../../store';
 
 interface IProps {
@@ -38,7 +39,7 @@ const Doughnut = (props: IProps) => {
   return (
     <>
       <DoughnutLib data={data} height={300} options={options}/>
-      <span className="chart-label">{Math.round(savingRate * 100)}%</span>
+      <Text className="chart-label" content={`${Math.round(savingRate * 100)}%`} />
     </>
   );
 }

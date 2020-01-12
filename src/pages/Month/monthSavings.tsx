@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import Bank, { ISavingsHeaderLight } from '../../bank';
 import * as formatters from '../../bank/formatters';
-import { FireAmount } from '../../components';
+import { FireAmount, Text } from '../../components';
 import { AppState } from '../../store';
 
 interface IProps {
@@ -25,7 +25,7 @@ const MonthSavings = (props: IProps) => {
   return (
     <>
       <div className="month-amount">
-        <span className="label-fake-input smaller mb-1">{label}</span>
+        <Text className="label-fake-input smaller mb-1" content={label} />
         <div className="pull-right">
           <FireAmount extraClassName="label-fake-input" display-if-zero={true} callback-props={['savings', year, month, header.id, header.type]} />
         </div>

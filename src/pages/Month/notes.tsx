@@ -5,6 +5,7 @@ import { Alert, Input } from 'reactstrap';
 
 import { updateValue } from '../../actions';
 import Bank from '../../bank';
+import { Text } from '../../components';
 import { AppState } from '../../store';
 
 interface IProps {
@@ -59,7 +60,7 @@ const Notes = (props: IProps) => {
   return (
     <Alert color="background" onClick={editMode}>
       <p><b>Notes</b></p>
-      {!edit && <span className="text-newline">{value && value.length ? value : 'No note created yet'}</span>}
+      {!edit && <Text className="text-newline" content={value && value.length ? value : 'No note created yet'} />}
       {edit && <Input id="notesTextArea"
                       innerRef={(input) => {if (input != null) input.focus();}}
                       type="textarea" 

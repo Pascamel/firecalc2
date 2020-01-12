@@ -4,7 +4,7 @@ import React from 'react';
 import { RouteComponentProps } from 'react-router';
 import { Button, ButtonGroup, Col, Container, Row } from 'reactstrap';
 
-import { Mobile, NotMobile } from '../../components';
+import { Mobile, NotMobile, Text } from '../../components';
 import * as CHARTS from '../../constants/charts';
 import * as ROUTES from '../../constants/routes';
 
@@ -54,9 +54,7 @@ const Selector = (props: IProps & RouteComponentProps) => {
                   <Button color="outline-light" className="pull-left" onClick={prevChart}>
                     <FontAwesomeIcon icon="backward" />
                   </Button>
-                  <span>
-                    {_.get(_.values(CHARTS.LABELS), _.values(CHARTS.URL).indexOf(type))}
-                  </span>
+                  <Text content={_.get(_.values(CHARTS.LABELS), _.values(CHARTS.URL).indexOf(type))} />
                   <Button color="outline-light" className="pull-right" onClick={nextChart}>
                     <FontAwesomeIcon icon="forward" />
                   </Button>

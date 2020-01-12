@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 
 import { updateValue } from '../actions';
 import Bank from '../bank';
+import { Text } from '../components';
 import helpers from '../helpers';
 import { AppState } from '../store';
 
@@ -83,9 +84,7 @@ const FireAmount = (props: IProps) => {
 
   return (
     <div className={`amount-container ${readonly ? 'read-only' : ''} ${extraClassName}`} onKeyDown={handleKeyDown}>
-      {!edit && <span className="amount" onClick={setEditMode}>
-        { helpers.amount(amount, displayIfZero, bank.showDecimals || false) }
-      </span>}
+      {!edit && <Text className="amount" onClick={setEditMode} content={helpers.amount(amount, displayIfZero, bank.showDecimals || false)} />}
       {edit && <input
         ref={(input) => {if (input != null) input.focus();}}
         className="form-control"
