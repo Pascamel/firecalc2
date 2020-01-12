@@ -4,7 +4,7 @@ import { Alert, Col, Row } from 'reactstrap';
 
 import { updateValue } from '../../actions';
 import Bank from '../../bank';
-import FireAmount from '../../components/fireAmount';
+import { FireAmount, Text } from '../../components';
 import helpers from '../../helpers';
 import { AppState } from '../../store';
 
@@ -22,7 +22,7 @@ interface IYoyLabel {
 const YoyLabel: React.FunctionComponent<IYoyLabel> = (props) => {
   const { year, bank } = props;
   const currentYear = new Date().getFullYear();
-  const defaultLabel = <span>-</span>;
+  const defaultLabel = <Text content="-" />;
   
   if (year <= bank.headers.firstYear) return defaultLabel;
   if (year > currentYear + 1) return defaultLabel;

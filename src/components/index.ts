@@ -14,6 +14,7 @@ import SavePanel from './savePanel';
 import SignOutLink from './signOutLink';
 import StaticAmount from './staticAmount';
 import StaticPercentage from './staticPercentage';
+import Text from './text';
 
 export { 
   App,
@@ -32,5 +33,6 @@ export {
   SavePanel,
   SignOutLink,
   StaticAmount,
-  StaticPercentage
+  StaticPercentage,
+  Text
 };

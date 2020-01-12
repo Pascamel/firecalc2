@@ -1,7 +1,7 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { Dispatch, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { Button, ButtonGroup, Col, Container, ListGroup, ListGroupItem, Nav, NavItem, NavLink, Row, TabContent, TabPane } from 'reactstrap';
+import { Button, ButtonGroup, Col, Container, ListGroup, ListGroupItem, Row } from 'reactstrap';
 
 import { loadBank } from '../../actions';
 import { LoadingPanel, Mobile, NotMobile, SavePanel } from '../../components';
