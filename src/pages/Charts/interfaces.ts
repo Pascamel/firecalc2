@@ -1,12 +1,21 @@
-export type IArrayDateNumber = Array<Array<string> | Array<Date|number> | Array<string|{v: number, f: string}>>;
-export type IArrayDateNumberNull = Array<Array<string> | Array<Date|number|null>>;
+export type IChartAllocationData = {
+  [key: string]: number | null
+}
 
-export type IYearlyArrayDateNumber = {
-  [year:number]: Array<Array<string> | Array<Date|number> | Array<string|{v: number, f: string}>>;
-};
+export type IChartData = { 
+  date: number,
+  savings?: number | null,
+  income?: number | null,
+  netWorth?: number | null,
+  expenses?: number | null,
+  goal?: number | null,
+  done?: number | null,  
+  projection5?: number | null,
+  projection7?: number | null,
+  allocation?: IChartAllocationData,
+}
 
-export type IYearlyArrayDateNumberNull = {
-  [year:number]: Array<Array<string> | Array<Date|number|null>>
-};
-
-export type IYearlyChartData = Array<Array<string> | Array<Date|number|null> | Array<Date|number> | Array<string|{v: number, f: string}>>;
+export type IPieChartData = {
+  name: string,
+  value: number | null,
+}

@@ -1,16 +1,18 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import _ from 'lodash';
 import React, { Dispatch, useEffect, useState } from 'react';
-import Chart from 'react-google-charts';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
-import { Badge, Button, ButtonGroup, Col, ListGroup, ListGroupItem, Row, Tooltip } from 'reactstrap';
+import { Badge, Button, ButtonGroup, Col, ListGroup, ListGroupItem, Row, Tooltip as TooltipStrap } from 'reactstrap';
 
 import { loadBank } from '../../actions';
 import Bank from '../../bank';
 import { LoadingPanel, StaticAmount } from '../../components';
 import * as ROUTES from '../../constants/routes';
+import helpers from '../../helpers';
 import { AppState } from '../../store';
+import * as Charts from './charts';
+import { IChartData } from './interfaces';
 
 interface IProps {
   authUser: firebase.User|null;
@@ -29,7 +31,7 @@ const ProjectionChart = (props: IProps & RouteComponentProps) => {
   const DEFAULT_YEARS = [10, 15, 20, 25, 30];
   const DEFAULT_YEAR = 10;
   
-  const { authUser, bank, mobile, chart, onLoadBank, bankLoaded } = props;
+  const { authUser, bank, mobile, chart, onLoadBank, bankLoaded, darkMode } = props;
   const [amount, setAmount] = useState(parseInt(_.get(props, 'match.params.amount')) || DEFAULT_AMOUNT);
   const [years, setYears] = useState(parseInt(_.get(props, 'match.params.years')) || DEFAULT_YEAR);
 
@@ -107,18 +109,21 @@ const ProjectionChart = (props: IProps & RouteComponentProps) => {
     setRouteYears(DEFAULT_YEARS[index + 1]);
   }
 
-  const data = [
-    ['Date', '5%', '7%'],
-    [new Date(year, month, 1), savings, savings]
-  ];
+  const data: IChartData[] = [{
+    date: new Date(year, month, 1).getTime(),
+    projection5: savings,
+    projection7: savings,
+  }];
 
   for (let i = 1; i <= years; i++) {
-    data.push([
-      new Date(year + i, month, 1), 
-      (_.get(data, [data.length-1, 1]) as number) * 1.05 + amount, 
-      (_.get(data, [data.length-1, 2]) as number) * 1.07 + amount
-    ]);
+    data.push({
+      date: new Date(year + i, month, 1).getTime(), 
+      projection5: helpers.roundFloat((data[data.length-1].projection5 || 0) * 1.05 + amount),
+      projection7: helpers.roundFloat((data[data.length-1].projection7 || 0) * 1.07 + amount)
+    });
   }
+
+  console.log('data', data);
 
   if (!bankLoaded) return <LoadingPanel />;
   
@@ -134,11 +139,11 @@ const ProjectionChart = (props: IProps & RouteComponentProps) => {
               </StaticAmount>
               <Badge id={`tooltipIcon${v}`} pill className="pull-right mt-1">
                 <FontAwesomeIcon icon="info" size="sm" />
-                <Tooltip placement="top" isOpen={tooltipOpen && tooltipValue===v} autohide={false} target={`tooltipIcon${v}`} toggle={() => toggleTooltip(v)}>
+                <TooltipStrap placement="top" isOpen={tooltipOpen && tooltipValue===v} autohide={false} target={`tooltipIcon${v}`} toggle={() => toggleTooltip(v)}>
                   $<StaticAmount display-zero hide-decimals>
                     {v/12}
                   </StaticAmount> / mo
-                </Tooltip>
+                </TooltipStrap>
               </Badge>
             </ListGroupItem>
           ))}
@@ -176,7 +181,13 @@ const ProjectionChart = (props: IProps & RouteComponentProps) => {
         </ButtonGroup>}
       </Col>
       <Col md={10} sm={12} className="chart-container">
-        <Chart
+        <Charts.ProjectionChart 
+          data={data}
+          mobile={mobile}
+          darkMode={darkMode}
+         />
+        
+        {/* <Chart
           chartType="LineChart"
           width="100%"
           height="99%"
@@ -225,7 +236,7 @@ const ProjectionChart = (props: IProps & RouteComponentProps) => {
               height: '80%'
             }
           }}
-        />
+        /> */}
       </Col>
     </Row>
   );
