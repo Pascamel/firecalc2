@@ -4,6 +4,7 @@ import {
   Area,
   AreaChart,
   CartesianGrid,
+  Cell,
   LabelList,
   Legend,
   Line,
@@ -38,6 +39,8 @@ const formatdateToString = (d: Date) => moment(d).format('MMM Do YY');
 const formatReactTextDateToString = (d: React.ReactText) => formatdateToString(new Date(parseInt(d as string)));
 
 const formatterValue = (v: string | number | React.ReactText[]) => helpers.amount(v as number, true, true);
+
+const colors = [ '#83c3f7', '#4791db', '#f28933', '#ffdd72', '#6a7b83' ];
 
 function toTitleCase(str: string) {
   return str.replace(/\w*/g, (txt: string) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase());
@@ -89,7 +92,10 @@ export const SavingsBreakdownChart = (props: IProps<ISavingsBreakdownChartData[]
   <ResponsiveWrapper>
     <PieChart width={400} height={400}>
       <Pie dataKey="value" data={props.data} fill="#8884d8" isAnimationActive={false} label={value => value.name}>
-        <LabelList dataKey="name" position="insideTop" angle={45} />
+        <LabelList dataKey="name" />
+        {props.data.map((entry, index) => (
+          <Cell key={`cell-${index}`} fill={colors[index % colors.length]}/>
+        ))}
       </Pie>
       <Tooltip labelFormatter={formatReactTextDateToString} formatter={formatterValue} />
       <Legend formatter={formatLegend} />
@@ -105,8 +111,8 @@ export const AllocationEvolutionChart = (props: IProps<IAllocationEvolutionChart
       <YAxis />
       <Tooltip labelFormatter={formatReactTextDateToString} formatter={formatterValue} />
       <Legend formatter={formatLegend} />
-      {Object.keys(props.data[0].allocation || {}).map(key => (
-        <Area type="monotone" key={key} dataKey={key} stackId="1" stroke="#8884d8" fill="#8884d8" />
+      {Object.keys(props.data[0].allocation || {}).map((key, index) => (
+        <Area type="monotone" key={key} dataKey={key} stackId="1" stroke={colors[index % colors.length]} fill={colors[index % colors.length]} />
       ))}
     </AreaChart>
   </ResponsiveWrapper>
