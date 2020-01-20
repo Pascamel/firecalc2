@@ -34,21 +34,17 @@ interface IProps<T> {
   darkMode: boolean;
 }
 
-const formatdateToString = (d: Date) => moment(d).format('MMM Do YY');
-
-const formatReactTextDateToString = (d: React.ReactText) => formatdateToString(new Date(parseInt(d as string)));
-
-const formatterValue = (v: string | number | React.ReactText[]) => helpers.amount(v as number, true, true);
-
 const colors = [ '#83c3f7', '#4791db', '#f28933', '#ffdd72', '#6a7b83' ];
 
-function toTitleCase(str: string) {
-  return str.replace(/\w*/g, (txt: string) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase());
-}
+const formatdateToString = (d: Date) => moment(d).format('MMM Do YY');
 
-const formatLegend = (value: string | number | React.ReactText[]) => {
-  return toTitleCase(value as string);
-}
+const reactTextToDateString = (d: React.ReactText) => formatdateToString(new Date(parseInt(d as string)));
+
+const formatterTooltip = (v: string | number | React.ReactText[]) => helpers.amount(v as number, true, true);
+
+const toTitleCase = (str: string) => str.replace(/\w*/g, (txt: string) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase());
+
+const formatLegend = (value: string | number | React.ReactText[]) => toTitleCase(value as string);
 
 const ResponsiveWrapper = (props: {children: JSX.Element}) => {
   return (
@@ -66,7 +62,7 @@ export const IncomeVsSavingsChart = (props: IProps<IIncomeVsSavingsChartData[]>)
       <CartesianGrid vertical={false} strokeDasharray="3 3" />
       <XAxis dataKey="date" type="number" domain = {['dataMin', 'dataMax']} tickFormatter={formatdateToString} />
       <YAxis />
-      <Tooltip labelFormatter={formatReactTextDateToString} />
+      <Tooltip labelFormatter={reactTextToDateString} />
       <Legend formatter={formatLegend} />
       <Line type="monotone" dataKey="income" stroke="#8884d8" dot={false} activeDot={{ r: 1 }} />
       <Line type="monotone" dataKey="savings" stroke="#82ca9d" dot={false} activeDot={{ r: 1 }} />
@@ -80,7 +76,7 @@ export const NetWorthVsSavingsChart = (props: IProps<INetWorthVsSavingsChartData
       <CartesianGrid vertical={false} strokeDasharray="3 3" />
       <XAxis dataKey="date" type="number" domain = {['dataMin', 'dataMax']} tickFormatter={formatdateToString} />
       <YAxis />
-      <Tooltip labelFormatter={formatReactTextDateToString} formatter={formatterValue} />
+      <Tooltip labelFormatter={reactTextToDateString} formatter={formatterTooltip} />
       <Legend formatter={formatLegend} />
       <Line type="monotone" dataKey="netWorth" stroke="#8884d8" dot={false} activeDot={{ r: 1 }} />
       <Line type="monotone" dataKey="savings" stroke="#82ca9d" dot={false} activeDot={{ r: 1 }} />
@@ -97,7 +93,7 @@ export const SavingsBreakdownChart = (props: IProps<ISavingsBreakdownChartData[]
           <Cell key={`cell-${index}`} fill={colors[index % colors.length]}/>
         ))}
       </Pie>
-      <Tooltip labelFormatter={formatReactTextDateToString} formatter={formatterValue} />
+      <Tooltip labelFormatter={reactTextToDateString} formatter={formatterTooltip} />
       <Legend formatter={formatLegend} />
     </PieChart>
   </ResponsiveWrapper>
@@ -109,7 +105,7 @@ export const AllocationEvolutionChart = (props: IProps<IAllocationEvolutionChart
       <CartesianGrid vertical={false} strokeDasharray="3 3" />
       <XAxis dataKey="date" type="number" domain = {['dataMin', 'dataMax']} tickFormatter={formatdateToString} />
       <YAxis />
-      <Tooltip labelFormatter={formatReactTextDateToString} formatter={formatterValue} />
+      <Tooltip labelFormatter={reactTextToDateString} formatter={formatterTooltip} />
       <Legend formatter={formatLegend} />
       {Object.keys(props.data[0].allocation || {}).map((key, index) => (
         <Area type="monotone" key={key} dataKey={key} stackId="1" stroke={colors[index % colors.length]} fill={colors[index % colors.length]} />
@@ -124,7 +120,7 @@ export const BreakEvenPointChart = (props: IProps<IBreakEvenPointChartData[]>) =
       <CartesianGrid vertical={false} strokeDasharray="3 3" />
       <XAxis dataKey="date" type="number" domain = {['dataMin', 'dataMax']} tickFormatter={formatdateToString} />
       <YAxis />
-      <Tooltip labelFormatter={formatReactTextDateToString} formatter={formatterValue} />
+      <Tooltip labelFormatter={reactTextToDateString} formatter={formatterTooltip} />
       <Legend formatter={formatLegend} />
       <Line type="monotone" dataKey="income" stroke="#8884d8" dot={false} activeDot={{ r: 1 }} />
       <Line type="monotone" dataKey="expenses" stroke="#82ca9d" dot={false} activeDot={{ r: 1 }} />
@@ -138,7 +134,7 @@ export const YearlyGoalBurnUp = (props: IProps<IYearlyGoalBurnUpChartData[]>) =>
       <CartesianGrid vertical={false} strokeDasharray="3 3" />
       <XAxis dataKey="date" type="number" domain = {['dataMin', 'dataMax']} tickFormatter={formatdateToString} />
       <YAxis />
-      <Tooltip labelFormatter={formatReactTextDateToString} formatter={formatterValue} />
+      <Tooltip labelFormatter={reactTextToDateString} formatter={formatterTooltip} />
       <Legend formatter={formatLegend} />
       <Line type="monotone" dataKey="done" stroke="#8884d8" dot={false} activeDot={{ r: 1 }} />
       <Line type="monotone" dataKey="goal" stroke="#82ca9d" dot={false} activeDot={{ r: 1 }} />
@@ -152,7 +148,7 @@ export const ProjectionChart = (props: IProps<IProjectionChartData[]>) => (
       <CartesianGrid vertical={false} strokeDasharray="3 3" />
       <XAxis dataKey="date" type="number" domain = {['dataMin', 'dataMax']} tickFormatter={formatdateToString} />
       <YAxis />
-      <Tooltip labelFormatter={formatReactTextDateToString} />
+      <Tooltip labelFormatter={reactTextToDateString} />
       <Legend formatter={formatLegend} />
       <Line type="monotone" dataKey="projection5" stroke="#8884d8" dot={false} activeDot={{ r: 1 }} />
       <Line type="monotone" dataKey="projection7" stroke="#82ca9d" dot={false} activeDot={{ r: 1 }} />
