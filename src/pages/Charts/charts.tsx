@@ -20,7 +20,6 @@ import helpers from '../../helpers';
 import {
   IAllocationEvolutionChart,
   IBreakEvenPointChartData,
-  IChartData,
   IIncomeVsSavingsChartData,
   INetWorthVsSavingsChartData,
   IProjectionChartData,

@@ -5,12 +5,20 @@ import { RouteComponentProps } from 'react-router-dom';
 import { Col, Container, Row } from 'reactstrap';
 
 import { loadBank } from '../../actions';
-import Bank, { ISavingsHeader } from '../../bank';
+import Bank from '../../bank';
 import { LoadingPanel, Mobile, NotMobile } from '../../components';
 import * as CHARTS from '../../constants/charts';
 import { AppState } from '../../store';
 import * as Charts from './charts';
-import { IChartAllocationData, IChartData, ISavingsBreakdownChartData } from './interfaces';
+import {
+  IAllocationEvolutionChart,
+  IBreakEvenPointChartData,
+  IChartAllocationData,
+  IIncomeVsSavingsChartData,
+  INetWorthVsSavingsChartData,
+  ISavingsBreakdownChartData,
+  IYearlyGoalBurnUpChartData,
+} from './interfaces';
 import ProjectionChart from './projectionChart';
 import Selector from './selector';
 import YearlyBreakdown from './yearlyBreakdown';
@@ -24,12 +32,12 @@ interface IProps extends RouteComponentProps<{type: string}> {
 }
 
 interface IRecap {
-  svsi: IChartData[];
-  nws: IChartData[];
+  svsi: IIncomeVsSavingsChartData[];
+  nws: INetWorthVsSavingsChartData[];
   sb: ISavingsBreakdownChartData[];
-  sae: IChartData[];
-  bep: IChartData[];
-  ybu: IChartData[];
+  sae: IAllocationEvolutionChart[];
+  bep: IBreakEvenPointChartData[];
+  ybu: IYearlyGoalBurnUpChartData[];
 }
 
 const ChartsPageBase = (props: IProps & RouteComponentProps) => {
@@ -49,12 +57,12 @@ const ChartsPageBase = (props: IProps & RouteComponentProps) => {
   }, [match, bank, type]);
 
   const mapBankToRecap = (bank: Bank.IBank) => {
-    const svsi: IChartData[] = [];
-    const nws: IChartData[] = [];
+    const svsi: IIncomeVsSavingsChartData[] = [];
+    const nws: INetWorthVsSavingsChartData[] = [];
     const sb: ISavingsBreakdownChartData[] = [];
-    const sae: IChartData[] = [];
-    const bep: IChartData[] = [];
-    const ybu: IChartData[] = [];
+    const sae: IAllocationEvolutionChart[] = [];
+    const bep: IBreakEvenPointChartData[] = [];
+    const ybu: IYearlyGoalBurnUpChartData[] = [];
 
     _.each(_.range(bank.headers.firstYear, new Date().getFullYear()+1), (y: number) => {
       const m1 = (y === bank.headers.firstYear) ? bank.headers.firstMonth : 1;

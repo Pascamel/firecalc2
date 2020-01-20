@@ -6,8 +6,8 @@ export type IIncomeVsSavingsChartData = {
   date: number,
   savings: number | null,
   income: number | null,
-
 }
+
 export type INetWorthVsSavingsChartData = {
   date: number,
   savings: number | null,
@@ -26,6 +26,7 @@ export type IAllocationEvolutionChart = {
 
 export type IBreakEvenPointChartData = {
   date: number,
+  income: number | null,
   expenses: number | null,
 }
 
@@ -41,7 +42,5 @@ export type IProjectionChartData = {
   projection7: number | null,
 }
 
-export type IChartData = IIncomeVsSavingsChartData | INetWorthVsSavingsChartData | 
-//ISavingsBreakdownChartData |
-  IAllocationEvolutionChart | IBreakEvenPointChartData | IYearlyGoalBurnUpChartData | IProjectionChartData;
+export type IChartData = IIncomeVsSavingsChartData | INetWorthVsSavingsChartData | IAllocationEvolutionChart | IBreakEvenPointChartData | IYearlyGoalBurnUpChartData | IProjectionChartData;
 
