@@ -1,257 +1,157 @@
+import moment from 'moment';
 import React from 'react';
-import { Chart } from 'react-google-charts';
+import {
+  Area,
+  AreaChart,
+  CartesianGrid,
+  Cell,
+  LabelList,
+  Legend,
+  Line,
+  LineChart,
+  Pie,
+  PieChart,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from 'recharts';
 
-import { LoadingPanel } from '../../components';
-import { IArrayDateNumber, IYearlyArrayDateNumberNull, IYearlyChartData } from './interfaces';
+import helpers from '../../helpers';
+import {
+  IAllocationEvolutionChart,
+  IBreakEvenPointChartData,
+  IIncomeVsSavingsChartData,
+  INetWorthVsSavingsChartData,
+  IProjectionChartData,
+  ISavingsBreakdownChartData,
+  IYearlyGoalBurnUpChartData
+} from './interfaces';
 
-interface IProps {
-  data:   IArrayDateNumber | IYearlyArrayDateNumberNull | IYearlyChartData;
+interface IProps<T> {
+  data:  T;
   mobile: boolean;
   darkMode: boolean;
 }
 
-interface IYear {
-  year: number;
+const colors = [ '#83c3f7', '#4791db', '#f28933', '#ffdd72', '#6a7b83' ];
+
+const formatdateToString = (d: Date) => moment(d).format('MMM Do YY');
+
+const reactTextToDateString = (d: React.ReactText) => formatdateToString(new Date(parseInt(d as string)));
+
+const formatterTooltip = (v: string | number | React.ReactText[]) => helpers.amount(v as number, true, true);
+
+const toTitleCase = (str: string) => str.replace(/\w*/g, (txt: string) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase());
+
+const formatLegend = (value: string | number | React.ReactText[]) => toTitleCase(value as string);
+
+const ResponsiveWrapper = (props: {children: JSX.Element}) => {
+  return (
+    <div style={{height: '100%', width: '100%'}}>
+      <ResponsiveContainer min-width="500" width={'100%'} height={'100%'}>
+        {props.children}
+      </ResponsiveContainer>
+    </div>
+  );
 }
 
-const axisProperties = (props: IProps) => {
-  return {
-    baselineColor: props.darkMode ? '#777' : '#333',
-    gridlines: {
-      color: props.darkMode ? '#777' : '#333'
-    },
-    textStyle: {
-      color: props.darkMode ? '#ccc' : '#333'
-    }
-  };
-};
-
-const backgroundColorProperty = (props: IProps) => {
-  return {
-    backgroundColor: props.darkMode ? '#1b1b1b' : '#fff'
-  };
-};
-
-const legendTextProperty = (props: IProps) => {
-  return {
-    textStyle: { color: props.darkMode ? '#ccc' : '#333' }
-  }; 
-};
-
-export const IncomeVsSavingsChart = (props: IProps) => (
-  <Chart
-    chartType="LineChart"
-    width="100%"
-    height="99%"
-    loader={<LoadingPanel color="background" />}
-    data={props.data}
-    options={{
-      legend: {
-        ...legendTextProperty(props),
-        position: 'top',
-        alignment: 'start'
-      },
-      ...backgroundColorProperty(props),
-      hAxis: {
-        ...axisProperties(props),
-        type: 'date'
-      },
-      vAxis: {
-        ...axisProperties(props),
-        format: 'short',
-        viewWindow: {
-          min: 0
-        }
-      },
-      series: {
-        0: {
-          curveType: 'function'
-        },
-        1: {
-          curveType: 'function'
-        },
-      },
-      chartArea: {
-        width: props.mobile ? '82%' : '93%',
-        right: props.mobile ? '5%' : '2%',
-        height: '80%'
-      }
-    }}
-  />
+export const IncomeVsSavingsChart = (props: IProps<IIncomeVsSavingsChartData[]>) => (
+  <ResponsiveWrapper>
+    <LineChart width={650} height={300} data={props.data}>
+      <CartesianGrid vertical={false} strokeDasharray="3 3" />
+      <XAxis dataKey="date" type="number" domain = {['dataMin', 'dataMax']} tickFormatter={formatdateToString} />
+      <YAxis />
+      <Tooltip labelFormatter={reactTextToDateString} />
+      <Legend formatter={formatLegend} />
+      <Line type="monotone" dataKey="income" stroke="#8884d8" dot={false} activeDot={{ r: 1 }} />
+      <Line type="monotone" dataKey="savings" stroke="#82ca9d" dot={false} activeDot={{ r: 1 }} />
+    </LineChart>
+  </ResponsiveWrapper>
 );
 
-export const NetWorthVsSavingsChart = (props: IProps) => (
-  <Chart
-    chartType="LineChart"
-    width="100%"
-    height="99%"
-    loader={<LoadingPanel color="background" />}
-    data={props.data}
-    options={{
-      legend: {
-        ...legendTextProperty(props),
-        position: 'top',
-        alignment: 'start'
-      },
-      ...backgroundColorProperty(props),
-      hAxis: {
-        ...axisProperties(props),
-        type: 'date'
-      },
-      vAxis: {
-        ...axisProperties(props),
-        format: 'short'
-      },
-      series: {
-        0: {
-          curveType: 'function'
-        },
-        1: {
-          curveType: 'function'
-        },
-      },
-      chartArea: {
-        width: props.mobile ? '80%' : '92%', 
-        right: props.mobile ? '5%' : '2%',
-        height: '80%'
-      }
-    }}
-  />
+export const NetWorthVsSavingsChart = (props: IProps<INetWorthVsSavingsChartData[]>) => (
+  <ResponsiveWrapper>
+    <LineChart width={650} height={300} data={props.data}>
+      <CartesianGrid vertical={false} strokeDasharray="3 3" />
+      <XAxis dataKey="date" type="number" domain = {['dataMin', 'dataMax']} tickFormatter={formatdateToString} />
+      <YAxis />
+      <Tooltip labelFormatter={reactTextToDateString} formatter={formatterTooltip} />
+      <Legend formatter={formatLegend} />
+      <Line type="monotone" dataKey="netWorth" stroke="#8884d8" dot={false} activeDot={{ r: 1 }} />
+      <Line type="monotone" dataKey="savings" stroke="#82ca9d" dot={false} activeDot={{ r: 1 }} />
+    </LineChart>
+  </ResponsiveWrapper>
 );
 
-export const SavingsBreakdownChart = (props: IProps) => (
-  <Chart
-    chartType="PieChart"
-    width="100%"
-    height="99%"
-    loader={<LoadingPanel color="background" />}
-    data={props.data}
-    options={{
-      legend: {
-        ...legendTextProperty(props),
-        position: props.mobile ? 'bottom' : 'labeled'
-      },
-      ...backgroundColorProperty(props),
-      pieSliceText: 'value',
-      pieStartAngle: 100,
-      chartArea: {
-        width: props.mobile ? '90%' : '96%', 
-        height: '90%'
-      }
-    }}
-  />
+export const SavingsBreakdownChart = (props: IProps<ISavingsBreakdownChartData[]>) => (
+  <ResponsiveWrapper>
+    <PieChart width={400} height={400}>
+      <Pie dataKey="value" data={props.data} fill="#8884d8" isAnimationActive={false} label={value => value.name}>
+        <LabelList dataKey="name" />
+        {props.data.map((entry, index) => (
+          <Cell key={`cell-${index}`} fill={colors[index % colors.length]}/>
+        ))}
+      </Pie>
+      <Tooltip labelFormatter={reactTextToDateString} formatter={formatterTooltip} />
+      <Legend formatter={formatLegend} />
+    </PieChart>
+  </ResponsiveWrapper>
 );
 
-export const AllocationEvolutionChart = (props: IProps) => (
-  <Chart 
-    chartType="AreaChart"
-    width="100%"
-    height="99%"
-    loader={<LoadingPanel color="background" />}
-    data={props.data}
-    legendToggle
-    options={{
-      isStacked: true,
-      legend: {
-        ...legendTextProperty(props),
-        position: 'top',
-        alignment: 'start'
-      },
-      ...backgroundColorProperty(props),
-      hAxis: {
-        ...axisProperties(props),
-        type: 'date'
-      },
-      vAxis: {
-        ...axisProperties(props),
-        format: 'short',
-        viewWindow: {
-          min: 0
-        }
-      },
-      chartArea: {
-        width: props.mobile ? '80%' : '92%', 
-        right: props.mobile ? '5%' : '2%',
-        height: '90%'
-      }
-    }} 
-  />
+export const AllocationEvolutionChart = (props: IProps<IAllocationEvolutionChart[]>) => (
+  <ResponsiveWrapper>
+    <AreaChart width={650} height={300} data={props.data.map(v => ({date: v.date, ...v.allocation}))}>
+      <CartesianGrid vertical={false} strokeDasharray="3 3" />
+      <XAxis dataKey="date" type="number" domain = {['dataMin', 'dataMax']} tickFormatter={formatdateToString} />
+      <YAxis />
+      <Tooltip labelFormatter={reactTextToDateString} formatter={formatterTooltip} />
+      <Legend formatter={formatLegend} />
+      {Object.keys(props.data[0].allocation || {}).map((key, index) => (
+        <Area type="monotone" key={key} dataKey={key} stackId="1" stroke={colors[index % colors.length]} fill={colors[index % colors.length]} />
+      ))}
+    </AreaChart>
+  </ResponsiveWrapper>
 );
 
-export const BreakEvenPointChart = (props: IProps) => (
-  <Chart
-    chartType="LineChart"
-    width="100%"
-    height="99%"
-    loader={<LoadingPanel color="background" />}
-    data={props.data}
-    options={{
-      legend: {
-        ...legendTextProperty(props),
-        position: 'top',
-        alignment: 'start'
-      },
-      ...backgroundColorProperty(props),
-      hAxis: {
-        ...axisProperties(props),
-        type: 'date'
-      },
-      vAxis: {
-        ...axisProperties(props),
-        format: 'short'
-      },
-      series: {
-        0: {
-          curveType: 'function'
-        },
-        1: {
-          curveType: 'function'
-        },
-      },
-      chartArea: {
-        width: props.mobile ? '80%' : '92%', 
-        right: props.mobile ? '5%' : '2%',
-        height: '80%'
-      }
-    }}
-  />
+export const BreakEvenPointChart = (props: IProps<IBreakEvenPointChartData[]>) => (
+  <ResponsiveWrapper>
+    <LineChart width={650} height={300} data={props.data}>
+      <CartesianGrid vertical={false} strokeDasharray="3 3" />
+      <XAxis dataKey="date" type="number" domain = {['dataMin', 'dataMax']} tickFormatter={formatdateToString} />
+      <YAxis />
+      <Tooltip labelFormatter={reactTextToDateString} formatter={formatterTooltip} />
+      <Legend formatter={formatLegend} />
+      <Line type="monotone" dataKey="income" stroke="#8884d8" dot={false} activeDot={{ r: 1 }} />
+      <Line type="monotone" dataKey="expenses" stroke="#82ca9d" dot={false} activeDot={{ r: 1 }} />
+    </LineChart>
+  </ResponsiveWrapper>
 );
 
-export const YearlyGoalBurnUp = (props: IProps & IYear) => (
-  <Chart
-    chartType="LineChart"
-    width="100%"
-    height="99%"
-    loader={<LoadingPanel color="background" />}
-    data={props.data}
-    options={{
-      legend: {
-        ...legendTextProperty(props),
-        position: 'top',
-        alignment: 'start'
-      },
-      ...backgroundColorProperty(props),
-      hAxis: {
-        ...axisProperties(props),
-        type: 'date'
-      },
-      vAxis: {
-        ...axisProperties(props),
-        format: 'short'
-      },
-      series: {
-        0: {
-          curveType: 'function'
-        },
-        1: {
-          curveType: 'function'
-        },
-      },
-      chartArea: {
-        width: props.mobile ? '80%' : '92%', 
-        right: props.mobile ? '5%' : '2%',
-        height: '80%'
-      }
-    }}
-  />
+export const YearlyGoalBurnUp = (props: IProps<IYearlyGoalBurnUpChartData[]>) => (
+  <ResponsiveWrapper>
+    <LineChart width={650} height={300} data={props.data}>
+      <CartesianGrid vertical={false} strokeDasharray="3 3" />
+      <XAxis dataKey="date" type="number" domain = {['dataMin', 'dataMax']} tickFormatter={formatdateToString} />
+      <YAxis />
+      <Tooltip labelFormatter={reactTextToDateString} formatter={formatterTooltip} />
+      <Legend formatter={formatLegend} />
+      <Line type="monotone" dataKey="done" stroke="#8884d8" dot={false} activeDot={{ r: 1 }} />
+      <Line type="monotone" dataKey="goal" stroke="#82ca9d" dot={false} activeDot={{ r: 1 }} />
+    </LineChart>
+  </ResponsiveWrapper>
+);
+
+export const ProjectionChart = (props: IProps<IProjectionChartData[]>) => (
+  <ResponsiveWrapper>
+    <LineChart width={650} height={300} data={props.data}>
+      <CartesianGrid vertical={false} strokeDasharray="3 3" />
+      <XAxis dataKey="date" type="number" domain = {['dataMin', 'dataMax']} tickFormatter={formatdateToString} />
+      <YAxis />
+      <Tooltip labelFormatter={reactTextToDateString} />
+      <Legend formatter={formatLegend} />
+      <Line type="monotone" dataKey="projection5" stroke="#8884d8" dot={false} activeDot={{ r: 1 }} />
+      <Line type="monotone" dataKey="projection7" stroke="#82ca9d" dot={false} activeDot={{ r: 1 }} />
+    </LineChart>
+  </ResponsiveWrapper>
 );

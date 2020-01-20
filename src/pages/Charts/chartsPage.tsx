@@ -8,14 +8,20 @@ import { loadBank } from '../../actions';
 import Bank from '../../bank';
 import { LoadingPanel, Mobile, NotMobile } from '../../components';
 import * as CHARTS from '../../constants/charts';
-import helpers from '../../helpers';
 import { AppState } from '../../store';
 import * as Charts from './charts';
-import { IArrayDateNumber, IArrayDateNumberNull, IYearlyArrayDateNumberNull } from './interfaces';
+import {
+  IAllocationEvolutionChart,
+  IBreakEvenPointChartData,
+  IChartAllocationData,
+  IIncomeVsSavingsChartData,
+  INetWorthVsSavingsChartData,
+  ISavingsBreakdownChartData,
+  IYearlyGoalBurnUpChartData,
+} from './interfaces';
 import ProjectionChart from './projectionChart';
 import Selector from './selector';
 import YearlyBreakdown from './yearlyBreakdown';
-import YearlyGoalBurnUpChart from './yearlyGoalBurnUpChart';
 
 interface IProps extends RouteComponentProps<{type: string}> {
   authUser: firebase.User|null;
@@ -26,12 +32,12 @@ interface IProps extends RouteComponentProps<{type: string}> {
 }
 
 interface IRecap {
-  svsi: IArrayDateNumber;
-  nws: IArrayDateNumberNull;
-  sb: IArrayDateNumber;
-  sae: IArrayDateNumber;
-  bep: IArrayDateNumber;
-  ybu: IYearlyArrayDateNumberNull;
+  svsi: IIncomeVsSavingsChartData[];
+  nws: INetWorthVsSavingsChartData[];
+  sb: ISavingsBreakdownChartData[];
+  sae: IAllocationEvolutionChart[];
+  bep: IBreakEvenPointChartData[];
+  ybu: IYearlyGoalBurnUpChartData[];
 }
 
 const ChartsPageBase = (props: IProps & RouteComponentProps) => {
@@ -51,61 +57,59 @@ const ChartsPageBase = (props: IProps & RouteComponentProps) => {
   }, [match, bank, type]);
 
   const mapBankToRecap = (bank: Bank.IBank) => {
-    const svsi: IArrayDateNumber = [['Date', 'Savings', 'Income']];
-    const nws: IArrayDateNumberNull = [['Date', 'Net Worth', 'Savings']];
-    const sb: IArrayDateNumber = [['Institution', 'Amount']];
-    const sae: IArrayDateNumber = [_.concat(['Date'], _(bank.savingsInputs)
-      .filter((header) => (header.types.indexOf('T') === -1) || (header.type === 'T'))
-      .map((header) => _(bank.savingsHeaders).keyBy('id').get([header.id, 'label'], 'N/A'))
-      .value()
-    )];
-    const bep: IArrayDateNumber = [['Date', 'Passive income', 'Expenses']];
-    const ybu: IYearlyArrayDateNumberNull = {};
+    const svsi: IIncomeVsSavingsChartData[] = [];
+    const nws: INetWorthVsSavingsChartData[] = [];
+    const sb: ISavingsBreakdownChartData[] = [];
+    const sae: IAllocationEvolutionChart[] = [];
+    const bep: IBreakEvenPointChartData[] = [];
+    const ybu: IYearlyGoalBurnUpChartData[] = [];
 
-    _.each(_.range(bank.headers.firstYear, new Date().getFullYear()+1), (y) => {
+    _.each(_.range(bank.headers.firstYear, new Date().getFullYear()+1), (y: number) => {
       const m1 = (y === bank.headers.firstYear) ? bank.headers.firstMonth : 1;
       const m2 = (y === (new Date().getFullYear())) ? (new Date().getMonth() + 1) : 12;
 
-      ybu[y] = [['Date', 'Goal', 'Done'], [new Date(y, 0, 1), 0, 0]]; 
-
       _.each(_.range(m1, m2 + 1), (m) => {
-        svsi.push([
-          new Date(y, m, 0), // last day of m-1
-          _.get(bank.totalMonthSavings, [y, m], 0),
-          _.get(bank.totalMonthIncome, [y, m], 0)
-        ]);
+        svsi.push({
+          date: new Date(y, m, 0).getTime(), // last day of m-1
+          savings: _.get(bank.totalMonthSavings, [y, m], 0),
+          income: _.get(bank.totalMonthIncome, [y, m], 0)
+        })
 
-        nws.push([
-          new Date(y, m, 0),
-          _.get(bank.networth, [y, m], null) as number|null,
-          _.get(bank.totalHolding, [y, m], 0)
-        ]);
+        nws.push({
+          date: new Date(y, m, 0).getTime(),
+          netWorth: _.get(bank.networth, [y, m], null) as number|null,
+          savings: _.get(bank.totalHolding, [y, m], 0)
+        });
 
-        var sae_values = _(bank.savingsInputs)
-          .filter((header) => (header.types.indexOf('T') === -1) || (header.type === 'T'))
-          .map((header) => _.get(bank.grandTotalMonthInstitution, [y, m, header.id]))
-          .value();
-
-        sae.push([new Date(y, m, 0), ...sae_values]);
-
-        const manual_expense = _.get(bank.expenses, [y, m], 0);
-        const automatic_expenses = _.get(bank.totalMonthIncome, [y, m], 0) - _.get(bank.totalMonthSavings, [y, m], 0);
+        sae.push({
+          date: new Date(y, m, 0).getTime(),
+          allocation: _(bank.savingsInputs)
+            .filter((header) => (header.types.indexOf('T') === -1) || (header.type === 'T'))
+            .reduce((acc, header) => {
+              const key = _(bank.savingsHeaders).keyBy('id').get([header.id]).label;
+              const value = (acc[key] || 0) + _.get(bank.grandTotalMonthInstitution, [y, m, header.id]);
+              return {...acc, [key]: value};
+            }, {} as IChartAllocationData)
+        })
 
         if (_.get(bank.networth, [y, m])) {
-          bep.push([
-            new Date(y, m, 0), 
-            Math.round(parseFloat(_.get(bank.networth, [y, m], '0')) / 300),
-            manual_expense !== 0 ? manual_expense : Math.max(0, automatic_expenses)
-          ]);
+          const manual_expenses = _.get(bank.expenses, [y, m], 0);
+          const automatic_expenses = _.get(bank.totalMonthIncome, [y, m], 0) - _.get(bank.totalMonthSavings, [y, m], 0);
+
+          bep.push({
+            date: new Date(y, m, 0).getTime(),
+            income: Math.round(parseFloat(_.get(bank.networth, [y, m], '0')) / 300),
+            expenses: manual_expenses !== 0 ? manual_expenses : Math.max(0, automatic_expenses)
+          });
         }        
       });
       
       _.each(_.range(m1, 13), (m) => {
-        ybu[y].push([
-          new Date(y, m, 0),
-          m * _.get(bank.monthlyGoal, y, 0),
-          (m <= m2) ? m * _.get(bank.monthlyGoal, y, 0) + _.get(bank.goalYearToDate, [y, m], 0) : null
-        ]);
+        ybu.push({
+          date: new Date(y, m, 0).getTime(),
+          goal: m * _.get(bank.monthlyGoal, y, 0),
+          done: (m <= m2) ? m * _.get(bank.monthlyGoal, y, 0) + _.get(bank.goalYearToDate, [y, m], 0) : null
+        });
       });
     });
 
@@ -118,10 +122,10 @@ const ChartsPageBase = (props: IProps & RouteComponentProps) => {
       let header_label = h.label || 'N/A';
       if (h.sublabel) header_label += ' > ' + h.sublabel;
 
-      sb.push([header_label, {
-        v: bank.grandTotalInstitution[header.id][header.type],
-        f: '$' + helpers.amount(bank.grandTotalInstitution[header.id][header.type], true, true) 
-      }]);
+      sb.push({
+        name: header_label,
+        value: bank.grandTotalInstitution[header.id][header.type], //123,
+      });
     });
 
     return {svsi, nws, sb, sae, bep, ybu};
@@ -134,7 +138,7 @@ const ChartsPageBase = (props: IProps & RouteComponentProps) => {
       {type === CHARTS.URL.SAVINGS_BREAKDOWN && <Charts.SavingsBreakdownChart data={recap.sb} mobile={mobile} darkMode={props.darkMode} />}
       {type === CHARTS.URL.ALLOCATION_EVOLUTION && <YearlyBreakdown chart={type} data={recap.sae} mobile={mobile} {...props} />}
       {type === CHARTS.URL.BREAK_EVEN_POINT && <YearlyBreakdown chart={type} data={recap.bep} mobile={mobile} {...props} />}
-      {type === CHARTS.URL.YEARLY_GOAL_BURNUP && <YearlyGoalBurnUpChart data={recap.ybu} mobile={mobile} chart={type} {...props} />}
+      {type === CHARTS.URL.YEARLY_GOAL_BURNUP && <YearlyBreakdown chart={type} data={recap.ybu} mobile={mobile} {...props} hideAll={true} />}
       {type === CHARTS.URL.PROJECTION && <ProjectionChart mobile={mobile} chart={type} {...props} />}
     </>
   );
