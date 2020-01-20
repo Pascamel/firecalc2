@@ -5,12 +5,12 @@ import { RouteComponentProps } from 'react-router-dom';
 import { Col, Container, Row } from 'reactstrap';
 
 import { loadBank } from '../../actions';
-import Bank from '../../bank';
+import Bank, { ISavingsHeader } from '../../bank';
 import { LoadingPanel, Mobile, NotMobile } from '../../components';
 import * as CHARTS from '../../constants/charts';
 import { AppState } from '../../store';
 import * as Charts from './charts';
-import { IChartAllocationData, IChartData, IPieChartData } from './interfaces';
+import { IChartAllocationData, IChartData, ISavingsBreakdownChartData } from './interfaces';
 import ProjectionChart from './projectionChart';
 import Selector from './selector';
 import YearlyBreakdown from './yearlyBreakdown';
@@ -26,7 +26,7 @@ interface IProps extends RouteComponentProps<{type: string}> {
 interface IRecap {
   svsi: IChartData[];
   nws: IChartData[];
-  sb: IPieChartData[];
+  sb: ISavingsBreakdownChartData[];
   sae: IChartData[];
   bep: IChartData[];
   ybu: IChartData[];
@@ -51,7 +51,7 @@ const ChartsPageBase = (props: IProps & RouteComponentProps) => {
   const mapBankToRecap = (bank: Bank.IBank) => {
     const svsi: IChartData[] = [];
     const nws: IChartData[] = [];
-    const sb: IPieChartData[] = [];
+    const sb: ISavingsBreakdownChartData[] = [];
     const sae: IChartData[] = [];
     const bep: IChartData[] = [];
     const ybu: IChartData[] = [];

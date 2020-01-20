@@ -17,7 +17,16 @@ import {
 } from 'recharts';
 
 import helpers from '../../helpers';
-import { IChartData, IPieChartData } from './interfaces';
+import {
+  IAllocationEvolutionChart,
+  IBreakEvenPointChartData,
+  IChartData,
+  IIncomeVsSavingsChartData,
+  INetWorthVsSavingsChartData,
+  IProjectionChartData,
+  ISavingsBreakdownChartData,
+  IYearlyGoalBurnUpChartData
+} from './interfaces';
 
 interface IProps<T> {
   data:  T;
@@ -49,7 +58,7 @@ const ResponsiveWrapper = (props: {children: JSX.Element}) => {
   );
 }
 
-export const IncomeVsSavingsChart = (props: IProps<IChartData[]>) => (
+export const IncomeVsSavingsChart = (props: IProps<IIncomeVsSavingsChartData[]>) => (
   <ResponsiveWrapper>
     <LineChart width={650} height={300} data={props.data}>
       <CartesianGrid vertical={false} strokeDasharray="3 3" />
@@ -63,7 +72,7 @@ export const IncomeVsSavingsChart = (props: IProps<IChartData[]>) => (
   </ResponsiveWrapper>
 );
 
-export const NetWorthVsSavingsChart = (props: IProps<IChartData[]>) => (
+export const NetWorthVsSavingsChart = (props: IProps<INetWorthVsSavingsChartData[]>) => (
   <ResponsiveWrapper>
     <LineChart width={650} height={300} data={props.data}>
       <CartesianGrid vertical={false} strokeDasharray="3 3" />
@@ -77,7 +86,7 @@ export const NetWorthVsSavingsChart = (props: IProps<IChartData[]>) => (
   </ResponsiveWrapper>
 );
 
-export const SavingsBreakdownChart = (props: IProps<IPieChartData[]>) => (
+export const SavingsBreakdownChart = (props: IProps<ISavingsBreakdownChartData[]>) => (
   <ResponsiveWrapper>
     <PieChart width={400} height={400}>
       <Pie dataKey="value" data={props.data} fill="#8884d8" isAnimationActive={false} label={value => value.name}>
@@ -89,7 +98,7 @@ export const SavingsBreakdownChart = (props: IProps<IPieChartData[]>) => (
   </ResponsiveWrapper>
 );
 
-export const AllocationEvolutionChart = (props: IProps<IChartData[]>) => (
+export const AllocationEvolutionChart = (props: IProps<IAllocationEvolutionChart[]>) => (
   <ResponsiveWrapper>
     <AreaChart width={650} height={300} data={props.data.map(v => ({date: v.date, ...v.allocation}))}>
       <CartesianGrid vertical={false} strokeDasharray="3 3" />
@@ -104,7 +113,7 @@ export const AllocationEvolutionChart = (props: IProps<IChartData[]>) => (
   </ResponsiveWrapper>
 );
 
-export const BreakEvenPointChart = (props: IProps<IChartData[]>) => (
+export const BreakEvenPointChart = (props: IProps<IBreakEvenPointChartData[]>) => (
   <ResponsiveWrapper>
     <LineChart width={650} height={300} data={props.data}>
       <CartesianGrid vertical={false} strokeDasharray="3 3" />
@@ -118,7 +127,7 @@ export const BreakEvenPointChart = (props: IProps<IChartData[]>) => (
   </ResponsiveWrapper>
 );
 
-export const YearlyGoalBurnUp = (props: IProps<IChartData[]>) => (
+export const YearlyGoalBurnUp = (props: IProps<IYearlyGoalBurnUpChartData[]>) => (
   <ResponsiveWrapper>
     <LineChart width={650} height={300} data={props.data}>
       <CartesianGrid vertical={false} strokeDasharray="3 3" />
@@ -132,7 +141,7 @@ export const YearlyGoalBurnUp = (props: IProps<IChartData[]>) => (
   </ResponsiveWrapper>
 );
 
-export const ProjectionChart = (props: IProps<IChartData[]>) => (
+export const ProjectionChart = (props: IProps<IProjectionChartData[]>) => (
   <ResponsiveWrapper>
     <LineChart width={650} height={300} data={props.data}>
       <CartesianGrid vertical={false} strokeDasharray="3 3" />

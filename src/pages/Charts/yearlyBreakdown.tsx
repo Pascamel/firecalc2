@@ -9,7 +9,7 @@ import Bank from '../../bank';
 import * as CHARTS from '../../constants/charts';
 import { AppState } from '../../store';
 import * as Charts from './charts';
-import { IChartData } from './interfaces';
+import { IAllocationEvolutionChart, IBreakEvenPointChartData, IChartData, IIncomeVsSavingsChartData, INetWorthVsSavingsChartData, IYearlyGoalBurnUpChartData } from './interfaces';
 
 interface IProps {
   bank: Bank.IBank;
@@ -64,11 +64,11 @@ const YearlyBreakdown = (props: IProps & RouteComponentProps) => {
         </ButtonGroup>}
       </Col>
       <Col md={10} sm={12} className="chart-container">
-        {chart === CHARTS.URL.INCOME_VS_SAVINGS && <Charts.IncomeVsSavingsChart data={filteredData} mobile={mobile} darkMode={darkMode} />}
-        {chart === CHARTS.URL.NET_WORTH_VS_SAVINGS && <Charts.NetWorthVsSavingsChart data={filteredData} mobile={mobile} darkMode={darkMode} />}
-        {chart === CHARTS.URL.ALLOCATION_EVOLUTION && <Charts.AllocationEvolutionChart data={filteredData} mobile={mobile} darkMode={darkMode} />}
-        {chart === CHARTS.URL.BREAK_EVEN_POINT && <Charts.BreakEvenPointChart data={filteredData} mobile={mobile} darkMode={darkMode} />}
-        {chart === CHARTS.URL.YEARLY_GOAL_BURNUP && <Charts.YearlyGoalBurnUp data={filteredData} mobile={mobile} darkMode={darkMode} />}
+        {chart === CHARTS.URL.INCOME_VS_SAVINGS && <Charts.IncomeVsSavingsChart data={filteredData as IIncomeVsSavingsChartData[]} mobile={mobile} darkMode={darkMode} />}
+        {chart === CHARTS.URL.NET_WORTH_VS_SAVINGS && <Charts.NetWorthVsSavingsChart data={filteredData as INetWorthVsSavingsChartData[]} mobile={mobile} darkMode={darkMode} />}
+        {chart === CHARTS.URL.ALLOCATION_EVOLUTION && <Charts.AllocationEvolutionChart data={filteredData as IAllocationEvolutionChart[]} mobile={mobile} darkMode={darkMode} />}
+        {chart === CHARTS.URL.BREAK_EVEN_POINT && <Charts.BreakEvenPointChart data={filteredData as IBreakEvenPointChartData[]} mobile={mobile} darkMode={darkMode} />}
+        {chart === CHARTS.URL.YEARLY_GOAL_BURNUP && <Charts.YearlyGoalBurnUp data={filteredData as IYearlyGoalBurnUpChartData[]} mobile={mobile} darkMode={darkMode} />}
       </Col>
     </Row>
   )

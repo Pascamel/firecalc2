@@ -12,7 +12,7 @@ import * as ROUTES from '../../constants/routes';
 import helpers from '../../helpers';
 import { AppState } from '../../store';
 import * as Charts from './charts';
-import { IChartData } from './interfaces';
+import { IProjectionChartData } from './interfaces';
 
 interface IProps {
   authUser: firebase.User|null;
@@ -109,7 +109,7 @@ const ProjectionChart = (props: IProps & RouteComponentProps) => {
     setRouteYears(DEFAULT_YEARS[index + 1]);
   }
 
-  const data: IChartData[] = [{
+  const data: IProjectionChartData[] = [{
     date: new Date(year, month, 1).getTime(),
     projection5: savings,
     projection7: savings,
