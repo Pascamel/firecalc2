@@ -34,6 +34,14 @@ body.dark-mode {
     }        
   } 
 
+  .tab-nav-bar {
+    .nav-link.active {
+      color: $headerText;
+      background-color: $alertBackground; // $bodyBackground;
+      border-bottom: 1px solid $alertBackground; // $bodyBackground;
+    }
+  }
+
   @media only screen and (min-width: 768px) {
     .nav-link {
       &.active {

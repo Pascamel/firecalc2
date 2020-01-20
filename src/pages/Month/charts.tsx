@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Alert, Col, Row } from 'reactstrap';
 
 import Bank from '../../bank';
-import { FireAmount, StaticAmount } from '../../components';
+import { FireAmount, Text } from '../../components';
 import helpers from '../../helpers';
 import { AppState } from '../../store';
 import Doughnut from './doughnut';
@@ -18,6 +18,7 @@ interface IProps {
 
 const Charts = (props: IProps) => {
   const { month, year, bank } = props;
+  const estimatedExpenses = _.get(bank.totalMonthIncome, [year, month], 0) - _.get(bank.totalMonthSavings, [year, month], 0)
   
   return (
     <>
@@ -25,7 +26,7 @@ const Charts = (props: IProps) => {
         <Alert color="background">
           <Row>
             <Col>
-              <span className="label-fake-input">Net worth</span>
+              <Text className="label-fake-input">Net Worth</Text>
             </Col>
             <Col>
               <FireAmount extraClassName="label-fake-input pull-right" display-if-zero={true} callback-props={['networth', year, month]} />
@@ -33,7 +34,7 @@ const Charts = (props: IProps) => {
           </Row>
           <Row>
             <Col>
-              <span className="label-fake-input">Expenses</span>
+              <Text className="label-fake-input">Expenses</Text>
             </Col>
             <Col>
               <FireAmount extraClassName="label-fake-input pull-right" display-if-zero={true} callback-props={['expenses', year, month]} />
@@ -65,13 +66,10 @@ const Charts = (props: IProps) => {
           <hr />
           <Row>
             <Col>
-              Estimated expenses
-              <span className="pull-right text-secondary">
-                $
-                <StaticAmount display-zero>
-                  {_.get(bank.totalMonthIncome, [year, month], 0) - _.get(bank.totalMonthSavings, [year, month], 0)}
-                </StaticAmount>
-              </span>
+              <Text>Estimated expenses</Text>
+              <Text className="pull-right text-secondary">
+                {`$${helpers.amount(estimatedExpenses, true, bank.showDecimals)}`}
+              </Text>
             </Col>
           </Row>
         </Alert>

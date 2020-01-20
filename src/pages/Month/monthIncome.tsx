@@ -3,7 +3,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import Bank, { IIncomeHeader } from '../../bank';
-import { FireAmount } from '../../components';
+import { FireAmount, Text } from '../../components';
 import { AppState } from '../../store';
 
 interface IProps {
@@ -18,14 +18,12 @@ const MonthIncome = (props: IProps) => {
   const label = _(bank.incomeHeaders).keyBy('id').get([header.id, 'label'], 'N/A');
   
   return (
-    <>
-      <div className="month-amount">
-        <span className="label-fake-input smaller mb-1">{label}</span>
-        <div className="pull-right">
-          <FireAmount extraClassName="label-fake-input" display-if-zero={true} callback-props={['income', year, month, header.id]} />
-        </div>
+    <div className="month-amount">
+      <Text className="label-fake-input smaller mb-1">{label}</Text>
+      <div className="pull-right">
+        <FireAmount extraClassName="label-fake-input" display-if-zero={true} callback-props={['income', year, month, header.id]} />
       </div>
-    </>
+    </div>
   );
 }
 

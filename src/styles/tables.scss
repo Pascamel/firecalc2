@@ -65,3 +65,23 @@ table.floatThead-table {
   border-left: 1px solid;
   border-left-color:rgba(0,0,0,0.05);
 }
+
+.table-borderless {
+  thead, tbody {
+    border-top: 0 !important;
+
+    tr {
+      th, td {
+        border-top: 0 !important;
+        border-bottom: 0 !important;
+      }
+    }
+  }
+}
+
+.table-equal-width {
+  th, td {
+    display: table-cell;
+    max-width: 0px;
+  }
+}

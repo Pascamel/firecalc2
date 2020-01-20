@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import Bank from '../../bank';
+import { Text }  from '../../components';
 import { AppState } from '../../store';
 
 interface IProps {
@@ -17,7 +18,7 @@ const Header = (props: IProps) => {
         <th></th>
         {bank.savingsHeadersLine1.map((h1, idx: number) => (
         <th className="separator" colSpan={h1.weight} key={idx}>
-          {!h1.icon && <span>{h1.label}</span>}
+          {!h1.icon && <Text>{h1.label}</Text>}
           {h1.icon && <img src={h1.icon} alt="Institution" width="16" />}
         </th>
         ))}

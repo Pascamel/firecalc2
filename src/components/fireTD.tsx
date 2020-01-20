@@ -7,7 +7,7 @@ interface IProps {
   goal?: number;
   threshold?: number;
   span?: number;
-  children?: any;
+  children?: JSX.Element;
 }
 
 const FireTD = (props: IProps) => {
