@@ -5,6 +5,7 @@ import { Col, Row } from 'reactstrap';
 
 import { deleteIncomeHeader, switchIncomeHeaders, updateIncomeHeader } from '../../actions';
 import Bank, { IIncomeHeader } from '../../bank';
+import { Text } from '../../components';
 import { AppState } from '../../store';
 
 interface IProps {
@@ -82,7 +83,7 @@ const Income = (props: IProps) => {
             className="form-control" 
           />}
       </Col>
-      <Col xs={12} sm={3}>
+      <Col xs={7} sm={3}>
         <div className="inline">
           {!edit && <FontAwesomeIcon icon={['far', header.pretax?'check-square':'square']} />}
           <label>
@@ -92,7 +93,7 @@ const Income = (props: IProps) => {
               defaultChecked={editPretax}                          
               onChange={handleInputChange} 
             />}
-            <span className="ml-1">Pre-tax</span>
+            <Text className="ml-1">Pre-tax</Text>
           </label>
         </div>
         {!edit && <div className="btn-group ml-3">
@@ -104,7 +105,7 @@ const Income = (props: IProps) => {
           <label className={`btn ${editCount === 2 ? 'btn-primary' : 'btn-light'}`} onClick={e => {setEditCount(2)}}>2</label>
         </div>}
       </Col>
-      <Col xs={12} sm={3} className="text-right">
+      <Col xs={5} sm={3} className="text-right">
         {edit && <span className="btn btn-link" onClick={editHeaderConfirm}>
           <FontAwesomeIcon icon="check" size="lg" />
         </span>}

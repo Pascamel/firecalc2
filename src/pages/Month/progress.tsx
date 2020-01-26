@@ -1,6 +1,7 @@
 import React from 'react';
 import { Col, Progress as ProgressRS, Row } from 'reactstrap';
 
+import { Text } from '../../components';
 import helpers from '../../helpers';
 
 interface IProps {
@@ -12,19 +13,16 @@ interface IProps {
 
 const Progress = (props: IProps) => {
   const { result, goal, percentage, label } = props
+  const text = `$${helpers.amount(Math.abs(result), false, true)} ${result > 0 ? 'over' : 'left'}`;
 
   return (
     <>
       <Row>
         <Col>
-          <span>{label}</span>
+          <Text>{label}</Text>
         </Col>
         <Col className="text-right">
-          {result !== 0 && <span className={result >= 0 ? 'text-success':'text-danger'}>
-            ${helpers.amount(Math.abs(result), false, true)} 
-            &nbsp;
-            {result > 0 ? 'over' : 'left'}
-          </span>}
+          {result !== 0 && <Text className={result >= 0 ? 'text-success':'text-danger'}>{text}</Text>}
         </Col>
       </Row>
       <Row>

@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 import { updateValueLocalStorage } from '../../actions';
 import Bank from '../../bank';
-import { FireAmount, FireTD, FireTR, StaticAmount, StaticPercentage } from '../../components';
+import { FireAmount, FireTD, FireTR, StaticAmount, StaticPercentage, Text } from '../../components';
 import { AppState } from '../../store';
 
 interface IProps {
@@ -31,9 +31,7 @@ const Body = (props: IProps) => {
         </td>
         <FireTD span={bank.savingsInputsHidden.length + 5} hide={collapsed}>
           <>
-            <span className="pull-left ml-2">
-              {year}
-            </span>
+            <Text className="pull-left ml-2">{year}</Text>
             <span>
               Begins at <b>
                 <StaticAmount>
@@ -57,9 +55,7 @@ const Body = (props: IProps) => {
           </FireTD>
         ))}
         <FireTD show={collapsed}>
-          <span>
-            Total
-          </span>
+          <Text>Total</Text>
         </FireTD>
         <FireTD show={collapsed}>
           <StaticAmount display-zero>
@@ -67,7 +63,7 @@ const Body = (props: IProps) => {
           </StaticAmount>
         </FireTD>
         <FireTD show={collapsed}>
-          {year}
+          <Text>{year}</Text>
         </FireTD>
         <FireTD show={collapsed} goal={bank.goalYearToDate[year]['12']} threshold={0}>
           <StaticAmount display-zero>

@@ -1,6 +1,8 @@
 import React from 'react';
 import { Col, Container, Row } from 'reactstrap';
 
+import { Text } from '../components';
+
 interface IProps {
   title: string;
 }
@@ -12,7 +14,7 @@ const HeaderPanel = (props: IProps) => {
     <Container fluid className="alert alert-save alert-header">
       <Row>
         <Col>
-          <span className="title">{title}</span>
+          <Text className="title">{title}</Text>
         </Col>
       </Row>
     </Container>

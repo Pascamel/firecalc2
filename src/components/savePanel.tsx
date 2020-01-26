@@ -5,6 +5,7 @@ import { Button, ButtonGroup, Col, Container, Row } from 'reactstrap';
 
 import { loadBank, saveBank, saveHeaders } from '../actions';
 import Bank from '../bank';
+import { Text } from '../components';
 import { AppState } from '../store';
 import { DecimalsBtn, FiltersBtn } from '.';
 
@@ -56,12 +57,14 @@ const SavePanel = (props: IProps) => {
 
     if (label === 'Settings') {
       onSaveHeaders(authUser.uid, bank);
-    } else {
-      onSaveBank(authUser.uid, bank, bankSavingsUpdated, bankIncomeUpdated, bankOthersUpdated);
+    }
+
+    if (bankSavingsUpdated || bankIncomeUpdated || bankOthersUpdated) {
+      onSaveBank(authUser.uid, bank, bankSavingsUpdated, bankIncomeUpdated, bankOthersUpdated);  
     }
   }
 
-  const bankUpdated = bankSavingsUpdated || bankIncomeUpdated || bankOthersUpdated || bankHeadersUpdated;
+  const bankUpdated = bankSavingsUpdated || bankIncomeUpdated || bankOthersUpdated || bankHeadersUpdated;  
 
   return (
     <Container fluid className="alert alert-save alert-header">
@@ -90,9 +93,9 @@ const SavePanel = (props: IProps) => {
                   </Button>
                 </ButtonGroup>}
 
-                <span className={`title nowrap-ellipsis ${bankUpdated ? 'text-warning' : ''}`}>
+                <Text className={`title nowrap-ellipsis ${bankUpdated ? 'text-warning' : ''}`}>
                   {label}
-                </span>
+                </Text>
 
                 <Button color={bankUpdated ? 'header' : 'outline-light'} className="btn-save" onClick={saveClick}>
                   {!saveInProgress && <FontAwesomeIcon icon={['far', 'save']} className="mr-1" />}

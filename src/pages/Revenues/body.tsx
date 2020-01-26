@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 import { updateValueLocalStorage } from '../../actions';
 import Bank from '../../bank';
-import { FireAmount, FireTD, FireTR, StaticAmount, StaticPercentage } from '../../components';
+import { FireAmount, FireTD, FireTR, StaticAmount, StaticPercentage, Text } from '../../components';
 import { AppState } from '../../store';
 
 interface IProps {
@@ -30,9 +30,7 @@ const Body = (props: IProps) => {
           <FontAwesomeIcon icon={collapsed ? 'chevron-right' : 'chevron-down'} />
         </td>
         <FireTD show={!collapsed} span={bank.incomeHeaders.length + 3}>
-          <span className="pull-left pl-2">
-            { year }
-          </span>
+          <Text className="pull-left pl-2">{year}</Text>
         </FireTD>
         {bank.incomeHeaders.map((header) => (
         <FireTD show={collapsed} key={header.id}>
