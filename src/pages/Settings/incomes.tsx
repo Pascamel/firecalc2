@@ -4,6 +4,7 @@ import { Alert, Button, Col, Row } from 'reactstrap';
 
 import { newIncomeHeader } from '../../actions';
 import Bank, { IIncomeHeader } from '../../bank';
+import { PanelTitle } from '../../components';
 import { AppState } from '../../store';
 import Income from './income';
 
@@ -21,7 +22,7 @@ const Incomes = (props: IProps) => {
     <Alert color="background">
       <Row>
         <Col>
-          <h3>Income</h3>
+          <PanelTitle title="Income" />
         </Col>
       </Row>
       {!bank.headers.incomes.length && <Row>

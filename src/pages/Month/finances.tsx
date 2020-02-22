@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Alert, Col } from 'reactstrap';
 
 import Bank from '../../bank';
-import { StaticAmount, Text } from '../../components';
+import { PanelTitle } from '../../components';
 import helpers from '../../helpers';
 import { AppState } from '../../store';
 import MonthIncome from './monthIncome';
@@ -24,13 +24,10 @@ const MonthFinances = (props: IProps) => {
     <>
       <Col md={4} sm={12}>
         <Alert color="background">
-          <h3>
-            Savings
-            <Text className="pull-right text-secondary font-weight-normal">
-              {`$${helpers.amount(_.get(bank.totalMonthSavings, [year, month], 0), true, bank.showDecimals)}`}
-            </Text>
-          </h3>
-          <hr />
+          <PanelTitle
+            title="Savings" 
+            subTitle={`$${helpers.amount(_.get(bank.totalMonthSavings, [year, month], 0), true, bank.showDecimals)}`} 
+          />
           {bank.savingsInputs.filter((header) => header.type !== 'T').map((header, key) => (
             <MonthSavings key={key} header={header} month={month} year={year} />
           ))}
@@ -38,13 +35,10 @@ const MonthFinances = (props: IProps) => {
       </Col>
       <Col md={4} sm={12}>
         <Alert color="background">
-          <h3>
-            Income
-            <Text className="pull-right text-secondary font-weight-normal">
-              {`$${helpers.amount(_.get(bank.totalMonthIncome, [year, month], 0), true, bank.showDecimals)}`}
-            </Text>
-          </h3>
-          <hr />
+          <PanelTitle
+            title="Income"
+            subTitle={`$${helpers.amount(_.get(bank.totalMonthIncome, [year, month], 0), true, bank.showDecimals)}`}
+          />
           {bank.incomeHeaders.map((header, key) => (
             <MonthIncome key={key} header={header} month={month} year={year} />
           ))}

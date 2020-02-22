@@ -4,7 +4,7 @@ import { Alert, Col, Row } from 'reactstrap';
 
 import { updateValue } from '../../actions';
 import Bank from '../../bank';
-import { FireAmount, Text } from '../../components';
+import { FireAmount, PanelTitle, Text } from '../../components';
 import helpers from '../../helpers';
 import { AppState } from '../../store';
 
@@ -48,7 +48,7 @@ const YearlyGoals = (props: IProps) => {
     <Alert color="background">
       <Row>
         <Col>
-          <h3>Yearly Goals</h3>
+          <PanelTitle title="Yearly Goals" />
         </Col>
       </Row>
       <Row>

@@ -9,6 +9,7 @@ import FireTR from './fireTR';
 import HeaderPanel from './headerPanel';
 import LoadingPanel from './loadingPanel';
 import Navigation from './navigation';
+import PanelTitle from './panelTitle';
 import { Mobile, NotMobile } from './responsive';
 import SavePanel from './savePanel';
 import SignOutLink from './signOutLink';
@@ -30,6 +31,7 @@ export {
   Mobile,
   Navigation,
   NotMobile,
+  PanelTitle,
   SavePanel,
   SignOutLink,
   StaticAmount,

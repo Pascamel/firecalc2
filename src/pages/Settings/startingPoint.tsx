@@ -5,6 +5,7 @@ import { Alert, Col, CustomInput, Form, Input, Row } from 'reactstrap';
 
 import { updateValue } from '../../actions';
 import Bank from '../../bank';
+import { PanelTitle } from '../../components';
 import helpers from '../../helpers';
 import { AppState } from '../../store';
 
@@ -28,7 +29,7 @@ const StartingPoint = (props: IProps) => {
     <Alert color="background">
       <Row>
         <Col>
-          <h3>Starting point</h3>
+          <PanelTitle title="Starting point" />
         </Col>
       </Row>
       <Row>

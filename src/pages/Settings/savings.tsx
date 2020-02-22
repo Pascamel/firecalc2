@@ -4,6 +4,7 @@ import { Alert, Button, Col, Row } from 'reactstrap';
 
 import { newSavingHeader } from '../../actions';
 import Bank, { ISavingsHeader } from '../../bank';
+import { PanelTitle } from '../../components';
 import { AppState } from '../../store';
 import Saving from './saving';
 
@@ -22,7 +23,7 @@ const Savings = (props: IProps) => {
     <Alert color="background">
       <Row>
         <Col>
-          <h3>Savings</h3>
+          <PanelTitle title="Savings" />
         </Col>
       </Row>
       {!bank.headers.savings.length && <Row>
