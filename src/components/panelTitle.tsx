@@ -1,12 +1,11 @@
 import React from 'react';
 
-import helpers from '../helpers';
 import { Text } from '.';
 
 interface IProps {
   title: string;
   subTitle?: string;
-};
+}
 
 const PanelTitle = (props: IProps) => {
   const { title, subTitle } = props;
