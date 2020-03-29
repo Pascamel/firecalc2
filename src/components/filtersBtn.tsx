@@ -17,7 +17,7 @@ const FiltersBtn = (props: IProps) => {
 
   const toggle = () => {
     setDropdownOpen(!dropdownOpen);
-  }
+  };
 
   return (
     <Dropdown isOpen={dropdownOpen} toggle={toggle} className="mr-2">
@@ -33,12 +33,12 @@ const FiltersBtn = (props: IProps) => {
       </DropdownMenu>
     </Dropdown>
   );
-}
+};
 
 const mapStateToProps = (state: AppState) => {
-  return ({
+  return {
     bank: state.bankState.bank
-  });
-}
+  };
+};
 
 export default connect(mapStateToProps)(FiltersBtn);

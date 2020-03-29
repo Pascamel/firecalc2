@@ -9,11 +9,7 @@ interface IProps {
 const StaticPercentage = (props: IProps) => {
   const { children } = props;
 
-  return (
-    <>
-      {helpers.percentage(children)}
-    </>
-  );
-}
+  return <>{helpers.percentage(children)}</>;
+};
 
 export default StaticPercentage;

@@ -17,7 +17,7 @@ import StaticAmount from './staticAmount';
 import StaticPercentage from './staticPercentage';
 import Text from './text';
 
-export { 
+export {
   App,
   ClickableItem,
   DarkSwitcher,
@@ -26,7 +26,7 @@ export {
   FireTR,
   FireTD,
   FireAmount,
-  HeaderPanel, 
+  HeaderPanel,
   LoadingPanel,
   Mobile,
   Navigation,

@@ -10,7 +10,7 @@ const LoadingPanel = (props: IProps) => {
   const color = props.color || 'header';
 
   return (
-    <Container fluid className={`alert-${color}`}> 
+    <Container fluid className={`alert-${color}`}>
       <Row>
         <Col>
           <div className="loading-spinner">
@@ -20,6 +20,6 @@ const LoadingPanel = (props: IProps) => {
       </Row>
     </Container>
   );
-}
+};
 
 export default LoadingPanel;

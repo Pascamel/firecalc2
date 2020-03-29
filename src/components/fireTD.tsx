@@ -15,12 +15,16 @@ const FireTD = (props: IProps) => {
 
   if (_.has(props, 'show') && !(props.show || false)) {
     classNames.push('hidden');
-  }  
+  }
   if (_.has(props, 'hide') && props.hide) {
     classNames.push('hidden');
-  } 
+  }
   if (_.has(props, 'goal') && _.has(props, 'threshold')) {
-    classNames.push(((props.goal || 0) >= (props.threshold || 0)) ? 'table-success' : 'table-danger');
+    classNames.push(
+      (props.goal || 0) >= (props.threshold || 0)
+        ? 'table-success'
+        : 'table-danger'
+    );
   }
 
   let colSpan = 1;
@@ -31,7 +35,6 @@ const FireTD = (props: IProps) => {
       {props.children}
     </td>
   );
-
-}
+};
 
 export default FireTD;

@@ -11,8 +11,8 @@ const SignOutLink = (props: RouteComponentProps) => {
   const click = () => {
     auth.doSignOut().then(() => {
       history.push(ROUTES.SIGN_IN);
-    })
-  }
+    });
+  };
 
   return (
     <Text className="no-link" onClick={click}>
@@ -22,6 +22,6 @@ const SignOutLink = (props: RouteComponentProps) => {
       </>
     </Text>
   );
-}
+};
 
 export default withRouter(SignOutLink);

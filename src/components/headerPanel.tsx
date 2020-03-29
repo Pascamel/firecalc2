@@ -9,7 +9,7 @@ interface IProps {
 
 const HeaderPanel = (props: IProps) => {
   const { title } = props;
-  
+
   return (
     <Container fluid className="alert alert-save alert-header">
       <Row>
@@ -19,6 +19,6 @@ const HeaderPanel = (props: IProps) => {
       </Row>
     </Container>
   );
-}
+};
 
 export default HeaderPanel;

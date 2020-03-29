@@ -1,10 +1,10 @@
-import { library } from '@fortawesome/fontawesome-svg-core'
+import { library } from '@fortawesome/fontawesome-svg-core';
 import {
   faCalendarAlt,
   faCheckSquare,
   faSave,
   faSquare,
-  faUser,
+  faUser
 } from '@fortawesome/free-regular-svg-icons';
 import {
   faBackward,
@@ -30,8 +30,8 @@ import {
   faTrashAlt,
   faUniversity,
   faUnlockAlt,
-  faUserTie,
-} from '@fortawesome/free-solid-svg-icons'
+  faUserTie
+} from '@fortawesome/free-solid-svg-icons';
 
 library.add(
   faBackward,
