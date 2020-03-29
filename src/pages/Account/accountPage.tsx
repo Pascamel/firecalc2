@@ -1,6 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Col, Container, ListGroup, ListGroupItem, ListGroupItemHeading, Row } from 'reactstrap';
+import {
+  Col,
+  Container,
+  ListGroup,
+  ListGroupItem,
+  ListGroupItemHeading,
+  Row
+} from 'reactstrap';
 
 import { HeaderPanel } from '../../components';
 import { AppState } from '../../store';
@@ -23,11 +30,9 @@ const AccountPageBase2 = (props: IProps) => {
             <Container>
               <Row>
                 <Col>
-                  <ListGroup>     
+                  <ListGroup>
                     <ListGroupItem>
-                      <ListGroupItemHeading>
-                        Account
-                      </ListGroupItemHeading>
+                      <ListGroupItemHeading>Account</ListGroupItemHeading>
                       {(authUser as firebase.User).email}
                     </ListGroupItem>
                     <ListGroupItem>
@@ -51,12 +56,12 @@ const AccountPageBase2 = (props: IProps) => {
       </Container>
     </>
   );
-}
+};
 
 const mapStateToProps = (state: AppState) => {
-  return ({
-    authUser: state.sessionState.authUser,
-  });
-}
+  return {
+    authUser: state.sessionState.authUser
+  };
+};
 
 export const AccountPageBase = connect(mapStateToProps)(AccountPageBase2);

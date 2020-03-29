@@ -6,7 +6,7 @@ import { Text } from '../../components';
 import { AppState } from '../../store';
 
 interface IProps {
-  savingRate: number
+  savingRate: number;
   darkMode: boolean;
 }
 
@@ -24,30 +24,38 @@ const Doughnut = (props: IProps) => {
   const backgroundColor = props.darkMode ? '#3a3a3a' : '#ddd';
 
   const data = {
-    datasets: [{
-      data: [
-        Math.min(100, Math.max(0, savingRate * 100)), 
-        100 - Math.min(100, Math.max(0, savingRate * 100))
-      ],
-      backgroundColor: [savingRate > .5 ? successColor : failureColor, backgroundColor],
-      hoverBackgroundColor: [savingRate > .5 ? successColor : failureColor, backgroundColor],
-      borderWidth: [0, 0],
-      hoverBorderWidth: [0, 0]
-    }]
+    datasets: [
+      {
+        data: [
+          Math.min(100, Math.max(0, savingRate * 100)),
+          100 - Math.min(100, Math.max(0, savingRate * 100))
+        ],
+        backgroundColor: [
+          savingRate > 0.5 ? successColor : failureColor,
+          backgroundColor
+        ],
+        hoverBackgroundColor: [
+          savingRate > 0.5 ? successColor : failureColor,
+          backgroundColor
+        ],
+        borderWidth: [0, 0],
+        hoverBorderWidth: [0, 0]
+      }
+    ]
   };
 
   return (
     <>
-      <DoughnutLib data={data} height={300} options={options}/>
+      <DoughnutLib data={data} height={300} options={options} />
       <Text className="chart-label">{`${Math.round(savingRate * 100)}%`}</Text>
     </>
   );
-}
+};
 
 const mapStateToProps = (state: AppState) => {
-  return ({
-    darkMode: state.sessionState.darkMode,
-  });
-}
+  return {
+    darkMode: state.sessionState.darkMode
+  };
+};
 
 export default connect(mapStateToProps)(Doughnut);

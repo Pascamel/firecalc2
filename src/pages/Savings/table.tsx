@@ -8,27 +8,27 @@ import Footer from './footer';
 import Header from './header';
 
 interface IProps {
-  bank: Bank.IBank
+  bank: Bank.IBank;
 }
 
 const Table = (props: IProps) => {
-  const {bank} = props;
+  const { bank } = props;
 
   return (
     <table className="table table-striped table-finances">
       <Header />
-      {Object.entries(bank.savings).map((year) => (
-      <Body key={year[0]} year={year[0]} />
+      {Object.entries(bank.savings).map(year => (
+        <Body key={year[0]} year={year[0]} />
       ))}
       <Footer />
     </table>
   );
-}
+};
 
 const mapStateToProps = (state: AppState) => {
-  return ({
+  return {
     bank: state.bankState.bank
-  });
-}
+  };
+};
 
 export default connect(mapStateToProps)(Table);

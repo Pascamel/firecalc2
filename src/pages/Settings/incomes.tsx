@@ -15,7 +15,7 @@ interface IProps {
 }
 
 const Incomes = (props: IProps) => {
-  const {bank, bankLoaded, onNewIncomeHeader} = props;
+  const { bank, bankLoaded, onNewIncomeHeader } = props;
   if (!bankLoaded) return null;
 
   return (
@@ -25,39 +25,38 @@ const Incomes = (props: IProps) => {
           <PanelTitle title="Income" />
         </Col>
       </Row>
-      {!bank.headers.incomes.length && <Row>
-        <Col>
-          No headers
-        </Col>
-      </Row>}
+      {!bank.headers.incomes.length && (
+        <Row>
+          <Col>No headers</Col>
+        </Row>
+      )}
       {bank.headers.incomes.map((header: IIncomeHeader, key: number) => (
         <Income key={key} header={header} index={key} />
       ))}
       <Row className="form-headers">
         <Col>
-          <Button block color="light" onClick={onNewIncomeHeader}>Add new</Button>
+          <Button block color="light" onClick={onNewIncomeHeader}>
+            Add new
+          </Button>
         </Col>
       </Row>
     </Alert>
   );
-}
+};
 
 const mapStateToProps = (state: AppState) => {
-  return ({
+  return {
     bank: state.bankState.bank,
     bankLoaded: state.bankState.bankLoaded
-  });
-}
+  };
+};
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => {
   return {
     onNewIncomeHeader: () => {
       dispatch(newIncomeHeader());
-    },
+    }
   };
-}
+};
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Incomes);
+export default connect(mapStateToProps, mapDispatchToProps)(Incomes);

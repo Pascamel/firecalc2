@@ -18,7 +18,7 @@ const INITIAL_STATE = {
 const bankReducer = (state = INITIAL_STATE, action: any) => {
   switch (action.type) {
     case TYPES.BANK_LOAD_STARTED:
-      return ({
+      return {
         ...state,
         bank: action.payload.bank,
         bankSavingsUpdated: false,
@@ -26,10 +26,10 @@ const bankReducer = (state = INITIAL_STATE, action: any) => {
         bankOthersUpdated: false,
         bankHeadersUpdated: false,
         bankLoaded: false
-      });
-      
+      };
+
     case TYPES.BANK_LOAD_SUCCESS:
-      return ({
+      return {
         ...state,
         bank: action.payload.bank,
         bankSavingsUpdated: false,
@@ -37,10 +37,10 @@ const bankReducer = (state = INITIAL_STATE, action: any) => {
         bankOthersUpdated: false,
         bankHeadersUpdated: false,
         bankLoaded: true
-      });
+      };
 
     case TYPES.BANK_LOAD_FAILURE:
-      return ({
+      return {
         ...state,
         bank: null,
         bankSavingsUpdated: false,
@@ -48,66 +48,83 @@ const bankReducer = (state = INITIAL_STATE, action: any) => {
         bankOthersUpdated: false,
         bankHeadersUpdated: false,
         bankLoaded: false
-      });
+      };
 
     case TYPES.BANK_UPDATE_VALUE: {
       let new_bank = JSON.parse(JSON.stringify(state.bank));
-      
-      Bank.updateValue(new_bank, action.payload.index, action.payload.indexes, action.payload.amount);
+
+      Bank.updateValue(
+        new_bank,
+        action.payload.index,
+        action.payload.indexes,
+        action.payload.amount
+      );
       Bank.calculateTotals(new_bank);
 
-      return ({
+      return {
         ...state,
         bank: new_bank,
-        bankSavingsUpdated: (action.payload.index === 'savings') || (action.payload.index === 'savingsYearHeaders' && action.payload.indexes.length > 0 && action.payload.indexes[0] === 'goals'),
-        bankIncomeUpdated: (action.payload.index === 'income'),
-        bankOthersUpdated: (action.payload.index === 'networth' || action.payload.index === 'expenses' || action.payload.index === 'notes'),
-        bankHeadersUpdated: (action.payload.index === 'headers')
-      });
+        bankSavingsUpdated:
+          action.payload.index === 'savings' ||
+          (action.payload.index === 'savingsYearHeaders' &&
+            action.payload.indexes.length > 0 &&
+            action.payload.indexes[0] === 'goals'),
+        bankIncomeUpdated: action.payload.index === 'income',
+        bankOthersUpdated:
+          action.payload.index === 'networth' ||
+          action.payload.index === 'expenses' ||
+          action.payload.index === 'notes',
+        bankHeadersUpdated: action.payload.index === 'headers'
+      };
     }
 
     case TYPES.BANK_UPDATE_VALUE_LOCAL_STORAGE: {
       let new_bank = JSON.parse(JSON.stringify(state.bank));
 
-      Bank.updateValue(new_bank, action.payload.index, action.payload.indexes, action.payload.amount);
+      Bank.updateValue(
+        new_bank,
+        action.payload.index,
+        action.payload.indexes,
+        action.payload.amount
+      );
       Bank.saveLocalStorage(new_bank);
 
-      return ({
+      return {
         ...state,
         bank: new_bank
-      });
+      };
     }
 
     case TYPES.BANK_SAVE_STARTED:
     case TYPES.HEADERS_SAVE_STARTED:
-      return ({
+      return {
         ...state,
         saveInProgress: true
-      });
+      };
 
     case TYPES.BANK_SAVE_SUCCESS:
-      return ({
+      return {
         ...state,
         bankSavingsUpdated: false,
         bankIncomeUpdated: false,
         bankOthersUpdated: false,
         bankHeadersUpdated: false,
         saveInProgress: false
-      });
+      };
 
     case TYPES.HEADERS_SAVE_SUCCESS:
-      return ({
+      return {
         ...state,
         bankHeadersUpdated: false,
         saveInProgress: false
-      });
-      
+      };
+
     case TYPES.BANK_SAVE_FAILURE:
     case TYPES.HEADERS_SAVE_FAILURE:
-      return ({
+      return {
         ...state,
         saveInProgress: false
-      });
+      };
 
     case TYPES.HEADERS_NEW_SAVING: {
       let new_bank = JSON.parse(JSON.stringify(state.bank));
@@ -116,51 +133,55 @@ const bankReducer = (state = INITIAL_STATE, action: any) => {
         id: uuid.v4()
       });
 
-      return ({
+      return {
         ...state,
         bank: new_bank,
         bankHeadersUpdated: true
-      });
+      };
     }
-      
+
     case TYPES.HEADERS_UPDATE_SAVING: {
       let new_bank: IBank = JSON.parse(JSON.stringify(state.bank));
 
-      _(new_bank.headers.savings).each((h) => {
+      _(new_bank.headers.savings).each(h => {
         if (h.id !== action.payload.header.id) return;
         Object.assign(h, action.payload.header);
       });
 
-      return ({
+      return {
         ...state,
         bank: new_bank,
         bankHeadersUpdated: true
-      });
+      };
     }
 
     case TYPES.HEADERS_DELETE_SAVING: {
       let new_bank = JSON.parse(JSON.stringify(state.bank));
-      _.remove(new_bank.headers.savings, (h: any) => h.id === action.payload.header.id);
+      _.remove(
+        new_bank.headers.savings,
+        (h: any) => h.id === action.payload.header.id
+      );
 
-      return({
+      return {
         ...state,
         bank: new_bank,
         bankHeadersUpdated: true
-      });
+      };
     }
-    
+
     case TYPES.HEADERS_SWITCH_SAVING: {
       let new_bank = JSON.parse(JSON.stringify(state.bank));
 
-      var tmp = new_bank.headers.savings[action.payload.index1];	
-      new_bank.headers.savings[action.payload.index1] = new_bank.headers.savings[action.payload.index2];	
-      new_bank.headers.savings[action.payload.index2] = tmp;	
+      var tmp = new_bank.headers.savings[action.payload.index1];
+      new_bank.headers.savings[action.payload.index1] =
+        new_bank.headers.savings[action.payload.index2];
+      new_bank.headers.savings[action.payload.index2] = tmp;
 
-      return({
+      return {
         ...state,
         bank: new_bank,
         bankHeadersUpdated: true
-      });
+      };
     }
 
     case TYPES.HEADERS_NEW_INCOME: {
@@ -170,13 +191,13 @@ const bankReducer = (state = INITIAL_STATE, action: any) => {
         id: uuid.v4()
       });
 
-      return ({
+      return {
         ...state,
         bank: new_bank,
         bankHeadersUpdated: true
-      });
+      };
     }
-    
+
     case TYPES.HEADERS_UPDATE_INCOME: {
       let new_bank = JSON.parse(JSON.stringify(state.bank));
 
@@ -185,40 +206,44 @@ const bankReducer = (state = INITIAL_STATE, action: any) => {
         Object.assign(h, action.payload.header);
       });
 
-      return ({
+      return {
         ...state,
         bank: new_bank,
         bankHeadersUpdated: true
-      });
+      };
     }
 
     case TYPES.HEADERS_DELETE_INCOME: {
       let new_bank = JSON.parse(JSON.stringify(state.bank));
-      _.remove(new_bank.headers.incomes, (h: any) => h.id === action.payload.header.id);
+      _.remove(
+        new_bank.headers.incomes,
+        (h: any) => h.id === action.payload.header.id
+      );
 
-      return({
+      return {
         ...state,
         bank: new_bank,
         bankHeadersUpdated: true
-      });
+      };
     }
-    
+
     case TYPES.HEADERS_SWITCH_INCOME: {
       let new_bank = JSON.parse(JSON.stringify(state.bank));
 
-      let tmp = new_bank.headers.incomes[action.payload.index1];	
-      new_bank.headers.incomes[action.payload.index1] = new_bank.headers.incomes[action.payload.index2];	
-      new_bank.headers.incomes[action.payload.index2] = tmp;	
+      let tmp = new_bank.headers.incomes[action.payload.index1];
+      new_bank.headers.incomes[action.payload.index1] =
+        new_bank.headers.incomes[action.payload.index2];
+      new_bank.headers.incomes[action.payload.index2] = tmp;
 
-      return({
+      return {
         ...state,
         bank: new_bank,
         bankHeadersUpdated: true
-      });
+      };
     }
     default:
       return state;
   }
-}
+};
 
 export default bankReducer;

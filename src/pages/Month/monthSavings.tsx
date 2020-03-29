@@ -16,7 +16,9 @@ interface IProps {
 
 const MonthSavings = (props: IProps) => {
   const { header, bank, month, year } = props;
-  const h = _(bank.savingsHeaders).keyBy('id').get([props.header.id]);
+  const h = _(bank.savingsHeaders)
+    .keyBy('id')
+    .get([props.header.id]);
 
   let label = h.label || 'N/A';
   if (h.sublabel) label += ' > ' + h.sublabel;
@@ -25,21 +27,23 @@ const MonthSavings = (props: IProps) => {
   return (
     <>
       <div className="month-amount">
-        <Text className="label-fake-input smaller mb-1">
-          {label}
-        </Text>
+        <Text className="label-fake-input smaller mb-1">{label}</Text>
         <div className="pull-right">
-          <FireAmount extraClassName="label-fake-input" display-if-zero={true} callback-props={['savings', year, month, header.id, header.type]} />
+          <FireAmount
+            extraClassName="label-fake-input"
+            display-if-zero={true}
+            callback-props={['savings', year, month, header.id, header.type]}
+          />
         </div>
       </div>
     </>
   );
-}
+};
 
 const mapStateToProps = (state: AppState) => {
-  return ({
+  return {
     bank: state.bankState.bank
-  });
-}
+  };
+};
 
 export default connect(mapStateToProps)(MonthSavings);

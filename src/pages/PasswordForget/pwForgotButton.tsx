@@ -9,5 +9,5 @@ const PasswordForgotButton = () => (
     Forgot Password?
   </Button>
 );
- 
+
 export default PasswordForgotButton;

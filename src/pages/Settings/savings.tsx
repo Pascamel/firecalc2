@@ -26,39 +26,38 @@ const Savings = (props: IProps) => {
           <PanelTitle title="Savings" />
         </Col>
       </Row>
-      {!bank.headers.savings.length && <Row>
-        <Col>
-          No headers
-        </Col>
-      </Row>}
+      {!bank.headers.savings.length && (
+        <Row>
+          <Col>No headers</Col>
+        </Row>
+      )}
       {bank.headers.savings.map((header: ISavingsHeader, key: number) => (
         <Saving key={key} header={header} index={key} />
       ))}
       <Row className="form-headers">
         <Col>
-          <Button block color="light" onClick={onNewSavingHeader}>Add New</Button>
+          <Button block color="light" onClick={onNewSavingHeader}>
+            Add New
+          </Button>
         </Col>
       </Row>
     </Alert>
   );
-}
+};
 
 const mapStateToProps = (state: AppState) => {
-  return ({
+  return {
     bank: state.bankState.bank,
     bankLoaded: state.bankState.bankLoaded
-  });
-}
+  };
+};
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => {
   return {
     onNewSavingHeader: () => {
       dispatch(newSavingHeader());
-    },
+    }
   };
-}
+};
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Savings);
+export default connect(mapStateToProps, mapDispatchToProps)(Savings);

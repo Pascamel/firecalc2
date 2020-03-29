@@ -7,7 +7,7 @@ export const NotAuthorizedPage = () => {
       <Row>
         <Col className="pr-0 pl-0">
           <Container>
-            <Row >
+            <Row>
               <Col className="pt-5 pm-5">
                 <div className="background-wrapper">
                   <div className="background error-403" />
@@ -19,4 +19,4 @@ export const NotAuthorizedPage = () => {
       </Row>
     </Container>
   );
-}
+};

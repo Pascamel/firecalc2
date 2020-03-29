@@ -5,7 +5,7 @@ import { auth } from '../../firebase';
 
 export const PasswordForgetForm = () => {
   const [success, setSuccess] = useState(false);
-  const [error, setError] = useState<Error|null>(null);
+  const [error, setError] = useState<Error | null>(null);
   const [email, setEmail] = useState('');
 
   useEffect(() => {
@@ -19,13 +19,16 @@ export const PasswordForgetForm = () => {
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     if (!email) return;
 
-    auth.doPasswordReset(email).then(() => {
-      setSuccess(true);
-      setError(null);
-      setEmail('');
-    }).catch(error => {
-      setError(error);
-    });
+    auth
+      .doPasswordReset(email)
+      .then(() => {
+        setSuccess(true);
+        setError(null);
+        setEmail('');
+      })
+      .catch(error => {
+        setError(error);
+      });
 
     event.preventDefault();
   };
@@ -39,7 +42,13 @@ export const PasswordForgetForm = () => {
 
       <Form onSubmit={onSubmit}>
         <FormGroup>
-          <Input className="mb-2 mr-sm-2 mb-sm-0" type="text" placeholder="Email Address" value={email} onChange={e => setEmail(e.target.value)} />
+          <Input
+            className="mb-2 mr-sm-2 mb-sm-0"
+            type="text"
+            placeholder="Email Address"
+            value={email}
+            onChange={e => setEmail(e.target.value)}
+          />
         </FormGroup>
         <FormGroup>
           <Button block disabled={isInvalid} type="submit" color="primary">
@@ -49,4 +58,4 @@ export const PasswordForgetForm = () => {
       </Form>
     </>
   );
-}
+};
