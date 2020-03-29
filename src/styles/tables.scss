@@ -10,7 +10,7 @@ table.floatThead-table {
     tr {
       th {
         border-top: 0;
-        padding:0.5em;
+        padding: 0.5em;
       }
       .perf {
         width: 70px;
@@ -20,7 +20,7 @@ table.floatThead-table {
 
         &:after {
           content: '';
-          background: rgba(0,0,0,0.1);
+          background: rgba(0, 0, 0, 0.1);
           width: 1px;
           height: 18px;
           top: 10px;
@@ -57,21 +57,24 @@ table.floatThead-table {
 .table-finances thead tr th {
   text-align: center;
 }
-.table-finances tbody tr td, .table-finances tfoot tr td {
+.table-finances tbody tr td,
+.table-finances tfoot tr td {
   text-align: right;
   padding: 6px 3px;
 }
-.table-finances tbody tr:not(.tr-total) td:not(:last-child):nth-child(n+3) {
+.table-finances tbody tr:not(.tr-total) td:not(:last-child):nth-child(n + 3) {
   border-left: 1px solid;
-  border-left-color:rgba(0,0,0,0.05);
+  border-left-color: rgba(0, 0, 0, 0.05);
 }
 
 .table-borderless {
-  thead, tbody {
+  thead,
+  tbody {
     border-top: 0 !important;
 
     tr {
-      th, td {
+      th,
+      td {
         border-top: 0 !important;
         border-bottom: 0 !important;
       }
@@ -80,7 +83,8 @@ table.floatThead-table {
 }
 
 .table-equal-width {
-  th, td {
+  th,
+  td {
     display: table-cell;
     max-width: 0px;
   }

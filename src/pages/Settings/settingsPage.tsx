@@ -1,7 +1,15 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { Dispatch, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { Button, ButtonGroup, Col, Container, ListGroup, ListGroupItem, Row } from 'reactstrap';
+import {
+  Button,
+  ButtonGroup,
+  Col,
+  Container,
+  ListGroup,
+  ListGroupItem,
+  Row
+} from 'reactstrap';
 
 import { loadBank } from '../../actions';
 import { LoadingPanel, Mobile, NotMobile, SavePanel } from '../../components';
@@ -12,34 +20,34 @@ import StartingPoint from './startingPoint';
 import YearlyGoals from './yearlyGoals';
 
 interface IProps {
-  authUser: firebase.User|null;
+  authUser: firebase.User | null;
   bankLoaded: boolean;
   onLoadBank: (uid: string) => void;
 }
 
 type tabsContentType = {
   [key: string]: {
-    label: string,
-    component: JSX.Element
-  }
+    label: string;
+    component: JSX.Element;
+  };
 };
 
 const tabsContent: tabsContentType = {
   'starting-point': {
     label: 'Starting Point',
-    component: (<StartingPoint />)
+    component: <StartingPoint />
   },
-  'savings': {
+  savings: {
     label: 'Savings',
-    component: (<Savings />)
+    component: <Savings />
   },
-  'incomes': {
+  incomes: {
     label: 'Incomes',
-    component: (<Incomes />)
+    component: <Incomes />
   },
   'yearly-goals': {
     label: 'Yearly Goals',
-    component: (<YearlyGoals />)
+    component: <YearlyGoals />
   }
 };
 
@@ -47,30 +55,32 @@ const tabsKeys = Object.keys(tabsContent);
 
 const SettingsPageBase = (props: IProps) => {
   const { authUser, bankLoaded, onLoadBank } = props;
-  const [activeTab, setActiveTab] = useState('yearly-goals'); //'starting-point');
-  
+  const [activeTab, setActiveTab] = useState('savings'); //'starting-point');
+
   useEffect(() => {
-    if (bankLoaded || !authUser ) return;
-    
+    if (bankLoaded || !authUser) return;
+
     onLoadBank(authUser.uid);
   }, [authUser, bankLoaded, onLoadBank]);
 
   const toggle = (tab: string) => {
-    if(activeTab !== tab) setActiveTab(tab);
-  }
+    if (activeTab !== tab) setActiveTab(tab);
+  };
 
   const prevSetting = () => {
-    const newIndex = (tabsKeys.indexOf(activeTab) + tabsKeys.length - 1) % tabsKeys.length;
+    const newIndex =
+      (tabsKeys.indexOf(activeTab) + tabsKeys.length - 1) % tabsKeys.length;
 
     setActiveTab(tabsKeys[newIndex]);
-  }
+  };
 
   const nextSetting = () => {
-    const newIndex = (tabsKeys.indexOf(activeTab) + tabsKeys.length + 1) % tabsKeys.length;
-    
+    const newIndex =
+      (tabsKeys.indexOf(activeTab) + tabsKeys.length + 1) % tabsKeys.length;
+
     setActiveTab(tabsKeys[newIndex]);
-  }
-  
+  };
+
   if (!bankLoaded) return <LoadingPanel />;
 
   return (
@@ -84,20 +94,30 @@ const SettingsPageBase = (props: IProps) => {
                 <Col md={2} sm={12}>
                   <NotMobile>
                     <ListGroup>
-                      {Object.keys(tabsContent).map(key => ( 
-                        <ListGroupItem key={key} className="text-left" color={activeTab === key ? 'secondary' : 'link'} tag={Button} onClick={() => toggle(key)}>
+                      {Object.keys(tabsContent).map(key => (
+                        <ListGroupItem
+                          key={key}
+                          className="text-left"
+                          color={activeTab === key ? 'secondary' : 'link'}
+                          tag={Button}
+                          onClick={() => toggle(key)}
+                        >
                           {tabsContent[key].label}
                         </ListGroupItem>
-                      ))} 
+                      ))}
                     </ListGroup>
                   </NotMobile>
                   <Mobile>
-                    <ButtonGroup style={{width: '100%'}} color="light" className="mb-3">
+                    <ButtonGroup
+                      style={{ width: '100%' }}
+                      color="light"
+                      className="mb-3"
+                    >
                       <Button color="outline-secondary" onClick={prevSetting}>
                         <FontAwesomeIcon icon="backward" />
                       </Button>
                       <Button color="outline-secondary" disabled={true} block>
-                      {tabsContent[activeTab].label}
+                        {tabsContent[activeTab].label}
                       </Button>
                       <Button color="outline-secondary" onClick={nextSetting}>
                         <FontAwesomeIcon icon="forward" />
@@ -115,14 +135,14 @@ const SettingsPageBase = (props: IProps) => {
       </Container>
     </>
   );
-}
+};
 
 const mapStateToProps = (state: AppState) => {
-  return ({
+  return {
     authUser: state.sessionState.authUser,
     bankLoaded: state.bankState.bankLoaded
-  });
-}
+  };
+};
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => {
   return {
@@ -132,7 +152,4 @@ const mapDispatchToProps = (dispatch: Dispatch<any>) => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(SettingsPageBase);
+export default connect(mapStateToProps, mapDispatchToProps)(SettingsPageBase);

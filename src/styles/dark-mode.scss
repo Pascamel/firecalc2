@@ -31,8 +31,8 @@ body.dark-mode {
           color: #fff;
         }
       }
-    }        
-  } 
+    }
+  }
 
   .tab-nav-bar {
     .nav-link.active {
@@ -67,7 +67,7 @@ body.dark-mode {
   .btn-header {
     background: #88a9c7;
     color: #092a48;
-  
+
     &:hover {
       background: #a1c2e0;
     }
@@ -89,7 +89,7 @@ body.dark-mode {
     color: #ccc;
 
     &:hover {
-      color:#999;
+      color: #999;
     }
   }
 
@@ -98,6 +98,19 @@ body.dark-mode {
       color: #212529;
       background-color: #f8f9fa;
       border-color: #f8f9fa;
+
+      &:hover {
+        background-color: rgba(224, 224, 224, 0.9);
+      }
+    }
+
+    .btn-outline-primary {
+      color: #f8f9fa;
+      border-color: #f8f9fa;
+
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+      }
     }
 
     .btn-light {
@@ -105,15 +118,16 @@ body.dark-mode {
       background-color: #6c757d;
       border-color: #6c757d;
     }
-  
-    
-    .btn-light.disabled, .btn-light:disabled {
+
+    .btn-light.disabled,
+    .btn-light:disabled {
       color: #fff;
       background-color: #6c757d;
       border-color: #6c757d;
     }
 
-    .btn-secondary.disabled, .btn-secondary:disabled {
+    .btn-secondary.disabled,
+    .btn-secondary:disabled {
       color: #212529;
       background-color: #f8f9fa;
       border-color: #f8f9fa;
@@ -121,7 +135,7 @@ body.dark-mode {
   }
 
   .dropdown-divider {
-      border-top: 1px solid #444;
+    border-top: 1px solid #444;
   }
 
   .top-shadow {
@@ -152,8 +166,8 @@ body.dark-mode {
       border-top: 2px solid #222;
     }
 
-
-    th, td {
+    th,
+    td {
       border-top: 1px solid #222;
     }
   }
@@ -162,11 +176,15 @@ body.dark-mode {
     background-color: rgba(0, 0, 0, 0.125);
   }
 
-  .table-success, .table-success > th, .table-success > td {
+  .table-success,
+  .table-success > th,
+  .table-success > td {
     background-color: $successColor;
   }
 
-  .table-danger, .table-danger > th, .table-danger > td {
+  .table-danger,
+  .table-danger > th,
+  .table-danger > td {
     background-color: $errorColor;
   }
 
@@ -182,13 +200,14 @@ body.dark-mode {
 
   .chart-label {
     color: #bbb;
-    text-shadow: -1px 0 $alertBackground, 0 1px $alertBackground, 1px 0 $alertBackground, 0 -1px $alertBackground;
+    text-shadow: -1px 0 $alertBackground, 0 1px $alertBackground,
+      1px 0 $alertBackground, 0 -1px $alertBackground;
   }
 
   .bg-success {
     background-color: $successColor !important;
   }
-  
+
   .bg-danger {
     background-color: $errorColor !important;
   }
@@ -199,7 +218,7 @@ body.dark-mode {
 
   a.media {
     color: $bodyText;
-  
+
     &:hover {
       color: #bbb;
       text-decoration: none;
@@ -213,7 +232,8 @@ body.dark-mode {
   .list-group-item-link {
     color: #ccc;
 
-    &:hover, &:active {
+    &:hover,
+    &:active {
       background-color: #333;
       border-color: #333;
     }
