@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import Bank, { ISavingsHeaderLight } from '../../bank';
 import * as formatters from '../../bank/formatters';
 import { FireAmount, Text } from '../../components';
+import helpers from '../../helpers';
 import { AppState } from '../../store';
 
 interface IProps {
@@ -16,9 +17,14 @@ interface IProps {
 
 const MonthSavings = (props: IProps) => {
   const { header, bank, month, year } = props;
+
   const h = _(bank.savingsHeaders)
     .keyBy('id')
     .get([props.header.id]);
+
+  if (!helpers.shouldDisplay(h, parseInt(month), parseInt(year))) {
+    return null;
+  }
 
   let label = h.label || 'N/A';
   if (h.sublabel) label += ' > ' + h.sublabel;

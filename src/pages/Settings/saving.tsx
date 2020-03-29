@@ -1,24 +1,14 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import _ from 'lodash';
 import React, { Dispatch, useState } from 'react';
 import { connect } from 'react-redux';
 import {
-  Button,
-  Col,
-  CustomInput,
-  Input,
-  InputGroup,
-  InputGroupAddon,
-  Label,
-  Row
+    Button, Col, CustomInput, Input, InputGroup, InputGroupAddon, Label, Row
 } from 'reactstrap';
 import ButtonGroup from 'reactstrap/lib/ButtonGroup';
 
-import {
-  deleteSavingHeader,
-  switchSavingHeaders,
-  updateSavingHeader
-} from '../../actions';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+import { deleteSavingHeader, switchSavingHeaders, updateSavingHeader } from '../../actions';
 import Bank, { ISavingsHeader } from '../../bank';
 import helpers from '../../helpers';
 import { AppState } from '../../store';
@@ -125,7 +115,9 @@ const Saving = (props: IProps) => {
     onSwitchSavingHeaders(index, index + 1);
   };
 
-  if (!bankLoaded) return null;
+  if (!bankLoaded) {
+    return null;
+  }
 
   const displayDatesLabelFrom = helpers.labelMonth(
     (header.displayFromMonth || 1).toString(),

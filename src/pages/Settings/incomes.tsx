@@ -16,7 +16,10 @@ interface IProps {
 
 const Incomes = (props: IProps) => {
   const { bank, bankLoaded, onNewIncomeHeader } = props;
-  if (!bankLoaded) return null;
+
+  if (!bankLoaded) {
+    return null;
+  }
 
   return (
     <Alert color="background">

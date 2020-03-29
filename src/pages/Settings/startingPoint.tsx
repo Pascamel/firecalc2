@@ -27,7 +27,9 @@ const StartingPoint = (props: IProps) => {
     onUpdateValue('headers', [type], value);
   };
 
-  if (!bankLoaded) return null;
+  if (!bankLoaded) {
+    return null;
+  }
 
   return (
     <Alert color="background">

@@ -48,7 +48,9 @@ const YearlyGoals = (props: IProps) => {
   const { bank, bankLoaded } = props;
   const currentYear = new Date().getFullYear();
 
-  if (!bankLoaded) return null;
+  if (!bankLoaded) {
+    return null;
+  }
 
   return (
     <Alert color="background">

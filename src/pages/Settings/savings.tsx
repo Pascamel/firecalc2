@@ -17,7 +17,9 @@ interface IProps {
 const Savings = (props: IProps) => {
   const { bank, bankLoaded, onNewSavingHeader } = props;
 
-  if (!bankLoaded) return null;
+  if (!bankLoaded) {
+    return null;
+  }
 
   return (
     <Alert color="background">

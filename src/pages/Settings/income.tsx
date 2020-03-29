@@ -1,13 +1,10 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { Dispatch, useState } from 'react';
 import { connect } from 'react-redux';
 import { Col, Row } from 'reactstrap';
 
-import {
-  deleteIncomeHeader,
-  switchIncomeHeaders,
-  updateIncomeHeader
-} from '../../actions';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+import { deleteIncomeHeader, switchIncomeHeaders, updateIncomeHeader } from '../../actions';
 import Bank, { IIncomeHeader } from '../../bank';
 import { Text } from '../../components';
 import { AppState } from '../../store';
@@ -80,7 +77,9 @@ const Income = (props: IProps) => {
     onSwitchIncomeHeaders(index, index + 1);
   };
 
-  if (!bankLoaded) return null;
+  if (!bankLoaded) {
+    return null;
+  }
 
   return (
     <Row className="form-headers">

@@ -1,17 +1,11 @@
-import { IconProp } from '@fortawesome/fontawesome-svg-core';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import moment from 'moment';
 import preval from 'preval.macro';
 import React, { Dispatch, useEffect } from 'react';
 import { connect } from 'react-redux';
-import {
-  Col,
-  Container,
-  ListGroup,
-  ListGroupItem,
-  Media,
-  Row
-} from 'reactstrap';
+import { Col, Container, ListGroup, ListGroupItem, Media, Row } from 'reactstrap';
+
+import { IconProp } from '@fortawesome/fontawesome-svg-core';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { loadBank } from '../../actions';
 import Bank from '../../bank';
@@ -36,7 +30,9 @@ interface IProps {
 
 const Item = (props: IItemProps) => {
   const { label, value, route, icon } = props;
-  if (!value) return null;
+  if (!value) {
+    return null;
+  }
 
   return (
     <ListGroupItem>
