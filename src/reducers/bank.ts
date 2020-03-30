@@ -142,11 +142,14 @@ const bankReducer = (state = INITIAL_STATE, action: any) => {
     case TYPES.HEADERS_UPDATE_SAVING: {
       let new_bank: IBank = helpers.deepCopy(state.bank);
 
+      const idx = new_bank.headers.savings.findIndex(
+        (h: any) => h.id === action.payload.header.id
+      );
+
       new_bank.headers.savings = [
-        ...new_bank.headers.savings.filter(
-          (h: any) => h.id !== action.payload.header.id
-        ),
-        action.payload.header
+        ...new_bank.headers.savings.slice(0, idx),
+        action.payload.header,
+        ...new_bank.headers.savings.slice(idx + 1)
       ];
 
       Bank.formatHeaders(new_bank);
@@ -207,11 +210,14 @@ const bankReducer = (state = INITIAL_STATE, action: any) => {
     case TYPES.HEADERS_UPDATE_INCOME: {
       let new_bank = helpers.deepCopy(state.bank);
 
-      new_bank.headers.incomes = [
-        ...new_bank.headers.incomes.filter(
-          (h: any) => h.id !== action.payload.header.id
-        ),
-        action.payload.header
+      const idx = new_bank.headers.incomes.findIndex(
+        (h: any) => h.id === action.payload.header.id
+      );
+
+      new_bank.headers.savings = [
+        ...new_bank.headers.incomes.slice(0, idx),
+        action.payload.header,
+        ...new_bank.headers.incomes.slice(idx + 1)
       ];
 
       Bank.formatHeaders(new_bank);

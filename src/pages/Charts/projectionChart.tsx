@@ -161,8 +161,6 @@ const ProjectionChart = (props: IProps & RouteComponentProps) => {
     });
   }
 
-  console.log('data', data);
-
   if (!bankLoaded) return <LoadingPanel />;
 
   return (

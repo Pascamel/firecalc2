@@ -23,30 +23,7 @@ const MonthSavings = (props: IProps) => {
     .get([props.header.id]);
 
   if (!helpers.shouldDisplay(h, parseInt(month), parseInt(year))) {
-    // return null;
-    const line1 = `${h.displayFrom ? 'TRUE' : 'FALSE'}-${h.displayFromMonth}-${
-      h.displayFromYear
-    }`;
-    const line2 = `${h.displayTo ? 'TRUE' : 'FALSE'}-${h.displayToMonth}-${
-      h.displayToYear
-    }`;
-    console.log('render case pas bon', line1, line2);
-    return (
-      <>
-        <div>
-          <span>
-            {h.label} is off because {line1}
-          </span>
-          <span></span>
-        </div>
-        <div>
-          <span>
-            {h.label} is off because {line2}
-          </span>
-          <span></span>
-        </div>
-      </>
-    );
+    return null;
   }
 
   let label = h.label || 'N/A';
