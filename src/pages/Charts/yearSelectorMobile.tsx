@@ -1,6 +1,7 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
 import { Button, ButtonGroup } from 'reactstrap';
+
+import { Icon } from '../../components';
 
 interface IProps {
   year: number;
@@ -18,7 +19,7 @@ const YearSelectorMobile = (props: IProps) => {
         onClick={onPrevYearClick}
         disabled={year === 0}
       >
-        <FontAwesomeIcon icon="backward" />
+        <Icon icon="backward" />
       </Button>
       <Button color="outline-secondary" disabled={true} block>
         {year === 0 ? 'All' : year}
@@ -28,7 +29,7 @@ const YearSelectorMobile = (props: IProps) => {
         onClick={onNextYearClick}
         disabled={year === new Date().getFullYear()}
       >
-        <FontAwesomeIcon icon="forward" />
+        <Icon icon="forward" />
       </Button>
     </ButtonGroup>
   );

@@ -1,17 +1,10 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useEffect, useState } from 'react';
 import { RouteComponentProps } from 'react-router';
 import {
-  Alert,
-  Button,
-  Form,
-  FormGroup,
-  Input,
-  InputGroup,
-  InputGroupAddon,
-  InputGroupText
+    Alert, Button, Form, FormGroup, Input, InputGroup, InputGroupAddon, InputGroupText
 } from 'reactstrap';
 
+import { Icon } from '../../components';
 import * as ROUTES from '../../constants/routes';
 import { auth } from '../../firebase';
 
@@ -53,7 +46,7 @@ export const SignInForm = (props: RouteComponentProps) => {
           <InputGroup className="mt-2">
             <InputGroupAddon addonType="prepend">
               <InputGroupText>
-                <FontAwesomeIcon icon={['far', 'user']} />
+                <Icon icon={['far', 'user']} />
               </InputGroupText>
             </InputGroupAddon>
             <Input
@@ -68,7 +61,7 @@ export const SignInForm = (props: RouteComponentProps) => {
           <InputGroup>
             <InputGroupAddon addonType="prepend">
               <InputGroupText>
-                <FontAwesomeIcon icon="unlock-alt" />
+                <Icon icon="unlock-alt" />
               </InputGroupText>
             </InputGroupAddon>
             <Input

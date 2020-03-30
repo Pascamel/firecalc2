@@ -1,29 +1,19 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { LocationState } from 'history';
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { Link, NavLink, withRouter } from 'react-router-dom';
 import {
-  Col,
-  Collapse,
-  Container,
-  DropdownItem,
-  DropdownMenu,
-  DropdownToggle,
-  Nav,
-  NavItem,
-  Navbar,
-  NavbarToggler,
-  Row,
-  UncontrolledDropdown
+    Col, Collapse, Container, DropdownItem, DropdownMenu, DropdownToggle, Nav, Navbar,
+    NavbarToggler, NavItem, Row, UncontrolledDropdown
 } from 'reactstrap';
 import { compose } from 'recompose';
 
+import { Icon } from '../components';
 import * as CHARTS from '../constants/charts';
 import * as ROUTES from '../constants/routes';
 import helpers from '../helpers';
 import { AppState } from '../store';
-import { DarkSwitcher, SignOutLink } from '.';
+import { DarkSwitcher, SignOutLink } from './';
 
 interface IProps {
   location?: LocationState;
@@ -68,10 +58,7 @@ const NavigationAuth = (props: IProps) => {
               to={helpers.currentMonthRoute()}
               onClick={toggleIfOpen}
             >
-              <FontAwesomeIcon
-                icon={['far', 'calendar-alt']}
-                className="mr-1"
-              />
+              <Icon icon={['far', 'calendar-alt']} className="mr-1" />
               Month
             </NavLink>
           </NavItem>
@@ -81,7 +68,7 @@ const NavigationAuth = (props: IProps) => {
               to={ROUTES.REVENUES}
               onClick={toggleIfOpen}
             >
-              <FontAwesomeIcon icon="user-tie" className="mr-1" />
+              <Icon icon="user-tie" className="mr-1" />
               Revenues
             </NavLink>
           </NavItem>
@@ -91,7 +78,7 @@ const NavigationAuth = (props: IProps) => {
               to={ROUTES.SAVINGS}
               onClick={toggleIfOpen}
             >
-              <FontAwesomeIcon icon="piggy-bank" className="mr-1" />
+              <Icon icon="piggy-bank" className="mr-1" />
               Savings
             </NavLink>
           </NavItem>
@@ -101,7 +88,7 @@ const NavigationAuth = (props: IProps) => {
               to={DEFAULT_CHART}
               onClick={toggleIfOpen}
             >
-              <FontAwesomeIcon icon="chart-area" className="mr-1" />
+              <Icon icon="chart-area" className="mr-1" />
               Charts
             </NavLink>
           </NavItem>
@@ -111,7 +98,7 @@ const NavigationAuth = (props: IProps) => {
               to={ROUTES.SETTINGS}
               onClick={toggleIfOpen}
             >
-              <FontAwesomeIcon icon="cogs" className="mr-1" />
+              <Icon icon="cogs" className="mr-1" />
               Settings
             </NavLink>
           </NavItem>
@@ -121,7 +108,7 @@ const NavigationAuth = (props: IProps) => {
               to={ROUTES.ADMIN}
               onClick={toggleIfOpen}
             >
-              <FontAwesomeIcon icon="solar-panel" className="mr-1" />
+              <Icon icon="solar-panel" className="mr-1" />
               Admin
             </NavLink>
           </NavItem>

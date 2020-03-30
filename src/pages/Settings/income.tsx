@@ -2,11 +2,9 @@ import React, { Dispatch, useState } from 'react';
 import { connect } from 'react-redux';
 import { Col, Row } from 'reactstrap';
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
 import { deleteIncomeHeader, switchIncomeHeaders, updateIncomeHeader } from '../../actions';
 import Bank, { IIncomeHeader } from '../../bank';
-import { Text } from '../../components';
+import { Icon, Text } from '../../components';
 import { AppState } from '../../store';
 
 interface IProps {
@@ -98,9 +96,7 @@ const Income = (props: IProps) => {
       <Col xs={7} sm={3}>
         <div className="inline">
           {!edit && (
-            <FontAwesomeIcon
-              icon={['far', header.pretax ? 'check-square' : 'square']}
-            />
+            <Icon icon={['far', header.pretax ? 'check-square' : 'square']} />
           )}
           <label>
             {edit && (
@@ -156,22 +152,22 @@ const Income = (props: IProps) => {
       <Col xs={5} sm={3} className="text-right">
         {edit && (
           <span className="btn btn-link" onClick={editHeaderConfirm}>
-            <FontAwesomeIcon icon="check" size="lg" />
+            <Icon icon="check" size="lg" />
           </span>
         )}
         {edit && (
           <span className="btn btn-link" onClick={editHeaderCancel}>
-            <FontAwesomeIcon icon="times" size="lg" />
+            <Icon icon="times" size="lg" />
           </span>
         )}
         {!edit && (
           <span className="btn btn-link" onClick={editHeader}>
-            <FontAwesomeIcon icon="edit" size="lg" />
+            <Icon icon="edit" size="lg" />
           </span>
         )}
         {!edit && (
           <span className="btn btn-link" onClick={removeHeader}>
-            <FontAwesomeIcon icon="trash-alt" size="lg" />
+            <Icon icon="trash-alt" size="lg" />
           </span>
         )}
         {!edit && (
@@ -179,7 +175,7 @@ const Income = (props: IProps) => {
             className={`btn btn-link ${index === 0 ? 'disabled' : ''}`}
             onClick={e => moveUpHeader(index)}
           >
-            <FontAwesomeIcon icon="chevron-up" size="lg" />
+            <Icon icon="chevron-up" size="lg" />
           </span>
         )}
         {!edit && (
@@ -189,7 +185,7 @@ const Income = (props: IProps) => {
             }`}
             onClick={e => moveDownHeader(index)}
           >
-            <FontAwesomeIcon icon="chevron-down" size="lg" />
+            <Icon icon="chevron-down" size="lg" />
           </span>
         )}
       </Col>

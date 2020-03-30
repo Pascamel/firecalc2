@@ -1,10 +1,9 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import _ from 'lodash';
 import React from 'react';
 import { RouteComponentProps } from 'react-router';
 import { Button, ButtonGroup, Col, Container, Row } from 'reactstrap';
 
-import { Mobile, NotMobile, Text } from '../../components';
+import { Icon, Mobile, NotMobile, Text } from '../../components';
 import * as CHARTS from '../../constants/charts';
 import * as ROUTES from '../../constants/routes';
 
@@ -65,7 +64,7 @@ const ChartSelector = (props: IProps & RouteComponentProps) => {
                     className="pull-left"
                     onClick={prevChart}
                   >
-                    <FontAwesomeIcon icon="backward" />
+                    <Icon icon="backward" />
                   </Button>
                   <Text>
                     {_.get(
@@ -78,7 +77,7 @@ const ChartSelector = (props: IProps & RouteComponentProps) => {
                     className="pull-right"
                     onClick={nextChart}
                   >
-                    <FontAwesomeIcon icon="forward" />
+                    <Icon icon="forward" />
                   </Button>
                 </Mobile>
               </Col>

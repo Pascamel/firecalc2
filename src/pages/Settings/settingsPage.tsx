@@ -1,18 +1,9 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { Dispatch, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import {
-  Button,
-  ButtonGroup,
-  Col,
-  Container,
-  ListGroup,
-  ListGroupItem,
-  Row
-} from 'reactstrap';
+import { Button, ButtonGroup, Col, Container, ListGroup, ListGroupItem, Row } from 'reactstrap';
 
 import { loadBank } from '../../actions';
-import { LoadingPanel, Mobile, NotMobile, SavePanel } from '../../components';
+import { Icon, LoadingPanel, Mobile, NotMobile, SavePanel } from '../../components';
 import { AppState } from '../../store';
 import Incomes from './incomes';
 import Savings from './savings';
@@ -114,13 +105,13 @@ const SettingsPageBase = (props: IProps) => {
                       className="mb-3"
                     >
                       <Button color="outline-secondary" onClick={prevSetting}>
-                        <FontAwesomeIcon icon="backward" />
+                        <Icon icon="backward" />
                       </Button>
                       <Button color="outline-secondary" disabled={true} block>
                         {tabsContent[activeTab].label}
                       </Button>
                       <Button color="outline-secondary" onClick={nextSetting}>
-                        <FontAwesomeIcon icon="forward" />
+                        <Icon icon="forward" />
                       </Button>
                     </ButtonGroup>
                   </Mobile>

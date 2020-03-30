@@ -1,6 +1,7 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
 import { Col, Container, Row } from 'reactstrap';
+
+import { Icon } from '../components';
 
 interface IProps {
   color?: string;
@@ -14,7 +15,7 @@ const LoadingPanel = (props: IProps) => {
       <Row>
         <Col>
           <div className="loading-spinner">
-            <FontAwesomeIcon icon="spinner" spin />
+            <Icon icon="spinner" spin />
           </div>
         </Col>
       </Row>

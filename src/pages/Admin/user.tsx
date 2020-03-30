@@ -1,8 +1,8 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import _ from 'lodash';
 import moment from 'moment';
 import React, { useState } from 'react';
 
+import { Icon } from '../../components';
 import * as ROLES from '../../constants/roles';
 import { firestore } from '../../firebase';
 import { IUser, IUserData } from './interfaces';
@@ -57,9 +57,7 @@ const User = ({ user }: IUserProps) => {
     <tbody>
       <tr>
         <td onClick={toggleCollapsed}>
-          <FontAwesomeIcon
-            icon={collapsed ? 'chevron-right' : 'chevron-down'}
-          />
+          <Icon icon={collapsed ? 'chevron-right' : 'chevron-down'} />
         </td>
         <td>{user.id}</td>
         <td>{user.email}</td>
@@ -69,7 +67,7 @@ const User = ({ user }: IUserProps) => {
         <tr>
           <td></td>
           <td colSpan={2}>
-            {!userDataLoaded && <FontAwesomeIcon icon="spinner" spin />}
+            {!userDataLoaded && <Icon icon="spinner" spin />}
             {userDataLoaded && <UserData userData={userData} />}
           </td>
         </tr>

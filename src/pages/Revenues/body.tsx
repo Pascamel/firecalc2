@@ -1,4 +1,3 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import _ from 'lodash';
 import React, { Dispatch, useState } from 'react';
 import { connect } from 'react-redux';
@@ -6,12 +5,7 @@ import { connect } from 'react-redux';
 import { updateValueLocalStorage } from '../../actions';
 import Bank from '../../bank';
 import {
-  FireAmount,
-  FireTD,
-  FireTR,
-  StaticAmount,
-  StaticPercentage,
-  Text
+    FireAmount, FireTD, FireTR, Icon, StaticAmount, StaticPercentage, Text
 } from '../../components';
 import { AppState } from '../../store';
 
@@ -44,9 +38,7 @@ const Body = (props: IProps) => {
     <tbody>
       <tr>
         <td className="td-chevron" onClick={handleClickToggle}>
-          <FontAwesomeIcon
-            icon={collapsed ? 'chevron-right' : 'chevron-down'}
-          />
+          <Icon icon={collapsed ? 'chevron-right' : 'chevron-down'} />
         </td>
         <FireTD show={!collapsed} span={bank.incomeHeaders.length + 3}>
           <Text className="pull-left pl-2">{year}</Text>
@@ -111,7 +103,7 @@ const Body = (props: IProps) => {
 
       <FireTR hide={collapsed}>
         <td>
-          <FontAwesomeIcon icon={['far', 'calendar-alt']} />
+          <Icon icon={['far', 'calendar-alt']} />
         </td>
         {bank.incomeHeaders.map(header => (
           <td key={header.id}>

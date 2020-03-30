@@ -1,15 +1,10 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { Dispatch, useState } from 'react';
 import { connect } from 'react-redux';
-import {
-  Dropdown,
-  DropdownItem,
-  DropdownMenu,
-  DropdownToggle
-} from 'reactstrap';
+import { Dropdown, DropdownItem, DropdownMenu, DropdownToggle } from 'reactstrap';
 
 import { updateValueLocalStorage } from '../actions';
 import Bank from '../bank';
+import { Icon } from '../components';
 import { AppState } from '../store';
 
 interface IProps {
@@ -36,7 +31,7 @@ const DecimalsBtn = (props: IProps) => {
   return (
     <Dropdown isOpen={dropdownOpen} toggle={toggle}>
       <DropdownToggle color="outline-light">
-        <FontAwesomeIcon icon="university" />
+        <Icon icon="university" />
       </DropdownToggle>
       <DropdownMenu>
         <DropdownItem

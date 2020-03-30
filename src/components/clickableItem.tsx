@@ -1,4 +1,3 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import _ from 'lodash';
 import React, { Dispatch, useState } from 'react';
 import { connect } from 'react-redux';
@@ -7,6 +6,7 @@ import { DropdownItem } from 'reactstrap';
 import { updateValueLocalStorage } from '../actions';
 import Bank from '../bank';
 import * as formatters from '../bank/formatters';
+import { Icon } from '../components';
 import { AppState } from '../store';
 
 interface IProps {
@@ -58,7 +58,7 @@ const ClickableItem = (props: IProps) => {
       onClick={clickColumn}
       className={hidden ? 'text-muted' : ''}
     >
-      <FontAwesomeIcon icon={hidden ? 'eye-slash' : 'eye'} className="mr-2" />
+      <Icon icon={hidden ? 'eye-slash' : 'eye'} className="mr-2" />
       {headerLabel}
     </DropdownItem>
   );

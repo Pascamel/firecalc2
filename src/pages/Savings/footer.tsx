@@ -1,9 +1,8 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
 import { connect } from 'react-redux';
 
 import Bank from '../../bank';
-import { StaticAmount } from '../../components';
+import { Icon, StaticAmount } from '../../components';
 import { AppState } from '../../store';
 
 interface IProps {
@@ -17,7 +16,7 @@ const Footer = (props: IProps) => {
     <tfoot>
       <tr>
         <td>
-          <FontAwesomeIcon icon="university" />
+          <Icon icon="university" />
         </td>
         {bank.savingsInputsHidden.map(amount => (
           <td className="table-warning" key={amount.id + amount.type}>

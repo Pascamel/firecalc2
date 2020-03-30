@@ -1,13 +1,12 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { Dispatch } from 'react';
 import { connect } from 'react-redux';
 import { Button, ButtonGroup, Col, Container, Row } from 'reactstrap';
 
 import { loadBank, saveBank, saveHeaders } from '../actions';
 import Bank from '../bank';
-import { Text } from '../components';
+import { Icon, Text } from '../components';
 import { AppState } from '../store';
-import { DecimalsBtn, FiltersBtn } from '.';
+import { DecimalsBtn, FiltersBtn } from './';
 
 interface IProps {
   authUser: firebase.User;
@@ -109,14 +108,14 @@ const SavePanel = (props: IProps) => {
                       onClick={prevMonth}
                       disabled={prevMonthDisabled}
                     >
-                      <FontAwesomeIcon icon="backward" />
+                      <Icon icon="backward" />
                     </Button>
                     <Button
                       color="outline-light"
                       onClick={nextMonth}
                       disabled={nextMonthDisabled}
                     >
-                      <FontAwesomeIcon icon="forward" />
+                      <Icon icon="forward" />
                     </Button>
                   </ButtonGroup>
                 )}
@@ -135,10 +134,10 @@ const SavePanel = (props: IProps) => {
                   onClick={saveClick}
                 >
                   {!saveInProgress && (
-                    <FontAwesomeIcon icon={['far', 'save']} className="mr-1" />
+                    <Icon icon={['far', 'save']} className="mr-1" />
                   )}
                   {saveInProgress && (
-                    <FontAwesomeIcon icon="spinner" className="mr-1" spin />
+                    <Icon icon="spinner" className="mr-1" spin />
                   )}
                   {saveInProgress ? 'Saving' : 'Save'}
                 </Button>
@@ -149,7 +148,7 @@ const SavePanel = (props: IProps) => {
                     className="btn-cancel"
                     onClick={cancelClick}
                   >
-                    <FontAwesomeIcon icon="times" /> Cancel
+                    <Icon icon="times" /> Cancel
                   </Button>
                 )}
               </Col>
