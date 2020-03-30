@@ -1,9 +1,9 @@
-import _ from 'lodash';
 import uuid from 'uuid';
 
 import * as TYPES from '../actions/types';
 import Bank from '../bank';
 import { IBank } from '../bank/bank';
+import helpers from '../helpers';
 
 const INITIAL_STATE = {
   bank: {},
@@ -51,7 +51,7 @@ const bankReducer = (state = INITIAL_STATE, action: any) => {
       };
 
     case TYPES.BANK_UPDATE_VALUE: {
-      let new_bank = JSON.parse(JSON.stringify(state.bank));
+      let new_bank = helpers.deepCopy(state.bank);
 
       Bank.updateValue(
         new_bank,
@@ -79,7 +79,7 @@ const bankReducer = (state = INITIAL_STATE, action: any) => {
     }
 
     case TYPES.BANK_UPDATE_VALUE_LOCAL_STORAGE: {
-      let new_bank = JSON.parse(JSON.stringify(state.bank));
+      let new_bank = helpers.deepCopy(state.bank);
 
       Bank.updateValue(
         new_bank,
@@ -127,9 +127,8 @@ const bankReducer = (state = INITIAL_STATE, action: any) => {
       };
 
     case TYPES.HEADERS_NEW_SAVING: {
-      let new_bank = JSON.parse(JSON.stringify(state.bank));
+      let new_bank = helpers.deepCopy(state.bank);
       new_bank.headers.savings.push({
-        $edit: true,
         id: uuid.v4()
       });
 
@@ -141,12 +140,16 @@ const bankReducer = (state = INITIAL_STATE, action: any) => {
     }
 
     case TYPES.HEADERS_UPDATE_SAVING: {
-      let new_bank: IBank = JSON.parse(JSON.stringify(state.bank));
+      let new_bank: IBank = helpers.deepCopy(state.bank);
 
-      _(new_bank.headers.savings).each(h => {
-        if (h.id !== action.payload.header.id) return;
-        Object.assign(h, action.payload.header);
-      });
+      new_bank.headers.savings = [
+        ...new_bank.headers.savings.filter(
+          (h: any) => h.id !== action.payload.header.id
+        ),
+        action.payload.header
+      ];
+
+      Bank.formatHeaders(new_bank);
 
       return {
         ...state,
@@ -156,11 +159,15 @@ const bankReducer = (state = INITIAL_STATE, action: any) => {
     }
 
     case TYPES.HEADERS_DELETE_SAVING: {
-      let new_bank = JSON.parse(JSON.stringify(state.bank));
-      _.remove(
-        new_bank.headers.savings,
-        (h: any) => h.id === action.payload.header.id
-      );
+      let new_bank = helpers.deepCopy(state.bank);
+
+      new_bank.headers.savings = [
+        ...new_bank.headers.savings.filter(
+          (h: any) => h.id !== action.payload.header.id
+        )
+      ];
+
+      Bank.formatHeaders(new_bank);
 
       return {
         ...state,
@@ -170,7 +177,7 @@ const bankReducer = (state = INITIAL_STATE, action: any) => {
     }
 
     case TYPES.HEADERS_SWITCH_SAVING: {
-      let new_bank = JSON.parse(JSON.stringify(state.bank));
+      let new_bank = helpers.deepCopy(state.bank);
 
       var tmp = new_bank.headers.savings[action.payload.index1];
       new_bank.headers.savings[action.payload.index1] =
@@ -185,9 +192,8 @@ const bankReducer = (state = INITIAL_STATE, action: any) => {
     }
 
     case TYPES.HEADERS_NEW_INCOME: {
-      let new_bank = JSON.parse(JSON.stringify(state.bank));
+      let new_bank = helpers.deepCopy(state.bank);
       new_bank.headers.incomes.push({
-        $edit: true,
         id: uuid.v4()
       });
 
@@ -199,12 +205,16 @@ const bankReducer = (state = INITIAL_STATE, action: any) => {
     }
 
     case TYPES.HEADERS_UPDATE_INCOME: {
-      let new_bank = JSON.parse(JSON.stringify(state.bank));
+      let new_bank = helpers.deepCopy(state.bank);
 
-      _(new_bank.headers.incomes).each((h: any) => {
-        if (h.id !== action.payload.header.id) return;
-        Object.assign(h, action.payload.header);
-      });
+      new_bank.headers.incomes = [
+        ...new_bank.headers.incomes.filter(
+          (h: any) => h.id !== action.payload.header.id
+        ),
+        action.payload.header
+      ];
+
+      Bank.formatHeaders(new_bank);
 
       return {
         ...state,
@@ -214,11 +224,15 @@ const bankReducer = (state = INITIAL_STATE, action: any) => {
     }
 
     case TYPES.HEADERS_DELETE_INCOME: {
-      let new_bank = JSON.parse(JSON.stringify(state.bank));
-      _.remove(
-        new_bank.headers.incomes,
-        (h: any) => h.id === action.payload.header.id
-      );
+      let new_bank = helpers.deepCopy(state.bank);
+
+      new_bank.headers.incomes = [
+        ...new_bank.headers.incomes.filter(
+          (h: any) => h.id !== action.payload.header.id
+        )
+      ];
+
+      Bank.formatHeaders(new_bank);
 
       return {
         ...state,
@@ -228,7 +242,7 @@ const bankReducer = (state = INITIAL_STATE, action: any) => {
     }
 
     case TYPES.HEADERS_SWITCH_INCOME: {
-      let new_bank = JSON.parse(JSON.stringify(state.bank));
+      let new_bank = helpers.deepCopy(state.bank);
 
       let tmp = new_bank.headers.incomes[action.payload.index1];
       new_bank.headers.incomes[action.payload.index1] =

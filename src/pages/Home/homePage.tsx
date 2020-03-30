@@ -5,11 +5,10 @@ import { connect } from 'react-redux';
 import { Col, Container, ListGroup, ListGroupItem, Media, Row } from 'reactstrap';
 
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { loadBank } from '../../actions';
 import Bank from '../../bank';
-import { LoadingPanel, Mobile, NotMobile } from '../../components';
+import { Icon, LoadingPanel, Mobile, NotMobile } from '../../components';
 import * as ROUTES from '../../constants/routes';
 import helpers from '../../helpers';
 import { AppState } from '../../store';
@@ -38,7 +37,7 @@ const Item = (props: IItemProps) => {
     <ListGroupItem>
       <Media href={route}>
         <Media left middle style={{ width: '40px' }}>
-          <FontAwesomeIcon icon={icon} size="lg" />
+          <Icon icon={icon} size="lg" />
         </Media>
         <Media body>{label}</Media>
         <Media right>

@@ -7,6 +7,7 @@ import FireAmount from './fireAmount';
 import FireTD from './fireTD';
 import FireTR from './fireTR';
 import HeaderPanel from './headerPanel';
+import { Icon } from './icon';
 import LoadingPanel from './loadingPanel';
 import Navigation from './navigation';
 import PanelTitle from './panelTitle';
@@ -27,6 +28,7 @@ export {
   FireTD,
   FireAmount,
   HeaderPanel,
+  Icon,
   LoadingPanel,
   Mobile,
   Navigation,

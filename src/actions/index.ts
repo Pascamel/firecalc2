@@ -2,6 +2,7 @@ import { Dispatch } from 'redux';
 
 import Bank from '../bank';
 import { IIncomeHeader, ISavingsHeader } from '../bank/interfaces';
+import helpers from '../helpers';
 import * as TYPES from './types';
 
 export const loadBank = (uid: string) => {
@@ -87,7 +88,7 @@ export const saveBank = (
         dispatch({
           type: TYPES.BANK_SAVE_SUCCESS,
           payload: {
-            bank: JSON.parse(JSON.stringify(bank))
+            bank: helpers.deepCopy(bank)
           }
         });
       })
@@ -116,7 +117,16 @@ export const updateSavingHeader = (header: ISavingsHeader) => {
       payload: {
         header: {
           id: header.id,
-          $edit: true
+          label: header.label,
+          sublabel: header.sublabel,
+          icon: header.icon,
+          interest: header.interest,
+          displayFrom: header.displayFrom,
+          displayFromMonth: header.displayFromMonth,
+          displayFromYear: header.displayFromYear,
+          displayTo: header.displayTo,
+          displayToMonth: header.displayToMonth,
+          displayToYear: header.displayToYear
         }
       }
     });
@@ -130,7 +140,6 @@ export const confirmUpdateSavingHeader = (header: ISavingsHeader) => {
       payload: {
         header: {
           id: header.id,
-          $edit: false,
           label: header.label,
           sublabel: header.sublabel,
           icon: header.icon,
@@ -153,8 +162,7 @@ export const cancelUpdateSavingHeader = (header: ISavingsHeader) => {
       type: TYPES.HEADERS_UPDATE_SAVING,
       payload: {
         header: {
-          id: header.id,
-          $edit: false
+          id: header.id
         }
       }
     });

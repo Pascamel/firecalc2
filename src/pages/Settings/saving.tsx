@@ -6,10 +6,9 @@ import {
 } from 'reactstrap';
 import ButtonGroup from 'reactstrap/lib/ButtonGroup';
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
 import { deleteSavingHeader, switchSavingHeaders, updateSavingHeader } from '../../actions';
 import Bank, { ISavingsHeader } from '../../bank';
+import { Icon } from '../../components';
 import helpers from '../../helpers';
 import { AppState } from '../../store';
 
@@ -70,6 +69,8 @@ const Saving = (props: IProps) => {
   };
 
   const editHeaderConfirm = () => {
+    const { header } = props;
+
     header.label = editLabel;
     header.sublabel = editSublabel;
     header.icon = editIcon;
@@ -80,6 +81,8 @@ const Saving = (props: IProps) => {
     header.displayTo = editDisplayTo;
     header.displayToMonth = editDisplayToMonth;
     header.displayToYear = editDisplayToYear;
+
+    console.log('calling with', helpers.deepCopy(header));
 
     onUpdateSavingHeader(header);
     setEdit(false);
@@ -197,24 +200,30 @@ const Saving = (props: IProps) => {
           </ButtonGroup>
         </Col>
 
-        <Col xs={12} sm={6}>
-          <Label>Display from</Label>
-          <InputGroup>
-            <InputGroupAddon addonType="prepend">
-              <Button
-                color={editDisplayFrom ? 'primary' : 'light'}
-                onClick={() => setEditDisplayFrom(true)}
-              >
-                Yes
-              </Button>
-              <Button
-                color={editDisplayFrom ? 'light' : 'primary'}
-                onClick={() => setEditDisplayFrom(false)}
-              >
-                No
-              </Button>
-            </InputGroupAddon>
+        <Col xs={4} sm={2}>
+          <Label className="display-block">Display from</Label>
+          <ButtonGroup className="d-flex">
+            <Button
+              outline={!editDisplayFrom}
+              color="primary"
+              onClick={() => setEditDisplayFrom(true)}
+            >
+              Yes
+            </Button>
+            <Button
+              outline={editDisplayFrom}
+              color="primary"
+              onClick={() => setEditDisplayFrom(false)}
+            >
+              No
+            </Button>
+          </ButtonGroup>
+        </Col>
 
+        <Col xs={8} sm={4}>
+          <Label>&nbsp;</Label>
+
+          <InputGroup>
             <CustomInput
               type="select"
               id="firstMonth"
@@ -228,45 +237,49 @@ const Saving = (props: IProps) => {
                 </option>
               ))}
             </CustomInput>
-
-            <CustomInput
-              type="select"
-              id="firstYear"
-              value={editDisplayFromYear || 0}
-              onChange={e => setEditDisplayFromYear(parseInt(e.target.value))}
-              disabled={!editDisplayFrom}
-            >
-              {_.range(
-                //currentYear - 10,
-                bank.headers.firstYear,
-                currentYear + 1
-              ).map((y, key) => (
-                <option value={y} key={key}>
-                  {y}
-                </option>
-              ))}
-            </CustomInput>
+            <InputGroupAddon addonType="append">
+              <CustomInput
+                type="select"
+                id="firstYear"
+                value={editDisplayFromYear || 0}
+                onChange={e => setEditDisplayFromYear(parseInt(e.target.value))}
+                disabled={!editDisplayFrom}
+              >
+                {_.range(bank.headers.firstYear, currentYear + 1).map(
+                  (y, key) => (
+                    <option value={y} key={key}>
+                      {y}
+                    </option>
+                  )
+                )}
+              </CustomInput>
+            </InputGroupAddon>
           </InputGroup>
         </Col>
 
-        <Col xs={12} sm={6}>
-          <Label>Display To</Label>
-          <InputGroup>
-            <InputGroupAddon addonType="prepend">
-              <Button
-                color={editDisplayTo ? 'primary' : 'light'}
-                onClick={() => setEditDisplayTo(true)}
-              >
-                Yes
-              </Button>
-              <Button
-                color={editDisplayTo ? 'light' : 'primary'}
-                onClick={() => setEditDisplayTo(false)}
-              >
-                No
-              </Button>
-            </InputGroupAddon>
+        <Col xs={4} sm={2}>
+          <Label className="display-block">Display To</Label>
+          <ButtonGroup className="d-flex">
+            <Button
+              outline={!editDisplayTo}
+              color="primary"
+              onClick={() => setEditDisplayTo(true)}
+            >
+              Yes
+            </Button>
+            <Button
+              outline={editDisplayTo}
+              color="primary"
+              onClick={() => setEditDisplayTo(false)}
+            >
+              No
+            </Button>
+          </ButtonGroup>
+        </Col>
 
+        <Col xs={8} sm={4}>
+          <Label>&nbsp;</Label>
+          <InputGroup>
             <CustomInput
               type="select"
               id="firstMonth"
@@ -280,33 +293,32 @@ const Saving = (props: IProps) => {
                 </option>
               ))}
             </CustomInput>
-
-            <CustomInput
-              type="select"
-              id="firstYear"
-              value={editDisplayToYear || 0}
-              onChange={e => setEditDisplayToYear(parseInt(e.target.value))}
-              disabled={!editDisplayTo}
-            >
-              {_.range(
-                //currentYear - 10,
-                bank.headers.firstYear,
-                currentYear + 1
-              ).map((y, key) => (
-                <option value={y} key={key}>
-                  {y}
-                </option>
-              ))}
-            </CustomInput>
+            <InputGroupAddon addonType="append">
+              <CustomInput
+                type="select"
+                id="firstYear"
+                value={editDisplayToYear || 0}
+                onChange={e => setEditDisplayToYear(parseInt(e.target.value))}
+                disabled={!editDisplayTo}
+              >
+                {_.range(bank.headers.firstYear, currentYear + 1).map(
+                  (y, key) => (
+                    <option value={y} key={key}>
+                      {y}
+                    </option>
+                  )
+                )}
+              </CustomInput>
+            </InputGroupAddon>
           </InputGroup>
         </Col>
 
         <Col xs={12} className="text-right mt-3">
           <Button color="outline-primary" onClick={editHeaderCancel}>
-            <FontAwesomeIcon icon="times" className="mr-1" /> Cancel
+            <Icon icon="times" className="mr-1" /> Cancel
           </Button>
           <Button color="primary" className="ml-3" onClick={editHeaderConfirm}>
-            <FontAwesomeIcon icon="check" className="mr-1" /> Confirm
+            <Icon icon="check" className="mr-1" /> Confirm
           </Button>
         </Col>
       </Row>
@@ -321,33 +333,34 @@ const Saving = (props: IProps) => {
         <span className="label-fake-input">{header.sublabel}</span>
       </Col>
       <Col xs={12} sm={1}>
-        {header.icon && <img src={header.icon} alt="Institution" width="16" />}
-        {/* <span className="label-fake-input nowrap-ellipsis">{header.icon}</span> */}
+        {header.icon ? (
+          <img src={header.icon} alt="Institution" width="16" />
+        ) : (
+          <span>-</span>
+        )}
       </Col>
       <Col xs={12} sm={3}>
         {displayDatesLabel}
       </Col>
       <Col xs={5} sm={2}>
-        <div className="checkbox">
-          <FontAwesomeIcon
-            icon={['far', header.interest ? 'check-square' : 'square']}
-            className="mr-1"
-          />{' '}
-          <label>Interest</label>
-        </div>
+        <Icon
+          icon={['far', header.interest ? 'check-square' : 'square']}
+          className="mr-2"
+        />
+        Interest
       </Col>
       <Col xs={7} sm={2} className="text-right">
         <span className="btn btn-link" onClick={editHeader}>
-          <FontAwesomeIcon icon="edit" size="lg" />
+          <Icon icon="edit" size="lg" />
         </span>
         <span className="btn btn-link" onClick={removeHeader}>
-          <FontAwesomeIcon icon="trash-alt" size="lg" />
+          <Icon icon="trash-alt" size="lg" />
         </span>
         <span
           className={`btn btn-link ${index === 0 ? 'disabled' : ''}`}
           onClick={e => moveUpHeader(index)}
         >
-          <FontAwesomeIcon icon="chevron-up" size="lg" />
+          <Icon icon="chevron-up" size="lg" />
         </span>
         <span
           className={`btn btn-link ${
@@ -355,7 +368,7 @@ const Saving = (props: IProps) => {
           }`}
           onClick={e => moveDownHeader(index)}
         >
-          <FontAwesomeIcon icon="chevron-down" size="lg" />
+          <Icon icon="chevron-down" size="lg" />
         </span>
       </Col>
     </Row>

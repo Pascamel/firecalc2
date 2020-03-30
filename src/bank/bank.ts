@@ -93,8 +93,8 @@ export const load = async (uid: string): Promise<IBank> => {
   let savings_data = _.get(snapshotSavings.data(), 'data', []);
   let revenues_data = _.get(snapshotRevenues.data(), 'data', []);
 
-  bank.incomeHeaders = formatters.formatIncomeHeaders(bank.headers);
-  bank.savingsHeaders = formatters.formatSavingsHeaders(bank.headers);
+  // bank.incomeHeaders = formatters.formatIncomeHeaders(bank.headers);
+  // bank.savingsHeaders = formatters.formatSavingsHeaders(bank.headers);
 
   bank.incomeYearHeaders = { collapsed: {} };
   bank.savingsYearHeaders = _.get(snapshotSavings.data(), 'yearly_data', {
@@ -107,6 +107,32 @@ export const load = async (uid: string): Promise<IBank> => {
   bank.networth = _.get(snapshotOthers.data(), 'networth', {});
   bank.expenses = _.get(snapshotOthers.data(), 'expenses', {});
   bank.notes = _.get(snapshotOthers.data(), 'notes', {});
+
+  formatHeaders(bank);
+  // bank.savingsInputs = formatters.savingsInputs(bank.savingsHeaders, {});
+  // bank.savingsInputsHidden = formatters.savingsInputs(
+  //   bank.savingsHeaders,
+  //   bank.savingsHeadersHidden
+  // );
+
+  // bank.savingsHeadersLine1 = formatters.savingsHeadersLine1(
+  //   bank.savingsHeaders,
+  //   bank.savingsHeadersHidden
+  // );
+  // bank.savingsHeadersLine2 = formatters.savingsHeadersLine2(
+  //   bank.savingsHeaders,
+  //   bank.savingsHeadersHidden
+  // );
+
+  loadLocalStorage2(bank);
+  calculateTotals(bank);
+
+  return bank;
+};
+
+export const formatHeaders = (bank: IBank) => {
+  bank.incomeHeaders = formatters.formatIncomeHeaders(bank.headers);
+  bank.savingsHeaders = formatters.formatSavingsHeaders(bank.headers);
 
   bank.savingsInputs = formatters.savingsInputs(bank.savingsHeaders, {});
   bank.savingsInputsHidden = formatters.savingsInputs(
@@ -122,11 +148,6 @@ export const load = async (uid: string): Promise<IBank> => {
     bank.savingsHeaders,
     bank.savingsHeadersHidden
   );
-
-  loadLocalStorage2(bank);
-  calculateTotals(bank);
-
-  return bank;
 };
 
 export const loadLocalStorage1 = (bank: IBank) => {
@@ -194,7 +215,7 @@ export const saveLocalStorage = (bank: IBank) => {
 };
 
 export const saveHeaders = async (uid: string, bank: IBank) => {
-  const data = JSON.parse(JSON.stringify(bank.headers));
+  const data = helpers.deepCopy(bank.headers);
   data.last_update = new Date().getTime();
 
   try {
@@ -211,7 +232,7 @@ export const saveIncome = async (uid: string, bank: IBank) => {
     data: JSON.parse(
       JSON.stringify(formatters.formatIncomeToSave(bank.income))
     ),
-    yearly_data: JSON.parse(JSON.stringify(bank.incomeYearHeaders))
+    yearly_data: helpers.deepCopy(bank.incomeYearHeaders)
   };
 
   try {
@@ -228,7 +249,7 @@ export const saveSavings = async (uid: string, bank: IBank) => {
     data: JSON.parse(
       JSON.stringify(formatters.formatSavingstaToSave(bank.savings))
     ),
-    yearly_data: JSON.parse(JSON.stringify(bank.savingsYearHeaders)),
+    yearly_data: helpers.deepCopy(bank.savingsYearHeaders),
     hideDecimals: !bank.showDecimals
   };
 
@@ -243,9 +264,9 @@ export const saveSavings = async (uid: string, bank: IBank) => {
 export const saveOthers = async (uid: string, bank: IBank) => {
   const payload = {
     last_update: new Date().getTime(),
-    expenses: JSON.parse(JSON.stringify(bank.expenses)),
-    networth: JSON.parse(JSON.stringify(bank.networth)),
-    notes: JSON.parse(JSON.stringify(bank.notes))
+    expenses: helpers.deepCopy(bank.expenses),
+    networth: helpers.deepCopy(bank.networth),
+    notes: helpers.deepCopy(bank.notes)
   };
 
   try {
