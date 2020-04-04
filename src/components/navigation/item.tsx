@@ -41,10 +41,14 @@ const NavBarItem = ({
       .join(' ');
   };
 
+  const iconClassNames = [iconClassName, 'mr-1', 'fa-fw']
+    .filter(v => v !== null && v !== undefined)
+    .join(' ');
+
   return (
     <NavItem>
       <NavLink className={navLinkClass()} to={to} onClick={onClick}>
-        <Icon icon={icon} className={iconClassName || 'mr-1'} />
+        <Icon icon={icon} className={iconClassNames} />
         {label}
       </NavLink>
     </NavItem>

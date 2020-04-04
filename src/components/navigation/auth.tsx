@@ -1,16 +1,13 @@
 import { LocationState } from 'history';
 import React, { useState } from 'react';
-import { Link, NavLink } from 'react-router-dom';
-import {
-    Collapse, DropdownItem, DropdownMenu, DropdownToggle, Nav, Navbar, NavbarToggler,
-    UncontrolledDropdown
-} from 'reactstrap';
+import { NavLink } from 'react-router-dom';
+import { Collapse, Nav, Navbar, NavbarToggler } from 'reactstrap';
 
-import { DarkSwitcher, SignOutLink } from '../';
 import * as CHARTS from '../../constants/charts';
 import * as ROUTES from '../../constants/routes';
 import helpers from '../../helpers';
 import NavBarItem from './item';
+import UserDropdown from './userDropdown';
 
 interface IProps {
   location?: LocationState;
@@ -35,14 +32,6 @@ const NavigationAuth = ({ location, authUser, darkMode }: IProps) => {
 
   const isSubRouteOf = (route: string) => {
     return route.split('/')[1] === location.pathname.split('/')[1];
-  };
-
-  const navLinkClass = (route: string) => {
-    const classNames = ['nav-link'];
-    if (route.split('/')[1] === location.pathname.split('/')[1])
-      classNames.push('active');
-
-    return classNames.join(' ');
   };
 
   return (
@@ -93,30 +82,7 @@ const NavigationAuth = ({ location, authUser, darkMode }: IProps) => {
           />
         </Nav>
         <Nav className="ml-auto" navbar>
-          <UncontrolledDropdown nav inNavbar>
-            <DropdownToggle nav caret>
-              {authUser ? authUser.email : 'User'}
-            </DropdownToggle>
-            <DropdownMenu right>
-              <DropdownItem>
-                <Link
-                  className="no-link"
-                  to={ROUTES.ACCOUNT}
-                  onClick={toggleIfOpen}
-                >
-                  <i className="fa fa-lg fa-user pr-2" />
-                  Account
-                </Link>
-              </DropdownItem>
-              <DropdownItem>
-                <DarkSwitcher />
-              </DropdownItem>
-              <DropdownItem divider />
-              <DropdownItem>
-                <SignOutLink />
-              </DropdownItem>
-            </DropdownMenu>
-          </UncontrolledDropdown>
+          <UserDropdown authUser={authUser} />
         </Nav>
       </Collapse>
     </Navbar>
