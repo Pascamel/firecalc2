@@ -5,7 +5,7 @@ import { Alert, Col, Row } from 'reactstrap';
 
 import Bank from '../../bank';
 import { FireAmount, Text } from '../../components';
-import { amount, clean_percentage } from '../../helpers';
+import { amount, cleanPercentage } from '../../helpers';
 import { AppState } from '../../store';
 import Doughnut from './doughnut';
 import Progress from './progress';
@@ -55,7 +55,7 @@ const Charts = ({ month, year, bank }: IProps) => {
             label="Month"
             result={bank.goalMonth[year][month]}
             goal={bank.monthlyGoal[year]}
-            percentage={clean_percentage(
+            percentage={cleanPercentage(
               bank.goalMonth[year][month] / bank.monthlyGoal[year]
             )}
           />
@@ -63,7 +63,7 @@ const Charts = ({ month, year, bank }: IProps) => {
             label="Year"
             result={bank.goalYearToDate[year][month]}
             goal={parseInt(month) * bank.monthlyGoal[year]}
-            percentage={clean_percentage(
+            percentage={cleanPercentage(
               bank.goalYearToDate[year][month] /
                 bank.monthlyGoal[year] /
                 parseInt(month)
