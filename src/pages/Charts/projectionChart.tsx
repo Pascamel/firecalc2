@@ -267,57 +267,6 @@ const ProjectionChart = (props: IProps & RouteComponentProps) => {
           mobile={mobile}
           darkMode={darkMode}
         />
-
-        {/* <Chart
-          chartType="LineChart"
-          width="100%"
-          height="99%"
-          loader={<LoadingPanel color="background" />}
-          data={data}
-          options={{
-            legend: {
-              textStyle: {
-                color: props.darkMode ? '#ccc' : '#333' 
-              },
-              position: 'top', 
-              alignment: 'start' 
-            },
-            backgroundColor: props.darkMode ? '#1b1b1b' : '#fff',
-            hAxis: {
-              textStyle: {
-                color: props.darkMode ? '#ccc' : '#333'
-              }, 
-              baselineColor: props.darkMode ? '#777' : '#333',
-              gridlines: {
-                color: props.darkMode ? '#777' : '#333' 
-              },
-              type: 'date'
-            },
-            vAxis: {
-              textStyle: {
-                color: props.darkMode ? '#ccc' : '#333'
-              }, 
-              baselineColor: props.darkMode ? '#777' : '#333',
-              gridlines: {
-                color: props.darkMode ? '#777' : '#333'
-              },
-              format: 'short'
-            },
-            series: {
-              0: {
-                curveType: 'function'
-              },
-              1: {
-                curveType: 'function'
-              },
-            },
-            chartArea: {
-              width: mobile ? '80%' : '92%', 
-              right: mobile ? '5%' : '2%',
-              height: '80%'
-            }
-          }}
-        /> */}
       </Col>
     </Row>
   );
