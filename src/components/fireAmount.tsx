@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { updateValue } from '../actions';
 import Bank from '../bank';
 import { Text } from '../components';
-import helpers from '../helpers';
+import { amount as helper_amount } from '../helpers';
 import { AppState } from '../store';
 
 interface IProps {
@@ -101,7 +101,7 @@ const FireAmount = (props: IProps) => {
     >
       {!edit && (
         <Text className="amount" onClick={setEditMode}>
-          {helpers.amount(amount, displayIfZero, bank.showDecimals || false)}
+          {helper_amount(amount, displayIfZero, bank.showDecimals || false)}
         </Text>
       )}
       {edit && (

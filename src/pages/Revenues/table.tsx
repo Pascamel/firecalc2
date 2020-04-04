@@ -10,9 +10,7 @@ interface IProps {
   bank: Bank.IBank;
 }
 
-const Table = (props: IProps) => {
-  const { bank } = props;
-
+const Table = ({ bank }: IProps) => {
   return (
     <table className="table table-striped table-finances">
       <Header />

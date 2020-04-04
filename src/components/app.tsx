@@ -7,7 +7,7 @@ import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
 
 import * as ROUTES from '../constants/routes';
 import { withAuthentication } from '../firebase/withAuthentication';
-import helpers from '../helpers';
+import { currentMonthRoute } from '../helpers';
 import { AccountPage } from '../pages/Account';
 import { AdminPage } from '../pages/Admin';
 import { ChartsPage } from '../pages/Charts';
@@ -21,7 +21,7 @@ import { SettingsPage } from '../pages/Settings';
 import { SignIn } from '../pages/SignIn';
 import { SignUp } from '../pages/SignUp';
 import { AppState } from '../store';
-import { Navigation } from '.';
+import { Navigation } from './';
 
 interface IProps {
   location?: LocationState;
@@ -53,7 +53,7 @@ const AppComponent = (props: IProps) => {
           <Route
             exact
             path={ROUTES.MONTH_NO_PARAMS}
-            render={() => <Redirect to={helpers.currentMonthRoute()} />}
+            render={() => <Redirect to={currentMonthRoute()} />}
           />
           <Route exact path={ROUTES.REVENUES} component={RevenuesPage} />
           <Route exact path={ROUTES.SAVINGS} component={SavingsPage} />

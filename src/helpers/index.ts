@@ -2,8 +2,10 @@ import moment from 'moment';
 
 import { ISavingsHeader } from '../bank';
 import * as ROUTES from '../constants/routes';
+import _currentYear from './currentYear';
+import _deepCopy from './deepCopy';
 
-const amount = (
+export const amount = (
   number: number,
   display_if_zero: boolean,
   show_decimals: boolean
@@ -16,7 +18,7 @@ const amount = (
   });
 };
 
-const percentage = (
+export const percentage = (
   number: number,
   decimals: number = 2,
   plusSign: boolean = false
@@ -28,43 +30,23 @@ const percentage = (
   );
 };
 
-const clean_percentage = (percentage: number) => {
+export const clean_percentage = (percentage: number) => {
   return Math.min(100, Math.max(0, 100 + 100 * percentage));
 };
 
-const goal = (
-  value: number,
-  threshold: number,
-  success?: string,
-  danger?: string
-) => {
-  success = success || 'table-success';
-  danger = danger || 'table-danger';
-
-  return value >= threshold ? success : danger;
-};
-
-const roundFloat = (num: number) => {
+export const roundFloat = (num: number) => {
   return Math.round((num + 0.00001) * 100) / 100;
 };
 
-const roundUpClosestTen = (num: number) => {
+export const roundUpClosestTen = (num: number) => {
   return Math.ceil(num / 10) * 10;
 };
 
-const showIf = (bool: boolean, className?: string) => {
-  className = className || 'hidden';
-
-  return bool ? '' : className;
-};
-
-const hideIf = (bool: boolean, className?: string) => {
-  className = className || 'hidden';
-
-  return bool ? className : '';
-};
-
-const labelMonth = (m: string, y: string = '', shortened: boolean = false) => {
+export const labelMonth = (
+  m: string,
+  y: string = '',
+  shortened: boolean = false
+) => {
   const month = moment()
     .month(parseInt(m) - 1)
     .format(shortened ? 'MMM' : 'MMMM');
@@ -72,7 +54,7 @@ const labelMonth = (m: string, y: string = '', shortened: boolean = false) => {
   return y.length < 4 ? month : `${month} ${shortened ? y.slice(-2) : y}`;
 };
 
-const prevMonth = (year: string, month: string) => {
+export const prevMonth = (year: string, month: string) => {
   let m = parseInt(month);
   let y = parseInt(year);
 
@@ -85,7 +67,7 @@ const prevMonth = (year: string, month: string) => {
   return { year: y.toString(), month: m.toString() };
 };
 
-const nextMonth = (year: string, month: string) => {
+export const nextMonth = (year: string, month: string) => {
   let m = parseInt(month);
   let y = parseInt(year);
 
@@ -98,16 +80,18 @@ const nextMonth = (year: string, month: string) => {
   return { year: y.toString(), month: m.toString() };
 };
 
-const currentMonthRoute = () => {
+export const currentMonthRoute = () => {
   return ROUTES.MONTH.replace(
     ':year',
     new Date().getFullYear().toString()
   ).replace(':month', (new Date().getMonth() + 1).toString());
 };
 
-const deepCopy = (data: object) => JSON.parse(JSON.stringify(data));
-
-const shouldDisplay = (object: ISavingsHeader, month: number, year: number) => {
+export const shouldDisplay = (
+  object: ISavingsHeader,
+  month: number,
+  year: number
+) => {
   const _trueAndValid = (
     flag: boolean,
     month: number | null,
@@ -136,19 +120,5 @@ const shouldDisplay = (object: ISavingsHeader, month: number, year: number) => {
   return f && t;
 };
 
-export default {
-  amount,
-  percentage,
-  clean_percentage,
-  goal,
-  roundFloat,
-  roundUpClosestTen,
-  showIf,
-  hideIf,
-  labelMonth,
-  prevMonth,
-  nextMonth,
-  currentMonthRoute,
-  deepCopy,
-  shouldDisplay
-};
+export const currentYear = _currentYear;
+export const deepCopy = _deepCopy;

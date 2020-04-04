@@ -5,7 +5,7 @@ import { Collapse, Nav, Navbar, NavbarToggler } from 'reactstrap';
 
 import * as CHARTS from '../../constants/charts';
 import * as ROUTES from '../../constants/routes';
-import helpers from '../../helpers';
+import { currentMonthRoute } from '../../helpers';
 import NavBarItem from './item';
 import UserDropdown from './userDropdown';
 
@@ -44,7 +44,7 @@ const NavigationAuth = ({ location, authUser, darkMode }: IProps) => {
         <Nav navbar className="main-nav-bar">
           <NavBarItem
             active={isSubRouteOf(ROUTES.MONTH)}
-            to={helpers.currentMonthRoute()}
+            to={currentMonthRoute()}
             icon={['far', 'calendar-alt']}
             label="Month"
             onClick={toggleIfOpen}

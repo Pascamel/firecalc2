@@ -10,8 +10,7 @@ interface IProps {
   darkMode: boolean;
 }
 
-const Doughnut = (props: IProps) => {
-  const { savingRate } = props;
+const Doughnut = ({ darkMode, savingRate }: IProps) => {
   const options = {
     cutoutPercentage: 70,
     tooltips: {
@@ -19,9 +18,9 @@ const Doughnut = (props: IProps) => {
     }
   };
 
-  const successColor = props.darkMode ? '#008958' : '#66bb6a';
-  const failureColor = props.darkMode ? '#c12546' : '#e62154';
-  const backgroundColor = props.darkMode ? '#3a3a3a' : '#ddd';
+  const successColor = darkMode ? '#008958' : '#66bb6a';
+  const failureColor = darkMode ? '#c12546' : '#e62154';
+  const backgroundColor = darkMode ? '#3a3a3a' : '#ddd';
 
   const data = {
     datasets: [

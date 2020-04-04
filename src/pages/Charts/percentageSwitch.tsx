@@ -6,9 +6,7 @@ interface IProps {
   callback: (b: boolean) => void;
 }
 
-const PercentageSwitch = (props: IProps) => {
-  const { callback, percentage } = props;
-
+const PercentageSwitch = ({ callback, percentage }: IProps) => {
   const _onClick = (b: boolean) => {
     callback && callback(b);
   };

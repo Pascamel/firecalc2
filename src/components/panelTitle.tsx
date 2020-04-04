@@ -1,14 +1,13 @@
 import React from 'react';
 
-import { Text } from '.';
+import { Text } from './';
 
 interface IProps {
   title: string;
   subTitle?: string;
 }
 
-const PanelTitle = (props: IProps) => {
-  const { title, subTitle } = props;
+const PanelTitle = ({ title, subTitle }: IProps) => {
   return (
     <>
       <h3>

@@ -12,13 +12,9 @@ import { AppState } from '../../store';
 import * as Charts from './charts';
 import ChartSelector from './chartSelector';
 import {
-  IAllocationEvolutionChart,
-  IBreakEvenPointChartData,
-  IChartAllocationData,
-  IIncomeVsSavingsChartData,
-  INetWorthVsSavingsChartData,
-  ISavingsBreakdownChartData,
-  IYearlyGoalBurnUpChartData
+    IAllocationEvolutionChart, IBreakEvenPointChartData, IChartAllocationData,
+    IIncomeVsSavingsChartData, INetWorthVsSavingsChartData, ISavingsBreakdownChartData,
+    IYearlyGoalBurnUpChartData
 } from './interfaces';
 import ProjectionChart from './projectionChart';
 import YearlyBreakdown from './yearlyBreakdown';

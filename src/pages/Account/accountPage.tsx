@@ -1,13 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import {
-  Col,
-  Container,
-  ListGroup,
-  ListGroupItem,
-  ListGroupItemHeading,
-  Row
-} from 'reactstrap';
+import { Col, Container, ListGroup, ListGroupItem, ListGroupItemHeading, Row } from 'reactstrap';
 
 import { HeaderPanel } from '../../components';
 import { AppState } from '../../store';
@@ -18,9 +11,7 @@ interface IProps {
   authUser: firebase.User;
 }
 
-const AccountPageBase2 = (props: IProps) => {
-  const { authUser } = props;
-
+const AccountPageBase2 = ({ authUser }: IProps) => {
   return (
     <>
       <HeaderPanel title="My account" />

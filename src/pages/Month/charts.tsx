@@ -5,7 +5,7 @@ import { Alert, Col, Row } from 'reactstrap';
 
 import Bank from '../../bank';
 import { FireAmount, Text } from '../../components';
-import helpers from '../../helpers';
+import { amount, clean_percentage } from '../../helpers';
 import { AppState } from '../../store';
 import Doughnut from './doughnut';
 import Progress from './progress';
@@ -16,8 +16,7 @@ interface IProps {
   bank: Bank.IBank;
 }
 
-const Charts = (props: IProps) => {
-  const { month, year, bank } = props;
+const Charts = ({ month, year, bank }: IProps) => {
   const estimatedExpenses =
     _.get(bank.totalMonthIncome, [year, month], 0) -
     _.get(bank.totalMonthSavings, [year, month], 0);
@@ -56,7 +55,7 @@ const Charts = (props: IProps) => {
             label="Month"
             result={bank.goalMonth[year][month]}
             goal={bank.monthlyGoal[year]}
-            percentage={helpers.clean_percentage(
+            percentage={clean_percentage(
               bank.goalMonth[year][month] / bank.monthlyGoal[year]
             )}
           />
@@ -64,7 +63,7 @@ const Charts = (props: IProps) => {
             label="Year"
             result={bank.goalYearToDate[year][month]}
             goal={parseInt(month) * bank.monthlyGoal[year]}
-            percentage={helpers.clean_percentage(
+            percentage={clean_percentage(
               bank.goalYearToDate[year][month] /
                 bank.monthlyGoal[year] /
                 parseInt(month)
@@ -88,11 +87,7 @@ const Charts = (props: IProps) => {
             <Col>
               <Text>Estimated expenses</Text>
               <Text className="pull-right text-secondary">
-                {`$${helpers.amount(
-                  estimatedExpenses,
-                  true,
-                  bank.showDecimals
-                )}`}
+                {`$${amount(estimatedExpenses, true, bank.showDecimals)}`}
               </Text>
             </Col>
           </Row>

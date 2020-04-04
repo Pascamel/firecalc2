@@ -17,8 +17,6 @@ interface IProps {
 }
 
 const NavigationBar = (props: IProps | any) => {
-  const { authUser } = props;
-
   return (
     <Container fluid className="nav-container">
       <Row>
@@ -26,7 +24,7 @@ const NavigationBar = (props: IProps | any) => {
           <Container>
             <Row>
               <Col>
-                {authUser ? (
+                {props.authUser ? (
                   <NavigationAuth {...props} />
                 ) : (
                   <NavigationNonAuth {...props} />

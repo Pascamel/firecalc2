@@ -10,7 +10,7 @@ import { loadBank } from '../../actions';
 import Bank from '../../bank';
 import { Icon, LoadingPanel, Mobile, NotMobile } from '../../components';
 import * as ROUTES from '../../constants/routes';
-import helpers from '../../helpers';
+import { currentMonthRoute } from '../../helpers';
 import { AppState } from '../../store';
 
 interface IItemProps {
@@ -27,8 +27,7 @@ interface IProps {
   onLoadBank: (uid: string) => void;
 }
 
-const Item = (props: IItemProps) => {
-  const { label, value, route, icon } = props;
+const Item = ({ label, value, route, icon }: IItemProps) => {
   if (!value) {
     return null;
   }
@@ -48,9 +47,8 @@ const Item = (props: IItemProps) => {
   );
 };
 
-const HomePageBase = (props: IProps) => {
-  const { bank, authUser, onLoadBank, bankLoaded } = props;
-  const buildDate: string = moment(preval`module.exports = new Date();`)
+const HomePageBase = ({ bank, authUser, onLoadBank, bankLoaded }: IProps) => {
+  const buildDate = moment(preval`module.exports = new Date();`)
     .utc()
     .format('YYYYMMDD-HHmmss');
 
@@ -98,7 +96,7 @@ const HomePageBase = (props: IProps) => {
                   <Item
                     label="Others (Net worth, Expenses...)"
                     value={'Updated ' + bank.lastupdate.others}
-                    route={helpers.currentMonthRoute()}
+                    route={currentMonthRoute()}
                     icon="university"
                   />
                   <Item

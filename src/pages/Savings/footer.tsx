@@ -9,9 +9,7 @@ interface IProps {
   bank: Bank.IBank;
 }
 
-const Footer = (props: IProps) => {
-  const { bank } = props;
-
+const Footer = ({ bank }: IProps) => {
   return (
     <tfoot>
       <tr>

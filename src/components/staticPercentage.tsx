@@ -1,15 +1,13 @@
 import React from 'react';
 
-import helpers from '../helpers';
+import { percentage } from '../helpers';
 
 interface IProps {
   children: number;
 }
 
-const StaticPercentage = (props: IProps) => {
-  const { children } = props;
-
-  return <>{helpers.percentage(children)}</>;
+const StaticPercentage = ({ children }: IProps) => {
+  return <>{percentage(children)}</>;
 };
 
 export default StaticPercentage;

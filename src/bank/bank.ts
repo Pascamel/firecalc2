@@ -2,7 +2,7 @@ import _ from 'lodash';
 import moment from 'moment';
 
 import { firestore } from '../firebase';
-import helpers from '../helpers';
+import { deepCopy, prevMonth } from '../helpers';
 import * as formatters from './formatters';
 import * as I from './interfaces';
 
@@ -215,7 +215,7 @@ export const saveLocalStorage = (bank: IBank) => {
 };
 
 export const saveHeaders = async (uid: string, bank: IBank) => {
-  const data = helpers.deepCopy(bank.headers);
+  const data = deepCopy(bank.headers);
   data.last_update = new Date().getTime();
 
   try {
@@ -232,7 +232,7 @@ export const saveIncome = async (uid: string, bank: IBank) => {
     data: JSON.parse(
       JSON.stringify(formatters.formatIncomeToSave(bank.income))
     ),
-    yearly_data: helpers.deepCopy(bank.incomeYearHeaders)
+    yearly_data: deepCopy(bank.incomeYearHeaders)
   };
 
   try {
@@ -249,7 +249,7 @@ export const saveSavings = async (uid: string, bank: IBank) => {
     data: JSON.parse(
       JSON.stringify(formatters.formatSavingstaToSave(bank.savings))
     ),
-    yearly_data: helpers.deepCopy(bank.savingsYearHeaders),
+    yearly_data: deepCopy(bank.savingsYearHeaders),
     hideDecimals: !bank.showDecimals
   };
 
@@ -264,9 +264,9 @@ export const saveSavings = async (uid: string, bank: IBank) => {
 export const saveOthers = async (uid: string, bank: IBank) => {
   const payload = {
     last_update: new Date().getTime(),
-    expenses: helpers.deepCopy(bank.expenses),
-    networth: helpers.deepCopy(bank.networth),
-    notes: helpers.deepCopy(bank.notes)
+    expenses: deepCopy(bank.expenses),
+    networth: deepCopy(bank.networth),
+    notes: deepCopy(bank.notes)
   };
 
   try {
@@ -368,7 +368,7 @@ export const calculateTotals = (bank: IBank) => {
           parseFloat(bank.headers.startingCapital) +
           bank.totalMonthSavings[year][month];
       } else {
-        const { year: pyear, month: pmonth } = helpers.prevMonth(year, month);
+        const { year: pyear, month: pmonth } = prevMonth(year, month);
         bank.totalHolding[year][month] =
           bank.totalHolding[pyear][pmonth] +
           bank.totalMonthSavings[year][month];
@@ -416,7 +416,7 @@ export const calculateTotals = (bank: IBank) => {
               bank.grandTotalMonthInstitution[year][month][header.id] = 0;
             }
           } else {
-            const prev = helpers.prevMonth(year, month);
+            const prev = prevMonth(year, month);
             bank.grandTotalMonthInstitution[year][month][header.id] = _.get(
               bank.grandTotalMonthInstitution,
               [prev.year, prev.month, header.id],

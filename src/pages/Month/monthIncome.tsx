@@ -13,25 +13,22 @@ interface IProps {
   year: string;
 }
 
-const MonthIncome = (props: IProps) => {
-  const { header, bank, month, year } = props;
-  const label = _(bank.incomeHeaders)
-    .keyBy('id')
-    .get([header.id, 'label'], 'N/A');
-
-  return (
-    <div className="month-amount">
-      <Text className="label-fake-input smaller mb-1">{label}</Text>
-      <div className="pull-right">
-        <FireAmount
-          extraClassName="label-fake-input"
-          display-if-zero={true}
-          callback-props={['income', year, month, header.id]}
-        />
-      </div>
+const MonthIncome = ({ header, bank, month, year }: IProps) => (
+  <div className="month-amount">
+    <Text className="label-fake-input smaller mb-1">
+      {_(bank.incomeHeaders)
+        .keyBy('id')
+        .get([header.id, 'label'], 'N/A')}
+    </Text>
+    <div className="pull-right">
+      <FireAmount
+        extraClassName="label-fake-input"
+        display-if-zero={true}
+        callback-props={['income', year, month, header.id]}
+      />
     </div>
-  );
-};
+  </div>
+);
 
 const mapStateToProps = (state: AppState) => {
   return {

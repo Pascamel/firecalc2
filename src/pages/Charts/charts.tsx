@@ -1,31 +1,15 @@
 import moment from 'moment';
 import React from 'react';
 import {
-  Area,
-  AreaChart,
-  CartesianGrid,
-  Cell,
-  LabelList,
-  Legend,
-  Line,
-  LineChart,
-  Pie,
-  PieChart,
-  ResponsiveContainer,
-  Tooltip,
-  XAxis,
-  YAxis
+    Area, AreaChart, CartesianGrid, Cell, LabelList, Legend, Line, LineChart, Pie, PieChart,
+    ResponsiveContainer, Tooltip, XAxis, YAxis
 } from 'recharts';
 
-import helpers from '../../helpers';
+import { amount, deepCopy, roundFloat, roundUpClosestTen } from '../../helpers';
 import {
-  IAllocationEvolutionChart,
-  IBreakEvenPointChartData,
-  IIncomeVsSavingsChartData,
-  INetWorthVsSavingsChartData,
-  IProjectionChartData,
-  ISavingsBreakdownChartData,
-  IYearlyGoalBurnUpChartData
+    IAllocationEvolutionChart, IBreakEvenPointChartData, IIncomeVsSavingsChartData,
+    INetWorthVsSavingsChartData, IProjectionChartData, ISavingsBreakdownChartData,
+    IYearlyGoalBurnUpChartData
 } from './interfaces';
 
 interface IProps<T> {
@@ -56,7 +40,7 @@ const reactTextToDateString = (d: React.ReactText) =>
   formatdateToString(new Date(parseInt(d as string)));
 
 const formatterTooltip = (v: string | number | React.ReactText[]) =>
-  helpers.amount(v as number, true, true);
+  amount(v as number, true, true);
 
 const toTitleCase = (str: string) =>
   str.replace(
@@ -117,13 +101,13 @@ export const NetWorthVsSavingsChart = (
 
   if (percentage) {
     const d: INetWorthVsSavingsChartData[] = percentage
-      ? helpers.deepCopy(data).map((month: INetWorthVsSavingsChartData) => {
+      ? deepCopy(data).map((month: INetWorthVsSavingsChartData) => {
           return {
             date: month.date,
             savings: 0,
             netWorth:
               month.netWorth && month.savings
-                ? helpers.roundFloat(
+                ? roundFloat(
                     ((month.netWorth - month.savings) * 100) / month.savings
                   )
                 : null
@@ -131,7 +115,7 @@ export const NetWorthVsSavingsChart = (
         })
       : data;
 
-    const maxValue = helpers.roundUpClosestTen(
+    const maxValue = roundUpClosestTen(
       Math.max(
         ...d.map(v =>
           Math.max(Math.abs(v.netWorth || 0), Math.abs(v.savings || 0))
@@ -261,13 +245,12 @@ export const SavingsBreakdownChart = (
   );
 };
 
-export const AllocationEvolutionChart = (
-  props: IProps<IAllocationEvolutionChart[]> & IPercentageProps
-) => {
-  const { data, percentage } = props;
-
+export const AllocationEvolutionChart = ({
+  data,
+  percentage
+}: IProps<IAllocationEvolutionChart[]> & IPercentageProps) => {
   const d: IAllocationEvolutionChart[] = percentage
-    ? helpers.deepCopy(data).map((month: IAllocationEvolutionChart) => {
+    ? deepCopy(data).map((month: IAllocationEvolutionChart) => {
         const alloc = month.allocation;
         const sum = Object.values(alloc).reduce(
           (acc: number, v) => acc + (v || 0),
@@ -275,7 +258,7 @@ export const AllocationEvolutionChart = (
         );
         for (const key in alloc) {
           if (alloc.hasOwnProperty(key)) {
-            alloc[key] = helpers.roundFloat(((alloc[key] || 0) * 100) / sum);
+            alloc[key] = roundFloat(((alloc[key] || 0) * 100) / sum);
           }
         }
 

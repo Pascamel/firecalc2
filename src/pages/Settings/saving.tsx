@@ -9,7 +9,7 @@ import ButtonGroup from 'reactstrap/lib/ButtonGroup';
 import { deleteSavingHeader, switchSavingHeaders, updateSavingHeader } from '../../actions';
 import Bank, { ISavingsHeader } from '../../bank';
 import { Icon } from '../../components';
-import helpers from '../../helpers';
+import { deepCopy, labelMonth } from '../../helpers';
 import { AppState } from '../../store';
 
 interface IProps {
@@ -22,69 +22,47 @@ interface IProps {
   onSwitchSavingHeaders: (index1: number, index2: number) => void;
 }
 
-const Saving = (props: IProps) => {
-  const {
-    index,
-    header,
-    bank,
-    bankLoaded,
-    onUpdateSavingHeader,
-    onDeleteSavingHeader,
-    onSwitchSavingHeaders
-  } = props;
+const Saving = ({
+  index,
+  header,
+  bank,
+  bankLoaded,
+  onUpdateSavingHeader,
+  onDeleteSavingHeader,
+  onSwitchSavingHeaders
+}: IProps) => {
   const currentYear = new Date().getFullYear();
   const [edit, setEdit] = useState(false);
   const [editLabel, setEditLabel] = useState(header.label || '');
   const [editSublabel, setEditSubLabel] = useState(header.sublabel || '');
   const [editIcon, setEditIcon] = useState(header.icon || '');
   const [editInterest, setEditInterest] = useState(header.interest || false);
-  const [editDisplayFrom, setEditDisplayFrom] = useState(
-    header.displayFrom || false
-  );
-  const [editDisplayFromMonth, setEditDisplayFromMonth] = useState(
-    header.displayFromMonth
-  );
-  const [editDisplayFromYear, setEditDisplayFromYear] = useState(
-    header.displayFromYear
-  );
-  const [editDisplayTo, setEditDisplayTo] = useState(header.displayTo || false);
-  const [editDisplayToMonth, setEditDisplayToMonth] = useState(
-    header.displayToMonth
-  );
-  const [editDisplayToYear, setEditDisplayToYear] = useState(
-    header.displayToYear
-  );
-
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.name === 'editLabel') setEditLabel(event.target.value);
-    if (event.target.name === 'editSublabel')
-      setEditSubLabel(event.target.value);
-    if (event.target.name === 'editIcon') setEditIcon(event.target.value);
-    if (event.target.name === 'editInterest')
-      setEditInterest(event.target.checked);
-  };
+  const [editDisplayFrom, setEditDisplayFrom] = useState(header.displayFrom);
+  const [editFromMonth, setEditDispFromM] = useState(header.displayFromMonth);
+  const [editFromYear, setEditFromYear] = useState(header.displayFromYear);
+  const [editDisplayTo, setEditDisplayTo] = useState(header.displayTo);
+  const [editToMonth, setEditToMonth] = useState(header.displayToMonth);
+  const [editToYear, setEditToYear] = useState(header.displayToYear);
 
   const editHeader = () => {
     setEdit(true);
   };
 
   const editHeaderConfirm = () => {
-    const { header } = props;
+    const newHelper = deepCopy(header);
 
-    header.label = editLabel;
-    header.sublabel = editSublabel;
-    header.icon = editIcon;
-    header.interest = editInterest;
-    header.displayFrom = editDisplayFrom;
-    header.displayFromMonth = editDisplayFromMonth;
-    header.displayFromYear = editDisplayFromYear;
-    header.displayTo = editDisplayTo;
-    header.displayToMonth = editDisplayToMonth;
-    header.displayToYear = editDisplayToYear;
+    newHelper.label = editLabel;
+    newHelper.sublabel = editSublabel;
+    newHelper.icon = editIcon;
+    newHelper.interest = editInterest;
+    newHelper.displayFrom = editDisplayFrom;
+    newHelper.displayFromMonth = editFromMonth;
+    newHelper.displayFromYear = editFromYear;
+    newHelper.displayTo = editDisplayTo;
+    newHelper.displayToMonth = editToMonth;
+    newHelper.displayToYear = editToYear;
 
-    console.log('calling with', helpers.deepCopy(header));
-
-    onUpdateSavingHeader(header);
+    onUpdateSavingHeader(newHelper);
     setEdit(false);
   };
 
@@ -95,15 +73,11 @@ const Saving = (props: IProps) => {
     setEditIcon(header.icon || '');
     setEditInterest(header.interest || false);
     setEditDisplayFrom(header.displayFrom || false);
-    setEditDisplayFromMonth(header.displayFromMonth);
-    setEditDisplayFromYear(header.displayFromYear);
+    setEditDispFromM(header.displayFromMonth);
+    setEditFromYear(header.displayFromYear);
     setEditDisplayTo(header.displayTo || false);
-    setEditDisplayToMonth(header.displayToMonth);
-    setEditDisplayToYear(header.displayToYear);
-  };
-
-  const removeHeader = () => {
-    onDeleteSavingHeader(header);
+    setEditToMonth(header.displayToMonth);
+    setEditToYear(header.displayToYear);
   };
 
   const moveUpHeader = (index: number) => {
@@ -122,12 +96,12 @@ const Saving = (props: IProps) => {
     return null;
   }
 
-  const displayDatesLabelFrom = helpers.labelMonth(
+  const displayDatesLabelFrom = labelMonth(
     (header.displayFromMonth || 1).toString(),
     header.displayFromYear ? header.displayFromYear.toString() : undefined,
     true
   );
-  const displayDatesLabelTo = helpers.labelMonth(
+  const displayDatesLabelTo = labelMonth(
     (header.displayToMonth || 1).toString(),
     header.displayToYear ? header.displayToYear.toString() : undefined,
     true
@@ -156,7 +130,7 @@ const Saving = (props: IProps) => {
             id="editLabel"
             name="editLabel"
             value={editLabel}
-            onChange={handleInputChange}
+            onChange={event => setEditLabel(event.target.value)}
             className="form-control"
           />
         </Col>
@@ -167,7 +141,7 @@ const Saving = (props: IProps) => {
             id="editSublabel"
             name="editSublabel"
             value={editSublabel}
-            onChange={handleInputChange}
+            onChange={event => setEditSubLabel(event.target.value)}
             className="form-control"
           />
         </Col>
@@ -178,7 +152,7 @@ const Saving = (props: IProps) => {
             id="editIcon"
             name="editIcon"
             value={editIcon}
-            onChange={handleInputChange}
+            onChange={event => setEditIcon(event.target.value)}
             className="form-control"
           />
         </Col>
@@ -227,13 +201,13 @@ const Saving = (props: IProps) => {
             <CustomInput
               type="select"
               id="firstMonth"
-              value={editDisplayFromMonth || 0}
-              onChange={e => setEditDisplayFromMonth(parseInt(e.target.value))}
+              value={editFromMonth || 0}
+              onChange={e => setEditDispFromM(parseInt(e.target.value))}
               disabled={!editDisplayFrom}
             >
               {_.range(1, 13).map((m, key) => (
                 <option value={m} key={key}>
-                  {helpers.labelMonth(m.toString())}
+                  {labelMonth(m.toString())}
                 </option>
               ))}
             </CustomInput>
@@ -241,8 +215,8 @@ const Saving = (props: IProps) => {
               <CustomInput
                 type="select"
                 id="firstYear"
-                value={editDisplayFromYear || 0}
-                onChange={e => setEditDisplayFromYear(parseInt(e.target.value))}
+                value={editFromYear || 0}
+                onChange={e => setEditFromYear(parseInt(e.target.value))}
                 disabled={!editDisplayFrom}
               >
                 {_.range(bank.headers.firstYear, currentYear + 1).map(
@@ -283,13 +257,13 @@ const Saving = (props: IProps) => {
             <CustomInput
               type="select"
               id="firstMonth"
-              value={editDisplayToMonth || 0}
-              onChange={e => setEditDisplayToMonth(parseInt(e.target.value))}
+              value={editToMonth || 0}
+              onChange={e => setEditToMonth(parseInt(e.target.value))}
               disabled={!editDisplayTo}
             >
               {_.range(1, 13).map((m, key) => (
                 <option value={m} key={key}>
-                  {helpers.labelMonth(m.toString())}
+                  {labelMonth(m.toString())}
                 </option>
               ))}
             </CustomInput>
@@ -297,8 +271,8 @@ const Saving = (props: IProps) => {
               <CustomInput
                 type="select"
                 id="firstYear"
-                value={editDisplayToYear || 0}
-                onChange={e => setEditDisplayToYear(parseInt(e.target.value))}
+                value={editToYear || 0}
+                onChange={e => setEditToYear(parseInt(e.target.value))}
                 disabled={!editDisplayTo}
               >
                 {_.range(bank.headers.firstYear, currentYear + 1).map(
@@ -350,10 +324,13 @@ const Saving = (props: IProps) => {
         Interest
       </Col>
       <Col xs={7} sm={2} className="text-right">
-        <span className="btn btn-link" onClick={editHeader}>
+        <span className="btn btn-link" onClick={() => setEdit(true)}>
           <Icon icon="edit" size="lg" />
         </span>
-        <span className="btn btn-link" onClick={removeHeader}>
+        <span
+          className="btn btn-link"
+          onClick={() => onDeleteSavingHeader(header)}
+        >
           <Icon icon="trash-alt" size="lg" />
         </span>
         <span

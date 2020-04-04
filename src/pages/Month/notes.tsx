@@ -1,11 +1,6 @@
 import _ from 'lodash';
 import React, {
-  ChangeEvent,
-  Dispatch,
-  KeyboardEvent,
-  MouseEvent,
-  useEffect,
-  useState
+    ChangeEvent, Dispatch, KeyboardEvent, MouseEvent, useEffect, useState
 } from 'react';
 import { connect } from 'react-redux';
 import { Alert, Input } from 'reactstrap';
@@ -23,8 +18,8 @@ interface IProps {
   onUpdateValue: (index: string, indexes: string[], text: string) => void;
 }
 
-const Notes = (props: IProps) => {
-  const { bank, bankLoaded, year, month, onUpdateValue } = props;
+const Notes = ({ bank, bankLoaded, year, month, onUpdateValue }: IProps) => {
+  // const { bank, bankLoaded, year, month, onUpdateValue } = props;
   const [edit, setEdit] = useState(false);
   const [value, setValue] = useState('');
   const [editValue, setEditValue] = useState('');

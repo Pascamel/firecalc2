@@ -8,9 +8,7 @@ interface IProps {
   bank: Bank.IBank;
 }
 
-const Header = (props: IProps) => {
-  const { bank } = props;
-
+const Header = ({ bank }: IProps) => {
   return (
     <thead>
       <tr>

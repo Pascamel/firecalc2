@@ -8,19 +8,12 @@ import Bank from '../../bank';
 import * as CHARTS from '../../constants/charts';
 import { AppState } from '../../store';
 import {
-  AllocationEvolutionChart,
-  BreakEvenPointChart,
-  IncomeVsSavingsChart,
-  NetWorthVsSavingsChart,
-  YearlyGoalBurnUp
+    AllocationEvolutionChart, BreakEvenPointChart, IncomeVsSavingsChart, NetWorthVsSavingsChart,
+    YearlyGoalBurnUp
 } from './charts';
 import {
-  IAllocationEvolutionChart,
-  IBreakEvenPointChartData,
-  IChartData,
-  IIncomeVsSavingsChartData,
-  INetWorthVsSavingsChartData,
-  IYearlyGoalBurnUpChartData
+    IAllocationEvolutionChart, IBreakEvenPointChartData, IChartData, IIncomeVsSavingsChartData,
+    INetWorthVsSavingsChartData, IYearlyGoalBurnUpChartData
 } from './interfaces';
 import PercentageSwitch from './percentageSwitch';
 import YearSelectorDesktop from './yearSelectorDesktop';
@@ -35,9 +28,14 @@ interface IProps {
   hideAll?: boolean;
 }
 
-const YearlyBreakdown = (props: IProps & RouteComponentProps) => {
-  const { chart, data, mobile, darkMode, bank, hideAll } = props;
-
+const YearlyBreakdown = ({
+  chart,
+  data,
+  mobile,
+  darkMode,
+  bank,
+  hideAll
+}: IProps & RouteComponentProps) => {
   const [year, setYear] = useState(hideAll ? new Date().getFullYear() : 0);
   const [percentage, setPercentage] = useState(false);
   const dataYears = _.uniq(

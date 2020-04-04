@@ -2,7 +2,7 @@ import { Dispatch } from 'redux';
 
 import Bank from '../bank';
 import { IIncomeHeader, ISavingsHeader } from '../bank/interfaces';
-import helpers from '../helpers';
+import { deepCopy } from '../helpers';
 import * as TYPES from './types';
 
 export const loadBank = (uid: string) => {
@@ -88,7 +88,7 @@ export const saveBank = (
         dispatch({
           type: TYPES.BANK_SAVE_SUCCESS,
           payload: {
-            bank: helpers.deepCopy(bank)
+            bank: deepCopy(bank)
           }
         });
       })

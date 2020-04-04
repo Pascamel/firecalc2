@@ -14,9 +14,7 @@ interface IProps {
   onNewIncomeHeader: () => void;
 }
 
-const Incomes = (props: IProps) => {
-  const { bank, bankLoaded, onNewIncomeHeader } = props;
-
+const Incomes = ({ bank, bankLoaded, onNewIncomeHeader }: IProps) => {
   if (!bankLoaded) {
     return null;
   }

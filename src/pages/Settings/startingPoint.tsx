@@ -6,7 +6,7 @@ import { Alert, Col, CustomInput, Form, Input, Row } from 'reactstrap';
 import { updateValue } from '../../actions';
 import Bank from '../../bank';
 import { PanelTitle } from '../../components';
-import helpers from '../../helpers';
+import { currentYear, labelMonth } from '../../helpers';
 import { AppState } from '../../store';
 
 interface IProps {
@@ -19,9 +19,8 @@ interface IProps {
   ) => void;
 }
 
-const StartingPoint = (props: IProps) => {
-  const { bank, bankLoaded, onUpdateValue } = props;
-  const currentYear = new Date().getFullYear();
+const StartingPoint = ({ bank, bankLoaded, onUpdateValue }: IProps) => {
+  const curYear = currentYear();
 
   const onValueChange = (type: string, value: number) => {
     onUpdateValue('headers', [type], value);
@@ -65,7 +64,7 @@ const StartingPoint = (props: IProps) => {
             >
               {_.range(1, 13).map((m, key) => (
                 <option value={m} key={key}>
-                  {helpers.labelMonth(m.toString())}
+                  {labelMonth(m.toString())}
                 </option>
               ))}
             </CustomInput>
@@ -78,7 +77,7 @@ const StartingPoint = (props: IProps) => {
               }
               className="mt-2 mt-sm-0"
             >
-              {_.range(currentYear - 10, currentYear + 1).map((y, key) => (
+              {_.range(curYear - 10, curYear + 1).map((y, key) => (
                 <option value={y} key={key}>
                   {y}
                 </option>

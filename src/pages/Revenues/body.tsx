@@ -19,8 +19,7 @@ interface IProps {
   ) => void;
 }
 
-const Body = (props: IProps) => {
-  const { year, bank, onUpdateValueLocalStorage } = props;
+const Body = ({ year, bank, onUpdateValueLocalStorage }: IProps) => {
   const [collapsed, setCollapsed] = useState(
     _.get(bank.incomeYearHeaders, ['collapsed', year], false)
   );

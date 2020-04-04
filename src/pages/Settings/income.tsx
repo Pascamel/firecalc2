@@ -17,16 +17,15 @@ interface IProps {
   onSwitchIncomeHeaders: (index1: number, index2: number) => void;
 }
 
-const Income = (props: IProps) => {
-  const {
-    index,
-    header,
-    bank,
-    bankLoaded,
-    onUpdateIncomeHeader,
-    onDeleteIncomeHeader,
-    onSwitchIncomeHeaders
-  } = props;
+const Income = ({
+  index,
+  header,
+  bank,
+  bankLoaded,
+  onUpdateIncomeHeader,
+  onDeleteIncomeHeader,
+  onSwitchIncomeHeaders
+}: IProps) => {
   const [edit, setEdit] = useState(false);
   const [editLabel, setEditLabel] = useState(header.label);
   const [editPretax, setEditPretax] = useState(header.pretax);

@@ -5,7 +5,7 @@ import { Alert, Col, Row } from 'reactstrap';
 import { updateValue } from '../../actions';
 import Bank from '../../bank';
 import { FireAmount, PanelTitle, Text } from '../../components';
-import helpers from '../../helpers';
+import { amount } from '../../helpers';
 import { AppState } from '../../store';
 
 interface IProps {
@@ -23,8 +23,7 @@ interface IYoyLabel {
   year: number;
 }
 
-const YoyLabel: React.FunctionComponent<IYoyLabel> = props => {
-  const { year, bank } = props;
+const YoyLabel = ({ year, bank }: IYoyLabel) => {
   const currentYear = new Date().getFullYear();
   const defaultLabel = <Text>-</Text>;
 
@@ -39,13 +38,12 @@ const YoyLabel: React.FunctionComponent<IYoyLabel> = props => {
 
   return (
     <span className={value >= 0 ? 'text-success' : 'text-danger'}>
-      ${helpers.amount(value, false, true)}
+      ${amount(value, false, true)}
     </span>
   );
 };
 
-const YearlyGoals = (props: IProps) => {
-  const { bank, bankLoaded } = props;
+const YearlyGoals = ({ bank, bankLoaded }: IProps) => {
   const currentYear = new Date().getFullYear();
 
   if (!bankLoaded) {

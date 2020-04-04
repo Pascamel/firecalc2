@@ -5,7 +5,7 @@ import { Alert, Col } from 'reactstrap';
 
 import Bank from '../../bank';
 import { PanelTitle } from '../../components';
-import helpers from '../../helpers';
+import { amount } from '../../helpers';
 import { AppState } from '../../store';
 import MonthIncome from './monthIncome';
 import MonthSavings from './monthSavings';
@@ -17,27 +17,40 @@ interface IProps {
   year: string;
 }
 
-const MonthFinances = (props: IProps) => {
-  const { month, year, bank } = props;
-
+const MonthFinances = ({ month, year, bank }: IProps) => {
   return (
     <>
       <Col md={4} sm={12}>
         <Alert color="background">
           <PanelTitle
-            title="Savings" 
-            subTitle={`$${helpers.amount(_.get(bank.totalMonthSavings, [year, month], 0), true, bank.showDecimals)}`} 
+            title="Savings"
+            subTitle={`$${amount(
+              _.get(bank.totalMonthSavings, [year, month], 0),
+              true,
+              bank.showDecimals
+            )}`}
           />
-          {bank.savingsInputs.filter((header) => header.type !== 'T').map((header, key) => (
-            <MonthSavings key={key} header={header} month={month} year={year} />
-          ))}
+          {bank.savingsInputs
+            .filter(header => header.type !== 'T')
+            .map((header, key) => (
+              <MonthSavings
+                key={key}
+                header={header}
+                month={month}
+                year={year}
+              />
+            ))}
         </Alert>
       </Col>
       <Col md={4} sm={12}>
         <Alert color="background">
           <PanelTitle
             title="Income"
-            subTitle={`$${helpers.amount(_.get(bank.totalMonthIncome, [year, month], 0), true, bank.showDecimals)}`}
+            subTitle={`$${amount(
+              _.get(bank.totalMonthIncome, [year, month], 0),
+              true,
+              bank.showDecimals
+            )}`}
           />
           {bank.incomeHeaders.map((header, key) => (
             <MonthIncome key={key} header={header} month={month} year={year} />
@@ -47,12 +60,12 @@ const MonthFinances = (props: IProps) => {
       </Col>
     </>
   );
-}
+};
 
 const mapStateToProps = (state: AppState) => {
-  return ({
+  return {
     bank: state.bankState.bank
-  });
-}
+  };
+};
 
 export default connect(mapStateToProps)(MonthFinances);

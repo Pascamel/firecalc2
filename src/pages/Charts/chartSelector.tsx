@@ -11,9 +11,7 @@ interface IProps {
   type: string;
 }
 
-const ChartSelector = (props: IProps & RouteComponentProps) => {
-  const { type, history } = props;
-
+const ChartSelector = ({ type, history }: IProps & RouteComponentProps) => {
   const goTo = (type: string) => {
     const route = ROUTES.CHARTS.replace(':type', _.get(CHARTS.URL, type));
     history.push(route);

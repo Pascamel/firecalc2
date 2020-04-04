@@ -10,7 +10,7 @@ import { loadBank } from '../../actions';
 import Bank from '../../bank';
 import { Icon, LoadingPanel, StaticAmount } from '../../components';
 import * as ROUTES from '../../constants/routes';
-import helpers from '../../helpers';
+import { roundFloat } from '../../helpers';
 import { AppState } from '../../store';
 import * as Charts from './charts';
 import { IProjectionChartData } from './interfaces';
@@ -152,10 +152,10 @@ const ProjectionChart = (props: IProps & RouteComponentProps) => {
   for (let i = 1; i <= years; i++) {
     data.push({
       date: new Date(year + i, month, 1).getTime(),
-      projection5: helpers.roundFloat(
+      projection5: roundFloat(
         (data[data.length - 1].projection5 || 0) * 1.05 + amount
       ),
-      projection7: helpers.roundFloat(
+      projection7: roundFloat(
         (data[data.length - 1].projection7 || 0) * 1.07 + amount
       )
     });
