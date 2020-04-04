@@ -18,10 +18,12 @@ import { DarkSwitcher, SignOutLink } from './';
 interface IProps {
   location?: LocationState;
   authUser?: firebase.User | null;
+  darkMode: boolean;
+  updated: boolean;
 }
 
 const NavigationAuth = (props: IProps) => {
-  const { location, authUser } = props;
+  const { location, authUser, darkMode, updated } = props;
   const [isOpen, setIsOpen] = useState(false);
   const DEFAULT_CHART = ROUTES.CHARTS.replace(
     ':type',
@@ -45,7 +47,7 @@ const NavigationAuth = (props: IProps) => {
   };
 
   return (
-    <Navbar light expand="md">
+    <Navbar light={!darkMode} dark={darkMode} expand="md">
       <NavLink className="navbar-brand" to={ROUTES.HOME}>
         FireCalc
       </NavLink>
@@ -94,7 +96,7 @@ const NavigationAuth = (props: IProps) => {
           </NavItem>
           <NavItem>
             <NavLink
-              className="nav-link"
+              className={`nav-link ${updated ? 'updated' : ''}`}
               to={ROUTES.SETTINGS}
               onClick={toggleIfOpen}
             >
@@ -145,6 +147,8 @@ const NavigationAuth = (props: IProps) => {
 };
 
 const NavigationNonAuth = (props: IProps) => {
+  const { darkMode } = props;
+
   const [isOpen, setIsOpen] = useState(false);
 
   const toggle = () => {
@@ -156,7 +160,7 @@ const NavigationNonAuth = (props: IProps) => {
   };
 
   return (
-    <Navbar light expand="md">
+    <Navbar light={!darkMode} dark={darkMode} expand="md">
       <NavLink className="navbar-brand" to={ROUTES.HOME}>
         FireCalc
       </NavLink>
@@ -188,7 +192,7 @@ const NavigationNonAuth = (props: IProps) => {
 };
 
 const NavigationBase = (props: any) => {
-  const { location, authUser } = props;
+  const { authUser } = props;
 
   return (
     <Container fluid className="nav-container">
@@ -198,9 +202,9 @@ const NavigationBase = (props: any) => {
             <Row>
               <Col>
                 {authUser ? (
-                  <NavigationAuth location={location} authUser={authUser} />
+                  <NavigationAuth {...props} />
                 ) : (
-                  <NavigationNonAuth location={location} authUser={authUser} />
+                  <NavigationNonAuth {...props} />
                 )}
               </Col>
             </Row>
@@ -213,7 +217,13 @@ const NavigationBase = (props: any) => {
 
 const mapStateToProps = (state: AppState) => {
   return {
-    authUser: state.sessionState.authUser
+    authUser: state.sessionState.authUser,
+    darkMode: state.sessionState.darkMode,
+    updated:
+      state.bankState.bankSavingsUpdated ||
+      state.bankState.bankIncomeUpdated ||
+      state.bankState.bankOthersUpdated ||
+      state.bankState.bankHeadersUpdated
   };
 };
 

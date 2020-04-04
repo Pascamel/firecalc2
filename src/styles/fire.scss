@@ -2,15 +2,12 @@ $bodytext: #212529;
 $background: #f1f1f1;
 
 $header-background: #224361;
+$header-updated-background: #f39c12;
 $header-text-color: #fff;
 $header-btn-background: #fc994d;
+$header-updated-btn-background: #d3850a;
 $header-btn-text-color: #fff;
 $header-btn-text-color-hover: #ffd1c7;
-
-$header-save-background: #224361;
-$header-save-text-color: #fff;
-$header-save-btn-background: #ffc107;
-$header-save-btn-text-color: #fff;
 
 label {
   font-weight: normal;
@@ -44,6 +41,14 @@ label {
           border-bottom-color: $header-background;
           border-width: 10px;
           margin-left: -10px;
+        }
+      }
+
+      &.updated {
+        &.active {
+          &:after {
+            border-bottom-color: $header-updated-background;
+          }
         }
       }
     }
@@ -153,6 +158,14 @@ a.media {
         border-width: 10px;
         margin-left: -10px;
       }
+    }
+  }
+
+  &.updated {
+    background-color: $header-updated-background;
+
+    .btn-header {
+      background: $header-updated-btn-background;
     }
   }
 }

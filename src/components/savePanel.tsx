@@ -82,7 +82,12 @@ const SavePanel = (props: IProps) => {
     bankHeadersUpdated;
 
   return (
-    <Container fluid className="alert alert-save alert-header">
+    <Container
+      fluid
+      className={`alert alert-save alert-header ${
+        bankUpdated ? 'updated' : ''
+      }`}
+    >
       <Row>
         <Col className="pr-0 pl-0">
           <Container>
@@ -120,13 +125,7 @@ const SavePanel = (props: IProps) => {
                   </ButtonGroup>
                 )}
 
-                <Text
-                  className={`title nowrap-ellipsis ${
-                    bankUpdated ? 'text-warning' : ''
-                  }`}
-                >
-                  {label}
-                </Text>
+                <Text className="title nowrap-ellipsis">{label}</Text>
 
                 <Button
                   color={bankUpdated ? 'header' : 'outline-light'}

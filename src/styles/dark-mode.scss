@@ -2,6 +2,7 @@ $bodyText: #ddd;
 $bodyBackground: #222;
 $headerText: #bbb;
 $headerBackground: #375a7f;
+$headerBackgroundUpdated: #f39c12;
 $alertBackground: #444;
 $successColor: #008958;
 $errorColor: #c12546;
@@ -61,6 +62,10 @@ body.dark-mode {
           border-bottom-color: $bodyBackground;
         }
       }
+    }
+
+    &.updated {
+      background: $headerBackgroundUpdated;
     }
   }
 
