@@ -56,7 +56,9 @@ const NavigationAuth = (props: IProps) => {
         <Nav navbar className="main-nav-bar">
           <NavItem>
             <NavLink
-              className={navLinkClass(ROUTES.MONTH)}
+              className={`${navLinkClass(ROUTES.MONTH)} ${
+                updated ? 'updated' : ''
+              }`}
               to={helpers.currentMonthRoute()}
               onClick={toggleIfOpen}
             >
@@ -66,7 +68,7 @@ const NavigationAuth = (props: IProps) => {
           </NavItem>
           <NavItem>
             <NavLink
-              className="nav-link"
+              className={`nav-link ${updated ? 'updated' : ''}`}
               to={ROUTES.REVENUES}
               onClick={toggleIfOpen}
             >
@@ -76,7 +78,7 @@ const NavigationAuth = (props: IProps) => {
           </NavItem>
           <NavItem>
             <NavLink
-              className="nav-link"
+              className={`nav-link ${updated ? 'updated' : ''}`}
               to={ROUTES.SAVINGS}
               onClick={toggleIfOpen}
             >
@@ -86,7 +88,9 @@ const NavigationAuth = (props: IProps) => {
           </NavItem>
           <NavItem>
             <NavLink
-              className={navLinkClass(ROUTES.CHARTS)}
+              className={`${navLinkClass(ROUTES.CHARTS)} ${
+                updated ? 'updated' : ''
+              }`}
               to={DEFAULT_CHART}
               onClick={toggleIfOpen}
             >
@@ -106,7 +110,7 @@ const NavigationAuth = (props: IProps) => {
           </NavItem>
           <NavItem>
             <NavLink
-              className="nav-link"
+              className={`nav-link ${updated ? 'updated' : ''}`}
               to={ROUTES.ADMIN}
               onClick={toggleIfOpen}
             >
