@@ -38,7 +38,12 @@ const Savings = (props: IProps) => {
       ))}
       <Row className="form-headers">
         <Col>
-          <Button block color="light" onClick={onNewSavingHeader}>
+          <Button
+            block
+            color="light"
+            onClick={onNewSavingHeader}
+            className="mt-2"
+          >
             Add New
           </Button>
         </Col>
