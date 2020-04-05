@@ -1,14 +1,10 @@
-import _ from 'lodash';
 import React, { Dispatch, useState } from 'react';
 import { connect } from 'react-redux';
-import {
-    Button, Col, CustomInput, Input, InputGroup, InputGroupAddon, Label, Row
-} from 'reactstrap';
-import ButtonGroup from 'reactstrap/lib/ButtonGroup';
+import { Button, Col, Input, Label, Row } from 'reactstrap';
 
 import { deleteSavingHeader, switchSavingHeaders, updateSavingHeader } from '../../actions';
 import Bank, { ISavingsHeader } from '../../bank';
-import { Icon } from '../../components';
+import { ButtonGroupSwitch, Icon, MonthYearPicker } from '../../components';
 import { deepCopy, labelMonth } from '../../helpers';
 import { AppState } from '../../store';
 
@@ -154,135 +150,61 @@ const Saving = ({
         </Col>
         <Col xs={12} sm={2}>
           <Label className="display-block">Interest</Label>
-          <ButtonGroup className="d-flex">
-            <Button
-              color={editInterest ? 'primary' : 'light'}
-              onClick={() => setEditInterest(true)}
-            >
-              Yes
-            </Button>
-            <Button
-              color={editInterest ? 'light' : 'primary'}
-              onClick={() => setEditInterest(false)}
-            >
-              No
-            </Button>
-          </ButtonGroup>
+          <ButtonGroupSwitch
+            className="d-flex"
+            value={editInterest}
+            setValue={setEditInterest}
+            colors={['primary', 'light']}
+            values={[true, false]}
+            nodes={['Yes', 'No']}
+          />
         </Col>
-
         <Col xs={4} sm={2}>
           <Label className="display-block">Display from</Label>
-          <ButtonGroup className="d-flex">
-            <Button
-              outline={!editDisplayFrom}
-              color="primary"
-              onClick={() => setEditDisplayFrom(true)}
-            >
-              Yes
-            </Button>
-            <Button
-              outline={editDisplayFrom}
-              color="primary"
-              onClick={() => setEditDisplayFrom(false)}
-            >
-              No
-            </Button>
-          </ButtonGroup>
+          <ButtonGroupSwitch
+            className="d-flex"
+            value={editDisplayFrom}
+            setValue={setEditDisplayFrom}
+            colors={['primary', 'light']}
+            values={[true, false]}
+            nodes={['Yes', 'No']}
+          />
         </Col>
-
         <Col xs={8} sm={4}>
           <Label>&nbsp;</Label>
-
-          <InputGroup>
-            <CustomInput
-              type="select"
-              id="firstMonth"
-              value={editFromMonth || 0}
-              onChange={e => setEditDispFromM(parseInt(e.target.value))}
-              disabled={!editDisplayFrom}
-            >
-              {_.range(1, 13).map((m, key) => (
-                <option value={m} key={key}>
-                  {labelMonth(m.toString())}
-                </option>
-              ))}
-            </CustomInput>
-            <InputGroupAddon addonType="append">
-              <CustomInput
-                type="select"
-                id="firstYear"
-                value={editFromYear || 0}
-                onChange={e => setEditFromYear(parseInt(e.target.value))}
-                disabled={!editDisplayFrom}
-              >
-                {_.range(bank.headers.firstYear, currentYear + 1).map(
-                  (y, key) => (
-                    <option value={y} key={key}>
-                      {y}
-                    </option>
-                  )
-                )}
-              </CustomInput>
-            </InputGroupAddon>
-          </InputGroup>
+          <MonthYearPicker
+            disabled={!editDisplayFrom}
+            month={editFromMonth || 0}
+            setMonth={setEditDispFromM}
+            month-range={[1, 13]}
+            year={editFromYear || 0}
+            setYear={setEditFromYear}
+            year-range={[bank.headers.firstYear, currentYear + 1]}
+          />
         </Col>
-
         <Col xs={4} sm={2}>
           <Label className="display-block">Display To</Label>
-          <ButtonGroup className="d-flex">
-            <Button
-              outline={!editDisplayTo}
-              color="primary"
-              onClick={() => setEditDisplayTo(true)}
-            >
-              Yes
-            </Button>
-            <Button
-              outline={editDisplayTo}
-              color="primary"
-              onClick={() => setEditDisplayTo(false)}
-            >
-              No
-            </Button>
-          </ButtonGroup>
+          <ButtonGroupSwitch
+            className="d-flex"
+            value={editDisplayTo}
+            setValue={setEditDisplayTo}
+            colors={['primary', 'light']}
+            values={[true, false]}
+            nodes={['Yes', 'No']}
+          />
         </Col>
-
         <Col xs={8} sm={4}>
           <Label>&nbsp;</Label>
-          <InputGroup>
-            <CustomInput
-              type="select"
-              id="firstMonth"
-              value={editToMonth || 0}
-              onChange={e => setEditToMonth(parseInt(e.target.value))}
-              disabled={!editDisplayTo}
-            >
-              {_.range(1, 13).map((m, key) => (
-                <option value={m} key={key}>
-                  {labelMonth(m.toString())}
-                </option>
-              ))}
-            </CustomInput>
-            <InputGroupAddon addonType="append">
-              <CustomInput
-                type="select"
-                id="firstYear"
-                value={editToYear || 0}
-                onChange={e => setEditToYear(parseInt(e.target.value))}
-                disabled={!editDisplayTo}
-              >
-                {_.range(bank.headers.firstYear, currentYear + 1).map(
-                  (y, key) => (
-                    <option value={y} key={key}>
-                      {y}
-                    </option>
-                  )
-                )}
-              </CustomInput>
-            </InputGroupAddon>
-          </InputGroup>
+          <MonthYearPicker
+            disabled={!editDisplayTo}
+            month={editToMonth || 0}
+            setMonth={setEditToMonth}
+            month-range={[1, 13]}
+            year={editToYear || 0}
+            setYear={setEditToYear}
+            year-range={[bank.headers.firstYear, currentYear + 1]}
+          />
         </Col>
-
         <Col xs={12} className="text-right mt-3">
           <Button color="outline-primary" onClick={editHeaderCancel}>
             <Icon icon="times" className="mr-1" /> Cancel
@@ -320,29 +242,26 @@ const Saving = ({
         Interest
       </Col>
       <Col xs={7} sm={2} className="text-right">
-        <span className="btn btn-link" onClick={() => setEdit(true)}>
+        <Button color="link" onClick={() => setEdit(true)}>
           <Icon icon="edit" size="lg" />
-        </span>
-        <span
-          className="btn btn-link"
-          onClick={() => onDeleteSavingHeader(header)}
-        >
+        </Button>
+        <Button color="link" onClick={() => onDeleteSavingHeader(header)}>
           <Icon icon="trash-alt" size="lg" />
-        </span>
-        <span
-          className={`btn btn-link ${index === 0 ? 'disabled' : ''}`}
-          onClick={e => moveUpHeader(index)}
+        </Button>
+        <Button
+          color="link"
+          disabled={index === 0}
+          onClick={() => moveUpHeader(index)}
         >
           <Icon icon="chevron-up" size="lg" />
-        </span>
-        <span
-          className={`btn btn-link ${
-            index >= bank.headers.savings.length - 1 ? 'disabled' : ''
-          }`}
-          onClick={e => moveDownHeader(index)}
+        </Button>
+        <Button
+          color="link"
+          disabled={index >= bank.headers.savings.length - 1}
+          onClick={() => moveDownHeader(index)}
         >
           <Icon icon="chevron-down" size="lg" />
-        </span>
+        </Button>
       </Col>
     </Row>
   );

@@ -7,7 +7,7 @@ interface IProps<T> {
   setValue: (v: any) => void;
   colors: Array<string>;
   values: Array<T>;
-  disabled: boolean;
+  disabled?: boolean;
   nodes: Array<string>;
 }
 
@@ -23,14 +23,14 @@ const ButtonGroupSwitch = ({
   return (
     <ButtonGroup className={className}>
       <Button
-        color={value == values[0] ? colors[0] : colors[1]}
+        color={value === values[0] ? colors[0] : colors[1]}
         onClick={() => setValue(values[0])}
         disabled={disabled}
       >
         {nodes[0]}
       </Button>
       <Button
-        color={value == values[1] ? colors[0] : colors[1]}
+        color={value === values[1] ? colors[0] : colors[1]}
         onClick={() => setValue(values[1])}
         disabled={disabled}
       >

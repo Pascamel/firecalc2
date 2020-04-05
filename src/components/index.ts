@@ -10,6 +10,7 @@ import FireTR from './fireTR';
 import HeaderPanel from './headerPanel';
 import { Icon } from './icon';
 import LoadingPanel from './loadingPanel';
+import MonthYearPicker from './monthYearPicker';
 import Navigation from './navigation';
 import PanelTitle from './panelTitle';
 import { Mobile, NotMobile } from './responsive';
@@ -33,6 +34,7 @@ export {
   Icon,
   LoadingPanel,
   Mobile,
+  MonthYearPicker,
   Navigation,
   NotMobile,
   PanelTitle,

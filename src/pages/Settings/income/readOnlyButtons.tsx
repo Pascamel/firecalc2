@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Button } from 'reactstrap';
 
 import Bank from '../../../bank';
 import { Icon } from '../../../components';
@@ -16,26 +17,18 @@ interface IProps {
 
 const ReadOnlyButtons = ({ index, bank, edit, remove, up, down }: IProps) => (
   <>
-    <span className="btn btn-link" onClick={edit}>
+    <Button color="link" onClick={edit}>
       <Icon icon="edit" size="lg" />
-    </span>
-    <span className="btn btn-link" onClick={remove}>
+    </Button>
+    <Button color="link" onClick={remove}>
       <Icon icon="trash-alt" size="lg" />
-    </span>
-    <span
-      className={`btn btn-link ${index === 0 ? 'disabled' : ''}`}
-      onClick={e => up(index)}
-    >
+    </Button>
+    <Button color="link" disabled={index === 0}>
       <Icon icon="chevron-up" size="lg" />
-    </span>
-    <span
-      className={`btn btn-link ${
-        index >= bank.headers.incomes.length - 1 ? 'disabled' : ''
-      }`}
-      onClick={e => down(index)}
-    >
+    </Button>
+    <Button color="link" disabled={index >= bank.headers.incomes.length - 1}>
       <Icon icon="chevron-down" size="lg" />
-    </span>
+    </Button>
   </>
 );
 

@@ -4,7 +4,7 @@ import { Col, Input, Row } from 'reactstrap';
 
 import { deleteIncomeHeader, switchIncomeHeaders, updateIncomeHeader } from '../../../actions';
 import Bank, { IIncomeHeader } from '../../../bank';
-import { ButtonGroupSwitch, Icon, Text } from '../../../components';
+import { ButtonGroupSwitch, Text } from '../../../components';
 import { AppState } from '../../../store';
 import EditButtons from './editButtons';
 import ReadOnlyButtons from './readOnlyButtons';

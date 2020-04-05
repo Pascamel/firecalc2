@@ -1,4 +1,5 @@
 import React from 'react';
+import { Button } from 'reactstrap';
 
 import { Icon } from '../../../components';
 
@@ -9,12 +10,12 @@ interface IProps {
 
 const EditButtons = ({ confirm, cancel }: IProps) => (
   <>
-    <span className="btn btn-link" onClick={confirm}>
+    <Button color="link" onClick={confirm}>
       <Icon icon="check" size="lg" />
-    </span>
-    <span className="btn btn-link" onClick={cancel}>
+    </Button>
+    <Button color="link" onClick={cancel}>
       <Icon icon="times" size="lg" />
-    </span>
+    </Button>
   </>
 );
 
