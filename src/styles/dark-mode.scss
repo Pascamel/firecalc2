@@ -1,6 +1,7 @@
 $bodyText: #ddd;
 $bodyBackground: #222;
 $headerText: #bbb;
+$headerTextActive: #fff;
 $headerBackground: #375a7f;
 $headerBackgroundUpdated: #f39c12;
 $alertBackground: #444;
@@ -25,11 +26,11 @@ body.dark-mode {
         color: $headerText;
 
         &:hover {
-          color: #fff;
+          color: $headerTextActive;
         }
 
         &.active {
-          color: #fff;
+          color: $headerTextActive;
         }
       }
     }
@@ -248,5 +249,13 @@ body.dark-mode {
     background-color: #333;
     color: #fff;
     border-color: #333;
+  }
+
+  .dropdown-item {
+    color: $headerText;
+
+    &.disabled {
+      color: $headerTextActive;
+    }
   }
 }

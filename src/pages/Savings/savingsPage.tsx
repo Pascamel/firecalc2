@@ -33,7 +33,7 @@ const SavingsPageBase = ({ authUser, onLoadBank, bankLoaded }: IProps) => {
             <Container>
               <Row>
                 <Col>
-                  <Alert color="background">
+                  <Alert color="background" className="table-container">
                     <Table />
                   </Alert>
                 </Col>
