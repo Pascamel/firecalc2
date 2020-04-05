@@ -46,7 +46,7 @@ const tabsKeys = Object.keys(tabsContent);
 
 const SettingsPageBase = (props: IProps) => {
   const { authUser, bankLoaded, onLoadBank } = props;
-  const [activeTab, setActiveTab] = useState('starting-point');
+  const [activeTab, setActiveTab] = useState('incomes'); // 'starting-point');
 
   useEffect(() => {
     if (bankLoaded || !authUser) return;

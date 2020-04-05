@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import React, { Dispatch } from 'react';
 import { connect } from 'react-redux';
-import { Alert, Col, CustomInput, Form, Input, Row } from 'reactstrap';
+import { Alert, Col, CustomInput, Form, Input, Label, Row } from 'reactstrap';
 
 import { updateValue } from '../../actions';
 import Bank from '../../bank';
@@ -40,7 +40,7 @@ const StartingPoint = ({ bank, bankLoaded, onUpdateValue }: IProps) => {
       <Row>
         <Col>
           <Form inline={true}>
-            <label className="d-none d-sm-inline-block">Starting Capital</label>
+            <Label className="d-none d-sm-inline-block">Starting Capital</Label>
             <Input
               type="text"
               value={bank.headers.startingCapital}
@@ -52,7 +52,7 @@ const StartingPoint = ({ bank, bankLoaded, onUpdateValue }: IProps) => {
               }
               className="col-xs-12 col-sm-1 ml-0 ml-sm-2 mr-0 mr-sm-2"
             />
-            <label className="d-none d-sm-inline-block">First month</label>
+            <Label className="d-none d-sm-inline-block">First month</Label>
             <CustomInput
               type="select"
               id="firstMonth"

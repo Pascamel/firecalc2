@@ -44,10 +44,6 @@ const Saving = ({
   const [editToMonth, setEditToMonth] = useState(header.displayToMonth);
   const [editToYear, setEditToYear] = useState(header.displayToYear);
 
-  const editHeader = () => {
-    setEdit(true);
-  };
-
   const editHeaderConfirm = () => {
     const newHelper = deepCopy(header);
 

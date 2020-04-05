@@ -1,4 +1,5 @@
 import App from './app';
+import ButtonGroupSwitch from './buttonGroupSwitch';
 import ClickableItem from './clickableItem';
 import DarkSwitcher from './darkSwitcher';
 import DecimalsBtn from './decimalsBtn';
@@ -20,6 +21,7 @@ import Text from './text';
 
 export {
   App,
+  ButtonGroupSwitch,
   ClickableItem,
   DarkSwitcher,
   DecimalsBtn,
