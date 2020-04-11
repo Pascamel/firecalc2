@@ -146,7 +146,7 @@ const ChartsPageBase = (props: IProps & RouteComponentProps) => {
 
         sb.push({
           name: header_label,
-          value: bank.grandTotalInstitution[header.id][header.type] //123,
+          value: bank.grandTotalInstitution[header.id][header.type]
         });
       });
 
@@ -157,6 +157,7 @@ const ChartsPageBase = (props: IProps & RouteComponentProps) => {
     <>
       {type === CHARTS.URL.INCOME_VS_SAVINGS && (
         <YearlyBreakdown
+          no-switch
           chart={type}
           data={recap.svsi}
           mobile={mobile}
@@ -196,11 +197,11 @@ const ChartsPageBase = (props: IProps & RouteComponentProps) => {
       )}
       {type === CHARTS.URL.YEARLY_GOAL_BURNUP && (
         <YearlyBreakdown
+          hide-all
           chart={type}
           data={recap.ybu}
           mobile={mobile}
           {...props}
-          hideAll={true}
         />
       )}
       {type === CHARTS.URL.PROJECTION && (

@@ -6,6 +6,7 @@ import { labelMonth } from '../helpers';
 
 interface IProps {
   disabled?: boolean;
+  inputId: string;
   month: number;
   setMonth: (v: number) => void;
   'month-range': [number, number];
@@ -16,6 +17,7 @@ interface IProps {
 
 const MonthYearPicker = ({
   disabled,
+  inputId,
   month,
   setMonth,
   'month-range': monthRange,
@@ -26,6 +28,7 @@ const MonthYearPicker = ({
   return (
     <InputGroup>
       <CustomInput
+        id={`month-${inputId}`}
         type="select"
         value={month || 0}
         onChange={e => setMonth(parseInt(e.target.value))}
@@ -39,6 +42,7 @@ const MonthYearPicker = ({
       </CustomInput>
       <InputGroupAddon addonType="append">
         <CustomInput
+          id={`year-${inputId}`}
           type="select"
           value={year || 0}
           onChange={e => setYear(parseInt(e.target.value))}

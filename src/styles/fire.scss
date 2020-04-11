@@ -430,14 +430,31 @@ a.media {
 }
 
 .list-group-item {
+  &.cursor {
+    cursor: pointer;
+  }
+
   &.focus,
   &:focus {
     box-shadow: none;
   }
+
+  &.list-group-item-primary {
+    color: #fff;
+    background-color: #007bff;
+    border-color: #007bff;
+  }
+
+  .list-group-item-darker {
+    background-color: #333;
+  }
 }
 
-.list-group-item-link {
-  color: $bodytext;
+.btn-group {
+  .btn-darker {
+    background-color: #fff;
+    border: 1px solid rgba(0, 0, 0, 0.125);
+  }
 }
 
 .display-block {

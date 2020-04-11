@@ -12,9 +12,8 @@ const YearSelectorDesktop = ({ year, years, onSelect }: IProps) => (
     {years.map(y => (
       <ListGroupItem
         key={y}
-        className="text-left"
-        color={y === year ? 'secondary' : 'link'}
-        tag={Button}
+        className="text-left cursor"
+        color={y === year ? 'primary' : 'darker'}
         onClick={() => onSelect(y)}
       >
         {y === 0 ? 'All' : y}

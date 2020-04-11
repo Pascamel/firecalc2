@@ -99,7 +99,8 @@ body.dark-mode {
     }
   }
 
-  .form-headers {
+  .form-headers,
+  .btn-group {
     .btn-primary {
       color: #212529;
       background-color: #f8f9fa;
@@ -137,6 +138,36 @@ body.dark-mode {
       color: #212529;
       background-color: #f8f9fa;
       border-color: #f8f9fa;
+    }
+
+    .btn-darker {
+      color: #fff;
+      background-color: $alertBackground;
+      border-color: $alertBackground;
+    }
+  }
+
+  .list-group {
+    .list-group-item-primary {
+      color: #212529;
+      background-color: #f8f9fa;
+      border-color: #f8f9fa;
+
+      &:hover {
+        background-color: rgba(224, 224, 224, 0.9);
+      }
+    }
+
+    .list-group-item-light {
+      color: #fff;
+      background-color: #6c757d;
+      border-color: #6c757d;
+    }
+
+    .list-group-item-darker {
+      color: #fff;
+      background-color: $alertBackground;
+      border-color: $alertBackground;
     }
   }
 

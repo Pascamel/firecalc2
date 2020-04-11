@@ -2,9 +2,10 @@ import _ from 'lodash';
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
-import { Col, Row } from 'reactstrap';
+import { Alert, Col, Row } from 'reactstrap';
 
 import Bank from '../../bank';
+import { ButtonGroupSwitch } from '../../components';
 import * as CHARTS from '../../constants/charts';
 import { AppState } from '../../store';
 import {
@@ -15,7 +16,6 @@ import {
     IAllocationEvolutionChart, IBreakEvenPointChartData, IChartData, IIncomeVsSavingsChartData,
     INetWorthVsSavingsChartData, IYearlyGoalBurnUpChartData
 } from './interfaces';
-import PercentageSwitch from './percentageSwitch';
 import YearSelectorDesktop from './yearSelectorDesktop';
 import YearSelectorMobile from './yearSelectorMobile';
 
@@ -25,7 +25,8 @@ interface IProps {
   mobile: boolean;
   chart: string;
   darkMode: boolean;
-  hideAll?: boolean;
+  'hide-all'?: boolean;
+  'no-switch'?: boolean;
 }
 
 const YearlyBreakdown = ({
@@ -34,7 +35,8 @@ const YearlyBreakdown = ({
   mobile,
   darkMode,
   bank,
-  hideAll
+  'hide-all': hideAll,
+  ['no-switch']: noSwitch
 }: IProps & RouteComponentProps) => {
   const [year, setYear] = useState(hideAll ? new Date().getFullYear() : 0);
   const [percentage, setPercentage] = useState(false);
@@ -62,10 +64,14 @@ const YearlyBreakdown = ({
   return (
     <Row>
       <Col md={2} sm={12}>
-        {!mobile && (
-          <PercentageSwitch
-            percentage={percentage}
-            callback={b => setPercentage(b)}
+        {!mobile && !noSwitch && (
+          <ButtonGroupSwitch
+            className="d-flex mb-3"
+            value={percentage}
+            setValue={setPercentage}
+            colors={['primary', 'darker']}
+            values={[false, true]}
+            nodes={['$', '%']}
           />
         )}
         {!mobile && (

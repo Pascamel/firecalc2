@@ -20,6 +20,8 @@ const ButtonGroupSwitch = ({
   disabled,
   nodes
 }: IProps<number> | IProps<boolean>) => {
+  if (value === undefined) value = false;
+
   return (
     <ButtonGroup className={className}>
       <Button

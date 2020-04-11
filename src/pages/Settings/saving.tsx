@@ -174,6 +174,7 @@ const Saving = ({
           <Label>&nbsp;</Label>
           <MonthYearPicker
             disabled={!editDisplayFrom}
+            inputId={`from-${index}`}
             month={editFromMonth || 0}
             setMonth={setEditDispFromM}
             month-range={[1, 13]}
@@ -197,6 +198,7 @@ const Saving = ({
           <Label>&nbsp;</Label>
           <MonthYearPicker
             disabled={!editDisplayTo}
+            inputId={`to-${index}`}
             month={editToMonth || 0}
             setMonth={setEditToMonth}
             month-range={[1, 13]}
