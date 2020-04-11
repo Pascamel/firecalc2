@@ -171,9 +171,8 @@ const ProjectionChart = (props: IProps & RouteComponentProps) => {
             {DEFAULT_AMOUNTS.map(v => (
               <ListGroupItem
                 key={v}
-                className="text-left"
-                color={amount === v ? 'secondary' : 'link'}
-                tag={Button}
+                className="text-left cursor"
+                color={amount === v ? 'primary' : 'darker'}
                 onClick={() => setRouteAmount(v)}
               >
                 $
@@ -205,9 +204,8 @@ const ProjectionChart = (props: IProps & RouteComponentProps) => {
             {DEFAULT_YEARS.map(v => (
               <ListGroupItem
                 key={v}
-                className="text-left"
-                color={years === v ? 'secondary' : 'link'}
-                tag={Button}
+                className="text-left cursor"
+                color={years === v ? 'primary' : 'darker'}
                 onClick={() => setRouteYears(v)}
               >
                 {v} years
