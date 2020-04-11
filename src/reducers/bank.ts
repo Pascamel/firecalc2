@@ -214,7 +214,7 @@ const bankReducer = (state = INITIAL_STATE, action: any) => {
         (h: any) => h.id === action.payload.header.id
       );
 
-      new_bank.headers.savings = [
+      new_bank.headers.incomes = [
         ...new_bank.headers.incomes.slice(0, idx),
         action.payload.header,
         ...new_bank.headers.incomes.slice(idx + 1)
