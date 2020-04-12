@@ -38,7 +38,7 @@ const UserDropdown = ({ authUser, onClick }: IProps) => {
       </NotMobile>
       <Mobile>
         <NavBarItem
-          to="/"
+          to={ROUTES.ACCOUNT}
           icon={['far', 'user']}
           label={authUser && authUser.email ? authUser.email : 'User'}
           onClick={onClick}

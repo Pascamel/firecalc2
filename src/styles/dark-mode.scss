@@ -85,7 +85,7 @@ body.dark-mode {
   }
 
   .no-link {
-    color: $bodyText;
+    color: rgba(255, 255, 255, 0.5);
     &:hover {
       color: $bodyText;
     }
@@ -287,6 +287,10 @@ body.dark-mode {
 
     &.disabled {
       color: $headerTextActive;
+    }
+
+    &:hover {
+      background-color: $alertBackground;
     }
   }
 }

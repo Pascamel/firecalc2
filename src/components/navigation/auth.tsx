@@ -81,7 +81,7 @@ const NavigationAuth = ({ location, authUser, darkMode }: IProps) => {
             onClick={toggleIfOpen}
           />
         </Nav>
-        <Nav className="ml-auto" navbar>
+        <Nav navbar className="main-nav-bar ml-auto">
           <UserDropdown authUser={authUser} />
         </Nav>
       </Collapse>
