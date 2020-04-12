@@ -90,7 +90,6 @@ const SettingsPageBase = (props: IProps) => {
                           key={key}
                           className="text-left"
                           color={activeTab === key ? 'secondary' : 'link'}
-                          tag={Button}
                           onClick={() => toggle(key)}
                         >
                           {tabsContent[key].label}
