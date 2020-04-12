@@ -54,7 +54,7 @@ export interface IBank {
 }
 
 export const load = async (uid: string): Promise<IBank> => {
-  let bank: IBank = {} as any;
+  let bank: IBank = {} as IBank;
 
   loadLocalStorage1(bank);
   const snapshotHeaders = await firestore.getHeaders(uid);
@@ -67,34 +67,33 @@ export const load = async (uid: string): Promise<IBank> => {
     !snapshotSavings ||
     !snapshotRevenues ||
     !snapshotOthers
-  )
+  ) {
     return bank;
+  }
 
   bank.lastupdate = {};
 
-  if (_.get(snapshotHeaders.data(), 'last_update'))
-    bank.lastupdate['headers'] = moment(
-      _.get(snapshotHeaders.data(), 'last_update')
-    ).fromNow();
-  if (_.get(snapshotSavings.data(), 'last_update'))
-    bank.lastupdate['savings'] = moment(
-      _.get(snapshotSavings.data(), 'last_update')
-    ).fromNow();
-  if (_.get(snapshotRevenues.data(), 'last_update'))
-    bank.lastupdate['income'] = moment(
-      _.get(snapshotRevenues.data(), 'last_update')
-    ).fromNow();
-  if (_.get(snapshotOthers.data(), 'last_update'))
-    bank.lastupdate['others'] = moment(
-      _.get(snapshotOthers.data(), 'last_update')
-    ).fromNow();
+  const headersLastUpdate = snapshotHeaders.data()?.last_update;
+  const savingsLastUpdate = snapshotSavings.data()?.last_update;
+  const revenuesLastUpdate = snapshotRevenues.data()?.last_update;
+  const othersLastUpdate = snapshotOthers.data()?.last_update;
 
-  bank.headers = snapshotHeaders.data() || [];
+  if (headersLastUpdate) {
+    bank.lastupdate['headers'] = moment(headersLastUpdate).fromNow();
+  }
+  if (savingsLastUpdate) {
+    bank.lastupdate['savings'] = moment(savingsLastUpdate).fromNow();
+  }
+  if (revenuesLastUpdate) {
+    bank.lastupdate['income'] = moment(revenuesLastUpdate).fromNow();
+  }
+  if (othersLastUpdate) {
+    bank.lastupdate['others'] = moment(othersLastUpdate).fromNow();
+  }
+
+  bank.headers = snapshotHeaders.data() ?? [];
   let savings_data = _.get(snapshotSavings.data(), 'data', []);
   let revenues_data = _.get(snapshotRevenues.data(), 'data', []);
-
-  // bank.incomeHeaders = formatters.formatIncomeHeaders(bank.headers);
-  // bank.savingsHeaders = formatters.formatSavingsHeaders(bank.headers);
 
   bank.incomeYearHeaders = { collapsed: {} };
   bank.savingsYearHeaders = _.get(snapshotSavings.data(), 'yearly_data', {
@@ -109,21 +108,6 @@ export const load = async (uid: string): Promise<IBank> => {
   bank.notes = _.get(snapshotOthers.data(), 'notes', {});
 
   formatHeaders(bank);
-  // bank.savingsInputs = formatters.savingsInputs(bank.savingsHeaders, {});
-  // bank.savingsInputsHidden = formatters.savingsInputs(
-  //   bank.savingsHeaders,
-  //   bank.savingsHeadersHidden
-  // );
-
-  // bank.savingsHeadersLine1 = formatters.savingsHeadersLine1(
-  //   bank.savingsHeaders,
-  //   bank.savingsHeadersHidden
-  // );
-  // bank.savingsHeadersLine2 = formatters.savingsHeadersLine2(
-  //   bank.savingsHeaders,
-  //   bank.savingsHeadersHidden
-  // );
-
   loadLocalStorage2(bank);
   calculateTotals(bank);
 

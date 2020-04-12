@@ -72,6 +72,6 @@
     "node-sass": "^4.13.1",
     "react-sticky": "^6.0.3",
     "recompose": "^0.30.0",
-    "typescript": "3.3.3333"
+    "typescript": "3.8.3"
   }
 }

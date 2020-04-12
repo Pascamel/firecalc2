@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, ListGroup, ListGroupItem } from 'reactstrap';
+import { ListGroup, ListGroupItem } from 'reactstrap';
 
 interface IProps {
   year: number;

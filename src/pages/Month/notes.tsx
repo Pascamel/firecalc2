@@ -19,7 +19,6 @@ interface IProps {
 }
 
 const Notes = ({ bank, bankLoaded, year, month, onUpdateValue }: IProps) => {
-  // const { bank, bankLoaded, year, month, onUpdateValue } = props;
   const [edit, setEdit] = useState(false);
   const [value, setValue] = useState('');
   const [editValue, setEditValue] = useState('');

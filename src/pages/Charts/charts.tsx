@@ -284,7 +284,6 @@ export const AllocationEvolutionChart = ({
         />
         <YAxis
           domain={percentage ? [0, 100] : [0, 'auto']}
-          // allowDecimals={false}
           allowDataOverflow={true}
         />
         <Tooltip

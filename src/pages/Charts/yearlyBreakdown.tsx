@@ -2,7 +2,7 @@ import _ from 'lodash';
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
-import { Alert, Col, Row } from 'reactstrap';
+import { Col, Row } from 'reactstrap';
 
 import Bank from '../../bank';
 import { ButtonGroupSwitch } from '../../components';
@@ -36,7 +36,7 @@ const YearlyBreakdown = ({
   darkMode,
   bank,
   'hide-all': hideAll,
-  ['no-switch']: noSwitch
+  'no-switch': noSwitch
 }: IProps & RouteComponentProps) => {
   const [year, setYear] = useState(hideAll ? new Date().getFullYear() : 0);
   const [percentage, setPercentage] = useState(false);
