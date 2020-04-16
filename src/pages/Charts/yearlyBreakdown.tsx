@@ -2,10 +2,10 @@ import _ from 'lodash';
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
-import { Col, Row } from 'reactstrap';
+import { Col, ListGroup, ListGroupItem, Row } from 'reactstrap';
 
 import Bank from '../../bank';
-import { ButtonGroupSwitch } from '../../components';
+import { ButtonGroupSwitch, NavButtonGroup } from '../../components';
 import * as CHARTS from '../../constants/charts';
 import { AppState } from '../../store';
 import {
@@ -16,8 +16,6 @@ import {
     IAllocationEvolutionChart, IBreakEvenPointChartData, IChartData, IIncomeVsSavingsChartData,
     INetWorthVsSavingsChartData, IYearlyGoalBurnUpChartData
 } from './interfaces';
-import YearSelectorDesktop from './yearSelectorDesktop';
-import YearSelectorMobile from './yearSelectorMobile';
 
 interface IProps {
   bank: Bank.IBank;
@@ -75,17 +73,26 @@ const YearlyBreakdown = ({
           />
         )}
         {!mobile && (
-          <YearSelectorDesktop
-            year={year}
-            years={dataYears}
-            onSelect={clickDate}
-          />
+          <ListGroup>
+            {dataYears.map(y => (
+              <ListGroupItem
+                key={y}
+                className="text-left cursor"
+                color={y === year ? 'primary' : 'darker'}
+                onClick={() => clickDate(y)}
+              >
+                {y === 0 ? 'All' : y}
+              </ListGroupItem>
+            ))}
+          </ListGroup>
         )}
         {mobile && (
-          <YearSelectorMobile
-            year={year}
-            onPrevYearClick={prevYear}
-            onNextYearClick={nextYear}
+          <NavButtonGroup
+            color="light"
+            button-color="outline-secondary"
+            on-click={[prevYear, nextYear]}
+            disabled={[year === 0, year === new Date().getFullYear()]}
+            label={year === 0 ? 'All' : year.toString()}
           />
         )}
       </Col>

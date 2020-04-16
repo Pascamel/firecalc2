@@ -11,6 +11,7 @@ import HeaderPanel from './headerPanel';
 import { Icon } from './icon';
 import LoadingPanel from './loadingPanel';
 import MonthYearPicker from './monthYearPicker';
+import NavButtonGroup from './navButtonGroup';
 import Navigation from './navigation';
 import PanelTitle from './panelTitle';
 import { Mobile, NotMobile } from './responsive';
@@ -36,6 +37,7 @@ export {
   Mobile,
   MonthYearPicker,
   Navigation,
+  NavButtonGroup,
   NotMobile,
   PanelTitle,
   SavePanel,

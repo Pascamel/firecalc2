@@ -2,9 +2,9 @@ $bodyText: #ddd;
 $bodyBackground: #222;
 $headerText: #bbb;
 $headerTextActive: #fff;
-$headerBackground: #375a7f;
+$headerBackground: #666;
 $headerBackgroundUpdated: #f39c12;
-$alertBackground: #444;
+$alertBackground: #333;
 $successColor: #008958;
 $errorColor: #c12546;
 
@@ -149,12 +149,11 @@ body.dark-mode {
 
   .list-group {
     .list-group-item-primary {
-      color: #212529;
-      background-color: #f8f9fa;
-      border-color: #f8f9fa;
+      background-color: #666;
+      border-color: #666;
 
       &:hover {
-        background-color: rgba(224, 224, 224, 0.9);
+        cursor: default;
       }
     }
 
@@ -168,6 +167,10 @@ body.dark-mode {
       color: #fff;
       background-color: $alertBackground;
       border-color: $alertBackground;
+
+      &:hover {
+        background-color: #404040;
+      }
     }
   }
 

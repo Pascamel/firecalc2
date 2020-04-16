@@ -38,10 +38,19 @@ const Item = ({ label, value, route, icon }: IItemProps) => {
         <Media left middle style={{ width: '40px' }}>
           <Icon icon={icon} size="lg" />
         </Media>
-        <Media body>{label}</Media>
-        <Media right>
-          <b>{value}</b>
+        <Media body>
+          {label}
+          <Mobile>
+            <div className="display-block">
+              <b>{value}</b>
+            </div>
+          </Mobile>
         </Media>
+        <NotMobile>
+          <Media left>
+            <b>{value}</b>
+          </Media>
+        </NotMobile>
       </Media>
     </ListGroupItem>
   );

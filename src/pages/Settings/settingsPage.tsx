@@ -1,9 +1,9 @@
 import React, { Dispatch, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { Button, ButtonGroup, Col, Container, ListGroup, ListGroupItem, Row } from 'reactstrap';
+import { Col, Container, ListGroup, ListGroupItem, Row } from 'reactstrap';
 
 import { loadBank } from '../../actions';
-import { Icon, LoadingPanel, Mobile, NotMobile, SavePanel } from '../../components';
+import { LoadingPanel, Mobile, NavButtonGroup, NotMobile, SavePanel } from '../../components';
 import { AppState } from '../../store';
 import Incomes from './incomes';
 import Savings from './savings';
@@ -88,8 +88,8 @@ const SettingsPageBase = (props: IProps) => {
                       {Object.keys(tabsContent).map(key => (
                         <ListGroupItem
                           key={key}
-                          className="text-left"
-                          color={activeTab === key ? 'secondary' : 'link'}
+                          className="text-left cursor"
+                          color={activeTab === key ? 'primary' : 'darker'}
                           onClick={() => toggle(key)}
                         >
                           {tabsContent[key].label}
@@ -98,21 +98,12 @@ const SettingsPageBase = (props: IProps) => {
                     </ListGroup>
                   </NotMobile>
                   <Mobile>
-                    <ButtonGroup
-                      style={{ width: '100%' }}
+                    <NavButtonGroup
                       color="light"
-                      className="mb-3"
-                    >
-                      <Button color="outline-secondary" onClick={prevSetting}>
-                        <Icon icon="backward" />
-                      </Button>
-                      <Button color="outline-secondary" disabled={true} block>
-                        {tabsContent[activeTab].label}
-                      </Button>
-                      <Button color="outline-secondary" onClick={nextSetting}>
-                        <Icon icon="forward" />
-                      </Button>
-                    </ButtonGroup>
+                      button-color="outline-secondary"
+                      on-click={[prevSetting, nextSetting]}
+                      label={tabsContent[activeTab].label}
+                    />
                   </Mobile>
                 </Col>
                 <Col md={10} sm={12}>

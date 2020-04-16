@@ -2,15 +2,13 @@ import _ from 'lodash';
 import React, { Dispatch, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
-import {
-    Badge, Button, ButtonGroup, Col, ListGroup, ListGroupItem, Row, Tooltip as TooltipStrap
-} from 'reactstrap';
+import { Badge, Col, ListGroup, ListGroupItem, Row, Tooltip as TooltipStrap } from 'reactstrap';
 
 import { loadBank } from '../../actions';
 import Bank from '../../bank';
-import { Icon, LoadingPanel, StaticAmount } from '../../components';
+import { Icon, LoadingPanel, NavButtonGroup, StaticAmount } from '../../components';
 import * as ROUTES from '../../constants/routes';
-import { roundFloat } from '../../helpers';
+import { amount as amount_, roundFloat } from '../../helpers';
 import { AppState } from '../../store';
 import * as Charts from './charts';
 import { IProjectionChartData } from './interfaces';
@@ -26,15 +24,7 @@ interface IProps {
 }
 
 const ProjectionChart = (props: IProps & RouteComponentProps) => {
-  const DEFAULT_AMOUNTS = [
-    80000,
-    90000,
-    100000,
-    110000,
-    120000,
-    130000,
-    150000
-  ];
+  const DEFAULT_AMOUNTS = [80, 90, 100, 110, 120, 130, 150].map(v => v * 1000);
   const DEFAULT_AMOUNT = 80000;
   const DEFAULT_YEARS = [10, 15, 20, 25, 30];
   const DEFAULT_YEAR = 10;
@@ -141,24 +131,18 @@ const ProjectionChart = (props: IProps & RouteComponentProps) => {
     setRouteYears(DEFAULT_YEARS[index + 1]);
   };
 
-  const data: IProjectionChartData[] = [
-    {
-      date: new Date(year, month, 1).getTime(),
-      projection5: savings,
-      projection7: savings
-    }
-  ];
+  let projection5 = savings;
+  let projection7 = savings;
+  let date = new Date(year, month, 1).getTime();
+
+  const data: IProjectionChartData[] = [{ date, projection5, projection7 }];
 
   for (let i = 1; i <= years; i++) {
-    data.push({
-      date: new Date(year + i, month, 1).getTime(),
-      projection5: roundFloat(
-        (data[data.length - 1].projection5 || 0) * 1.05 + amount
-      ),
-      projection7: roundFloat(
-        (data[data.length - 1].projection7 || 0) * 1.07 + amount
-      )
-    });
+    projection5 = roundFloat(projection5 * 1.05 + amount);
+    projection7 = roundFloat(projection7 * 1.07 + amount);
+    date = new Date(year + i, month, 1).getTime();
+
+    data.push({ date, projection5, projection7 });
   }
 
   if (!bankLoaded) return <LoadingPanel />;
@@ -214,49 +198,28 @@ const ProjectionChart = (props: IProps & RouteComponentProps) => {
           </ListGroup>
         )}
         {mobile && (
-          <ButtonGroup style={{ width: '100%' }} color="light" className="mb-3">
-            <Button
-              color="outline-secondary"
-              onClick={prevAmount}
-              disabled={amount === DEFAULT_AMOUNTS[0]}
-            >
-              <Icon icon="backward" />
-            </Button>
-            <Button color="outline-secondary" disabled={true} block>
-              $
-              <StaticAmount display-zero hide-decimals>
-                {amount}
-              </StaticAmount>
-            </Button>
-            <Button
-              color="outline-secondary"
-              onClick={nextAmount}
-              disabled={amount === DEFAULT_AMOUNTS[DEFAULT_AMOUNTS.length - 1]}
-            >
-              <Icon icon="forward" />
-            </Button>
-          </ButtonGroup>
+          <NavButtonGroup
+            color="light"
+            button-color="outline-secondary"
+            on-click={[prevAmount, nextAmount]}
+            disabled={[
+              amount === DEFAULT_AMOUNTS[0],
+              amount === DEFAULT_AMOUNTS.slice(-1)[0]
+            ]}
+            label={`$${amount_(amount, true, false)}`}
+          />
         )}
         {mobile && (
-          <ButtonGroup style={{ width: '100%' }} color="light" className="mb-3">
-            <Button
-              color="outline-secondary"
-              onClick={prevYear}
-              disabled={years === DEFAULT_YEARS[0]}
-            >
-              <Icon icon="backward" />
-            </Button>
-            <Button color="outline-secondary" disabled={true} block>
-              {years} years
-            </Button>
-            <Button
-              color="outline-secondary"
-              onClick={nextYear}
-              disabled={years === DEFAULT_YEARS[DEFAULT_YEARS.length - 1]}
-            >
-              <Icon icon="forward" />
-            </Button>
-          </ButtonGroup>
+          <NavButtonGroup
+            color="light"
+            button-color="outline-secondary"
+            on-click={[prevYear, nextYear]}
+            disabled={[
+              years === DEFAULT_YEARS[0],
+              years === DEFAULT_YEARS.slice(-1)[0]
+            ]}
+            label={`${years} years`}
+          />
         )}
       </Col>
       <Col md={10} sm={12} className="chart-container">
