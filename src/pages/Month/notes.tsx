@@ -78,7 +78,7 @@ const Notes = ({ bank, bankLoaded, year, month, onUpdateValue }: IProps) => {
         <Input
           id="notesTextArea"
           innerRef={input => {
-            if (input != null) input.focus();
+            input?.focus();
           }}
           type="textarea"
           value={editValue}

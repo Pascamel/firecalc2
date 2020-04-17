@@ -107,7 +107,7 @@ const FireAmount = (props: IProps) => {
       {edit && (
         <input
           ref={input => {
-            if (input != null) input.focus();
+            input?.focus();
           }}
           className="form-control"
           defaultValue={amount ? amount.toString() : ''}
