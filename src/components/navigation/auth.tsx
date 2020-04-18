@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom';
 import { Collapse, Nav, Navbar, NavbarToggler } from 'reactstrap';
 
 import * as CHARTS from '../../constants/charts';
-import * as ROUTES from '../../constants/routes';
+import ROUTES from '../../constants/routes';
 import { currentMonthRoute } from '../../helpers';
 import NavBarItem from './item';
 import UserDropdown from './userDropdown';

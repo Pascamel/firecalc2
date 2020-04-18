@@ -3,7 +3,7 @@ import { RouteComponentProps } from 'react-router';
 import { Alert, Button, Form, FormGroup, Input } from 'reactstrap';
 
 import * as ROLES from '../../constants/roles';
-import * as ROUTES from '../../constants/routes';
+import ROUTES from '../../constants/routes';
 import { auth, firestore } from '../../firebase';
 
 export const SignUpForm = (props: RouteComponentProps) => {
@@ -21,7 +21,7 @@ export const SignUpForm = (props: RouteComponentProps) => {
         if (authUser.user) {
           return firestore.setUser(authUser.user.uid, {
             email,
-            type: ROLES.USER
+            type: ROLES.USER,
           });
         }
       })
@@ -31,7 +31,7 @@ export const SignUpForm = (props: RouteComponentProps) => {
         setPasswordTwo('');
         props.history.push(ROUTES.HOME);
       })
-      .catch(error => {
+      .catch((error) => {
         setError(error);
       });
   };
@@ -44,7 +44,7 @@ export const SignUpForm = (props: RouteComponentProps) => {
       <FormGroup className="mt-2">
         <Input
           value={email}
-          onChange={e => setEmail(e.target.value)}
+          onChange={(e) => setEmail(e.target.value)}
           type="text"
           placeholder="Email Address"
         />
@@ -52,7 +52,7 @@ export const SignUpForm = (props: RouteComponentProps) => {
       <FormGroup>
         <Input
           value={passwordOne}
-          onChange={e => setPasswordOne(e.target.value)}
+          onChange={(e) => setPasswordOne(e.target.value)}
           type="password"
           placeholder="Password"
         />
@@ -60,7 +60,7 @@ export const SignUpForm = (props: RouteComponentProps) => {
       <FormGroup>
         <Input
           value={passwordTwo}
-          onChange={event => setPasswordTwo(event.target.value)}
+          onChange={(event) => setPasswordTwo(event.target.value)}
           type="password"
           placeholder="Confirm Password"
         />

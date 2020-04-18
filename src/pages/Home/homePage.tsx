@@ -9,7 +9,7 @@ import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { loadBank } from '../../actions';
 import Bank from '../../bank';
 import { Icon, LoadingPanel, Mobile, NotMobile } from '../../components';
-import * as ROUTES from '../../constants/routes';
+import ROUTES from '../../constants/routes';
 import { currentMonthRoute } from '../../helpers';
 import { AppState } from '../../store';
 
@@ -92,25 +92,31 @@ const HomePageBase = ({ bank, authUser, onLoadBank, bankLoaded }: IProps) => {
                 <ListGroup flush>
                   <Item
                     label="Savings"
-                    value={'Updated ' + bank.lastupdate.savings}
+                    value={`Updated ${bank.lastupdate.savings}`}
                     route={ROUTES.SAVINGS}
                     icon="piggy-bank"
                   />
                   <Item
                     label="Revenues"
-                    value={'Updated ' + bank.lastupdate.income}
+                    value={`Updated ${bank.lastupdate.income}`}
                     route={ROUTES.SAVINGS}
                     icon="user-tie"
                   />
                   <Item
+                    label="Expenses"
+                    value={`Updated ${bank.lastupdate.expenses}`}
+                    route={currentMonthRoute()}
+                    icon="credit-card"
+                  />
+                  <Item
                     label="Others (Net worth, Notes...)"
-                    value={'Updated ' + bank.lastupdate.others}
+                    value={`Updated ${bank.lastupdate.others}`}
                     route={currentMonthRoute()}
                     icon="university"
                   />
                   <Item
                     label="Settings"
-                    value={'Updated ' + bank.lastupdate.headers}
+                    value={`Updated ${bank.lastupdate.headers}`}
                     route={ROUTES.SAVINGS}
                     icon="cogs"
                   />

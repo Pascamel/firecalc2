@@ -7,7 +7,7 @@ import { Badge, Col, ListGroup, ListGroupItem, Row, Tooltip as TooltipStrap } fr
 import { loadBank } from '../../actions';
 import Bank from '../../bank';
 import { Icon, LoadingPanel, NavButtonGroup, StaticAmount } from '../../components';
-import * as ROUTES from '../../constants/routes';
+import ROUTES from '../../constants/routes';
 import { amount as amount_, roundFloat } from '../../helpers';
 import { AppState } from '../../store';
 import * as Charts from './charts';
@@ -24,7 +24,9 @@ interface IProps {
 }
 
 const ProjectionChart = (props: IProps & RouteComponentProps) => {
-  const DEFAULT_AMOUNTS = [80, 90, 100, 110, 120, 130, 150].map(v => v * 1000);
+  const DEFAULT_AMOUNTS = [80, 90, 100, 110, 120, 130, 150].map(
+    (v) => v * 1000
+  );
   const DEFAULT_AMOUNT = 80000;
   const DEFAULT_YEARS = [10, 15, 20, 25, 30];
   const DEFAULT_YEAR = 10;
@@ -36,7 +38,7 @@ const ProjectionChart = (props: IProps & RouteComponentProps) => {
     chart,
     onLoadBank,
     bankLoaded,
-    darkMode
+    darkMode,
   } = props;
   const [amount, setAmount] = useState(
     parseInt(_.get(props, 'match.params.amount')) || DEFAULT_AMOUNT
@@ -46,30 +48,16 @@ const ProjectionChart = (props: IProps & RouteComponentProps) => {
   );
 
   const networthActualValues = Object.keys(bank.networth)
-    .filter(k => _.keys(bank.networth[k]).length > 0)
+    .filter((k) => _.keys(bank.networth[k]).length > 0)
     .reduce((object, k) => {
       object[k] = bank.networth[k];
       return object;
     }, {} as { [year: string]: any });
 
-  const last_year = _(networthActualValues)
-    .values()
-    .last();
-  const year = parseInt(
-    _(networthActualValues)
-      .keys()
-      .last() || '0'
-  );
-  const month = parseInt(
-    _(last_year)
-      .keys()
-      .last() || '0'
-  );
-  const savings = parseFloat(
-    _(last_year)
-      .values()
-      .last() || '0'
-  );
+  const last_year = _(networthActualValues).values().last();
+  const year = parseInt(_(networthActualValues).keys().last() || '0');
+  const month = parseInt(_(last_year).keys().last() || '0');
+  const savings = parseFloat(_(last_year).values().last() || '0');
 
   const [tooltipValue, setTooltipValue] = useState(0);
   const [tooltipOpen, setTooltipOpen] = useState(false);
@@ -152,7 +140,7 @@ const ProjectionChart = (props: IProps & RouteComponentProps) => {
       <Col md={2} sm={12}>
         {!mobile && (
           <ListGroup>
-            {DEFAULT_AMOUNTS.map(v => (
+            {DEFAULT_AMOUNTS.map((v) => (
               <ListGroupItem
                 key={v}
                 className="text-left cursor"
@@ -185,7 +173,7 @@ const ProjectionChart = (props: IProps & RouteComponentProps) => {
         )}
         {!mobile && (
           <ListGroup className="mt-3">
-            {DEFAULT_YEARS.map(v => (
+            {DEFAULT_YEARS.map((v) => (
               <ListGroupItem
                 key={v}
                 className="text-left cursor"
@@ -204,7 +192,7 @@ const ProjectionChart = (props: IProps & RouteComponentProps) => {
             on-click={[prevAmount, nextAmount]}
             disabled={[
               amount === DEFAULT_AMOUNTS[0],
-              amount === DEFAULT_AMOUNTS.slice(-1)[0]
+              amount === DEFAULT_AMOUNTS.slice(-1)[0],
             ]}
             label={`$${amount_(amount, true, false)}`}
           />
@@ -216,7 +204,7 @@ const ProjectionChart = (props: IProps & RouteComponentProps) => {
             on-click={[prevYear, nextYear]}
             disabled={[
               years === DEFAULT_YEARS[0],
-              years === DEFAULT_YEARS.slice(-1)[0]
+              years === DEFAULT_YEARS.slice(-1)[0],
             ]}
             label={`${years} years`}
           />
@@ -238,13 +226,13 @@ const mapStateToProps = (state: AppState) => {
     authUser: state.sessionState.authUser,
     bank: state.bankState.bank,
     bankLoaded: state.bankState.bankLoaded,
-    darkMode: state.sessionState.darkMode
+    darkMode: state.sessionState.darkMode,
   };
 };
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => {
   return {
-    onLoadBank: (uid: string) => dispatch(loadBank(uid))
+    onLoadBank: (uid: string) => dispatch(loadBank(uid)),
   };
 };
 

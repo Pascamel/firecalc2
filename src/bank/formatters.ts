@@ -6,7 +6,7 @@ export const labelSavings = (saving: string) => {
   const labels = {
     P: 'Principal',
     I: 'Interest',
-    T: 'Total'
+    T: 'Total',
   };
 
   return _.get(labels, saving, 'N/A');
@@ -37,7 +37,7 @@ export const formatIncome = (income_data: any, headers: any): I.IIncome => {
     }
   });
 
-  _(income_data).each(d => {
+  _(income_data).each((d) => {
     _.set(result, [d.year, d.month, d.type], d.amount);
   });
 
@@ -60,8 +60,31 @@ export const formatSavings = (data: any, headers: any) => {
     }
   });
 
-  _(data).each(d => {
+  _(data).each((d) => {
     _.set(result, [d.year, d.month, d.institution, d.type], d.amount);
+  });
+
+  return result;
+};
+
+export const formatExpenses = (data: any, headers: any) => {
+  let result: I.IExpenses = {};
+  let years = _.range(headers.firstYear, new Date().getFullYear() + 1);
+
+  _(years).each((y, idx) => {
+    if (idx === 0 && years.length === 1) {
+      result[y] = formatYear(
+        _.range(headers.firstMonth, new Date().getMonth() + 2)
+      );
+    } else if (idx === 0) {
+      result[y] = formatYear(_.range(headers.firstMonth, 13));
+    } else {
+      result[y] = formatYear(_.range(1, 13));
+    }
+  });
+
+  _(data).each((d) => {
+    _.set(result, [d.year, d.month, d.type], d.amount);
   });
 
   return result;
@@ -82,29 +105,35 @@ export const formatSavingsHeaders = (headers: {
   return headers.savings;
 };
 
+export const formatExpensesHeaders = (headers: {
+  expenses: I.IExpensesHeader[];
+}) => {
+  return headers.expenses;
+};
+
 export const savingsInputs = (savings: I.ISavingsHeader[], hidden: {}) => {
   return _(savings)
-    .map(header => {
+    .map((header) => {
       let headers: [{ id: string; type: string; types: string[] }] = [
         {
           id: header.id,
           type: 'P',
-          types: []
-        }
+          types: [],
+        },
       ];
       if (header.interest)
-        _.each(['I', 'T'], t =>
+        _.each(['I', 'T'], (t) =>
           headers.push({ id: header.id, type: t, types: [] })
         );
-      _.each(headers, item => {
-        _.each(headers, h => {
+      _.each(headers, (item) => {
+        _.each(headers, (h) => {
           item.types.push(h.type);
         });
       });
       return headers;
     })
     .flatMap()
-    .filter(header => !_.get(hidden, [header.id, header.type], false))
+    .filter((header) => !_.get(hidden, [header.id, header.type], false))
     .value();
 };
 
@@ -123,20 +152,20 @@ export const savingsHeadersLine1 = (
   const h = hashHiddenColumns(hidden);
 
   return _(savings)
-    .map(header => {
+    .map((header) => {
       return {
         label: header.label,
         icon: header.icon,
-        weight: (header.interest ? 3 : 1) - _.get(h, header.id, 0)
+        weight: (header.interest ? 3 : 1) - _.get(h, header.id, 0),
       };
     })
-    .filter(header => header.weight > 0)
+    .filter((header) => header.weight > 0)
     .groupBy('label')
     .map((header, key) => {
       return {
         label: key,
         icon: header[0].icon,
-        weight: _.reduce(header, (sum, h) => sum + h.weight, 0)
+        weight: _.reduce(header, (sum, h) => sum + h.weight, 0),
       };
     })
     .value();
@@ -147,14 +176,14 @@ export const savingsHeadersLine2 = (
   hidden: {}
 ) => {
   return _(savings)
-    .map(header => {
+    .map((header) => {
       let headers = [];
 
       if (!_.get(hidden, [header.id, 'P'], false))
         headers.push(header.sublabel || labelSavings('P'));
 
       if (header.interest) {
-        _.each(['I', 'T'], t => {
+        _.each(['I', 'T'], (t) => {
           if (!_.get(hidden, [header.id, t], false))
             headers.push(labelSavings(t));
         });
@@ -163,7 +192,7 @@ export const savingsHeadersLine2 = (
       headers = _.map(headers, (h, idx) => {
         return {
           label: h,
-          last: idx === headers.length - 1
+          last: idx === headers.length - 1,
         };
       });
       return headers;
@@ -187,7 +216,7 @@ export const formatSavingstaToSave = (savings: I.ISavings) => {
             month: parseInt(month),
             institution: institution,
             type: type,
-            amount: amount
+            amount: amount,
           });
         });
       });
@@ -209,7 +238,28 @@ export const formatIncomeToSave = (income: I.IIncome) => {
           year: parseInt(year),
           month: parseInt(month),
           type: institution,
-          amount: amount
+          amount: amount,
+        });
+      });
+    });
+  });
+
+  return data;
+};
+
+export const formatExpensesToSave = (expenses: I.IExpenses) => {
+  let data: any[] = [];
+
+  _.each(expenses, (data_year, year) => {
+    _.each(data_year, (data_month, month) => {
+      _.each(data_month, (amount, type) => {
+        if (amount === 0) return;
+
+        data.push({
+          year: parseInt(year),
+          month: parseInt(month),
+          type: type,
+          amount: amount,
         });
       });
     });

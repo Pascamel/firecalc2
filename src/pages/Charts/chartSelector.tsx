@@ -5,7 +5,7 @@ import { Button, ButtonGroup, Col, Container, Row } from 'reactstrap';
 
 import { Icon, Mobile, NotMobile, Text } from '../../components';
 import * as CHARTS from '../../constants/charts';
-import * as ROUTES from '../../constants/routes';
+import ROUTES from '../../constants/routes';
 
 interface IProps {
   type: string;

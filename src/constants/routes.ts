@@ -1,17 +1,19 @@
-export const HOME = '/';
-export const SIGN_UP = '/signup';
-export const SIGN_IN = '/signin';
-export const ACCOUNT = '/account';
-export const ADMIN = '/admin';
-export const PASSWORD_FORGET = '/pw-forget';
+export default Object.freeze({
+  HOME: '/',
+  SIGN_UP: '/signup',
+  SIGN_IN: '/signin',
+  ACCOUNT: '/account',
+  ADMIN: '/admin',
+  PASSWORD_FORGET: '/pw-forget',
 
-export const MONTH_NO_PARAMS = '/month';
-export const MONTH = '/month/:year/:month';
-export const REVENUES = '/revenues';
-export const SAVINGS = '/savings';
-export const SETTINGS = '/settings';
-export const CHARTS = '/chart/:type';
-export const CHARTS_YEAR = '/chart/:type/:year';
-export const CHARTS_YEARS_AMOUNT = '/chart/:type/:years/:amount';
+  MONTH_NO_PARAMS: '/month',
+  MONTH: '/month/:year/:month',
+  REVENUES: '/revenues',
+  SAVINGS: '/savings',
+  SETTINGS: '/settings',
+  CHARTS: '/chart/:type',
+  CHARTS_YEAR: '/chart/:type/:year',
+  CHARTS_YEARS_AMOUNT: '/chart/:type/:years/:amount',
 
-export const NOT_AUTHORIZED = '/access-denied';
+  NOT_AUTHORIZED: '/access-denied',
+});

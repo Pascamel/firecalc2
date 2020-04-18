@@ -6,7 +6,7 @@ import { Col, Container, Row } from 'reactstrap';
 import { loadBank } from '../../actions';
 import Bank from '../../bank';
 import { LoadingPanel, Mobile, NotMobile, SavePanel } from '../../components';
-import * as ROUTES from '../../constants/routes';
+import ROUTES from '../../constants/routes';
 import { currentMonthRoute, labelMonth, nextMonth, prevMonth } from '../../helpers';
 import { AppState } from '../../store';
 import Charts from './charts';
@@ -27,7 +27,7 @@ const MonthPageBase = (props: IProps & RouteComponentProps) => {
     onLoadBank,
     location,
     history,
-    match
+    match,
   } = props;
   const [year, setYear] = useState<string>(match.params.year || '0');
   const [month, setMonth] = useState(match.params.month || '0');
@@ -89,7 +89,7 @@ const MonthPageBase = (props: IProps & RouteComponentProps) => {
       <Redirect
         to={{
           pathname: currentMonthRoute(),
-          state: { from: location }
+          state: { from: location },
         }}
       />
     );
@@ -106,7 +106,7 @@ const MonthPageBase = (props: IProps & RouteComponentProps) => {
     nextMonth: goNextMonth,
     nextMonthDisabled:
       y > new Date().getFullYear() ||
-      (y === new Date().getFullYear() && m === 12)
+      (y === new Date().getFullYear() && m === 12),
   };
 
   return (
@@ -137,7 +137,7 @@ const mapStateToProps = (state: AppState) => {
   return {
     authUser: state.sessionState.authUser,
     bank: state.bankState.bank,
-    bankLoaded: state.bankState.bankLoaded
+    bankLoaded: state.bankState.bankLoaded,
   };
 };
 
@@ -145,7 +145,7 @@ const mapDispatchToProps = (dispatch: Dispatch<any>) => {
   return {
     onLoadBank: (uid: string) => {
       dispatch(loadBank(uid));
-    }
+    },
   };
 };
 

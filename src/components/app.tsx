@@ -5,7 +5,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
 
-import * as ROUTES from '../constants/routes';
+import ROUTES from '../constants/routes';
 import { withAuthentication } from '../firebase/withAuthentication';
 import { currentMonthRoute } from '../helpers';
 import { AccountPage } from '../pages/Account';
@@ -76,7 +76,7 @@ const AppComponent = (props: IProps) => {
 
 const mapStateToProps = (state: AppState) => {
   return {
-    darkMode: state.sessionState.darkMode
+    darkMode: state.sessionState.darkMode,
   };
 };
 

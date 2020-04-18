@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { Collapse, Nav, Navbar, NavbarToggler } from 'reactstrap';
 
-import * as ROUTES from '../../constants/routes';
+import ROUTES from '../../constants/routes';
 import NavBarItem from './item';
 
 interface IProps {

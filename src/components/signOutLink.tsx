@@ -1,7 +1,7 @@
 import React from 'react';
 import { RouteComponentProps, withRouter } from 'react-router';
 
-import * as ROUTES from '../constants/routes';
+import ROUTES from '../constants/routes';
 import { auth } from '../firebase';
 import Text from './text';
 
