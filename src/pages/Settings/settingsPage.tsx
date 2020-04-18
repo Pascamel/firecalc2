@@ -5,6 +5,7 @@ import { Col, Container, ListGroup, ListGroupItem, Row } from 'reactstrap';
 import { loadBank } from '../../actions';
 import { LoadingPanel, Mobile, NavButtonGroup, NotMobile, SavePanel } from '../../components';
 import { AppState } from '../../store';
+import Expenses from './expenses';
 import Incomes from './incomes';
 import Savings from './savings';
 import StartingPoint from './startingPoint';
@@ -26,27 +27,31 @@ type tabsContentType = {
 const tabsContent: tabsContentType = {
   'starting-point': {
     label: 'Starting Point',
-    component: <StartingPoint />
+    component: <StartingPoint />,
   },
   savings: {
     label: 'Savings',
-    component: <Savings />
+    component: <Savings />,
   },
   incomes: {
     label: 'Incomes',
-    component: <Incomes />
+    component: <Incomes />,
+  },
+  expenses: {
+    label: 'Expenses',
+    component: <Expenses />,
   },
   'yearly-goals': {
     label: 'Yearly Goals',
-    component: <YearlyGoals />
-  }
+    component: <YearlyGoals />,
+  },
 };
 
 const tabsKeys = Object.keys(tabsContent);
 
 const SettingsPageBase = (props: IProps) => {
   const { authUser, bankLoaded, onLoadBank } = props;
-  const [activeTab, setActiveTab] = useState('starting-point');
+  const [activeTab, setActiveTab] = useState('expenses'); // 'starting-point');
 
   useEffect(() => {
     if (bankLoaded || !authUser) return;
@@ -85,7 +90,7 @@ const SettingsPageBase = (props: IProps) => {
                 <Col md={2} sm={12}>
                   <NotMobile>
                     <ListGroup>
-                      {Object.keys(tabsContent).map(key => (
+                      {Object.keys(tabsContent).map((key) => (
                         <ListGroupItem
                           key={key}
                           className="text-left cursor"
@@ -121,7 +126,7 @@ const SettingsPageBase = (props: IProps) => {
 const mapStateToProps = (state: AppState) => {
   return {
     authUser: state.sessionState.authUser,
-    bankLoaded: state.bankState.bankLoaded
+    bankLoaded: state.bankState.bankLoaded,
   };
 };
 
@@ -129,7 +134,7 @@ const mapDispatchToProps = (dispatch: Dispatch<any>) => {
   return {
     onLoadBank: (uid: string) => {
       dispatch(loadBank(uid));
-    }
+    },
   };
 };
 

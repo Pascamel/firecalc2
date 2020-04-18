@@ -54,13 +54,15 @@ export interface IExpenses {
   };
 }
 
-export interface IExpensesHeader {
+export interface IExpenseHeader {
   id: string;
+  label: string;
   type: number;
   isNecessary: boolean;
   isFuture: boolean;
   startMonth: number | null;
   startYear: number | null;
+  amount: number | null;
 }
 
 export interface ISavingsYearHeaders {

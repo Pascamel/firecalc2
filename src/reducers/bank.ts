@@ -266,7 +266,63 @@ const bankReducer = (state = INITIAL_STATE, action: any) => {
       let new_bank = deepCopy(state.bank);
       new_bank.headers.expenses.push({
         id: uuid.v4(),
+        isFuture: action.payload.isFuture,
       });
+
+      return {
+        ...state,
+        bank: new_bank,
+        bankHeadersUpdated: true,
+      };
+    }
+
+    case TYPES.HEADERS_UPDATE_EXPENSE: {
+      let new_bank = deepCopy(state.bank);
+
+      const idx = new_bank.headers.expenses.findIndex(
+        (h: any) => h.id === action.payload.header.id
+      );
+
+      new_bank.headers.expenses = [
+        ...new_bank.headers.expenses.slice(0, idx),
+        action.payload.header,
+        ...new_bank.headers.expenses.slice(idx + 1),
+      ];
+
+      Bank.formatHeaders(new_bank);
+
+      return {
+        ...state,
+        bank: new_bank,
+        bankHeadersUpdated: true,
+      };
+    }
+
+    case TYPES.HEADERS_DELETE_EXPENSE: {
+      let new_bank = deepCopy(state.bank);
+
+      new_bank.headers.expenses = [
+        ...new_bank.headers.expenses.filter(
+          (h: any) => h.id !== action.payload.header.id
+        ),
+      ];
+
+      Bank.formatHeaders(new_bank);
+
+      return {
+        ...state,
+        bank: new_bank,
+        bankHeadersUpdated: true,
+      };
+    }
+
+    case TYPES.HEADERS_SWITCH_EXPENSE: {
+      let new_bank = deepCopy(state.bank);
+
+      let tmp = new_bank.headers.expenses[action.payload.index1];
+      new_bank.headers.expenses[action.payload.index1] =
+        new_bank.headers.expenses[action.payload.index2];
+      new_bank.headers.expenses[action.payload.index2] = tmp;
 
       return {
         ...state,

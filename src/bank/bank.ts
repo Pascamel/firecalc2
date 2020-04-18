@@ -27,7 +27,7 @@ export interface IBank {
   incomeHeaders: Array<I.IIncomeHeader>;
   savingsHeaders: Array<I.ISavingsHeader>;
   incomeYearHeaders: I.IIncomeYearHeaders;
-  expensesHeaders: Array<I.IExpensesHeader>;
+  expensesHeaders: Array<I.IExpenseHeader>;
   savingsYearHeaders: I.ISavingsYearHeaders;
   savingsHeadersLine1: Array<{ label: string; icon: string; weight: number }>;
   savingsHeadersLine2: Array<{ label: string; last: boolean }>;
@@ -123,6 +123,16 @@ export const load = async (uid: string): Promise<IBank> => {
 };
 
 export const formatHeaders = (bank: IBank) => {
+  if ((bank.headers.incomes?.length ?? 0) === 0) {
+    bank.headers.incomes = [];
+  }
+  if ((bank.headers.savings?.length ?? 0) === 0) {
+    bank.headers.savings = [];
+  }
+  if ((bank.headers.expenses?.length ?? 0) === 0) {
+    bank.headers.expenses = [];
+  }
+
   bank.incomeHeaders = formatters.formatIncomeHeaders(bank.headers);
   bank.savingsHeaders = formatters.formatSavingsHeaders(bank.headers);
   bank.expensesHeaders = formatters.formatExpensesHeaders(bank.headers);

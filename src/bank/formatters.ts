@@ -106,7 +106,7 @@ export const formatSavingsHeaders = (headers: {
 };
 
 export const formatExpensesHeaders = (headers: {
-  expenses: I.IExpensesHeader[];
+  expenses: I.IExpenseHeader[];
 }) => {
   return headers.expenses;
 };

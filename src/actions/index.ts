@@ -1,7 +1,7 @@
 import { Dispatch } from 'redux';
 
 import Bank from '../bank';
-import { IIncomeHeader, ISavingsHeader } from '../bank/interfaces';
+import { IExpenseHeader, IIncomeHeader, ISavingsHeader } from '../bank/interfaces';
 import { deepCopy } from '../helpers';
 import TYPES from './types';
 
@@ -142,29 +142,6 @@ export const updateSavingHeader = (header: ISavingsHeader) => {
   };
 };
 
-export const confirmUpdateSavingHeader = (header: ISavingsHeader) => {
-  return (dispatch: Dispatch<any>) => {
-    dispatch({
-      type: TYPES.HEADERS_UPDATE_SAVING,
-      payload: {
-        header: {
-          id: header.id,
-          label: header.label,
-          sublabel: header.sublabel,
-          icon: header.icon,
-          interest: header.interest,
-          displayFrom: header.displayFrom,
-          displayFromMonth: header.displayFromMonth,
-          displayFromYear: header.displayFromYear,
-          displayTo: header.displayTo,
-          displayToMonth: header.displayToMonth,
-          displayToYear: header.displayToYear,
-        },
-      },
-    });
-  };
-};
-
 export const cancelUpdateSavingHeader = (header: ISavingsHeader) => {
   return (dispatch: Dispatch<any>) => {
     dispatch({
@@ -276,11 +253,54 @@ export const saveHeaders = (uid: string, bank: Bank.IBank) => {
   };
 };
 
-export const newExpenseHeader = () => {
+export const newExpenseHeader = (isFuture: boolean) => {
   return (dispatch: Dispatch<any>) => {
     dispatch({
       type: TYPES.HEADERS_NEW_EXPENSE,
-      payload: {},
+      payload: { isFuture },
+    });
+  };
+};
+
+export const updateExpenseHeader = (header: IExpenseHeader) => {
+  return (dispatch: Dispatch<any>) => {
+    dispatch({
+      type: TYPES.HEADERS_UPDATE_EXPENSE,
+      payload: {
+        header: {
+          id: header.id,
+          label: header.label,
+          type: header.type,
+          isFuture: header.isFuture,
+          isNecessary: header.isNecessary,
+          startMonth: header.startMonth,
+          startYear: header.startYear,
+          amount: header.amount,
+        },
+      },
+    });
+  };
+};
+export const deleteExpenseHeader = (header: IExpenseHeader) => {
+  return (dispatch: Dispatch<any>) => {
+    dispatch({
+      type: TYPES.HEADERS_DELETE_EXPENSE,
+      payload: {
+        header: {
+          id: header.id,
+        },
+      },
+    });
+  };
+};
+export const switchExpenseHeaders = (index1: number, index2: number) => {
+  return (dispatch: Dispatch<any>) => {
+    dispatch({
+      type: TYPES.HEADERS_SWITCH_EXPENSE,
+      payload: {
+        index1: index1,
+        index2: index2,
+      },
     });
   };
 };
