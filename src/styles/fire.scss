@@ -287,6 +287,7 @@ a.media {
 }
 
 .month-amount {
+  cursor: pointer;
   padding: 0 1.25rem;
   margin: 0 -1.25rem;
 
@@ -462,4 +463,8 @@ a.media {
 
 .display-block {
   display: block;
+}
+
+.half-pt-1 {
+  padding-top: 0.125rem !important;
 }

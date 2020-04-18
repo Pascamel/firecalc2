@@ -15,37 +15,46 @@ interface IProps {
   ['callback-props']: string[];
   ['display-if-zero']?: boolean;
   onUpdateValue: (index: string, indexes: string[], amount: number) => void;
+  clickEditParent?: string;
 }
 
-interface IState {
-  edit: boolean;
-  extraClassName: string;
-  readonly: boolean;
-  amount: number;
-  inputValue: string;
-  displayIfZero: boolean;
-}
-
-const FireAmount = (props: IProps) => {
-  const { bank, onUpdateValue } = props;
-  const [readonly] = useState(_.last(props['callback-props']) === 'T');
-  const [extraClassName] = useState(props.extraClassName || '');
+const FireAmount = ({
+  bank,
+  extraClassName,
+  'callback-props': callbackProps,
+  'display-if-zero': displayIfZero,
+  onUpdateValue,
+  clickEditParent
+}: IProps) => {
+  const readonly = _.last(callbackProps) === 'T';
   const [edit, setEdit] = useState(false);
-  const [amount, setAmount] = useState(
-    _.get(props.bank, props['callback-props'], 0)
-  );
+  const [amount, setAmount] = useState(_.get(bank, callbackProps, 0));
   const [inputValue, setInputValue] = useState(
-    _.get(props.bank, props['callback-props'], 0)
-      ? _.get(props.bank, props['callback-props'], 0).toString()
-      : ''
+    _.get(bank, callbackProps, 0).toString()
   );
-  const [displayIfZero] = useState(props['display-if-zero'] || false);
 
-  const setEditMode = () => {
+  useEffect(() => {
+    setEdit(false);
+    setAmount(_.get(bank, callbackProps, 0));
+    setInputValue(_.get(bank, callbackProps, 0).toString());
+  }, [bank]);
+
+  useEffect(() => {
+    if (clickEditParent !== null) {
+      setEditMode();
+    }
+  }, [clickEditParent]);
+
+  const onClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e && e.stopPropagation();
+    setEditMode();
+  };
+
+  const setEditMode = (e?: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     if (readonly) return;
 
     setEdit(true);
-    setAmount(_.get(bank, props['callback-props'], 0));
+    setAmount(_.get(bank, callbackProps, 0));
   };
 
   const confirmEdit = () => {
@@ -58,7 +67,7 @@ const FireAmount = (props: IProps) => {
     setEdit(false);
     setAmount(val);
 
-    const indexes = props['callback-props'];
+    const indexes = callbackProps;
     const index = indexes.shift() || '';
 
     onUpdateValue(index, indexes, parseFloat(val) || 0);
@@ -82,26 +91,23 @@ const FireAmount = (props: IProps) => {
     if (event.key === 'Escape') cancelEdit();
   };
 
-  useEffect(() => {
-    setEdit(false);
-    setAmount(_.get(bank, props['callback-props'], 0));
-    setInputValue(
-      _.get(bank, props['callback-props'], 0)
-        ? _.get(bank, props['callback-props'], 0).toString()
-        : ''
-    );
-  }, [bank, props]);
+  const classname = [
+    'amount-container',
+    readonly ? 'read-only' : null,
+    extraClassName
+  ]
+    .filter(v => v !== null)
+    .join(' ');
 
   return (
-    <div
-      className={`amount-container ${
-        readonly ? 'read-only' : ''
-      } ${extraClassName}`}
-      onKeyDown={handleKeyDown}
-    >
+    <div className={classname} onKeyDown={handleKeyDown}>
       {!edit && (
-        <Text className="amount" onClick={setEditMode}>
-          {helper_amount(amount, displayIfZero, bank.showDecimals || false)}
+        <Text className="amount" onClick={onClick}>
+          {helper_amount(
+            amount,
+            displayIfZero || false,
+            bank.showDecimals || false
+          )}
         </Text>
       )}
       {edit && (
