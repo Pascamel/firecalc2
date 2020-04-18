@@ -468,3 +468,12 @@ a.media {
 .half-pt-1 {
   padding-top: 0.125rem !important;
 }
+
+.alert.transparent {
+  padding: 0;
+  border: 0;
+
+  .alert {
+    margin-bottom: 0;
+  }
+}

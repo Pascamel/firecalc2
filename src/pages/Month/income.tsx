@@ -14,7 +14,7 @@ interface IProps {
   year: string;
 }
 
-const MonthIncome = ({ header, bank, month, year }: IProps) => {
+const Income = ({ header, bank, month, year }: IProps) => {
   const [bubbleClick, setBubbleClick] = useState<string | undefined>(undefined);
 
   const onClick = () => {
@@ -24,9 +24,7 @@ const MonthIncome = ({ header, bank, month, year }: IProps) => {
   return (
     <div className="month-amount" onClick={onClick}>
       <Text className="label-fake-input smaller mb-1">
-        {_(bank.incomeHeaders)
-          .keyBy('id')
-          .get([header.id, 'label'], 'N/A')}
+        {_(bank.incomeHeaders).keyBy('id').get([header.id, 'label'], 'N/A')}
       </Text>
       <div className="pull-right half-pt-1">
         <FireAmount
@@ -42,8 +40,8 @@ const MonthIncome = ({ header, bank, month, year }: IProps) => {
 
 const mapStateToProps = (state: AppState) => {
   return {
-    bank: state.bankState.bank
+    bank: state.bankState.bank,
   };
 };
 
-export default connect(mapStateToProps)(MonthIncome);
+export default connect(mapStateToProps)(Income);

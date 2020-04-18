@@ -4,12 +4,24 @@ interface IProps {
   className?: any;
   onClick?: any;
   children: JSX.Element | string;
+  color?: string;
 }
 
 const Text = (props: IProps) => {
-  const { children, ...otherProps } = props;
+  const { children, className, color, ...otherProps } = props;
 
-  return <span {...otherProps}>{children}</span>;
+  const combinedClassName = [
+    className ? className : null,
+    color ? `text-${color}` : null,
+  ]
+    .filter((v) => v !== null)
+    .join(' ');
+
+  return (
+    <span className={combinedClassName} {...otherProps}>
+      {children}
+    </span>
+  );
 };
 
 export default Text;

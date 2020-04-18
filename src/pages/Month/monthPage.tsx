@@ -9,8 +9,10 @@ import { LoadingPanel, Mobile, NotMobile, SavePanel } from '../../components';
 import ROUTES from '../../constants/routes';
 import { currentMonthRoute, labelMonth, nextMonth, prevMonth } from '../../helpers';
 import { AppState } from '../../store';
-import Charts from './charts';
-import Finances from './finances';
+import Expenses from './expenses';
+import Header from './header';
+import Incomes from './incomes';
+import Savings from './savings';
 
 interface IProps extends RouteComponentProps<{ month: string; year: string }> {
   authUser: firebase.User | null;
@@ -122,8 +124,14 @@ const MonthPageBase = (props: IProps & RouteComponentProps) => {
           <Col className="pr-0 pl-0">
             <Container>
               <Row>
-                <Finances month={month} year={year} />
-                <Charts month={month} year={year} />
+                <Col xs={12}>
+                  <Header month={month} year={year} />
+                </Col>
+              </Row>
+              <Row>
+                <Savings month={month} year={year} />
+                <Incomes month={month} year={year} />
+                <Expenses month={month} year={year} />
               </Row>
             </Container>
           </Col>

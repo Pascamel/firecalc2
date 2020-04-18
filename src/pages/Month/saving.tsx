@@ -16,12 +16,10 @@ interface IProps {
   year: string;
 }
 
-const MonthSavings = ({ header, bank, month, year }: IProps) => {
+const MonthSaving = ({ header, bank, month, year }: IProps) => {
   const [bubbleClick, setBubbleClick] = useState<string | undefined>(undefined);
 
-  const h = _(bank.savingsHeaders)
-    .keyBy('id')
-    .get([header.id]);
+  const h = _(bank.savingsHeaders).keyBy('id').get([header.id]);
 
   if (!shouldDisplay(h, parseInt(month), parseInt(year))) {
     return null;
@@ -56,8 +54,8 @@ const MonthSavings = ({ header, bank, month, year }: IProps) => {
 
 const mapStateToProps = (state: AppState) => {
   return {
-    bank: state.bankState.bank
+    bank: state.bankState.bank,
   };
 };
 
-export default connect(mapStateToProps)(MonthSavings);
+export default connect(mapStateToProps)(MonthSaving);
