@@ -30,7 +30,7 @@ const NavBarItem = ({
   to,
   updated
 }: IProps) => {
-  const navLinkClass = (/*route: string*/) => {
+  const navLinkClass = () => {
     return [
       'nav-link',
       className,

@@ -22,7 +22,6 @@ export const SignInPage = (props: RouteComponentProps) => {
                   sm="12"
                 >
                   <Alert className="form-container" color="background">
-                    {/* <h4>Sign In</h4> */}
                     <SignInForm {...props} />
                     <PasswordForgotButton />
                     <hr />

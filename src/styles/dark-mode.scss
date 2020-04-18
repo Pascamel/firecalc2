@@ -296,4 +296,11 @@ body.dark-mode {
       background-color: $alertBackground;
     }
   }
+
+  .form-control,
+  .custom-select {
+    background-color: $bodyBackground;
+    border-color: rgba(255, 255, 255, 0.25);
+    color: #fff;
+  }
 }

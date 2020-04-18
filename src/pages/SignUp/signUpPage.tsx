@@ -20,7 +20,6 @@ export const SignUpPage = (props: RouteComponentProps) => {
                   sm="12"
                 >
                   <Alert className="form-container" color="background">
-                    {/* <h4>Sign Up</h4> */}
                     <SignUpForm {...props} />
                   </Alert>
                 </Col>
