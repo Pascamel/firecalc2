@@ -37,18 +37,6 @@ const Charts = ({ month, year, bank }: IProps) => {
               />
             </Col>
           </Row>
-          <Row>
-            <Col>
-              <Text className="label-fake-input">Expenses</Text>
-            </Col>
-            <Col>
-              <FireAmount
-                extraClassName="label-fake-input pull-right"
-                display-if-zero={true}
-                callback-props={['expenses', year, month]}
-              />
-            </Col>
-          </Row>
         </Alert>
         <Alert color="background">
           <Progress
@@ -99,7 +87,7 @@ const Charts = ({ month, year, bank }: IProps) => {
 
 const mapStateToProps = (state: AppState) => {
   return {
-    bank: state.bankState.bank
+    bank: state.bankState.bank,
   };
 };
 

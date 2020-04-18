@@ -103,7 +103,7 @@ const HomePageBase = ({ bank, authUser, onLoadBank, bankLoaded }: IProps) => {
                     icon="user-tie"
                   />
                   <Item
-                    label="Others (Net worth, Expenses...)"
+                    label="Others (Net worth, Notes...)"
                     value={'Updated ' + bank.lastupdate.others}
                     route={currentMonthRoute()}
                     icon="university"
@@ -135,13 +135,13 @@ const HomePageBase = ({ bank, authUser, onLoadBank, bankLoaded }: IProps) => {
 const mapStateToProps = (state: AppState) => {
   return {
     bank: state.bankState.bank,
-    bankLoaded: state.bankState.bankLoaded
+    bankLoaded: state.bankState.bankLoaded,
   };
 };
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => {
   return {
-    onLoadBank: (uid: string) => dispatch(loadBank(uid))
+    onLoadBank: (uid: string) => dispatch(loadBank(uid)),
   };
 };
 

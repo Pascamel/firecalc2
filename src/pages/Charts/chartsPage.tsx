@@ -67,39 +67,37 @@ const ChartsPageBase = (props: IProps & RouteComponentProps) => {
         const m2 =
           y === new Date().getFullYear() ? new Date().getMonth() + 1 : 12;
 
-        _.each(_.range(m1, m2 + 1), m => {
+        _.each(_.range(m1, m2 + 1), (m) => {
           svsi.push({
             date: new Date(y, m, 0).getTime(), // last day of m-1
             savings: _.get(bank.totalMonthSavings, [y, m], 0),
-            income: _.get(bank.totalMonthIncome, [y, m], 0)
+            income: _.get(bank.totalMonthIncome, [y, m], 0),
           });
 
           nws.push({
             date: new Date(y, m, 0).getTime(),
             netWorth: _.get(bank.networth, [y, m], null) as number | null,
-            savings: _.get(bank.totalHolding, [y, m], 0)
+            savings: _.get(bank.totalHolding, [y, m], 0),
           });
 
           sae.push({
             date: new Date(y, m, 0).getTime(),
             allocation: _(bank.savingsInputs)
               .filter(
-                header =>
+                (header) =>
                   header.types.indexOf('T') === -1 || header.type === 'T'
               )
               .reduce((acc, header) => {
-                const key = _(bank.savingsHeaders)
-                  .keyBy('id')
-                  .get([header.id]).label;
+                const key = _(bank.savingsHeaders).keyBy('id').get([header.id])
+                  .label;
                 const value =
                   (acc[key] || 0) +
                   _.get(bank.grandTotalMonthInstitution, [y, m, header.id]);
                 return { ...acc, [key]: value };
-              }, {} as IChartAllocationData)
+              }, {} as IChartAllocationData),
           });
 
           if (_.get(bank.networth, [y, m])) {
-            const manual_expenses = _.get(bank.expenses, [y, m], 0);
             const automatic_expenses =
               _.get(bank.totalMonthIncome, [y, m], 0) -
               _.get(bank.totalMonthSavings, [y, m], 0);
@@ -109,15 +107,12 @@ const ChartsPageBase = (props: IProps & RouteComponentProps) => {
               income: Math.round(
                 parseFloat(_.get(bank.networth, [y, m], '0')) / 300
               ),
-              expenses:
-                manual_expenses !== 0
-                  ? manual_expenses
-                  : Math.max(0, automatic_expenses)
+              expenses: Math.max(0, automatic_expenses),
             });
           }
         });
 
-        _.each(_.range(m1, 13), m => {
+        _.each(_.range(m1, 13), (m) => {
           ybu.push({
             date: new Date(y, m, 0).getTime(),
             goal: m * _.get(bank.monthlyGoal, y, 0),
@@ -125,20 +120,18 @@ const ChartsPageBase = (props: IProps & RouteComponentProps) => {
               m <= m2
                 ? m * _.get(bank.monthlyGoal, y, 0) +
                   _.get(bank.goalYearToDate, [y, m], 0)
-                : null
+                : null,
           });
         });
       }
     );
 
     _(bank.savingsInputs)
-      .filter(header => {
+      .filter((header) => {
         return header.types.indexOf('T') === -1 || header.type === 'T';
       })
-      .each(header => {
-        const h = _(bank.savingsHeaders)
-          .keyBy('id')
-          .get([header.id]);
+      .each((header) => {
+        const h = _(bank.savingsHeaders).keyBy('id').get([header.id]);
         if (!h) return;
 
         let header_label = h.label || 'N/A';
@@ -146,7 +139,7 @@ const ChartsPageBase = (props: IProps & RouteComponentProps) => {
 
         sb.push({
           name: header_label,
-          value: bank.grandTotalInstitution[header.id][header.type]
+          value: bank.grandTotalInstitution[header.id][header.type],
         });
       });
 
@@ -245,13 +238,13 @@ const mapStateToProps = (state: AppState) => {
     authUser: state.sessionState.authUser,
     bank: state.bankState.bank,
     bankLoaded: state.bankState.bankLoaded,
-    darkMode: state.sessionState.darkMode
+    darkMode: state.sessionState.darkMode,
   };
 };
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => {
   return {
-    onLoadBank: (uid: string) => dispatch(loadBank(uid))
+    onLoadBank: (uid: string) => dispatch(loadBank(uid)),
   };
 };
 

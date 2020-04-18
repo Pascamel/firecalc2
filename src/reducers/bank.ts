@@ -1,6 +1,6 @@
 import uuid from 'uuid';
 
-import * as TYPES from '../actions/types';
+import TYPES from '../actions/types';
 import Bank from '../bank';
 import { IBank } from '../bank/bank';
 import { deepCopy } from '../helpers';
@@ -12,7 +12,7 @@ const INITIAL_STATE = {
   bankIncomeUpdated: false,
   bankOthersUpdated: false,
   bankHeadersUpdated: false,
-  saveInProgress: false
+  saveInProgress: false,
 };
 
 const bankReducer = (state = INITIAL_STATE, action: any) => {
@@ -25,7 +25,7 @@ const bankReducer = (state = INITIAL_STATE, action: any) => {
         bankIncomeUpdated: false,
         bankOthersUpdated: false,
         bankHeadersUpdated: false,
-        bankLoaded: false
+        bankLoaded: false,
       };
 
     case TYPES.BANK_LOAD_SUCCESS:
@@ -36,7 +36,7 @@ const bankReducer = (state = INITIAL_STATE, action: any) => {
         bankIncomeUpdated: false,
         bankOthersUpdated: false,
         bankHeadersUpdated: false,
-        bankLoaded: true
+        bankLoaded: true,
       };
 
     case TYPES.BANK_LOAD_FAILURE:
@@ -47,7 +47,7 @@ const bankReducer = (state = INITIAL_STATE, action: any) => {
         bankIncomeUpdated: false,
         bankOthersUpdated: false,
         bankHeadersUpdated: false,
-        bankLoaded: false
+        bankLoaded: false,
       };
 
     case TYPES.BANK_UPDATE_VALUE: {
@@ -74,7 +74,7 @@ const bankReducer = (state = INITIAL_STATE, action: any) => {
           action.payload.index === 'networth' ||
           action.payload.index === 'expenses' ||
           action.payload.index === 'notes',
-        bankHeadersUpdated: action.payload.index === 'headers'
+        bankHeadersUpdated: action.payload.index === 'headers',
       };
     }
 
@@ -91,7 +91,7 @@ const bankReducer = (state = INITIAL_STATE, action: any) => {
 
       return {
         ...state,
-        bank: new_bank
+        bank: new_bank,
       };
     }
 
@@ -99,7 +99,7 @@ const bankReducer = (state = INITIAL_STATE, action: any) => {
     case TYPES.HEADERS_SAVE_STARTED:
       return {
         ...state,
-        saveInProgress: true
+        saveInProgress: true,
       };
 
     case TYPES.BANK_SAVE_SUCCESS:
@@ -109,33 +109,33 @@ const bankReducer = (state = INITIAL_STATE, action: any) => {
         bankIncomeUpdated: false,
         bankOthersUpdated: false,
         bankHeadersUpdated: false,
-        saveInProgress: false
+        saveInProgress: false,
       };
 
     case TYPES.HEADERS_SAVE_SUCCESS:
       return {
         ...state,
         bankHeadersUpdated: false,
-        saveInProgress: false
+        saveInProgress: false,
       };
 
     case TYPES.BANK_SAVE_FAILURE:
     case TYPES.HEADERS_SAVE_FAILURE:
       return {
         ...state,
-        saveInProgress: false
+        saveInProgress: false,
       };
 
     case TYPES.HEADERS_NEW_SAVING: {
       let new_bank = deepCopy(state.bank);
       new_bank.headers.savings.push({
-        id: uuid.v4()
+        id: uuid.v4(),
       });
 
       return {
         ...state,
         bank: new_bank,
-        bankHeadersUpdated: true
+        bankHeadersUpdated: true,
       };
     }
 
@@ -149,7 +149,7 @@ const bankReducer = (state = INITIAL_STATE, action: any) => {
       new_bank.headers.savings = [
         ...new_bank.headers.savings.slice(0, idx),
         action.payload.header,
-        ...new_bank.headers.savings.slice(idx + 1)
+        ...new_bank.headers.savings.slice(idx + 1),
       ];
 
       Bank.formatHeaders(new_bank);
@@ -157,7 +157,7 @@ const bankReducer = (state = INITIAL_STATE, action: any) => {
       return {
         ...state,
         bank: new_bank,
-        bankHeadersUpdated: true
+        bankHeadersUpdated: true,
       };
     }
 
@@ -167,7 +167,7 @@ const bankReducer = (state = INITIAL_STATE, action: any) => {
       new_bank.headers.savings = [
         ...new_bank.headers.savings.filter(
           (h: any) => h.id !== action.payload.header.id
-        )
+        ),
       ];
 
       Bank.formatHeaders(new_bank);
@@ -175,7 +175,7 @@ const bankReducer = (state = INITIAL_STATE, action: any) => {
       return {
         ...state,
         bank: new_bank,
-        bankHeadersUpdated: true
+        bankHeadersUpdated: true,
       };
     }
 
@@ -190,20 +190,20 @@ const bankReducer = (state = INITIAL_STATE, action: any) => {
       return {
         ...state,
         bank: new_bank,
-        bankHeadersUpdated: true
+        bankHeadersUpdated: true,
       };
     }
 
     case TYPES.HEADERS_NEW_INCOME: {
       let new_bank = deepCopy(state.bank);
       new_bank.headers.incomes.push({
-        id: uuid.v4()
+        id: uuid.v4(),
       });
 
       return {
         ...state,
         bank: new_bank,
-        bankHeadersUpdated: true
+        bankHeadersUpdated: true,
       };
     }
 
@@ -217,7 +217,7 @@ const bankReducer = (state = INITIAL_STATE, action: any) => {
       new_bank.headers.incomes = [
         ...new_bank.headers.incomes.slice(0, idx),
         action.payload.header,
-        ...new_bank.headers.incomes.slice(idx + 1)
+        ...new_bank.headers.incomes.slice(idx + 1),
       ];
 
       Bank.formatHeaders(new_bank);
@@ -225,7 +225,7 @@ const bankReducer = (state = INITIAL_STATE, action: any) => {
       return {
         ...state,
         bank: new_bank,
-        bankHeadersUpdated: true
+        bankHeadersUpdated: true,
       };
     }
 
@@ -235,7 +235,7 @@ const bankReducer = (state = INITIAL_STATE, action: any) => {
       new_bank.headers.incomes = [
         ...new_bank.headers.incomes.filter(
           (h: any) => h.id !== action.payload.header.id
-        )
+        ),
       ];
 
       Bank.formatHeaders(new_bank);
@@ -243,7 +243,7 @@ const bankReducer = (state = INITIAL_STATE, action: any) => {
       return {
         ...state,
         bank: new_bank,
-        bankHeadersUpdated: true
+        bankHeadersUpdated: true,
       };
     }
 
@@ -258,9 +258,23 @@ const bankReducer = (state = INITIAL_STATE, action: any) => {
       return {
         ...state,
         bank: new_bank,
-        bankHeadersUpdated: true
+        bankHeadersUpdated: true,
       };
     }
+
+    case TYPES.HEADERS_NEW_EXPENSE: {
+      let new_bank = deepCopy(state.bank);
+      new_bank.headers.expenses.push({
+        id: uuid.v4(),
+      });
+
+      return {
+        ...state,
+        bank: new_bank,
+        bankHeadersUpdated: true,
+      };
+    }
+
     default:
       return state;
   }
