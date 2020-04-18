@@ -2,16 +2,12 @@ $bodytext: #212529;
 $background: #f1f1f1;
 
 $header-background: #224361;
+$header-updated-background: #f39c12;
 $header-text-color: #fff;
 $header-btn-background: #fc994d;
+$header-updated-btn-background: #d3850a;
 $header-btn-text-color: #fff;
 $header-btn-text-color-hover: #ffd1c7;
-
-$header-save-background: #224361;
-$header-save-text-color: #fff;
-$header-save-btn-background: #ffc107;
-$header-save-btn-text-color: #fff;
-
 
 label {
   font-weight: normal;
@@ -47,6 +43,14 @@ label {
           margin-left: -10px;
         }
       }
+
+      &.updated {
+        &.active {
+          &:after {
+            border-bottom-color: $header-updated-background;
+          }
+        }
+      }
     }
   }
 }
@@ -71,10 +75,15 @@ label {
   color: #ccc;
 }
 
-html, body, #root, .sfsgsdf {
+html,
+body,
+#root,
+.sfsgsdf {
   height: calc(100%);
 }
-body, #root, .nav-container {
+body,
+#root,
+.nav-container {
   background: $background;
 }
 
@@ -94,27 +103,27 @@ a.media {
 }
 
 .container-centered {
-  height:100%;
+  height: 100%;
   height: calc(100% - 120px);
 
   .row {
-    height:100%;
+    height: 100%;
 
     .col {
-      height:100%;
+      height: 100%;
 
       .container {
         height: 100%;
 
         .alert.form-container {
-          position: absolute; 
+          position: absolute;
           transform: translateY(-50%);
-          top: 50%; 
+          top: 50%;
           width: 100%;
         }
       }
     }
-  } 
+  }
 }
 
 .alert-header {
@@ -151,6 +160,14 @@ a.media {
       }
     }
   }
+
+  &.updated {
+    background-color: $header-updated-background;
+
+    .btn-header {
+      background: $header-updated-btn-background;
+    }
+  }
 }
 
 .alert-background {
@@ -173,7 +190,7 @@ a.media {
   .breadcrumb {
     background: transparent;
     margin-bottom: 0;
-    padding: 7px 0;  
+    padding: 7px 0;
 
     .nav-link {
       display: inline-block;
@@ -212,7 +229,7 @@ a.media {
 .loading-spinner {
   text-align: center;
   padding: 1.25em;
-  
+
   > div {
     color: #999;
   }
@@ -220,7 +237,7 @@ a.media {
 
 .form-headers {
   .btn-link {
-    padding: .125rem !important;
+    padding: 0.125rem !important;
     cursor: pointer;
   }
 
@@ -237,9 +254,9 @@ a.media {
   display: inline-block;
 
   span.amount {
-    min-width: 60px; 
+    min-width: 60px;
     width: 100%;
-    height: 19px; 
+    height: 19px;
     display: inline-block;
     text-align: right;
   }
@@ -270,6 +287,10 @@ a.media {
 }
 
 .month-amount {
+  cursor: pointer;
+  padding: 0 1.25rem;
+  margin: 0 -1.25rem;
+
   .amount-container {
     .amount {
       height: 34px;
@@ -286,7 +307,7 @@ a.media {
 }
 
 .btn-outline-light {
-  &.focus, 
+  &.focus,
   &:focus {
     box-shadow: none;
   }
@@ -316,7 +337,7 @@ a.media {
     width: calc(100% - 200px);
     position: absolute;
     left: 0;
-    margin: 0 100px;   
+    margin: 0 100px;
   }
 
   .btn-cancel {
@@ -357,12 +378,15 @@ a.media {
   }
 
   &.piggy-bank {
-    background: url(https://cdn.dribbble.com/users/1055986/screenshots/2887405/piggy-bank-2.gif) 50% 50% no-repeat;
+    background: url(https://cdn.dribbble.com/users/1055986/screenshots/2887405/piggy-bank-2.gif)
+      50% 50% no-repeat;
     background-size: 150%;
   }
-  
+
   &.error-403 {
-    background: #fff url(https://cdn.dribbble.com/users/761395/screenshots/6245146/error_403.jpg) 50% 50% no-repeat;
+    background: #fff
+      url(https://cdn.dribbble.com/users/761395/screenshots/6245146/error_403.jpg)
+      50% 50% no-repeat;
     background-size: 120%;
   }
 }
@@ -410,12 +434,37 @@ a.media {
 }
 
 .list-group-item {
-  &.focus, 
+  &.cursor {
+    cursor: pointer;
+  }
+
+  &.focus,
   &:focus {
     box-shadow: none;
   }
+
+  &.list-group-item-primary {
+    color: #fff;
+    background-color: #007bff;
+    border-color: #007bff;
+  }
+
+  .list-group-item-darker {
+    background-color: #333;
+  }
 }
 
-.list-group-item-link {
-  color: $bodytext;
+.btn-group {
+  .btn-darker {
+    background-color: #fff;
+    border: 1px solid rgba(0, 0, 0, 0.125);
+  }
+}
+
+.display-block {
+  display: block;
+}
+
+.half-pt-1 {
+  padding-top: 0.125rem !important;
 }

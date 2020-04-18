@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import React from 'react';
 
 interface IProps {
@@ -8,21 +7,16 @@ interface IProps {
 }
 
 const FireTR = (props: IProps) => {
-
   const classNames = [];
 
-  if (_.has(props, 'show') && !(props.show || false)) {
+  if ('show' in props && !(props.show || false)) {
     classNames.push('hidden');
-  }  
-  if (_.has(props, 'hide') && props.hide) {
+  }
+  if ('hide' in props && props.hide) {
     classNames.push('hidden');
   }
 
-  return (
-    <tr className={classNames.join(' ')}>
-      {props.children}
-    </tr>
-  );
-}
+  return <tr className={classNames.join(' ')}>{props.children}</tr>;
+};
 
 export default FireTR;

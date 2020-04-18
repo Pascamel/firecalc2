@@ -7,13 +7,9 @@ interface IProps {
 }
 
 const Text = (props: IProps) => {
-  const {children, ...otherProps} = props;
-  
-  return (
-    <span {...otherProps}>
-      {children}
-    </span>
-    );
-}
+  const { children, ...otherProps } = props;
+
+  return <span {...otherProps}>{children}</span>;
+};
 
 export default Text;

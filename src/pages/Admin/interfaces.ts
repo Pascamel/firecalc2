@@ -1,11 +1,11 @@
 export interface IUser {
-  id: string,
-  email?: string,
-  type?: number
+  id: string;
+  email?: string;
+  type?: number;
 }
 
 export interface IUserData {
-  headers?: string
+  headers?: string;
   savings?: string;
   income?: string;
   others?: string;

@@ -1,5 +1,7 @@
 import _ from 'lodash';
-import React, { ChangeEvent, Dispatch, KeyboardEvent, MouseEvent, useEffect, useState } from 'react';
+import React, {
+    ChangeEvent, Dispatch, KeyboardEvent, MouseEvent, useEffect, useState
+} from 'react';
 import { connect } from 'react-redux';
 import { Alert, Input } from 'reactstrap';
 
@@ -16,8 +18,7 @@ interface IProps {
   onUpdateValue: (index: string, indexes: string[], text: string) => void;
 }
 
-const Notes = (props: IProps) => {
-  const { bank, bankLoaded, year, month, onUpdateValue } = props;
+const Notes = ({ bank, bankLoaded, year, month, onUpdateValue }: IProps) => {
   const [edit, setEdit] = useState(false);
   const [value, setValue] = useState('');
   const [editValue, setEditValue] = useState('');
@@ -32,19 +33,25 @@ const Notes = (props: IProps) => {
 
     setEdit(true);
     setEditValue(value);
-  }
+  };
 
   const change = (e: ChangeEvent<HTMLInputElement>) => {
     setEditValue(e.target.value);
-  }
+  };
 
   const keyDown = (e: KeyboardEvent) => {
     if (e.key === 'Enter' && e.ctrlKey) {
-      const element = document.getElementById('notesTextArea') as HTMLTextAreaElement;
+      const element = document.getElementById(
+        'notesTextArea'
+      ) as HTMLTextAreaElement;
       const begin = element.selectionStart;
       const end = element.selectionEnd;
 
-      setEditValue(element.value.substring(0, begin) + '\n' + element.value.substring(end, element.value.length));
+      setEditValue(
+        element.value.substring(0, begin) +
+          '\n' +
+          element.value.substring(end, element.value.length)
+      );
       setTimeout(() => {
         element.setSelectionRange(begin + 1, end + 1);
       }, 10);
@@ -55,29 +62,40 @@ const Notes = (props: IProps) => {
     } else if (e.key === 'Escape') {
       setEdit(false);
     }
-  }
-  
+  };
+
   return (
     <Alert color="background" onClick={editMode}>
-      <p><b>Notes</b></p>
-      {!edit && <Text className="text-newline">{value && value.length ? value : 'No note created yet'}</Text>}
-      {edit && <Input id="notesTextArea"
-                      innerRef={(input) => {if (input != null) input.focus();}}
-                      type="textarea" 
-                      value={editValue} 
-                      onChange={change} 
-                      onKeyDown={keyDown}  
-      />}
+      <p>
+        <b>Notes</b>
+      </p>
+      {!edit && (
+        <Text className="text-newline">
+          {value && value.length ? value : 'No note created yet'}
+        </Text>
+      )}
+      {edit && (
+        <Input
+          id="notesTextArea"
+          innerRef={input => {
+            input?.focus();
+          }}
+          type="textarea"
+          value={editValue}
+          onChange={change}
+          onKeyDown={keyDown}
+        />
+      )}
     </Alert>
-  )
-}
+  );
+};
 
 const mapStateToProps = (state: AppState) => {
-  return ({
+  return {
     bank: state.bankState.bank,
     bankLoaded: state.bankState.bankLoaded
-  });
-}
+  };
+};
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => {
   return {
@@ -87,7 +105,4 @@ const mapDispatchToProps = (dispatch: Dispatch<any>) => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Notes);
+export default connect(mapStateToProps, mapDispatchToProps)(Notes);

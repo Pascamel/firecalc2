@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import React from 'react';
 
 interface IProps {
@@ -13,25 +12,28 @@ interface IProps {
 const FireTD = (props: IProps) => {
   const classNames = [];
 
-  if (_.has(props, 'show') && !(props.show || false)) {
+  if ('show' in props && !(props.show || false)) {
     classNames.push('hidden');
-  }  
-  if (_.has(props, 'hide') && props.hide) {
+  }
+  if ('hide' in props && props.hide) {
     classNames.push('hidden');
-  } 
-  if (_.has(props, 'goal') && _.has(props, 'threshold')) {
-    classNames.push(((props.goal || 0) >= (props.threshold || 0)) ? 'table-success' : 'table-danger');
+  }
+  if ('goal' in props && 'threshold' in props) {
+    classNames.push(
+      (props.goal || 0) >= (props.threshold || 0)
+        ? 'table-success'
+        : 'table-danger'
+    );
   }
 
   let colSpan = 1;
-  if (_.has(props, 'span')) colSpan = props.span || 1;
+  if ('span' in props) colSpan = props.span || 1;
 
   return (
     <td className={classNames.join(' ')} colSpan={colSpan}>
       {props.children}
     </td>
   );
-
-}
+};
 
 export default FireTD;

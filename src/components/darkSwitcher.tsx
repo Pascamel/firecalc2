@@ -9,8 +9,10 @@ interface IProps {
   onSetDarkMode: (darkMode: boolean) => void;
 }
 
-const DarkSwitcher = (props: IProps) => {
-  const { onSetDarkMode } = props;
+const DarkSwitcher = ({ darkMode, onSetDarkMode }: IProps) => {
+  const icon = darkMode ? 'fa-lightbulb-o' : 'fa-moon-o';
+  const label = darkMode ? 'Turn on the light' : 'Go Dark';
+
   useEffect(() => {
     const ls = parseInt(localStorage.getItem('darkMode') || '0');
     if (ls > 0) {
@@ -19,32 +21,28 @@ const DarkSwitcher = (props: IProps) => {
   }, [onSetDarkMode]);
 
   const handleClick = () => {
-    localStorage.setItem('darkMode', !props.darkMode ? '1' : '0');
-    props.onSetDarkMode(!props.darkMode);
+    localStorage.setItem('darkMode', !darkMode ? '1' : '0');
+    onSetDarkMode(!darkMode);
   };
 
   return (
     <span className="no-link" onClick={handleClick}>
-      <i className={`fa fa-lg ${props.darkMode ? 'fa-lightbulb-o' : 'fa-moon-o'} pr-2`} />   
-      {props.darkMode ? 'Turn on the light' : 'Go Dark'}
+      <i className={`fa fa-lg fa-fw ${icon}`} />
+      {label}
     </span>
-  )
-}
+  );
+};
 
 const mapStateToProps = (state: AppState) => {
-  return ({
-    darkMode: state.sessionState.darkMode,
-  });
-}
-
+  return {
+    darkMode: state.sessionState.darkMode
+  };
+};
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => {
   return {
     onSetDarkMode: (darkMode: boolean) => dispatch(setDarkMode(darkMode))
-  }
-}
+  };
+};
 
-export default connect(
-  mapStateToProps, 
-  mapDispatchToProps,
-)(DarkSwitcher);
+export default connect(mapStateToProps, mapDispatchToProps)(DarkSwitcher);

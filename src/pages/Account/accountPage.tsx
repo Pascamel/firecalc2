@@ -11,9 +11,7 @@ interface IProps {
   authUser: firebase.User;
 }
 
-const AccountPageBase2 = (props: IProps) => {
-  const { authUser } = props;
-
+const AccountPageBase2 = ({ authUser }: IProps) => {
   return (
     <>
       <HeaderPanel title="My account" />
@@ -23,11 +21,9 @@ const AccountPageBase2 = (props: IProps) => {
             <Container>
               <Row>
                 <Col>
-                  <ListGroup>     
+                  <ListGroup>
                     <ListGroupItem>
-                      <ListGroupItemHeading>
-                        Account
-                      </ListGroupItemHeading>
+                      <ListGroupItemHeading>Account</ListGroupItemHeading>
                       {(authUser as firebase.User).email}
                     </ListGroupItem>
                     <ListGroupItem>
@@ -51,12 +47,12 @@ const AccountPageBase2 = (props: IProps) => {
       </Container>
     </>
   );
-}
+};
 
 const mapStateToProps = (state: AppState) => {
-  return ({
-    authUser: state.sessionState.authUser,
-  });
-}
+  return {
+    authUser: state.sessionState.authUser
+  };
+};
 
 export const AccountPageBase = connect(mapStateToProps)(AccountPageBase2);

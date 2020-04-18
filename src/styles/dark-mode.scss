@@ -1,8 +1,10 @@
 $bodyText: #ddd;
 $bodyBackground: #222;
 $headerText: #bbb;
+$headerTextActive: #fff;
 $headerBackground: #375a7f;
-$alertBackground: #444;
+$headerBackgroundUpdated: #f39c12;
+$alertBackground: #333;
 $successColor: #008958;
 $errorColor: #c12546;
 
@@ -24,21 +26,21 @@ body.dark-mode {
         color: $headerText;
 
         &:hover {
-          color: #fff;
+          color: $headerTextActive;
         }
 
         &.active {
-          color: #fff;
+          color: $headerTextActive;
         }
       }
-    }        
-  } 
+    }
+  }
 
   .tab-nav-bar {
     .nav-link.active {
       color: $headerText;
-      background-color: $alertBackground; // $bodyBackground;
-      border-bottom: 1px solid $alertBackground; // $bodyBackground;
+      background-color: $alertBackground;
+      border-bottom: 1px solid $alertBackground;
     }
   }
 
@@ -62,12 +64,16 @@ body.dark-mode {
         }
       }
     }
+
+    &.updated {
+      background: $headerBackgroundUpdated;
+    }
   }
 
   .btn-header {
     background: #88a9c7;
     color: #092a48;
-  
+
     &:hover {
       background: #a1c2e0;
     }
@@ -79,7 +85,7 @@ body.dark-mode {
   }
 
   .no-link {
-    color: $bodyText;
+    color: rgba(255, 255, 255, 0.5);
     &:hover {
       color: $bodyText;
     }
@@ -89,15 +95,29 @@ body.dark-mode {
     color: #ccc;
 
     &:hover {
-      color:#999;
+      color: #999;
     }
   }
 
-  .form-headers {
+  .form-headers,
+  .btn-group {
     .btn-primary {
       color: #212529;
       background-color: #f8f9fa;
       border-color: #f8f9fa;
+
+      &:hover {
+        background-color: rgba(224, 224, 224, 0.9);
+      }
+    }
+
+    .btn-outline-primary {
+      color: #f8f9fa;
+      border-color: #f8f9fa;
+
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+      }
     }
 
     .btn-light {
@@ -105,23 +125,57 @@ body.dark-mode {
       background-color: #6c757d;
       border-color: #6c757d;
     }
-  
-    
-    .btn-light.disabled, .btn-light:disabled {
+
+    .btn-light.disabled,
+    .btn-light:disabled {
       color: #fff;
       background-color: #6c757d;
       border-color: #6c757d;
     }
 
-    .btn-secondary.disabled, .btn-secondary:disabled {
+    .btn-secondary.disabled,
+    .btn-secondary:disabled {
       color: #212529;
       background-color: #f8f9fa;
       border-color: #f8f9fa;
     }
+
+    .btn-darker {
+      color: #fff;
+      background-color: $alertBackground;
+      border-color: $alertBackground;
+    }
+  }
+
+  .list-group {
+    .list-group-item-primary {
+      background-color: #666;
+      border-color: #666;
+
+      &:hover {
+        cursor: default;
+      }
+    }
+
+    .list-group-item-light {
+      color: #fff;
+      background-color: #6c757d;
+      border-color: #6c757d;
+    }
+
+    .list-group-item-darker {
+      color: #fff;
+      background-color: $alertBackground;
+      border-color: $alertBackground;
+
+      &:hover {
+        background-color: #404040;
+      }
+    }
   }
 
   .dropdown-divider {
-      border-top: 1px solid #444;
+    border-top: 1px solid #444;
   }
 
   .top-shadow {
@@ -152,8 +206,8 @@ body.dark-mode {
       border-top: 2px solid #222;
     }
 
-
-    th, td {
+    th,
+    td {
       border-top: 1px solid #222;
     }
   }
@@ -162,11 +216,15 @@ body.dark-mode {
     background-color: rgba(0, 0, 0, 0.125);
   }
 
-  .table-success, .table-success > th, .table-success > td {
+  .table-success,
+  .table-success > th,
+  .table-success > td {
     background-color: $successColor;
   }
 
-  .table-danger, .table-danger > th, .table-danger > td {
+  .table-danger,
+  .table-danger > th,
+  .table-danger > td {
     background-color: $errorColor;
   }
 
@@ -182,13 +240,14 @@ body.dark-mode {
 
   .chart-label {
     color: #bbb;
-    text-shadow: -1px 0 $alertBackground, 0 1px $alertBackground, 1px 0 $alertBackground, 0 -1px $alertBackground;
+    text-shadow: -1px 0 $alertBackground, 0 1px $alertBackground,
+      1px 0 $alertBackground, 0 -1px $alertBackground;
   }
 
   .bg-success {
     background-color: $successColor !important;
   }
-  
+
   .bg-danger {
     background-color: $errorColor !important;
   }
@@ -199,7 +258,7 @@ body.dark-mode {
 
   a.media {
     color: $bodyText;
-  
+
     &:hover {
       color: #bbb;
       text-decoration: none;
@@ -213,7 +272,8 @@ body.dark-mode {
   .list-group-item-link {
     color: #ccc;
 
-    &:hover, &:active {
+    &:hover,
+    &:active {
       background-color: #333;
       border-color: #333;
     }
@@ -223,5 +283,24 @@ body.dark-mode {
     background-color: #333;
     color: #fff;
     border-color: #333;
+  }
+
+  .dropdown-item {
+    color: $headerText;
+
+    &.disabled {
+      color: $headerTextActive;
+    }
+
+    &:hover {
+      background-color: $alertBackground;
+    }
+  }
+
+  .form-control,
+  .custom-select {
+    background-color: $bodyBackground;
+    border-color: rgba(255, 255, 255, 0.25);
+    color: #fff;
   }
 }

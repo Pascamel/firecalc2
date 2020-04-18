@@ -9,23 +9,21 @@ import { AppState } from '../../store';
 import Table from './table';
 
 interface IProps {
-  authUser: firebase.User|null;
+  authUser: firebase.User | null;
   bankLoaded: boolean;
   onLoadBank: (uid: string) => void;
   onSaveBank: (uid: string, bank: Bank.IBank) => void;
 }
 
-const SavingsPageBase = (props: IProps) => {
-  const { authUser, onLoadBank, bankLoaded } = props;
-
+const SavingsPageBase = ({ authUser, onLoadBank, bankLoaded }: IProps) => {
   useEffect(() => {
-    if (bankLoaded || !authUser ) return;
-    
+    if (bankLoaded || !authUser) return;
+
     onLoadBank(authUser.uid);
   }, [authUser, bankLoaded, onLoadBank]);
 
   if (!bankLoaded) return <LoadingPanel />;
-  
+
   return (
     <>
       <SavePanel label="Savings" />
@@ -35,7 +33,7 @@ const SavingsPageBase = (props: IProps) => {
             <Container>
               <Row>
                 <Col>
-                  <Alert color="background">
+                  <Alert color="background" className="table-container">
                     <Table />
                   </Alert>
                 </Col>
@@ -46,14 +44,14 @@ const SavingsPageBase = (props: IProps) => {
       </Container>
     </>
   );
-}
+};
 
 const mapStateToProps = (state: AppState) => {
-  return ({
+  return {
     authUser: state.sessionState.authUser,
     bankLoaded: state.bankState.bankLoaded
-  });
-}
+  };
+};
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => {
   return {
@@ -66,7 +64,4 @@ const mapDispatchToProps = (dispatch: Dispatch<any>) => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(SavingsPageBase);
+export default connect(mapStateToProps, mapDispatchToProps)(SavingsPageBase);

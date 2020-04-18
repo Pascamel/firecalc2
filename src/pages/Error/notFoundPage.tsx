@@ -8,7 +8,7 @@ export const NotFoundPage = () => {
         <Col className="pr-0 pl-0">
           <Container>
             <Row>
-              <Col sm={{size: 10, offset: 1}} className="section-404">
+              <Col sm={{ size: 10, offset: 1 }} className="section-404">
                 <div className="background-404">
                   <h1 className="text-center">404</h1>
                 </div>

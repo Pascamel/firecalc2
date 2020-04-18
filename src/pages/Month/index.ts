@@ -1,6 +1,5 @@
 import { withAuthorization } from '../../firebase/withAuthorization';
-import MonthPageBase from './monthPage'; 
-
+import MonthPageBase from './monthPage';
 
 const authCondition = (authUser: firebase.User) => !!authUser;
 

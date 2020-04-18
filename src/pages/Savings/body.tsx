@@ -1,48 +1,59 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import _ from 'lodash';
 import React, { Dispatch, useState } from 'react';
 import { connect } from 'react-redux';
 
 import { updateValueLocalStorage } from '../../actions';
 import Bank from '../../bank';
-import { FireAmount, FireTD, FireTR, StaticAmount, StaticPercentage, Text } from '../../components';
+import {
+    FireAmount, FireTD, FireTR, Icon, StaticAmount, StaticPercentage, Text
+} from '../../components';
 import { AppState } from '../../store';
 
 interface IProps {
   bank: Bank.IBank;
   year: string;
-  onUpdateValueLocalStorage: (index: string, indexes: string[], amount: number | boolean) => void;
+  onUpdateValueLocalStorage: (
+    index: string,
+    indexes: string[],
+    amount: number | boolean
+  ) => void;
 }
 
-const Body = (props: IProps) => {
-  const { year, bank, onUpdateValueLocalStorage } = props;
-  const [collapsed, setCollapsed] = useState(_.get(bank.savingsYearHeaders.collapsed, year, false));
+const Body = ({ year, bank, onUpdateValueLocalStorage }: IProps) => {
+  const [collapsed, setCollapsed] = useState(
+    _.get(bank.savingsYearHeaders.collapsed, year, false)
+  );
 
   const handleClickToggle = () => {
-    onUpdateValueLocalStorage('savingsYearHeaders', ['collapsed', year], !collapsed);
+    onUpdateValueLocalStorage(
+      'savingsYearHeaders',
+      ['collapsed', year],
+      !collapsed
+    );
     setCollapsed(!collapsed);
-  }    
+  };
 
-  return (    
+  return (
     <tbody>
       <tr>
         <td className="td-chevron" onClick={handleClickToggle}>
-          <FontAwesomeIcon icon={collapsed ? 'chevron-right' : 'chevron-down'} />
+          <Icon icon={collapsed ? 'chevron-right' : 'chevron-down'} />
         </td>
         <FireTD span={bank.savingsInputsHidden.length + 5} hide={collapsed}>
           <>
             <Text className="pull-left ml-2">{year}</Text>
             <span>
-              Begins at <b>
-                <StaticAmount>
-                  {bank.startOfYearAmount[year]}
-                </StaticAmount>
-              </b> - Goal is&nbsp;
-              <FireAmount extraClassName="bold" callback-props={['savingsYearHeaders', 'goals', year]} />
-                &nbsp;(
-              <StaticAmount>
-                {bank.monthlyGoal[year]}
-              </StaticAmount>
+              Begins at{' '}
+              <b>
+                <StaticAmount>{bank.startOfYearAmount[year]}</StaticAmount>
+              </b>{' '}
+              - Goal is&nbsp;
+              <FireAmount
+                extraClassName="bold"
+                callback-props={['savingsYearHeaders', 'goals', year]}
+              />
+              &nbsp;(
+              <StaticAmount>{bank.monthlyGoal[year]}</StaticAmount>
               /mo)
             </span>
           </>
@@ -65,15 +76,21 @@ const Body = (props: IProps) => {
         <FireTD show={collapsed}>
           <Text>{year}</Text>
         </FireTD>
-        <FireTD show={collapsed} goal={bank.goalYearToDate[year]['12']} threshold={0}>
+        <FireTD
+          show={collapsed}
+          goal={bank.goalYearToDate[year]['12']}
+          threshold={0}
+        >
           <StaticAmount display-zero>
             {bank.goalYearToDate[year]['12']}
           </StaticAmount>
         </FireTD>
-        <FireTD show={collapsed} goal={bank.savingRateYear[year]['12']} threshold={0.5}>
-          <StaticPercentage>
-            {bank.savingRateYear[year]['12']}
-          </StaticPercentage>
+        <FireTD
+          show={collapsed}
+          goal={bank.savingRateYear[year]['12']}
+          threshold={0.5}
+        >
+          <StaticPercentage>{bank.savingRateYear[year]['12']}</StaticPercentage>
         </FireTD>
       </tr>
       {Object.entries(bank.savings[year]).map((month, idx) => (
@@ -81,8 +98,22 @@ const Body = (props: IProps) => {
           <td>{month[0]}</td>
           {bank.savingsInputsHidden.map((amount, idx: number) => (
             <td key={idx}>
-              {amount.type !== 'T' && <FireAmount callback-props={['savings', year, month[0], amount.id, amount.type]} />}
-              {amount.type === 'T' && <StaticAmount>{bank.totalMonthInstitution[year][month[0]][amount.id]}</StaticAmount>}
+              {amount.type !== 'T' && (
+                <FireAmount
+                  callback-props={[
+                    'savings',
+                    year,
+                    month[0],
+                    amount.id,
+                    amount.type
+                  ]}
+                />
+              )}
+              {amount.type === 'T' && (
+                <StaticAmount>
+                  {bank.totalMonthInstitution[year][month[0]][amount.id]}
+                </StaticAmount>
+              )}
             </td>
           ))}
           <td>
@@ -90,23 +121,34 @@ const Body = (props: IProps) => {
               {bank.totalMonthSavings[year][month[0]]}
             </StaticAmount>
           </td>
-          <FireTD show={bank.totalMonthSavings[year][month[0]] === 0} span={4} />
+          <FireTD
+            show={bank.totalMonthSavings[year][month[0]] === 0}
+            span={4}
+          />
           <FireTD hide={bank.totalMonthSavings[year][month[0]] === 0}>
-            <StaticAmount>
-              {bank.totalHolding[year][month[0]]}
-            </StaticAmount>
+            <StaticAmount>{bank.totalHolding[year][month[0]]}</StaticAmount>
           </FireTD>
-          <FireTD hide={bank.totalMonthSavings[year][month[0]] === 0} goal={bank.goalMonth[year][month[0]]} threshold={0}>
-            <StaticAmount>
-              {bank.goalMonth[year][month[0]]}
-            </StaticAmount>
+          <FireTD
+            hide={bank.totalMonthSavings[year][month[0]] === 0}
+            goal={bank.goalMonth[year][month[0]]}
+            threshold={0}
+          >
+            <StaticAmount>{bank.goalMonth[year][month[0]]}</StaticAmount>
           </FireTD>
-          <FireTD hide={bank.totalMonthSavings[year][month[0]] === 0} goal={bank.goalYearToDate[year][month[0]]} threshold={0}>
+          <FireTD
+            hide={bank.totalMonthSavings[year][month[0]] === 0}
+            goal={bank.goalYearToDate[year][month[0]]}
+            threshold={0}
+          >
             <StaticAmount display-zero>
               {bank.goalYearToDate[year][month[0]]}
             </StaticAmount>
           </FireTD>
-          <FireTD hide={bank.totalMonthSavings[year][month[0]] === 0} goal={bank.savingRateMonth[year][month[0]]} threshold={0.5}>
+          <FireTD
+            hide={bank.totalMonthSavings[year][month[0]] === 0}
+            goal={bank.savingRateMonth[year][month[0]]}
+            threshold={0.5}
+          >
             <StaticPercentage>
               {bank.savingRateMonth[year][month[0]]}
             </StaticPercentage>
@@ -115,7 +157,7 @@ const Body = (props: IProps) => {
       ))}
       <FireTR hide={collapsed}>
         <td>
-          <FontAwesomeIcon icon={['far', 'calendar-alt']} />
+          <Icon icon={['far', 'calendar-alt']} />
         </td>
         {bank.savingsInputsHidden.map((amount, idx: number) => (
           <td key={idx}>
@@ -137,9 +179,7 @@ const Body = (props: IProps) => {
           </StaticAmount>
         </FireTD>
         <FireTD goal={bank.savingRateYear[year]['12']} threshold={0.5}>
-          <StaticPercentage>
-            {bank.savingRateYear[year]['12']}
-          </StaticPercentage>
+          <StaticPercentage>{bank.savingRateYear[year]['12']}</StaticPercentage>
         </FireTD>
       </FireTR>
     </tbody>
@@ -147,20 +187,21 @@ const Body = (props: IProps) => {
 };
 
 const mapStateToProps = (state: AppState) => {
-  return ({
+  return {
     bank: state.bankState.bank
-  });
-}
+  };
+};
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => {
   return {
-    onUpdateValueLocalStorage: (index: string, indexes: string[], amount: number | boolean) => {
+    onUpdateValueLocalStorage: (
+      index: string,
+      indexes: string[],
+      amount: number | boolean
+    ) => {
       dispatch(updateValueLocalStorage(index, indexes, amount));
     }
   };
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Body);
+export default connect(mapStateToProps, mapDispatchToProps)(Body);
