@@ -28,8 +28,8 @@ interface IProps {
   darkMode: boolean;
 }
 
-const AppComponent = (props: IProps) => {
-  if (props.darkMode) {
+const AppComponent = ({ darkMode }: IProps) => {
+  if (darkMode) {
     document.body.classList.add('dark-mode');
   } else {
     document.body.classList.remove('dark-mode');

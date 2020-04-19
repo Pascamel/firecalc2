@@ -7,9 +7,7 @@ interface IProps {
   color?: string;
 }
 
-const Text = (props: IProps) => {
-  const { children, className, color, ...otherProps } = props;
-
+const Text = ({ children, className, color, ...otherProps }: IProps) => {
   const combinedClassName = [
     className ? className : null,
     color ? `text-${color}` : null,

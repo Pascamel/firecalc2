@@ -16,8 +16,7 @@ interface IProps {
   ) => void;
 }
 
-const DecimalsBtn = (props: IProps) => {
-  const { bank, onUpdateValueLocalStorage } = props;
+const DecimalsBtn = ({ bank, onUpdateValueLocalStorage }: IProps) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
   const toggle = () => {
@@ -53,7 +52,7 @@ const DecimalsBtn = (props: IProps) => {
 
 const mapStateToProps = (state: AppState) => {
   return {
-    bank: state.bankState.bank
+    bank: state.bankState.bank,
   };
 };
 
@@ -65,7 +64,7 @@ const mapDispatchToProps = (dispatch: Dispatch<any>) => {
       amount: number | boolean
     ) => {
       dispatch(updateValueLocalStorage(index, indexes, amount));
-    }
+    },
   };
 };
 

@@ -15,9 +15,7 @@ interface IProps {
   onSaveBank: (uid: string, bank: Bank.IBank) => void;
 }
 
-const RevenuePageBase = (props: IProps) => {
-  const { authUser, onLoadBank, bankLoaded } = props;
-
+const RevenuePageBase = ({ authUser, onLoadBank, bankLoaded }: IProps) => {
   useEffect(() => {
     if (bankLoaded || !authUser) return;
 
