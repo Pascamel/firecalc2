@@ -3,7 +3,7 @@ import React from 'react';
 interface IProps {
   className?: any;
   onClick?: any;
-  children: JSX.Element | string;
+  children: React.ReactNode;
   color?: string;
 }
 

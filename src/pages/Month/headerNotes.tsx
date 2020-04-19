@@ -89,10 +89,8 @@ const HeaderNotes = ({
         <Col onClick={editMode}>
           {!edit && (
             <Text className="text-newline">
-              <>
-                {value && value.length ? value : 'Add notes'}
-                {value?.length === 0 && <Icon icon="pen" className="ml-2" />}
-              </>
+              {value && value.length ? value : 'Add notes'}
+              {value?.length === 0 && <Icon icon="pen" className="ml-2" />}
             </Text>
           )}
           {edit && (

@@ -14,10 +14,8 @@ const SignOutLink = ({ history }: RouteComponentProps) => {
 
   return (
     <Text className="no-link" onClick={onClick}>
-      <>
-        <i className="fa fa-lg fa-sign-out pr-2" />
-        Sign Out
-      </>
+      <i className="fa fa-lg fa-sign-out pr-2" />
+      Sign Out
     </Text>
   );
 };
