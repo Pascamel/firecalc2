@@ -40,10 +40,18 @@ const FireAmount = ({
   }, [bank, callbackProps]);
 
   const setEditMode = () => {
-    if (readonly) return;
+    if (readonly) {
+      return;
+    }
 
     setEdit(true);
-    setAmount(_.get(bank, callbackProps, 0));
+    setAmount(
+      helper_amount(
+        _.get(bank, callbackProps, 0),
+        displayIfZero || false,
+        bank.showDecimals || false
+      )
+    );
   };
 
   const onClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {

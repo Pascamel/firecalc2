@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Alert, Col } from 'reactstrap';
 
 import Bank from '../../bank';
-import { PanelTitle } from '../../components';
+import { PanelTitle, Text } from '../../components';
 import { amount } from '../../helpers';
 import { AppState } from '../../store';
 import Expense from './expense';
@@ -16,6 +16,10 @@ interface IProps {
 }
 
 const Expenses = ({ month, year, bank }: IProps) => {
+  const automatic_expenses =
+    _.get(bank.totalMonthIncome, [year, month], 0) -
+    _.get(bank.totalMonthSavings, [year, month], 0);
+
   return (
     <Col md={4} sm={12}>
       <Alert color="background">
@@ -30,6 +34,17 @@ const Expenses = ({ month, year, bank }: IProps) => {
         {bank.expensesInputs.map((header, key) => (
           <Expense key={key} header={header} month={month} year={year} />
         ))}
+        <hr />
+        <div className="month-amount">
+          <Text className="label-fake-input smaller mb-1">
+            Automatic Expenses
+          </Text>
+          <div className="pull-right pt-1">
+            <Text className="amount">
+              {amount(automatic_expenses, true, bank.showDecimals)}
+            </Text>
+          </div>
+        </div>
       </Alert>
     </Col>
   );
