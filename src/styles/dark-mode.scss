@@ -303,4 +303,11 @@ body.dark-mode {
     border-color: rgba(255, 255, 255, 0.25);
     color: #fff;
   }
+
+  .alert-background-separator {
+    &:after {
+      content: '';
+      background: #444;
+    }
+  }
 }

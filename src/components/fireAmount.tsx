@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import math from 'mathjs';
-import React, { Dispatch, useCallback, useEffect, useState } from 'react';
+import React, { Dispatch, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 
 import { updateValue } from '../actions';
@@ -16,7 +16,6 @@ interface IProps {
   ['callback-props']: string[];
   ['display-if-zero']?: boolean;
   onUpdateValue: (index: string, indexes: string[], amount: number) => void;
-  clickEditParent?: string;
 }
 
 const FireAmount = ({
@@ -26,7 +25,6 @@ const FireAmount = ({
   'callback-props': callbackProps,
   'display-if-zero': displayIfZero,
   onUpdateValue,
-  clickEditParent,
 }: IProps) => {
   const readonly = _.last(callbackProps) === 'T';
   const [edit, setEdit] = useState(false);
@@ -41,18 +39,12 @@ const FireAmount = ({
     setInputValue(_.get(bank, callbackProps, 0).toString());
   }, [bank, callbackProps]);
 
-  const setEditMode = useCallback(() => {
+  const setEditMode = () => {
     if (readonly) return;
 
     setEdit(true);
     setAmount(_.get(bank, callbackProps, 0));
-  }, [bank, callbackProps, readonly]);
-
-  useEffect(() => {
-    if (clickEditParent !== undefined) {
-      setEditMode();
-    }
-  }, [clickEditParent, setEditMode]);
+  };
 
   const onClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e && e.stopPropagation();

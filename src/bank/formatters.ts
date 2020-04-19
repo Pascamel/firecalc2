@@ -137,6 +137,10 @@ export const savingsInputs = (savings: I.ISavingsHeader[], hidden: {}) => {
     .value();
 };
 
+export const expensesInputs = (expenses: Array<I.IExpenseHeader>) => {
+  return expenses.filter((expense) => !expense.isFuture);
+};
+
 const hashHiddenColumns = (hidden: any) => {
   return _(hidden).reduce((acc: { [key: string]: number }, value, key) => {
     const c = _.reduce(value, (acc, v) => acc + (v ? 1 : 0), 0);

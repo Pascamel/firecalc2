@@ -79,6 +79,7 @@ export const saveBank = (
   bank: Bank.IBank,
   savings: boolean,
   income: boolean,
+  expenses: boolean,
   settings: boolean
 ) => {
   return (dispatch: Dispatch<any>) => {
@@ -90,6 +91,7 @@ export const saveBank = (
     const promises = [];
     if (savings) promises.push(Bank.saveSavings(uid, bank));
     if (income) promises.push(Bank.saveIncome(uid, bank));
+    if (expenses) promises.push(Bank.saveExpenses(uid, bank));
     if (settings) promises.push(Bank.saveOthers(uid, bank));
 
     Promise.all(promises)

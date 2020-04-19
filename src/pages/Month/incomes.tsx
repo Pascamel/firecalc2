@@ -7,7 +7,7 @@ import Bank from '../../bank';
 import { PanelTitle } from '../../components';
 import { amount } from '../../helpers';
 import { AppState } from '../../store';
-import MonthIncome from './income';
+import Income from './income';
 
 interface IProps {
   bank: Bank.IBank;
@@ -28,7 +28,7 @@ const MonthFinances = ({ month, year, bank }: IProps) => {
           )}`}
         />
         {bank.incomeHeaders.map((header, key) => (
-          <MonthIncome key={key} header={header} month={month} year={year} />
+          <Income key={key} header={header} month={month} year={year} />
         ))}
       </Alert>
     </Col>

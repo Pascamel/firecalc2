@@ -51,7 +51,7 @@ const RevenuePageBase = (props: IProps) => {
 const mapStateToProps = (state: AppState) => {
   return {
     authUser: state.sessionState.authUser,
-    bankLoaded: state.bankState.bankLoaded
+    bankLoaded: state.bankState.bankLoaded,
   };
 };
 
@@ -61,8 +61,8 @@ const mapDispatchToProps = (dispatch: Dispatch<any>) => {
       dispatch(loadBank(uid));
     },
     onSaveBank: (uid: string, bank: Bank.IBank) => {
-      dispatch(saveBank(uid, bank, false, true, false));
-    }
+      dispatch(saveBank(uid, bank, false, true, false, false));
+    },
   };
 };
 

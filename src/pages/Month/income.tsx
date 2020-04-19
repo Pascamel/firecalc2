@@ -1,7 +1,6 @@
 import _ from 'lodash';
-import React, { useState } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
-import uuid from 'uuid';
 
 import Bank, { IIncomeHeader } from '../../bank';
 import { FireAmount, Text } from '../../components';
@@ -15,14 +14,8 @@ interface IProps {
 }
 
 const Income = ({ header, bank, month, year }: IProps) => {
-  const [bubbleClick, setBubbleClick] = useState<string | undefined>(undefined);
-
-  const onClick = () => {
-    setBubbleClick(uuid.v4());
-  };
-
   return (
-    <div className="month-amount" onClick={onClick}>
+    <div className="month-amount">
       <Text className="label-fake-input smaller mb-1">
         {_(bank.incomeHeaders).keyBy('id').get([header.id, 'label'], 'N/A')}
       </Text>
@@ -31,7 +24,6 @@ const Income = ({ header, bank, month, year }: IProps) => {
           extraClassName="label-fake-input"
           display-if-zero={true}
           callback-props={['income', year, month, header.id]}
-          clickEditParent={bubbleClick}
         />
       </div>
     </div>

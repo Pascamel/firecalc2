@@ -13,6 +13,7 @@ interface IProps {
   label: string;
   bankSavingsUpdated: boolean;
   bankIncomeUpdated: boolean;
+  bankExpensesUpdated: boolean;
   bankOthersUpdated: boolean;
   bankHeadersUpdated: boolean;
   saveInProgress: boolean;
@@ -27,6 +28,7 @@ interface IProps {
     bank: Bank.IBank,
     savings: boolean,
     income: boolean,
+    expenses: boolean,
     settings: boolean
   ) => void;
   onSaveHeaders: (uid: string, bank: Bank.IBank) => void;
@@ -38,6 +40,7 @@ const SavePanel = (props: IProps) => {
     label,
     bankSavingsUpdated,
     bankIncomeUpdated,
+    bankExpensesUpdated,
     bankOthersUpdated,
     bankHeadersUpdated,
     saveInProgress,
@@ -48,7 +51,7 @@ const SavePanel = (props: IProps) => {
     nextMonthDisabled,
     onLoadBank,
     onSaveBank,
-    onSaveHeaders
+    onSaveHeaders,
   } = props;
 
   const cancelClick = () => {
@@ -64,12 +67,18 @@ const SavePanel = (props: IProps) => {
       onSaveHeaders(authUser.uid, bank);
     }
 
-    if (bankSavingsUpdated || bankIncomeUpdated || bankOthersUpdated) {
+    if (
+      bankSavingsUpdated ||
+      bankIncomeUpdated ||
+      bankExpensesUpdated ||
+      bankOthersUpdated
+    ) {
       onSaveBank(
         authUser.uid,
         bank,
         bankSavingsUpdated,
         bankIncomeUpdated,
+        bankExpensesUpdated,
         bankOthersUpdated
       );
     }
@@ -78,6 +87,7 @@ const SavePanel = (props: IProps) => {
   const bankUpdated =
     bankSavingsUpdated ||
     bankIncomeUpdated ||
+    bankExpensesUpdated ||
     bankOthersUpdated ||
     bankHeadersUpdated;
 
@@ -165,9 +175,10 @@ const mapStateToProps = (state: AppState) => {
     bank: state.bankState.bank,
     bankSavingsUpdated: state.bankState.bankSavingsUpdated,
     bankIncomeUpdated: state.bankState.bankIncomeUpdated,
+    bankExpensesUpdated: state.bankState.bankExpensesUpdated,
     bankOthersUpdated: state.bankState.bankOthersUpdated,
     bankHeadersUpdated: state.bankState.bankHeadersUpdated,
-    saveInProgress: state.bankState.saveInProgress
+    saveInProgress: state.bankState.saveInProgress,
   };
 };
 
@@ -179,10 +190,11 @@ const mapDispatchToProps = (dispatch: Dispatch<any>) => {
       bank: Bank.IBank,
       savings: boolean,
       income: boolean,
+      expenses: boolean,
       settings: boolean
-    ) => dispatch(saveBank(uid, bank, savings, income, settings)),
+    ) => dispatch(saveBank(uid, bank, savings, income, expenses, settings)),
     onSaveHeaders: (uid: string, bank: Bank.IBank) =>
-      dispatch(saveHeaders(uid, bank))
+      dispatch(saveHeaders(uid, bank)),
   };
 };
 

@@ -14,10 +14,10 @@ const Header = ({ year, month }: IProps) => {
   return (
     <Alert color="background" className="transparent">
       <Row>
-        <Col md={4} sm={12}>
+        <Col md={4} sm={12} className="alert-background-separator">
           <HeaderProgress month={month} year={year} />
         </Col>
-        <Col md={4} sm={12}>
+        <Col md={4} sm={12} className="alert-background-separator">
           <HeaderCharts month={month} year={year} />
         </Col>
         <Col md={4} sm={12}>

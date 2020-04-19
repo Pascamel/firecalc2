@@ -23,6 +23,7 @@ export interface IBank {
   notes: I.IBankYearMonthString;
   savingsInputs: Array<I.ISavingsHeaderLight>;
   savingsInputsHidden: Array<I.ISavingsHeaderLight>;
+  expensesInputs: Array<I.IExpenseHeader>;
 
   incomeHeaders: Array<I.IIncomeHeader>;
   savingsHeaders: Array<I.ISavingsHeader>;
@@ -47,6 +48,7 @@ export interface IBank {
   totalMonthPre: I.IBankYearMonthAmount;
   totalMonthPost: I.IBankYearMonthAmount;
   totalMonthIncome: I.IBankYearMonthAmount;
+  totalMonthExpenses: I.IBankYearMonthAmount;
   totalYearPre: I.IBankYearAmount;
   totalYearPost: I.IBankYearAmount;
   yearlyIncome: I.IBankYearInstitutionAmount;
@@ -142,6 +144,8 @@ export const formatHeaders = (bank: IBank) => {
     bank.savingsHeaders,
     bank.savingsHeadersHidden
   );
+
+  bank.expensesInputs = formatters.expensesInputs(bank.expensesHeaders);
 
   bank.savingsHeadersLine1 = formatters.savingsHeadersLine1(
     bank.savingsHeaders,
@@ -316,6 +320,8 @@ export const calculateTotals = (bank: IBank) => {
   bank.savingRateMonth = {};
   bank.savingRateYear = {};
 
+  bank.totalMonthExpenses = {};
+
   _.each(bank.savings, (year_data, year) => {
     bank.totalMonthSavings[year] = {};
     bank.totalHolding[year] = {};
@@ -330,6 +336,7 @@ export const calculateTotals = (bank: IBank) => {
     bank.yearlyIncome[year] = {};
     bank.savingRateMonth[year] = {};
     bank.savingRateYear[year] = {};
+    bank.totalMonthExpenses[year] = {};
     if (!bank.networth[year]) bank.networth[year] = {};
 
     bank.startOfYearAmount[year] =
@@ -453,6 +460,7 @@ export const calculateTotals = (bank: IBank) => {
       bank.totalMonthPre[year][month] = 0;
       bank.totalMonthPost[year][month] = 0;
       bank.totalMonthIncome[year][month] = 0;
+      bank.totalMonthExpenses[year][month] = 0;
 
       _.each(bank.incomeHeaders, (header) => {
         const amount: number = _.get(bank.income, [year, month, header.id], 0);
@@ -475,6 +483,18 @@ export const calculateTotals = (bank: IBank) => {
           ? 0
           : amount / (header.count || 1);
       });
+
+      _(bank.expensesHeaders)
+        .filter((header) => !header.isFuture)
+        .each((header) => {
+          const amount: number = _.get(
+            bank.expenses,
+            [year, month, header.id],
+            0
+          );
+
+          bank.totalMonthExpenses[year][month] += amount;
+        });
 
       const im = bank.totalMonthIncome[year][month];
       bank.savingRateMonth[year][month] =

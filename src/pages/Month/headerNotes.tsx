@@ -7,7 +7,7 @@ import { Alert, Col, Input, Row } from 'reactstrap';
 
 import { updateValue } from '../../actions';
 import Bank from '../../bank';
-import { FireAmount, Text } from '../../components';
+import { FireAmount, Icon, Text } from '../../components';
 import { AppState } from '../../store';
 
 interface IProps {
@@ -89,7 +89,10 @@ const HeaderNotes = ({
         <Col onClick={editMode}>
           {!edit && (
             <Text className="text-newline">
-              {value && value.length ? value : 'No note created yet'}
+              <>
+                {value && value.length ? value : 'Add notes'}
+                {value?.length === 0 && <Icon icon="pen" className="ml-2" />}
+              </>
             </Text>
           )}
           {edit && (

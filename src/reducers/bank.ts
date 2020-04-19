@@ -10,6 +10,7 @@ const INITIAL_STATE = {
   bankLoaded: false,
   bankSavingsUpdated: false,
   bankIncomeUpdated: false,
+  bankExpensesUpdated: false,
   bankOthersUpdated: false,
   bankHeadersUpdated: false,
   saveInProgress: false,
@@ -23,6 +24,7 @@ const bankReducer = (state = INITIAL_STATE, action: any) => {
         bank: action.payload.bank,
         bankSavingsUpdated: false,
         bankIncomeUpdated: false,
+        bankExpensesUpdated: false,
         bankOthersUpdated: false,
         bankHeadersUpdated: false,
         bankLoaded: false,
@@ -34,6 +36,7 @@ const bankReducer = (state = INITIAL_STATE, action: any) => {
         bank: action.payload.bank,
         bankSavingsUpdated: false,
         bankIncomeUpdated: false,
+        bankExpensesUpdated: false,
         bankOthersUpdated: false,
         bankHeadersUpdated: false,
         bankLoaded: true,
@@ -45,6 +48,7 @@ const bankReducer = (state = INITIAL_STATE, action: any) => {
         bank: null,
         bankSavingsUpdated: false,
         bankIncomeUpdated: false,
+        bankExpensesUpdated: false,
         bankOthersUpdated: false,
         bankHeadersUpdated: false,
         bankLoaded: false,
@@ -70,6 +74,7 @@ const bankReducer = (state = INITIAL_STATE, action: any) => {
             action.payload.indexes.length > 0 &&
             action.payload.indexes[0] === 'goals'),
         bankIncomeUpdated: action.payload.index === 'income',
+        bankExpensesUpdated: action.payload.index === 'expenses',
         bankOthersUpdated:
           action.payload.index === 'networth' ||
           action.payload.index === 'expenses' ||
@@ -107,6 +112,7 @@ const bankReducer = (state = INITIAL_STATE, action: any) => {
         ...state,
         bankSavingsUpdated: false,
         bankIncomeUpdated: false,
+        bankExpensesUpdated: false,
         bankOthersUpdated: false,
         bankHeadersUpdated: false,
         saveInProgress: false,
