@@ -72,7 +72,7 @@ const HeaderNotes = ({
 
   return (
     <Alert color="background">
-      <Row>
+      <Row className="month-amount net-worth">
         <Col>
           <Text className="label-fake-input">Net Worth</Text>
         </Col>
@@ -85,7 +85,7 @@ const HeaderNotes = ({
           />
         </Col>
       </Row>
-      <Row>
+      <Row className="month-amount notes">
         <Col onClick={editMode}>
           {!edit && (
             <Text className="text-newline">

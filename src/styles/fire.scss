@@ -291,6 +291,13 @@ a.media {
   padding: 0 1.25rem;
   margin: 0 -1.25rem;
 
+  &.net-worth {
+    padding: 0 0.25rem 0rem 0.25rem;
+  }
+  &.notes {
+    padding: 0.25rem;
+  }
+
   .amount-container {
     .amount {
       height: 34px;
