@@ -8,14 +8,15 @@ import { AppState } from '../../store';
 interface IProps {
   savingRate: number;
   darkMode: boolean;
+  label: string;
 }
 
-const Doughnut = ({ darkMode, savingRate }: IProps) => {
+const Doughnut = ({ darkMode, label, savingRate }: IProps) => {
   const options = {
     cutoutPercentage: 70,
     tooltips: {
-      enabled: false
-    }
+      enabled: false,
+    },
   };
 
   const successColor = darkMode ? '#008958' : '#66bb6a';
@@ -27,33 +28,35 @@ const Doughnut = ({ darkMode, savingRate }: IProps) => {
       {
         data: [
           Math.min(100, Math.max(0, savingRate * 100)),
-          100 - Math.min(100, Math.max(0, savingRate * 100))
+          100 - Math.min(100, Math.max(0, savingRate * 100)),
         ],
         backgroundColor: [
           savingRate > 0.5 ? successColor : failureColor,
-          backgroundColor
+          backgroundColor,
         ],
         hoverBackgroundColor: [
           savingRate > 0.5 ? successColor : failureColor,
-          backgroundColor
+          backgroundColor,
         ],
         borderWidth: [0, 0],
-        hoverBorderWidth: [0, 0]
-      }
-    ]
+        hoverBorderWidth: [0, 0],
+      },
+    ],
   };
 
   return (
     <>
-      <DoughnutLib data={data} height={300} options={options} />
-      <Text className="chart-label">{`${Math.round(savingRate * 100)}%`}</Text>
+      <DoughnutLib data={data} height={260} options={options} />
+
+      <Text className="chart-value">{`${Math.round(savingRate * 100)}%`}</Text>
+      <Text className="chart-label">{label}</Text>
     </>
   );
 };
 
 const mapStateToProps = (state: AppState) => {
   return {
-    darkMode: state.sessionState.darkMode
+    darkMode: state.sessionState.darkMode,
   };
 };
 

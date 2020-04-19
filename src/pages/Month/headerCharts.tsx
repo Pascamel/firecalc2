@@ -14,19 +14,25 @@ interface IProps {
 
 const HeaderCharts = ({ bank, month, year }: IProps) => {
   return (
-    <Alert color="background">
+    <Alert color="background" style={{ paddingTop: 0 }}>
       <Row>
         <Col className="col-6 month-chart-container">
-          <Doughnut savingRate={bank.savingRateMonth[year][month]} />
+          <Doughnut
+            savingRate={bank.savingRateMonth[year][month]}
+            label="Month"
+          />
         </Col>
         <Col className="col-6 month-chart-container">
-          <Doughnut savingRate={bank.savingRateYear[year][month]} />
+          <Doughnut
+            savingRate={bank.savingRateYear[year][month]}
+            label="Year"
+          />
         </Col>
       </Row>
-      <Row className="text-center">
+      {/* <Row className="text-center">
         <Col>Month</Col>
         <Col>Year</Col>
-      </Row>
+      </Row> */}
     </Alert>
   );
 };
