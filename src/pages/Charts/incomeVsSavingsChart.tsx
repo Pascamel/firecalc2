@@ -2,10 +2,12 @@ import React from 'react';
 import { CartesianGrid, Legend, Line, LineChart, Tooltip, XAxis, YAxis } from 'recharts';
 
 import Helpers from './helpers';
-import { IProjectionChartData, IProps } from './interfaces';
+import { IIncomeVsSavingsChartData as IInterface, IProps } from './interfaces';
 import ResponsiveWrapper from './responsiveWrapper';
 
-const ProjectionChart = (props: IProps<IProjectionChartData[]>) => (
+export interface IIncomeVsSavingsChartData extends IInterface {}
+
+const IncomeVsSavingsChart = (props: IProps<IInterface[]>) => (
   <ResponsiveWrapper>
     <LineChart {...Helpers.landscapeSize} data={props.data}>
       <CartesianGrid vertical={false} strokeDasharray="3 3" />
@@ -20,14 +22,14 @@ const ProjectionChart = (props: IProps<IProjectionChartData[]>) => (
       <Legend formatter={Helpers.formatLegend} />
       <Line
         type="monotone"
-        dataKey="projection5"
+        dataKey="income"
         stroke="#8884d8"
         dot={false}
         activeDot={{ r: 1 }}
       />
       <Line
         type="monotone"
-        dataKey="projection7"
+        dataKey="savings"
         stroke="#82ca9d"
         dot={false}
         activeDot={{ r: 1 }}
@@ -36,4 +38,4 @@ const ProjectionChart = (props: IProps<IProjectionChartData[]>) => (
   </ResponsiveWrapper>
 );
 
-export default ProjectionChart;
+export default IncomeVsSavingsChart;

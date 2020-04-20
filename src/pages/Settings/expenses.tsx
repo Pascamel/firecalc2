@@ -44,7 +44,7 @@ const Expenses = ({ bank, bankLoaded, onNewExpenseHeader }: IProps) => {
           </Button>
         </Col>
       </Row>
-      <Row className="mt-5">
+      <Row className="mt-4">
         <Col>
           <PanelTitle title="Future Expenses" />
         </Col>

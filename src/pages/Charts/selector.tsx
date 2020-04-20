@@ -11,7 +11,7 @@ interface IProps {
   type: string;
 }
 
-const ChartSelector = ({ type, history }: IProps & RouteComponentProps) => {
+const Selector = ({ type, history }: IProps & RouteComponentProps) => {
   const goTo = (type: string) => {
     const route = ROUTES.CHARTS.replace(':type', _.get(CHARTS.URL, type));
     history.push(route);
@@ -87,4 +87,4 @@ const ChartSelector = ({ type, history }: IProps & RouteComponentProps) => {
   );
 };
 
-export default ChartSelector;
+export default Selector;

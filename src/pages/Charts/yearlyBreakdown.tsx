@@ -8,14 +8,18 @@ import Bank from '../../bank';
 import { ButtonGroupSwitch, NavButtonGroup } from '../../components';
 import * as CHARTS from '../../constants/charts';
 import { AppState } from '../../store';
-import {
-    AllocationEvolutionChart, BreakEvenPointChart, IncomeVsSavingsChart, NetWorthVsSavingsChart,
-    YearlyGoalBurnUp
-} from './charts';
-import {
-    IAllocationEvolutionChart, IBreakEvenPointChartData, IChartData, IIncomeVsSavingsChartData,
-    INetWorthVsSavingsChartData, IYearlyGoalBurnUpChartData
-} from './interfaces';
+import AllocationEvolutionChart, { IAllocationEvolutionChart } from './allocationEvolutionChart';
+import BreakEvenPointChart, { IBreakEvenPointChartData } from './breakEvenPointChart';
+import IncomeVsSavingsChart, { IIncomeVsSavingsChartData } from './incomeVsSavingsChart';
+import NetWorthVsSavingsChart, { INetWorthVsSavingsChartData } from './netWorthVsSavingsChart';
+import YearlyGoalBurnUp, { IYearlyGoalBurnUpChartData } from './yearlyGoalBurnUp';
+
+type IChartData =
+  | IIncomeVsSavingsChartData
+  | INetWorthVsSavingsChartData
+  | IAllocationEvolutionChart
+  | IBreakEvenPointChartData
+  | IYearlyGoalBurnUpChartData;
 
 interface IProps {
   bank: Bank.IBank;
@@ -34,15 +38,15 @@ const YearlyBreakdown = ({
   darkMode,
   bank,
   'hide-all': hideAll,
-  'no-switch': noSwitch
+  'no-switch': noSwitch,
 }: IProps & RouteComponentProps) => {
   const [year, setYear] = useState(hideAll ? new Date().getFullYear() : 0);
   const [percentage, setPercentage] = useState(false);
   const dataYears = _.uniq(
-    (data as IChartData[]).map(v => new Date(v.date).getFullYear())
+    (data as IChartData[]).map((v) => new Date(v.date).getFullYear())
   );
   const filteredData = (data as IChartData[]).filter(
-    v => year === 0 || new Date(v.date).getFullYear() === year
+    (v) => year === 0 || new Date(v.date).getFullYear() === year
   );
 
   if (!hideAll) dataYears.unshift(0);
@@ -74,7 +78,7 @@ const YearlyBreakdown = ({
         )}
         {!mobile && (
           <ListGroup>
-            {dataYears.map(y => (
+            {dataYears.map((y) => (
               <ListGroupItem
                 key={y}
                 className="text-left cursor"
@@ -142,7 +146,7 @@ const YearlyBreakdown = ({
 const mapStateToProps = (state: AppState) => {
   return {
     bank: state.bankState.bank,
-    darkMode: state.sessionState.darkMode
+    darkMode: state.sessionState.darkMode,
   };
 };
 

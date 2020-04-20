@@ -9,15 +9,16 @@ import Bank from '../../bank';
 import { LoadingPanel, Mobile, NotMobile } from '../../components';
 import * as CHARTS from '../../constants/charts';
 import { AppState } from '../../store';
-import * as Charts from './charts';
-import ChartSelector from './chartSelector';
-import {
-    IAllocationEvolutionChart, IBreakEvenPointChartData, IChartAllocationData,
-    IIncomeVsSavingsChartData, INetWorthVsSavingsChartData, ISavingsBreakdownChartData,
-    IYearlyGoalBurnUpChartData
-} from './interfaces';
-import ProjectionChart from './projectionChart';
+import { IAllocationEvolutionChart } from './allocationEvolutionChart';
+import { IBreakEvenPointChartData } from './breakEvenPointChart';
+import { IIncomeVsSavingsChartData } from './incomeVsSavingsChart';
+import { IChartAllocationData, ISavingsBreakdownChartData } from './interfaces';
+import { INetWorthVsSavingsChartData } from './netWorthVsSavingsChart';
+import ProjectionChartPage from './projectionChartPage';
+import SavingsBreakdownChart from './savingsBreakdownChart';
+import Selector from './selector';
 import YearlyBreakdown from './yearlyBreakdown';
+import { IYearlyGoalBurnUpChartData } from './yearlyGoalBurnUp';
 
 interface IProps extends RouteComponentProps<{ type: string }> {
   authUser: firebase.User | null;
@@ -166,7 +167,7 @@ const ChartsPageBase = (props: IProps & RouteComponentProps) => {
         />
       )}
       {type === CHARTS.URL.SAVINGS_BREAKDOWN && (
-        <Charts.SavingsBreakdownChart
+        <SavingsBreakdownChart
           data={recap.sb}
           mobile={mobile}
           darkMode={props.darkMode}
@@ -198,7 +199,7 @@ const ChartsPageBase = (props: IProps & RouteComponentProps) => {
         />
       )}
       {type === CHARTS.URL.PROJECTION && (
-        <ProjectionChart mobile={mobile} chart={type} {...props} />
+        <ProjectionChartPage mobile={mobile} chart={type} {...props} />
       )}
     </>
   );
@@ -209,7 +210,7 @@ const ChartsPageBase = (props: IProps & RouteComponentProps) => {
 
   return (
     <>
-      <ChartSelector
+      <Selector
         type={type}
         history={props.history}
         match={props.match}
