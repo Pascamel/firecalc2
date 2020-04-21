@@ -2,10 +2,10 @@ import _ from 'lodash';
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
-import { Col, CustomInput, ListGroup, ListGroupItem, Row } from 'reactstrap';
+import { Col, CustomInput, Row } from 'reactstrap';
 
 import Bank from '../../bank';
-import { ButtonGroupSwitch, NavButtonGroup } from '../../components';
+import { ButtonGroupSwitch } from '../../components';
 import * as CHARTS from '../../constants/charts';
 import { AppState } from '../../store';
 import AllocationEvolutionChart, { IAllocationEvolutionChart } from './allocationEvolutionChart';
@@ -53,14 +53,6 @@ const YearlyBreakdown = ({
 
   const clickDate = (y: number) => {
     setYear(y);
-  };
-
-  const prevYear = () => {
-    setYear(year === bank.headers.firstYear ? 0 : year - 1);
-  };
-
-  const nextYear = () => {
-    setYear(year === 0 ? bank.headers.firstYear : year + 1);
   };
 
   return (

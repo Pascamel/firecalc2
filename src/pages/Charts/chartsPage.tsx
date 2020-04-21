@@ -114,11 +114,6 @@ const ChartsPageBase = (props: IProps & RouteComponentProps) => {
 
   const recap = Helpers.mapBankToRecap(bank);
 
-  const selectorProps = {
-    type,
-    ...props,
-  };
-
   return (
     <>
       <HeaderPanel title="Charts" />

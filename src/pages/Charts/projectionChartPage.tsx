@@ -2,13 +2,11 @@ import _ from 'lodash';
 import React, { Dispatch, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
-import {
-    Badge, Col, CustomInput, ListGroup, ListGroupItem, Row, Tooltip as TooltipStrap
-} from 'reactstrap';
+import { Col, CustomInput, Row } from 'reactstrap';
 
 import { loadBank } from '../../actions';
 import Bank from '../../bank';
-import { Icon, LoadingPanel, NavButtonGroup, StaticAmount } from '../../components';
+import { LoadingPanel, NavButtonGroup } from '../../components';
 import ROUTES from '../../constants/routes';
 import { amount as amount_, roundFloat } from '../../helpers';
 import { AppState } from '../../store';
@@ -60,14 +58,6 @@ const ProjectionChartPage = (props: IProps & RouteComponentProps) => {
   const year = parseInt(_(networthActualValues).keys().last() || '0');
   const month = parseInt(_(last_year).keys().last() || '0');
   const savings = parseFloat(_(last_year).values().last() || '0');
-
-  const [tooltipValue, setTooltipValue] = useState(0);
-  const [tooltipOpen, setTooltipOpen] = useState(false);
-
-  const toggleTooltip = (v: number) => {
-    setTooltipValue(v);
-    setTooltipOpen(!tooltipOpen);
-  };
 
   useEffect(() => {
     if (!authUser || bankLoaded) return;
