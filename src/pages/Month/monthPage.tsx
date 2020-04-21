@@ -123,16 +123,25 @@ const MonthPageBase = (props: IProps & RouteComponentProps) => {
         <Row>
           <Col className="pr-0 pl-0">
             <Container>
-              <Row>
-                <Col xs={12}>
-                  <Header month={month} year={year} />
-                </Col>
-              </Row>
+              <NotMobile>
+                <Row>
+                  <Col>
+                    <Header month={month} year={year} />
+                  </Col>
+                </Row>
+              </NotMobile>
               <Row>
                 <Savings month={month} year={year} />
                 <Incomes month={month} year={year} />
                 <Expenses month={month} year={year} />
               </Row>
+              <Mobile>
+                <Row>
+                  <Col>
+                    <Header month={month} year={year} />
+                  </Col>
+                </Row>
+              </Mobile>
             </Container>
           </Col>
         </Row>

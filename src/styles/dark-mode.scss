@@ -102,13 +102,9 @@ body.dark-mode {
   .form-headers,
   .btn-group {
     .btn-primary {
-      color: #212529;
-      background-color: #f8f9fa;
-      border-color: #f8f9fa;
-
-      &:hover {
-        background-color: rgba(224, 224, 224, 0.9);
-      }
+      color: #fff;
+      background-color: #666;
+      border-color: #666;
     }
 
     .btn-outline-primary {

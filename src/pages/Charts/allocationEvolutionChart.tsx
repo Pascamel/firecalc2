@@ -43,11 +43,12 @@ const AllocationEvolutionChart = ({
           dataKey="date"
           type="number"
           domain={['dataMin', 'dataMax']}
-          tickFormatter={Helpers.formatdateToString}
+          tickFormatter={Helpers.formatDateAxis}
         />
         <YAxis
           domain={percentage ? [0, 100] : [0, 'auto']}
           allowDataOverflow={true}
+          tickFormatter={Helpers.formatAmountAxis}
         />
         <Tooltip
           labelFormatter={Helpers.reactTextToDateString}

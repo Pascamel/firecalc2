@@ -66,11 +66,11 @@ const NetWorthVsSavingsChart = (
             dataKey="date"
             type="number"
             domain={['dataMin', 'dataMax']}
-            tickFormatter={Helpers.formatdateToString}
+            tickFormatter={Helpers.formatDateAxis}
           />
           <YAxis domain={[-maxValue, +maxValue]} />
           <Tooltip
-            labelFormatter={(s) => Helpers.formatdateToString(new Date(s))}
+            labelFormatter={(s) => Helpers.formatDateAxis(new Date(s))}
             formatter={(value) => `${value}%`}
           />
           <defs>
@@ -106,9 +106,9 @@ const NetWorthVsSavingsChart = (
           dataKey="date"
           type="number"
           domain={['dataMin', 'dataMax']}
-          tickFormatter={Helpers.formatdateToString}
+          tickFormatter={Helpers.formatDateAxis}
         />
-        <YAxis />
+        <YAxis tickFormatter={Helpers.formatAmountAxis} />
         <Tooltip
           labelFormatter={Helpers.reactTextToDateString}
           formatter={Helpers.formatterTooltip}

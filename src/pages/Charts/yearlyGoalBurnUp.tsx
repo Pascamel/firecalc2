@@ -15,9 +15,9 @@ const YearlyGoalBurnUp = (props: IProps<IInterface[]>) => (
         dataKey="date"
         type="number"
         domain={['dataMin', 'dataMax']}
-        tickFormatter={Helpers.formatdateToString}
+        tickFormatter={Helpers.formatDateAxis}
       />
-      <YAxis />
+      <YAxis tickFormatter={Helpers.formatAmountAxis} />
       <Tooltip
         labelFormatter={Helpers.reactTextToDateString}
         formatter={Helpers.formatterTooltip}

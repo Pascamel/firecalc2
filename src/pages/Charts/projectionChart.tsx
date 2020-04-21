@@ -13,9 +13,9 @@ const ProjectionChart = (props: IProps<IProjectionChartData[]>) => (
         dataKey="date"
         type="number"
         domain={['dataMin', 'dataMax']}
-        tickFormatter={Helpers.formatdateToString}
+        tickFormatter={Helpers.formatDateAxis}
       />
-      <YAxis />
+      <YAxis tickFormatter={Helpers.formatAmountAxis} />
       <Tooltip labelFormatter={Helpers.reactTextToDateString} />
       <Legend formatter={Helpers.formatLegend} />
       <Line

@@ -2,7 +2,9 @@ import _ from 'lodash';
 import React, { Dispatch, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
-import { Badge, Col, ListGroup, ListGroupItem, Row, Tooltip as TooltipStrap } from 'reactstrap';
+import {
+    Badge, Col, CustomInput, ListGroup, ListGroupItem, Row, Tooltip as TooltipStrap
+} from 'reactstrap';
 
 import { loadBank } from '../../actions';
 import Bank from '../../bank';
@@ -137,53 +139,21 @@ const ProjectionChartPage = (props: IProps & RouteComponentProps) => {
 
   return (
     <Row>
-      <Col md={2} sm={12}>
+      <Col xs={6} sm={{ size: 2, offset: 8 }}>
         {!mobile && (
-          <ListGroup>
-            {DEFAULT_AMOUNTS.map((v) => (
-              <ListGroupItem
-                key={v}
-                className="text-left cursor"
-                color={amount === v ? 'primary' : 'darker'}
-                onClick={() => setRouteAmount(v)}
-              >
-                $
-                <StaticAmount display-zero hide-decimals>
-                  {v}
-                </StaticAmount>
-                <Badge id={`tooltipIcon${v}`} pill className="pull-right mt-1">
-                  <Icon icon="info" size="sm" />
-                  <TooltipStrap
-                    placement="top"
-                    isOpen={tooltipOpen && tooltipValue === v}
-                    autohide={false}
-                    target={`tooltipIcon${v}`}
-                    toggle={() => toggleTooltip(v)}
-                  >
-                    $
-                    <StaticAmount display-zero hide-decimals>
-                      {v / 12}
-                    </StaticAmount>{' '}
-                    / mo
-                  </TooltipStrap>
-                </Badge>
-              </ListGroupItem>
+          <CustomInput
+            id="amount-custom-input"
+            type="select"
+            className="mb-3"
+            value={amount}
+            onChange={(e) => setRouteAmount(parseInt(e.target.value))}
+          >
+            {DEFAULT_AMOUNTS.map((value) => (
+              <option value={value} key={value}>
+                {amount_(value, true, false)}
+              </option>
             ))}
-          </ListGroup>
-        )}
-        {!mobile && (
-          <ListGroup className="mt-3">
-            {DEFAULT_YEARS.map((v) => (
-              <ListGroupItem
-                key={v}
-                className="text-left cursor"
-                color={years === v ? 'primary' : 'darker'}
-                onClick={() => setRouteYears(v)}
-              >
-                {v} years
-              </ListGroupItem>
-            ))}
-          </ListGroup>
+          </CustomInput>
         )}
         {mobile && (
           <NavButtonGroup
@@ -196,6 +166,22 @@ const ProjectionChartPage = (props: IProps & RouteComponentProps) => {
             ]}
             label={`$${amount_(amount, true, false)}`}
           />
+        )}
+      </Col>
+      <Col xs={6} sm={2}>
+        {!mobile && (
+          <CustomInput
+            id="years-custom-input"
+            type="select"
+            value={years}
+            onChange={(e) => setRouteYears(parseInt(e.target.value))}
+          >
+            {DEFAULT_YEARS.map((value) => (
+              <option key={value} value={value}>
+                {value} years
+              </option>
+            ))}
+          </CustomInput>
         )}
         {mobile && (
           <NavButtonGroup
@@ -210,7 +196,8 @@ const ProjectionChartPage = (props: IProps & RouteComponentProps) => {
           />
         )}
       </Col>
-      <Col md={10} sm={12} className="chart-container">
+
+      <Col xs={12}>
         <ProjectionChart data={data} mobile={mobile} darkMode={darkMode} />
       </Col>
     </Row>

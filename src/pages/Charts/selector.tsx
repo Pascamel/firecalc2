@@ -1,9 +1,9 @@
 import _ from 'lodash';
 import React from 'react';
 import { RouteComponentProps } from 'react-router';
-import { Button, ButtonGroup, Col, Container, Row } from 'reactstrap';
+import { ListGroup, ListGroupItem } from 'reactstrap';
 
-import { Icon, Mobile, NotMobile, Text } from '../../components';
+import { Mobile, NavButtonGroup, NotMobile } from '../../components';
 import * as CHARTS from '../../constants/charts';
 import ROUTES from '../../constants/routes';
 
@@ -36,54 +36,33 @@ const Selector = ({ type, history }: IProps & RouteComponentProps) => {
   };
 
   return (
-    <Container fluid className="alert alert-save alert-header">
-      <Row>
-        <Col className="pl-0 pr-0">
-          <Container>
-            <Row>
-              <Col className="text-center">
-                <NotMobile>
-                  <ButtonGroup>
-                    {Object.entries(CHARTS.URL).map((t, key: number) => (
-                      <Button
-                        color="link"
-                        key={key}
-                        disabled={type === t[1]}
-                        onClick={() => goTo(t[0])}
-                      >
-                        {_.get(CHARTS.LABELS, t[0])}
-                      </Button>
-                    ))}
-                  </ButtonGroup>
-                </NotMobile>
-                <Mobile>
-                  <Button
-                    color="outline-light"
-                    className="pull-left"
-                    onClick={prevChart}
-                  >
-                    <Icon icon="backward" />
-                  </Button>
-                  <Text>
-                    {_.get(
-                      _.values(CHARTS.LABELS),
-                      _.values(CHARTS.URL).indexOf(type)
-                    )}
-                  </Text>
-                  <Button
-                    color="outline-light"
-                    className="pull-right"
-                    onClick={nextChart}
-                  >
-                    <Icon icon="forward" />
-                  </Button>
-                </Mobile>
-              </Col>
-            </Row>
-          </Container>
-        </Col>
-      </Row>
-    </Container>
+    <>
+      <NotMobile>
+        <ListGroup>
+          {Object.entries(CHARTS.URL).map((t, key: number) => (
+            <ListGroupItem
+              key={key}
+              className="text-left cursor"
+              color={type === t[1] ? 'primary' : 'darker'}
+              onClick={() => goTo(t[0])}
+            >
+              {_.get(CHARTS.LABELS, t[0])}
+            </ListGroupItem>
+          ))}
+        </ListGroup>
+      </NotMobile>
+      <Mobile>
+        <NavButtonGroup
+          color="light"
+          button-color="outline-secondary"
+          on-click={[prevChart, nextChart]}
+          label={_.get(
+            _.values(CHARTS.LABELS),
+            _.values(CHARTS.URL).indexOf(type)
+          )}
+        />
+      </Mobile>
+    </>
   );
 };
 

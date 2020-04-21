@@ -20,21 +20,20 @@ const Expenses = ({ month, year, bank }: IProps) => {
     _.get(bank.totalMonthIncome, [year, month], 0) -
     _.get(bank.totalMonthSavings, [year, month], 0);
 
+  const expenses =
+    bank.expensesInputs.length > 0
+      ? _.get(bank.totalMonthExpenses, [year, month], 0)
+      : automatic_expenses;
+  const title = amount(expenses, true, bank.showDecimals);
+
   return (
     <Col md={4} sm={12}>
       <Alert color="background">
-        <PanelTitle
-          title="Expenses"
-          subTitle={`$${amount(
-            _.get(bank.totalMonthExpenses, [year, month], 0),
-            true,
-            bank.showDecimals
-          )}`}
-        />
+        <PanelTitle title="Expenses" subTitle={`$${title}`} />
         {bank.expensesInputs.map((header, key) => (
           <Expense key={key} header={header} month={month} year={year} />
         ))}
-        <hr />
+        {bank.expensesInputs.length > 0 && <hr />}
         <div className="month-amount">
           <Text className="label-fake-input smaller mb-1">
             Automatic Expenses
