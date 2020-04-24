@@ -3,6 +3,7 @@ export default Object.freeze({
   SIGN_UP: '/signup',
   SIGN_IN: '/signin',
   ACCOUNT: '/account',
+  JOURNAL: '/journal',
   ADMIN: '/admin',
   PASSWORD_FORGET: '/pw-forget',
 

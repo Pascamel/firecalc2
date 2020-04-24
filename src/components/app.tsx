@@ -13,6 +13,7 @@ import { AdminPage } from '../pages/Admin';
 import { ChartsPage } from '../pages/Charts';
 import { NotAuthorizedPage, NotFoundPage } from '../pages/Error';
 import { HomePage } from '../pages/Home';
+import { JournalPage } from '../pages/Journal';
 import { MonthPage } from '../pages/Month';
 import PasswordForgetPage from '../pages/PasswordForget';
 import { RevenuesPage } from '../pages/Revenues';
@@ -49,6 +50,7 @@ const AppComponent = ({ darkMode }: IProps) => {
           />
           <Route exact path={ROUTES.HOME} component={HomePage} />
           <Route exact path={ROUTES.ACCOUNT} component={AccountPage} />
+          <Route exact path={ROUTES.JOURNAL} component={JournalPage} />
           <Route path={ROUTES.MONTH} component={MonthPage} />
           <Route
             exact
