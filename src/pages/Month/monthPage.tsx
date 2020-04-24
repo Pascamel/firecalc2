@@ -6,11 +6,13 @@ import { Col, Container, Row } from 'reactstrap';
 import { loadBank } from '../../actions';
 import Bank from '../../bank';
 import { LoadingPanel, Mobile, NotMobile, SavePanel } from '../../components';
-import * as ROUTES from '../../constants/routes';
+import ROUTES from '../../constants/routes';
 import { currentMonthRoute, labelMonth, nextMonth, prevMonth } from '../../helpers';
 import { AppState } from '../../store';
-import Charts from './charts';
-import Finances from './finances';
+import Expenses from './expenses';
+import Header from './header';
+import Incomes from './incomes';
+import Savings from './savings';
 
 interface IProps extends RouteComponentProps<{ month: string; year: string }> {
   authUser: firebase.User | null;
@@ -27,7 +29,7 @@ const MonthPageBase = (props: IProps & RouteComponentProps) => {
     onLoadBank,
     location,
     history,
-    match
+    match,
   } = props;
   const [year, setYear] = useState<string>(match.params.year || '0');
   const [month, setMonth] = useState(match.params.month || '0');
@@ -89,7 +91,7 @@ const MonthPageBase = (props: IProps & RouteComponentProps) => {
       <Redirect
         to={{
           pathname: currentMonthRoute(),
-          state: { from: location }
+          state: { from: location },
         }}
       />
     );
@@ -106,7 +108,7 @@ const MonthPageBase = (props: IProps & RouteComponentProps) => {
     nextMonth: goNextMonth,
     nextMonthDisabled:
       y > new Date().getFullYear() ||
-      (y === new Date().getFullYear() && m === 12)
+      (y === new Date().getFullYear() && m === 12),
   };
 
   return (
@@ -121,10 +123,25 @@ const MonthPageBase = (props: IProps & RouteComponentProps) => {
         <Row>
           <Col className="pr-0 pl-0">
             <Container>
+              <NotMobile>
+                <Row>
+                  <Col>
+                    <Header month={month} year={year} />
+                  </Col>
+                </Row>
+              </NotMobile>
               <Row>
-                <Finances month={month} year={year} />
-                <Charts month={month} year={year} />
+                <Savings month={month} year={year} />
+                <Incomes month={month} year={year} />
+                <Expenses month={month} year={year} />
               </Row>
+              <Mobile>
+                <Row>
+                  <Col>
+                    <Header month={month} year={year} />
+                  </Col>
+                </Row>
+              </Mobile>
             </Container>
           </Col>
         </Row>
@@ -137,7 +154,7 @@ const mapStateToProps = (state: AppState) => {
   return {
     authUser: state.sessionState.authUser,
     bank: state.bankState.bank,
-    bankLoaded: state.bankState.bankLoaded
+    bankLoaded: state.bankState.bankLoaded,
   };
 };
 
@@ -145,7 +162,7 @@ const mapDispatchToProps = (dispatch: Dispatch<any>) => {
   return {
     onLoadBank: (uid: string) => {
       dispatch(loadBank(uid));
-    }
+    },
   };
 };
 

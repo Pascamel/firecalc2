@@ -3,13 +3,13 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { compose } from 'recompose';
 
-import * as ROUTES from '../constants/routes';
+import ROUTES from '../constants/routes';
 import { firebase as fb } from '../firebase';
 import { AppState } from '../store';
 
 interface IProps {
-  history?: any,
-  authUser: firebase.User
+  history?: any;
+  authUser: firebase.User;
 }
 
 export const withAuthorization = (condition: any) => (Component: any) => {
@@ -17,7 +17,7 @@ export const withAuthorization = (condition: any) => (Component: any) => {
     listener: any = () => {};
 
     public componentDidMount() {
-      this.listener = fb.auth.onAuthStateChanged(authUser => {
+      this.listener = fb.auth.onAuthStateChanged((authUser) => {
         const authCheckResult = condition(authUser);
 
         // boolean based authentication
@@ -25,9 +25,9 @@ export const withAuthorization = (condition: any) => (Component: any) => {
           if (!condition(authUser)) {
             this.props.history.push(ROUTES.NOT_AUTHORIZED);
           }
-          
+
           return;
-        } 
+        }
 
         // promise based authentication
         if (typeof authCheckResult === 'object') {
@@ -62,6 +62,6 @@ export const withAuthorization = (condition: any) => (Component: any) => {
 
   return compose(
     withRouter,
-    connect(mapStateToProps),
+    connect(mapStateToProps)
   )(WithAuthorization as any);
 };

@@ -5,7 +5,7 @@ import { Button, Col, Input, Label, Row } from 'reactstrap';
 import { deleteSavingHeader, switchSavingHeaders, updateSavingHeader } from '../../actions';
 import Bank, { ISavingsHeader } from '../../bank';
 import { ButtonGroupSwitch, Icon, MonthYearPicker } from '../../components';
-import { deepCopy, labelMonth } from '../../helpers';
+import { currentYear, deepCopy, labelMonth } from '../../helpers';
 import { AppState } from '../../store';
 
 interface IProps {
@@ -25,9 +25,8 @@ const Saving = ({
   bankLoaded,
   onUpdateSavingHeader,
   onDeleteSavingHeader,
-  onSwitchSavingHeaders
+  onSwitchSavingHeaders,
 }: IProps) => {
-  const currentYear = new Date().getFullYear();
   const [edit, setEdit] = useState(false);
   const [editLabel, setEditLabel] = useState(header.label || '');
   const [editSublabel, setEditSubLabel] = useState(header.sublabel || '');
@@ -122,7 +121,7 @@ const Saving = ({
             id="editLabel"
             name="editLabel"
             value={editLabel}
-            onChange={event => setEditLabel(event.target.value)}
+            onChange={(event) => setEditLabel(event.target.value)}
             className="form-control"
           />
         </Col>
@@ -133,7 +132,7 @@ const Saving = ({
             id="editSublabel"
             name="editSublabel"
             value={editSublabel}
-            onChange={event => setEditSubLabel(event.target.value)}
+            onChange={(event) => setEditSubLabel(event.target.value)}
             className="form-control"
           />
         </Col>
@@ -144,7 +143,7 @@ const Saving = ({
             id="editIcon"
             name="editIcon"
             value={editIcon}
-            onChange={event => setEditIcon(event.target.value)}
+            onChange={(event) => setEditIcon(event.target.value)}
             className="form-control"
           />
         </Col>
@@ -180,7 +179,7 @@ const Saving = ({
             month-range={[1, 13]}
             year={editFromYear || 0}
             setYear={setEditFromYear}
-            year-range={[bank.headers.firstYear, currentYear + 1]}
+            year-range={[bank.headers.firstYear, currentYear() + 1]}
           />
         </Col>
         <Col xs={4} sm={2}>
@@ -204,7 +203,7 @@ const Saving = ({
             month-range={[1, 13]}
             year={editToYear || 0}
             setYear={setEditToYear}
-            year-range={[bank.headers.firstYear, currentYear + 1]}
+            year-range={[bank.headers.firstYear, currentYear() + 1]}
           />
         </Col>
         <Col xs={12} className="text-right mt-3">
@@ -272,7 +271,7 @@ const Saving = ({
 const mapStateToProps = (state: AppState) => {
   return {
     bank: state.bankState.bank,
-    bankLoaded: state.bankState.bankLoaded
+    bankLoaded: state.bankState.bankLoaded,
   };
 };
 
@@ -286,7 +285,7 @@ const mapDispatchToProps = (dispatch: Dispatch<any>) => {
     },
     onSwitchSavingHeaders: (index1: number, index2: number) => {
       dispatch(switchSavingHeaders(index1, index2));
-    }
+    },
   };
 };
 

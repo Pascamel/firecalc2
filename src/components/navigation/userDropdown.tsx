@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { DropdownItem, DropdownMenu, DropdownToggle, UncontrolledDropdown } from 'reactstrap';
 
 import { DarkSwitcher, Mobile, NotMobile, SignOutLink } from '../';
-import * as ROUTES from '../../constants/routes';
+import ROUTES from '../../constants/routes';
 import NavBarItem from './item';
 
 interface IProps {

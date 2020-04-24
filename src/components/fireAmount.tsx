@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import math from 'mathjs';
-import React, { Dispatch, useCallback, useEffect, useState } from 'react';
+import React, { Dispatch, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 
 import { updateValue } from '../actions';
@@ -12,19 +12,19 @@ import { AppState } from '../store';
 interface IProps {
   bank: Bank.IBank;
   extraClassName?: string;
+  classNameInput?: string;
   ['callback-props']: string[];
   ['display-if-zero']?: boolean;
   onUpdateValue: (index: string, indexes: string[], amount: number) => void;
-  clickEditParent?: string;
 }
 
 const FireAmount = ({
   bank,
   extraClassName,
+  classNameInput,
   'callback-props': callbackProps,
   'display-if-zero': displayIfZero,
   onUpdateValue,
-  clickEditParent
 }: IProps) => {
   const readonly = _.last(callbackProps) === 'T';
   const [edit, setEdit] = useState(false);
@@ -39,18 +39,20 @@ const FireAmount = ({
     setInputValue(_.get(bank, callbackProps, 0).toString());
   }, [bank, callbackProps]);
 
-  const setEditMode = useCallback(() => {
-    if (readonly) return;
+  const setEditMode = () => {
+    if (readonly) {
+      return;
+    }
 
     setEdit(true);
-    setAmount(_.get(bank, callbackProps, 0));
-  }, [bank, callbackProps, readonly]);
-
-  useEffect(() => {
-    if (clickEditParent !== undefined) {
-      setEditMode();
-    }
-  }, [clickEditParent, setEditMode]);
+    setAmount(
+      helper_amount(
+        _.get(bank, callbackProps, 0),
+        displayIfZero || false,
+        bank.showDecimals || false
+      )
+    );
+  };
 
   const onClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e && e.stopPropagation();
@@ -94,9 +96,9 @@ const FireAmount = ({
   const classname = [
     'amount-container',
     readonly ? 'read-only' : null,
-    extraClassName
+    extraClassName,
   ]
-    .filter(v => v !== null)
+    .filter((v) => v !== null)
     .join(' ');
 
   return (
@@ -112,12 +114,12 @@ const FireAmount = ({
       )}
       {edit && (
         <input
-          ref={input => {
+          ref={(input) => {
             input?.focus();
           }}
-          className="form-control"
+          className={`form-control ${classNameInput}`}
           defaultValue={amount ? amount.toString() : ''}
-          onChange={e => setInputValue(e.target.value)}
+          onChange={(e) => setInputValue(e.target.value)}
           onKeyUp={handleKeyUp}
         />
       )}
@@ -127,7 +129,7 @@ const FireAmount = ({
 
 const mapStateToProps = (state: AppState) => {
   return {
-    bank: state.bankState.bank
+    bank: state.bankState.bank,
   };
 };
 
@@ -135,7 +137,7 @@ const mapDispatchToProps = (dispatch: Dispatch<any>) => {
   return {
     onUpdateValue: (index: string, indexes: string[], amount: number) => {
       dispatch(updateValue(index, indexes, amount));
-    }
+    },
   };
 };
 

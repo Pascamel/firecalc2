@@ -45,8 +45,9 @@ const mapStateToProps = (state: AppState) => {
     updated:
       state.bankState.bankSavingsUpdated ||
       state.bankState.bankIncomeUpdated ||
+      state.bankState.bankExpensesUpdated ||
       state.bankState.bankOthersUpdated ||
-      state.bankState.bankHeadersUpdated
+      state.bankState.bankHeadersUpdated,
   };
 };
 

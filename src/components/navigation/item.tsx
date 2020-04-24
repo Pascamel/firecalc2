@@ -28,21 +28,21 @@ const NavBarItem = ({
   label,
   onClick,
   to,
-  updated
+  updated,
 }: IProps) => {
   const navLinkClass = () => {
     return [
       'nav-link',
       className,
       active ? 'active' : null,
-      updated ? 'updated' : null
+      updated ? 'updated' : null,
     ]
-      .filter(v => v !== null && v !== undefined)
+      .filter((v) => v !== null && v !== undefined)
       .join(' ');
   };
 
   const iconClassNames = [iconClassName, 'mr-1', 'fa-fw']
-    .filter(v => v !== null && v !== undefined)
+    .filter((v) => v !== null && v !== undefined)
     .join(' ');
 
   return (
@@ -60,8 +60,9 @@ const mapStateToProps = (state: AppState) => {
     updated:
       state.bankState.bankSavingsUpdated ||
       state.bankState.bankIncomeUpdated ||
+      state.bankState.bankExpensesUpdated ||
       state.bankState.bankOthersUpdated ||
-      state.bankState.bankHeadersUpdated
+      state.bankState.bankHeadersUpdated,
   };
 };
 

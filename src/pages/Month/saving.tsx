@@ -1,7 +1,6 @@
 import _ from 'lodash';
-import React, { useState } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
-import uuid from 'uuid';
 
 import Bank, { ISavingsHeaderLight } from '../../bank';
 import * as formatters from '../../bank/formatters';
@@ -16,12 +15,8 @@ interface IProps {
   year: string;
 }
 
-const MonthSavings = ({ header, bank, month, year }: IProps) => {
-  const [bubbleClick, setBubbleClick] = useState<string | undefined>(undefined);
-
-  const h = _(bank.savingsHeaders)
-    .keyBy('id')
-    .get([header.id]);
+const MonthSaving = ({ header, bank, month, year }: IProps) => {
+  const h = _(bank.savingsHeaders).keyBy('id').get([header.id]);
 
   if (!shouldDisplay(h, parseInt(month), parseInt(year))) {
     return null;
@@ -35,19 +30,14 @@ const MonthSavings = ({ header, bank, month, year }: IProps) => {
     label += ' > ' + formatters.labelSavings(header.type);
   }
 
-  const onClick = () => {
-    setBubbleClick(uuid.v4());
-  };
-
   return (
-    <div className="month-amount" onClick={onClick}>
+    <div className="month-amount">
       <Text className="label-fake-input smaller mb-1">{label}</Text>
       <div className="pull-right half-pt-1">
         <FireAmount
           extraClassName="label-fake-input"
           display-if-zero={true}
           callback-props={['savings', year, month, header.id, header.type]}
-          clickEditParent={bubbleClick}
         />
       </div>
     </div>
@@ -56,8 +46,8 @@ const MonthSavings = ({ header, bank, month, year }: IProps) => {
 
 const mapStateToProps = (state: AppState) => {
   return {
-    bank: state.bankState.bank
+    bank: state.bankState.bank,
   };
 };
 
-export default connect(mapStateToProps)(MonthSavings);
+export default connect(mapStateToProps)(MonthSaving);

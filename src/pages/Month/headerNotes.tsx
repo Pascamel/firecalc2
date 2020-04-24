@@ -3,11 +3,11 @@ import React, {
     ChangeEvent, Dispatch, KeyboardEvent, MouseEvent, useEffect, useState
 } from 'react';
 import { connect } from 'react-redux';
-import { Alert, Input } from 'reactstrap';
+import { Alert, Col, Input, Row } from 'reactstrap';
 
 import { updateValue } from '../../actions';
 import Bank from '../../bank';
-import { Text } from '../../components';
+import { FireAmount, Icon, Text } from '../../components';
 import { AppState } from '../../store';
 
 interface IProps {
@@ -18,7 +18,13 @@ interface IProps {
   onUpdateValue: (index: string, indexes: string[], text: string) => void;
 }
 
-const Notes = ({ bank, bankLoaded, year, month, onUpdateValue }: IProps) => {
+const HeaderNotes = ({
+  bank,
+  bankLoaded,
+  year,
+  month,
+  onUpdateValue,
+}: IProps) => {
   const [edit, setEdit] = useState(false);
   const [value, setValue] = useState('');
   const [editValue, setEditValue] = useState('');
@@ -65,27 +71,42 @@ const Notes = ({ bank, bankLoaded, year, month, onUpdateValue }: IProps) => {
   };
 
   return (
-    <Alert color="background" onClick={editMode}>
-      <p>
-        <b>Notes</b>
-      </p>
-      {!edit && (
-        <Text className="text-newline">
-          {value && value.length ? value : 'No note created yet'}
-        </Text>
-      )}
-      {edit && (
-        <Input
-          id="notesTextArea"
-          innerRef={input => {
-            input?.focus();
-          }}
-          type="textarea"
-          value={editValue}
-          onChange={change}
-          onKeyDown={keyDown}
-        />
-      )}
+    <Alert color="background">
+      <Row className="month-amount net-worth">
+        <Col>
+          <Text className="label-fake-input">Net Worth</Text>
+        </Col>
+        <Col>
+          <FireAmount
+            extraClassName="label-fake-input pull-right"
+            classNameInput="pull-right"
+            display-if-zero={true}
+            callback-props={['networth', year, month]}
+          />
+        </Col>
+      </Row>
+      <Row className="month-amount notes">
+        <Col onClick={editMode}>
+          {!edit && (
+            <Text className="text-newline">
+              {value && value.length ? value : 'Add notes'}
+              {value?.length === 0 && <Icon icon="pen" className="ml-2" />}
+            </Text>
+          )}
+          {edit && (
+            <Input
+              id="notesTextArea"
+              innerRef={(input) => {
+                input?.focus();
+              }}
+              type="textarea"
+              value={editValue}
+              onChange={change}
+              onKeyDown={keyDown}
+            />
+          )}
+        </Col>
+      </Row>
     </Alert>
   );
 };
@@ -93,7 +114,7 @@ const Notes = ({ bank, bankLoaded, year, month, onUpdateValue }: IProps) => {
 const mapStateToProps = (state: AppState) => {
   return {
     bank: state.bankState.bank,
-    bankLoaded: state.bankState.bankLoaded
+    bankLoaded: state.bankState.bankLoaded,
   };
 };
 
@@ -101,8 +122,8 @@ const mapDispatchToProps = (dispatch: Dispatch<any>) => {
   return {
     onUpdateValue: (index: string, indexes: string[], text: string) => {
       dispatch(updateValue(index, indexes, text));
-    }
+    },
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Notes);
+export default connect(mapStateToProps, mapDispatchToProps)(HeaderNotes);

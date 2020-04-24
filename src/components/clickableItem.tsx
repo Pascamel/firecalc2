@@ -19,16 +19,12 @@ interface IProps {
   ) => void;
 }
 
-const ClickableItem = (props: IProps) => {
-  const { header, bank, onUpdateValueLocalStorage } = props;
-
+const ClickableItem = ({ header, bank, onUpdateValueLocalStorage }: IProps) => {
   let hl = '';
   if (header.id === 'total') {
     hl = 'Totals';
   } else {
-    const h = _(bank.savingsHeaders)
-      .keyBy('id')
-      .get([header.id]);
+    const h = _(bank.savingsHeaders).keyBy('id').get([header.id]);
 
     let header_label = h.label || 'N/A';
     if (h.sublabel) header_label += ' > ' + h.sublabel;
@@ -66,7 +62,7 @@ const ClickableItem = (props: IProps) => {
 
 const mapStateToProps = (state: AppState) => {
   return {
-    bank: state.bankState.bank
+    bank: state.bankState.bank,
   };
 };
 
@@ -78,7 +74,7 @@ const mapDispatchToProps = (dispatch: Dispatch<any>) => {
       amount: number | boolean
     ) => {
       dispatch(updateValueLocalStorage(index, indexes, amount));
-    }
+    },
   };
 };
 

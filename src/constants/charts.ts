@@ -8,16 +8,16 @@ export const PROJECTION = 7;
 
 interface IMapping {
   [key: string]: string;
-} 
+}
 
 export const LABELS: IMapping = {
-  INCOME_VS_SAVINGS: 'Income vs Savings',
-  NET_WORTH_VS_SAVINGS: 'Net Worth vs Savings',
-  SAVINGS_BREAKDOWN: 'Savings breakdown',
-  ALLOCATION_EVOLUTION: 'Savings Allocation',
+  INCOME_VS_SAVINGS: 'Inc. vs Savings',
+  NET_WORTH_VS_SAVINGS: 'NW vs Savings',
+  SAVINGS_BREAKDOWN: 'Savings breakd.',
+  ALLOCATION_EVOLUTION: 'Savings Alloc.',
   BREAK_EVEN_POINT: 'Break-even point',
   YEARLY_GOAL_BURNUP: 'Yearly burnup',
-  PROJECTION: 'Projection'
+  PROJECTION: 'Projection',
 };
 
 export const URL: IMapping = {
@@ -27,5 +27,5 @@ export const URL: IMapping = {
   ALLOCATION_EVOLUTION: 'allocation-evolution',
   BREAK_EVEN_POINT: 'break-even-point',
   YEARLY_GOAL_BURNUP: 'yearly-goal-burnup',
-  PROJECTION: 'projection'
+  PROJECTION: 'projection',
 };

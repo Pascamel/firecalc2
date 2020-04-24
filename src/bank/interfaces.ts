@@ -46,6 +46,25 @@ export interface ISavingsHeader {
   displayToYear: number | null;
 }
 
+export interface IExpenses {
+  [year: string]: {
+    [month: string]: {
+      [type: string]: number;
+    };
+  };
+}
+
+export interface IExpenseHeader {
+  id: string;
+  label: string;
+  type: number;
+  isNecessary: boolean;
+  isFuture: boolean;
+  startMonth: number | null;
+  startYear: number | null;
+  amount: number | null;
+}
+
 export interface ISavingsYearHeaders {
   collapsed: {
     [year: string]: boolean;

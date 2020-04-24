@@ -40,23 +40,21 @@ const Body = ({ year, bank, onUpdateValueLocalStorage }: IProps) => {
           <Icon icon={collapsed ? 'chevron-right' : 'chevron-down'} />
         </td>
         <FireTD span={bank.savingsInputsHidden.length + 5} hide={collapsed}>
-          <>
-            <Text className="pull-left ml-2">{year}</Text>
-            <span>
-              Begins at{' '}
-              <b>
-                <StaticAmount>{bank.startOfYearAmount[year]}</StaticAmount>
-              </b>{' '}
-              - Goal is&nbsp;
-              <FireAmount
-                extraClassName="bold"
-                callback-props={['savingsYearHeaders', 'goals', year]}
-              />
-              &nbsp;(
-              <StaticAmount>{bank.monthlyGoal[year]}</StaticAmount>
-              /mo)
-            </span>
-          </>
+          <Text className="pull-left ml-2">{year}</Text>
+          <span>
+            Begins at{' '}
+            <b>
+              <StaticAmount>{bank.startOfYearAmount[year]}</StaticAmount>
+            </b>{' '}
+            - Goal is&nbsp;
+            <FireAmount
+              extraClassName="bold"
+              callback-props={['savingsYearHeaders', 'goals', year]}
+            />
+            &nbsp;(
+            <StaticAmount>{bank.monthlyGoal[year]}</StaticAmount>
+            /mo)
+          </span>
         </FireTD>
         {bank.savingsInputsHidden.map((amount, idx: number) => (
           <FireTD show={collapsed} key={idx}>
@@ -105,7 +103,7 @@ const Body = ({ year, bank, onUpdateValueLocalStorage }: IProps) => {
                     year,
                     month[0],
                     amount.id,
-                    amount.type
+                    amount.type,
                   ]}
                 />
               )}
@@ -188,7 +186,7 @@ const Body = ({ year, bank, onUpdateValueLocalStorage }: IProps) => {
 
 const mapStateToProps = (state: AppState) => {
   return {
-    bank: state.bankState.bank
+    bank: state.bankState.bank,
   };
 };
 
@@ -200,7 +198,7 @@ const mapDispatchToProps = (dispatch: Dispatch<any>) => {
       amount: number | boolean
     ) => {
       dispatch(updateValueLocalStorage(index, indexes, amount));
-    }
+    },
   };
 };
 

@@ -18,15 +18,17 @@ export interface IBank {
 
   income: I.IIncome;
   savings: I.ISavings;
+  expenses: I.IExpenses;
   networth: I.IBankYearMonthString;
-  expenses: I.IBankYearMonthAmount;
   notes: I.IBankYearMonthString;
   savingsInputs: Array<I.ISavingsHeaderLight>;
   savingsInputsHidden: Array<I.ISavingsHeaderLight>;
+  expensesInputs: Array<I.IExpenseHeader>;
 
   incomeHeaders: Array<I.IIncomeHeader>;
   savingsHeaders: Array<I.ISavingsHeader>;
   incomeYearHeaders: I.IIncomeYearHeaders;
+  expensesHeaders: Array<I.IExpenseHeader>;
   savingsYearHeaders: I.ISavingsYearHeaders;
   savingsHeadersLine1: Array<{ label: string; icon: string; weight: number }>;
   savingsHeadersLine2: Array<{ label: string; last: boolean }>;
@@ -46,6 +48,7 @@ export interface IBank {
   totalMonthPre: I.IBankYearMonthAmount;
   totalMonthPost: I.IBankYearMonthAmount;
   totalMonthIncome: I.IBankYearMonthAmount;
+  totalMonthExpenses: I.IBankYearMonthAmount;
   totalYearPre: I.IBankYearAmount;
   totalYearPost: I.IBankYearAmount;
   yearlyIncome: I.IBankYearInstitutionAmount;
@@ -60,12 +63,14 @@ export const load = async (uid: string): Promise<IBank> => {
   const snapshotHeaders = await firestore.getHeaders(uid);
   const snapshotSavings = await firestore.getSavings(uid);
   const snapshotRevenues = await firestore.getRevenues(uid);
+  const snapshotExpenses = await firestore.getExpenses(uid);
   const snapshotOthers = await firestore.getOthers(uid);
 
   if (
     !snapshotHeaders ||
     !snapshotSavings ||
     !snapshotRevenues ||
+    !snapshotExpenses ||
     !snapshotOthers
   ) {
     return bank;
@@ -76,6 +81,7 @@ export const load = async (uid: string): Promise<IBank> => {
   const headersLastUpdate = snapshotHeaders.data()?.last_update;
   const savingsLastUpdate = snapshotSavings.data()?.last_update;
   const revenuesLastUpdate = snapshotRevenues.data()?.last_update;
+  const expensesLastUpdate = snapshotExpenses.data()?.last_update;
   const othersLastUpdate = snapshotOthers.data()?.last_update;
 
   if (headersLastUpdate) {
@@ -87,6 +93,9 @@ export const load = async (uid: string): Promise<IBank> => {
   if (revenuesLastUpdate) {
     bank.lastupdate['income'] = moment(revenuesLastUpdate).fromNow();
   }
+  if (expensesLastUpdate) {
+    bank.lastupdate['expenses'] = moment(expensesLastUpdate).fromNow();
+  }
   if (othersLastUpdate) {
     bank.lastupdate['others'] = moment(othersLastUpdate).fromNow();
   }
@@ -94,17 +103,18 @@ export const load = async (uid: string): Promise<IBank> => {
   bank.headers = snapshotHeaders.data() ?? [];
   let savings_data = _.get(snapshotSavings.data(), 'data', []);
   let revenues_data = _.get(snapshotRevenues.data(), 'data', []);
+  let expenses_data = _.get(snapshotExpenses.data(), 'data', []);
 
   bank.incomeYearHeaders = { collapsed: {} };
   bank.savingsYearHeaders = _.get(snapshotSavings.data(), 'yearly_data', {
     collapsed: {},
-    goals: {}
+    goals: {},
   });
 
   bank.income = formatters.formatIncome(revenues_data, bank.headers);
   bank.savings = formatters.formatSavings(savings_data, bank.headers);
+  bank.expenses = formatters.formatExpenses(expenses_data, bank.headers);
   bank.networth = _.get(snapshotOthers.data(), 'networth', {});
-  bank.expenses = _.get(snapshotOthers.data(), 'expenses', {});
   bank.notes = _.get(snapshotOthers.data(), 'notes', {});
 
   formatHeaders(bank);
@@ -115,14 +125,27 @@ export const load = async (uid: string): Promise<IBank> => {
 };
 
 export const formatHeaders = (bank: IBank) => {
+  if ((bank.headers.incomes?.length ?? 0) === 0) {
+    bank.headers.incomes = [];
+  }
+  if ((bank.headers.savings?.length ?? 0) === 0) {
+    bank.headers.savings = [];
+  }
+  if ((bank.headers.expenses?.length ?? 0) === 0) {
+    bank.headers.expenses = [];
+  }
+
   bank.incomeHeaders = formatters.formatIncomeHeaders(bank.headers);
   bank.savingsHeaders = formatters.formatSavingsHeaders(bank.headers);
+  bank.expensesHeaders = formatters.formatExpensesHeaders(bank.headers);
 
   bank.savingsInputs = formatters.savingsInputs(bank.savingsHeaders, {});
   bank.savingsInputsHidden = formatters.savingsInputs(
     bank.savingsHeaders,
     bank.savingsHeadersHidden
   );
+
+  bank.expensesInputs = formatters.expensesInputs(bank.expensesHeaders);
 
   bank.savingsHeadersLine1 = formatters.savingsHeadersLine1(
     bank.savingsHeaders,
@@ -216,7 +239,7 @@ export const saveIncome = async (uid: string, bank: IBank) => {
     data: JSON.parse(
       JSON.stringify(formatters.formatIncomeToSave(bank.income))
     ),
-    yearly_data: deepCopy(bank.incomeYearHeaders)
+    yearly_data: deepCopy(bank.incomeYearHeaders),
   };
 
   try {
@@ -234,7 +257,7 @@ export const saveSavings = async (uid: string, bank: IBank) => {
       JSON.stringify(formatters.formatSavingstaToSave(bank.savings))
     ),
     yearly_data: deepCopy(bank.savingsYearHeaders),
-    hideDecimals: !bank.showDecimals
+    hideDecimals: !bank.showDecimals,
   };
 
   try {
@@ -245,12 +268,27 @@ export const saveSavings = async (uid: string, bank: IBank) => {
   }
 };
 
+export const saveExpenses = async (uid: string, bank: IBank) => {
+  const payload = {
+    last_update: new Date().getTime(),
+    data: JSON.parse(
+      JSON.stringify(formatters.formatExpensesToSave(bank.expenses))
+    ),
+  };
+
+  try {
+    await firestore.setExpenses(uid, payload);
+    return true;
+  } catch {
+    return false;
+  }
+};
+
 export const saveOthers = async (uid: string, bank: IBank) => {
   const payload = {
     last_update: new Date().getTime(),
-    expenses: deepCopy(bank.expenses),
     networth: deepCopy(bank.networth),
-    notes: deepCopy(bank.notes)
+    notes: deepCopy(bank.notes),
   };
 
   try {
@@ -282,6 +320,8 @@ export const calculateTotals = (bank: IBank) => {
   bank.savingRateMonth = {};
   bank.savingRateYear = {};
 
+  bank.totalMonthExpenses = {};
+
   _.each(bank.savings, (year_data, year) => {
     bank.totalMonthSavings[year] = {};
     bank.totalHolding[year] = {};
@@ -296,8 +336,8 @@ export const calculateTotals = (bank: IBank) => {
     bank.yearlyIncome[year] = {};
     bank.savingRateMonth[year] = {};
     bank.savingRateYear[year] = {};
+    bank.totalMonthExpenses[year] = {};
     if (!bank.networth[year]) bank.networth[year] = {};
-    if (!bank.expenses[year]) bank.expenses[year] = {};
 
     bank.startOfYearAmount[year] =
       year === bank.headers.firstYear.toString()
@@ -309,7 +349,7 @@ export const calculateTotals = (bank: IBank) => {
       _.keys(bank.savings[year]).length;
 
     //totalInstitution
-    _.each(bank.savingsInputs, header => {
+    _.each(bank.savingsInputs, (header) => {
       if (!bank.totalInstitution[year][header.id])
         bank.totalInstitution[year][header.id] = {};
       if (header.type === 'T') {
@@ -329,7 +369,7 @@ export const calculateTotals = (bank: IBank) => {
 
     bank.totalYearPre[year] = 0;
     bank.totalYearPost[year] = 0;
-    _.each(bank.incomeHeaders, header => {
+    _.each(bank.incomeHeaders, (header) => {
       bank.yearlyIncome[year][header.id] = 0;
     });
 
@@ -373,7 +413,7 @@ export const calculateTotals = (bank: IBank) => {
         bank.totalHolding[year][month] - goal_total;
 
       // totalMonthInstitution
-      _.each(bank.savingsInputs, header => {
+      _.each(bank.savingsInputs, (header) => {
         if (header.type === 'T') {
           bank.totalMonthInstitution[year][month] = {};
           bank.totalMonthInstitution[year][month][header.id] = _.reduce(
@@ -387,7 +427,7 @@ export const calculateTotals = (bank: IBank) => {
 
       // grandTotalMonthInstitution
       bank.grandTotalMonthInstitution[year][month] = {};
-      _.each(bank.savingsInputs, header => {
+      _.each(bank.savingsInputs, (header) => {
         if (header.types.indexOf('T') === -1 || header.type === 'T') {
           if (
             month === bank.headers.firstMonth.toString() &&
@@ -420,8 +460,9 @@ export const calculateTotals = (bank: IBank) => {
       bank.totalMonthPre[year][month] = 0;
       bank.totalMonthPost[year][month] = 0;
       bank.totalMonthIncome[year][month] = 0;
+      bank.totalMonthExpenses[year][month] = 0;
 
-      _.each(bank.incomeHeaders, header => {
+      _.each(bank.incomeHeaders, (header) => {
         const amount: number = _.get(bank.income, [year, month, header.id], 0);
         if (amount === 0) return;
 
@@ -443,6 +484,18 @@ export const calculateTotals = (bank: IBank) => {
           : amount / (header.count || 1);
       });
 
+      _(bank.expensesHeaders)
+        .filter((header) => !header.isFuture)
+        .each((header) => {
+          const amount: number = _.get(
+            bank.expenses,
+            [year, month, header.id],
+            0
+          );
+
+          bank.totalMonthExpenses[year][month] += amount;
+        });
+
       const im = bank.totalMonthIncome[year][month];
       bank.savingRateMonth[year][month] =
         im === 0 ? 0 : bank.totalMonthSavings[year][month] / im || 0;
@@ -460,7 +513,7 @@ export const calculateTotals = (bank: IBank) => {
   });
 
   // grandTotalInstitution = (institution: string, type: string) => 123.45;
-  _.each(bank.savingsInputs, header => {
+  _.each(bank.savingsInputs, (header) => {
     if (!bank.grandTotalInstitution[header.id])
       bank.grandTotalInstitution[header.id] = {};
     if (header.type === 'T') {
@@ -473,7 +526,7 @@ export const calculateTotals = (bank: IBank) => {
     } else {
       const sp =
         header.type === 'P' &&
-        _.findIndex(bank.savingsInputs, o => {
+        _.findIndex(bank.savingsInputs, (o) => {
           return o.id === header.id;
         }) === 0
           ? bank.headers.startingCapital
@@ -490,14 +543,8 @@ export const calculateTotals = (bank: IBank) => {
   });
 
   // grandTotalHolding = () => 123.45;
-  const year: string =
-    _(bank.savings)
-      .keys()
-      .last() || '';
-  const month: string =
-    _(bank.savings[year])
-      .keys()
-      .last() || '';
+  const year: string = _(bank.savings).keys().last() || '';
+  const month: string = _(bank.savings[year]).keys().last() || '';
 
   bank.grandTotalHolding = bank.totalHolding[year][month];
 };

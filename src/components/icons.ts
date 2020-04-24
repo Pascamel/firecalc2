@@ -4,9 +4,9 @@ import {
 } from '@fortawesome/free-regular-svg-icons';
 import {
     faBackward, faChartArea, faCheck, faChevronDown, faChevronRight, faChevronUp, faCogs, faColumns,
-    faEdit, faExclamationTriangle, faEye, faEyeSlash, faForward, faInfo, faLaptopCode, faLightbulb,
-    faPiggyBank, faSignInAlt, faSolarPanel, faSpinner, faTimes, faTrashAlt, faUniversity,
-    faUnlockAlt, faUserPlus, faUserTie
+    faCreditCard, faEdit, faExclamationTriangle, faEye, faEyeSlash, faForward, faInfo, faLaptopCode,
+    faLightbulb, faPen, faPiggyBank, faSignInAlt, faSolarPanel, faSpinner, faTimes, faTrashAlt,
+    faUniversity, faUnlockAlt, faUserPlus, faUserTie
 } from '@fortawesome/free-solid-svg-icons';
 
 library.add(
@@ -20,6 +20,7 @@ library.add(
   faChevronUp,
   faCogs,
   faColumns,
+  faCreditCard,
   faEdit,
   faExclamationTriangle,
   faEye,
@@ -28,6 +29,7 @@ library.add(
   faInfo,
   faLaptopCode,
   faLightbulb,
+  faPen,
   faPiggyBank,
   faSave,
   faSignInAlt,

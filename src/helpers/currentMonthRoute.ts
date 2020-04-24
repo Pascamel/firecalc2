@@ -1,4 +1,4 @@
-import * as ROUTES from '../constants/routes';
+import ROUTES from '../constants/routes';
 
 const currentMonthRoute = () => {
   return ROUTES.MONTH.replace(

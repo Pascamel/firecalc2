@@ -26,7 +26,7 @@ const Income = ({
   bankLoaded,
   onUpdateIncomeHeader,
   onDeleteIncomeHeader,
-  onSwitchIncomeHeaders
+  onSwitchIncomeHeaders,
 }: IProps) => {
   const [edit, setEdit] = useState(false);
   const [editLabel, setEditLabel] = useState(header.label);
@@ -36,8 +36,9 @@ const Income = ({
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.name === 'editLabel') setEditLabel(event.target.value);
     if (event.target.name === 'editPretax') setEditPretax(event.target.checked);
-    if (event.target.name === 'editCount')
+    if (event.target.name === 'editCount') {
       setEditCount(parseInt(event.target.value));
+    }
   };
 
   const editHeader = () => {
@@ -134,7 +135,7 @@ const Income = ({
 const mapStateToProps = (state: AppState) => {
   return {
     bank: state.bankState.bank,
-    bankLoaded: state.bankState.bankLoaded
+    bankLoaded: state.bankState.bankLoaded,
   };
 };
 
@@ -148,7 +149,7 @@ const mapDispatchToProps = (dispatch: Dispatch<any>) => {
     },
     onSwitchIncomeHeaders: (index1: number, index2: number) => {
       dispatch(switchIncomeHeaders(index1, index2));
-    }
+    },
   };
 };
 

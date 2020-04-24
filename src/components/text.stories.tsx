@@ -19,11 +19,8 @@ storiesOf('Text', module)
   .add('JSX children', () => (
     <Provider store={store}>
       <Text>
-        <>
-          <Icon icon="backward" />
-          {/* <i className="fa fa-lg fa-sign-out pr-2" /> */}
-          Sign Out
-        </>
+        <Icon icon="backward" />
+        An icon, nice!
       </Text>
     </Provider>
   ))

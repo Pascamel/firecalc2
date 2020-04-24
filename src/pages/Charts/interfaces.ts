@@ -42,10 +42,12 @@ export type IProjectionChartData = {
   projection7: number | null;
 };
 
-export type IChartData =
-  | IIncomeVsSavingsChartData
-  | INetWorthVsSavingsChartData
-  | IAllocationEvolutionChart
-  | IBreakEvenPointChartData
-  | IYearlyGoalBurnUpChartData
-  | IProjectionChartData;
+export interface IProps<T> {
+  data: T;
+  mobile: boolean;
+  darkMode: boolean;
+}
+
+export interface IPercentageProps {
+  percentage: boolean;
+}
