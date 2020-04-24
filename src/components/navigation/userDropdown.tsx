@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { DropdownItem, DropdownMenu, DropdownToggle, UncontrolledDropdown } from 'reactstrap';
 
 import { DarkSwitcher, Mobile, NotMobile, SignOutLink } from '../';
+import { Icon } from '../../components';
 import ROUTES from '../../constants/routes';
 import NavBarItem from './item';
 
@@ -22,8 +23,18 @@ const UserDropdown = ({ authUser, onClick }: IProps) => {
           <DropdownMenu right>
             <DropdownItem>
               <Link className="no-link" to={ROUTES.ACCOUNT} onClick={onClick}>
-                <i className="fa fa-lg fa-fw fa-user" />
+                <Icon className="fa-fw" size="lg" icon={['far', 'user']} />
                 Account
+              </Link>
+            </DropdownItem>
+            <DropdownItem>
+              <Link className="no-link" to={ROUTES.JOURNAL} onClick={onClick}>
+                <Icon
+                  className="fa-fw"
+                  size="lg"
+                  icon={['fas', 'clipboard-list']}
+                />
+                Journal
               </Link>
             </DropdownItem>
             <DropdownItem>
