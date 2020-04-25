@@ -1,8 +1,10 @@
 import moment from 'moment';
 import preval from 'preval.macro';
-import React, { Dispatch, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Col, Container, ListGroup, ListGroupItem, Media, Row } from 'reactstrap';
+import { AnyAction } from 'redux';
+import { ThunkDispatch } from 'redux-thunk';
 
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 
@@ -145,7 +147,9 @@ const mapStateToProps = (state: AppState) => {
   };
 };
 
-const mapDispatchToProps = (dispatch: Dispatch<any>) => {
+const mapDispatchToProps = (
+  dispatch: ThunkDispatch<AppState, void, AnyAction>
+) => {
   return {
     onLoadBank: (uid: string) => dispatch(loadBank(uid)),
   };

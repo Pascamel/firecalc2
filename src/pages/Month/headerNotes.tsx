@@ -1,9 +1,9 @@
 import _ from 'lodash';
-import React, {
-    ChangeEvent, Dispatch, KeyboardEvent, MouseEvent, useEffect, useState
-} from 'react';
+import React, { ChangeEvent, KeyboardEvent, MouseEvent, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Alert, Col, Input, Row } from 'reactstrap';
+import { AnyAction } from 'redux';
+import { ThunkDispatch } from 'redux-thunk';
 
 import { updateValue } from '../../actions';
 import Bank from '../../bank';
@@ -118,7 +118,9 @@ const mapStateToProps = (state: AppState) => {
   };
 };
 
-const mapDispatchToProps = (dispatch: Dispatch<any>) => {
+const mapDispatchToProps = (
+  dispatch: ThunkDispatch<AppState, void, AnyAction>
+) => {
   return {
     onUpdateValue: (index: string, indexes: string[], text: string) => {
       dispatch(updateValue(index, indexes, text));

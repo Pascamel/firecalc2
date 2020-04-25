@@ -1,6 +1,8 @@
 import _ from 'lodash';
-import React, { Dispatch, useState } from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
+import { AnyAction } from 'redux';
+import { ThunkDispatch } from 'redux-thunk';
 
 import { updateValueLocalStorage } from '../../actions';
 import Bank from '../../bank';
@@ -190,7 +192,9 @@ const mapStateToProps = (state: AppState) => {
   };
 };
 
-const mapDispatchToProps = (dispatch: Dispatch<any>) => {
+const mapDispatchToProps = (
+  dispatch: ThunkDispatch<AppState, void, AnyAction>
+) => {
   return {
     onUpdateValueLocalStorage: (
       index: string,

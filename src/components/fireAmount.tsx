@@ -1,7 +1,9 @@
 import _ from 'lodash';
 import math from 'mathjs';
-import React, { Dispatch, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
+import { AnyAction } from 'redux';
+import { ThunkDispatch } from 'redux-thunk';
 
 import { updateValue } from '../actions';
 import Bank from '../bank';
@@ -133,7 +135,9 @@ const mapStateToProps = (state: AppState) => {
   };
 };
 
-const mapDispatchToProps = (dispatch: Dispatch<any>) => {
+const mapDispatchToProps = (
+  dispatch: ThunkDispatch<AppState, void, AnyAction>
+) => {
   return {
     onUpdateValue: (index: string, indexes: string[], amount: number) => {
       dispatch(updateValue(index, indexes, amount));

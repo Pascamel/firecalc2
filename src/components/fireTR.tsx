@@ -3,7 +3,7 @@ import React from 'react';
 interface IProps {
   show?: boolean;
   hide?: boolean;
-  children?: any;
+  children?: React.ReactNode;
 }
 
 const FireTR = (props: IProps) => {

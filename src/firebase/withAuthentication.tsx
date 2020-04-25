@@ -1,11 +1,14 @@
-import React, { Component, Dispatch } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Alert } from 'reactstrap';
+import { AnyAction } from 'redux';
+import { ThunkDispatch } from 'redux-thunk';
 
 import { unloadBank } from '../actions';
 import TYPES from '../actions/types';
 import { LoadingPanel } from '../components';
 import { firebase as fb } from '../firebase';
+import { AppState } from '../store';
 
 interface IProps {
   authUser?: firebase.User;
@@ -58,7 +61,9 @@ export const withAuthentication = (WrappedComponent: any) => {
     }
   }
 
-  const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
+  const mapDispatchToProps = (
+    dispatch: ThunkDispatch<AppState, void, AnyAction>
+  ) => ({
     onSetAuthUser: (authUser: any) =>
       dispatch({
         type: TYPES.AUTH_USER_SET,

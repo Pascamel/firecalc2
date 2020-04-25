@@ -1,4 +1,4 @@
-import { Dispatch } from 'redux';
+import { Action, Dispatch } from 'redux';
 
 import Bank from '../bank';
 import { IExpenseHeader, IIncomeHeader, ISavingsHeader } from '../bank/interfaces';
@@ -6,7 +6,7 @@ import { deepCopy } from '../helpers';
 import TYPES from './types';
 
 export const setDarkMode = (darkMode: boolean) => {
-  return (dispatch: Dispatch<any>) => {
+  return (dispatch: Dispatch<Action<string>>) => {
     dispatch({
       type: TYPES.SET_DARK_MODE,
       payload: { darkMode },
@@ -15,7 +15,7 @@ export const setDarkMode = (darkMode: boolean) => {
 };
 
 export const loadBank = (uid: string) => {
-  return (dispatch: Dispatch<any>) => {
+  return (dispatch: Dispatch<Action<string>>) => {
     const bank = {};
     dispatch({
       type: TYPES.BANK_LOAD_STARTED,
@@ -39,7 +39,7 @@ export const loadBank = (uid: string) => {
 };
 
 export const unloadBank = () => {
-  return (dispatch: Dispatch<any>) => {
+  return (dispatch: Dispatch<Action<string>>) => {
     const bank = {};
     dispatch({
       type: TYPES.BANK_LOAD_STARTED,
@@ -53,7 +53,7 @@ export const updateValue = (
   indexes: string[],
   amount: number | boolean | string
 ) => {
-  return (dispatch: Dispatch<any>) => {
+  return (dispatch: Dispatch<Action<string>>) => {
     dispatch({
       type: TYPES.BANK_UPDATE_VALUE,
       payload: { index, indexes, amount },
@@ -66,7 +66,7 @@ export const updateValueLocalStorage = (
   indexes: string[],
   amount: number | boolean
 ) => {
-  return (dispatch: Dispatch<any>) => {
+  return (dispatch: Dispatch<Action<string>>) => {
     dispatch({
       type: TYPES.BANK_UPDATE_VALUE_LOCAL_STORAGE,
       payload: { index, indexes, amount },
@@ -82,7 +82,7 @@ export const saveBank = (
   expenses: boolean,
   settings: boolean
 ) => {
-  return (dispatch: Dispatch<any>) => {
+  return (dispatch: Dispatch<Action<string>>) => {
     dispatch({
       type: TYPES.BANK_SAVE_STARTED,
       payload: { bank },
@@ -113,7 +113,7 @@ export const saveBank = (
 };
 
 export const newSavingHeader = () => {
-  return (dispatch: Dispatch<any>) => {
+  return (dispatch: Dispatch<Action<string>>) => {
     dispatch({
       type: TYPES.HEADERS_NEW_SAVING,
       payload: {},
@@ -122,7 +122,7 @@ export const newSavingHeader = () => {
 };
 
 export const updateSavingHeader = (header: ISavingsHeader) => {
-  return (dispatch: Dispatch<any>) => {
+  return (dispatch: Dispatch<Action<string>>) => {
     dispatch({
       type: TYPES.HEADERS_UPDATE_SAVING,
       payload: {
@@ -145,7 +145,7 @@ export const updateSavingHeader = (header: ISavingsHeader) => {
 };
 
 export const cancelUpdateSavingHeader = (header: ISavingsHeader) => {
-  return (dispatch: Dispatch<any>) => {
+  return (dispatch: Dispatch<Action<string>>) => {
     dispatch({
       type: TYPES.HEADERS_UPDATE_SAVING,
       payload: {
@@ -158,7 +158,7 @@ export const cancelUpdateSavingHeader = (header: ISavingsHeader) => {
 };
 
 export const deleteSavingHeader = (header: ISavingsHeader) => {
-  return (dispatch: Dispatch<any>) => {
+  return (dispatch: Dispatch<Action<string>>) => {
     dispatch({
       type: TYPES.HEADERS_DELETE_SAVING,
       payload: {
@@ -171,7 +171,7 @@ export const deleteSavingHeader = (header: ISavingsHeader) => {
 };
 
 export const switchSavingHeaders = (index1: number, index2: number) => {
-  return (dispatch: Dispatch<any>) => {
+  return (dispatch: Dispatch<Action<string>>) => {
     dispatch({
       type: TYPES.HEADERS_SWITCH_SAVING,
       payload: {
@@ -183,7 +183,7 @@ export const switchSavingHeaders = (index1: number, index2: number) => {
 };
 
 export const newIncomeHeader = () => {
-  return (dispatch: Dispatch<any>) => {
+  return (dispatch: Dispatch<Action<string>>) => {
     dispatch({
       type: TYPES.HEADERS_NEW_INCOME,
       payload: {},
@@ -192,7 +192,7 @@ export const newIncomeHeader = () => {
 };
 
 export const updateIncomeHeader = (header: IIncomeHeader) => {
-  return (dispatch: Dispatch<any>) => {
+  return (dispatch: Dispatch<Action<string>>) => {
     dispatch({
       type: TYPES.HEADERS_UPDATE_INCOME,
       payload: {
@@ -208,7 +208,7 @@ export const updateIncomeHeader = (header: IIncomeHeader) => {
 };
 
 export const deleteIncomeHeader = (header: IIncomeHeader) => {
-  return (dispatch: Dispatch<any>) => {
+  return (dispatch: Dispatch<Action<string>>) => {
     dispatch({
       type: TYPES.HEADERS_DELETE_INCOME,
       payload: {
@@ -221,7 +221,7 @@ export const deleteIncomeHeader = (header: IIncomeHeader) => {
 };
 
 export const switchIncomeHeaders = (index1: number, index2: number) => {
-  return (dispatch: Dispatch<any>) => {
+  return (dispatch: Dispatch<Action<string>>) => {
     dispatch({
       type: TYPES.HEADERS_SWITCH_INCOME,
       payload: {
@@ -233,7 +233,7 @@ export const switchIncomeHeaders = (index1: number, index2: number) => {
 };
 
 export const saveHeaders = (uid: string, bank: Bank.IBank) => {
-  return (dispatch: Dispatch<any>) => {
+  return (dispatch: Dispatch<Action<string>>) => {
     dispatch({
       type: TYPES.HEADERS_SAVE_STARTED,
       payload: { bank },
@@ -256,7 +256,7 @@ export const saveHeaders = (uid: string, bank: Bank.IBank) => {
 };
 
 export const newExpenseHeader = (isFuture: boolean) => {
-  return (dispatch: Dispatch<any>) => {
+  return (dispatch: Dispatch<Action<string>>) => {
     dispatch({
       type: TYPES.HEADERS_NEW_EXPENSE,
       payload: { isFuture },
@@ -265,7 +265,7 @@ export const newExpenseHeader = (isFuture: boolean) => {
 };
 
 export const updateExpenseHeader = (header: IExpenseHeader) => {
-  return (dispatch: Dispatch<any>) => {
+  return (dispatch: Dispatch<Action<string>>) => {
     dispatch({
       type: TYPES.HEADERS_UPDATE_EXPENSE,
       payload: {
@@ -284,7 +284,7 @@ export const updateExpenseHeader = (header: IExpenseHeader) => {
   };
 };
 export const deleteExpenseHeader = (header: IExpenseHeader) => {
-  return (dispatch: Dispatch<any>) => {
+  return (dispatch: Dispatch<Action<string>>) => {
     dispatch({
       type: TYPES.HEADERS_DELETE_EXPENSE,
       payload: {
@@ -296,7 +296,7 @@ export const deleteExpenseHeader = (header: IExpenseHeader) => {
   };
 };
 export const switchExpenseHeaders = (index1: number, index2: number) => {
-  return (dispatch: Dispatch<any>) => {
+  return (dispatch: Dispatch<Action<string>>) => {
     dispatch({
       type: TYPES.HEADERS_SWITCH_EXPENSE,
       payload: {

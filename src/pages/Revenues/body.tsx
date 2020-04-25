@@ -1,6 +1,8 @@
 import _ from 'lodash';
-import React, { Dispatch, useState } from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
+import { AnyAction } from 'redux';
+import { ThunkDispatch } from 'redux-thunk';
 
 import { updateValueLocalStorage } from '../../actions';
 import Bank from '../../bank';
@@ -42,7 +44,7 @@ const Body = ({ year, bank, onUpdateValueLocalStorage }: IProps) => {
         <FireTD show={!collapsed} span={bank.incomeHeaders.length + 3}>
           <Text className="pull-left pl-2">{year}</Text>
         </FireTD>
-        {bank.incomeHeaders.map(header => (
+        {bank.incomeHeaders.map((header) => (
           <FireTD show={collapsed} key={header.id}>
             <StaticAmount display-zero>
               {bank.yearlyIncome[year][header.id]}
@@ -64,10 +66,10 @@ const Body = ({ year, bank, onUpdateValueLocalStorage }: IProps) => {
         </FireTD>
       </tr>
 
-      {Object.entries(bank.income[year]).map(month => (
+      {Object.entries(bank.income[year]).map((month) => (
         <FireTR hide={collapsed} key={month[0]}>
           <td>{month[0]}</td>
-          {bank.incomeHeaders.map(header => (
+          {bank.incomeHeaders.map((header) => (
             <td key={year + '-' + month[0] + '-' + header.id}>
               <FireAmount
                 callback-props={['income', year, month[0], header.id]}
@@ -104,7 +106,7 @@ const Body = ({ year, bank, onUpdateValueLocalStorage }: IProps) => {
         <td>
           <Icon icon={['far', 'calendar-alt']} />
         </td>
-        {bank.incomeHeaders.map(header => (
+        {bank.incomeHeaders.map((header) => (
           <td key={header.id}>
             <StaticAmount display-zero>
               {bank.yearlyIncome[year][header.id]}
@@ -127,11 +129,13 @@ const Body = ({ year, bank, onUpdateValueLocalStorage }: IProps) => {
 
 const mapStateToProps = (state: AppState) => {
   return {
-    bank: state.bankState.bank
+    bank: state.bankState.bank,
   };
 };
 
-const mapDispatchToProps = (dispatch: Dispatch<any>) => {
+const mapDispatchToProps = (
+  dispatch: ThunkDispatch<AppState, void, AnyAction>
+) => {
   return {
     onUpdateValueLocalStorage: (
       index: string,
@@ -139,7 +143,7 @@ const mapDispatchToProps = (dispatch: Dispatch<any>) => {
       amount: number | boolean
     ) => {
       dispatch(updateValueLocalStorage(index, indexes, amount));
-    }
+    },
   };
 };
 

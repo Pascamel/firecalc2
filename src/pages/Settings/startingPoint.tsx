@@ -1,7 +1,9 @@
 import _ from 'lodash';
-import React, { Dispatch } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { Alert, Col, CustomInput, Form, Input, Label, Row } from 'reactstrap';
+import { AnyAction } from 'redux';
+import { ThunkDispatch } from 'redux-thunk';
 
 import { updateValue } from '../../actions';
 import Bank from '../../bank';
@@ -44,7 +46,7 @@ const StartingPoint = ({ bank, bankLoaded, onUpdateValue }: IProps) => {
             <Input
               type="text"
               value={bank.headers.startingCapital}
-              onChange={e =>
+              onChange={(e) =>
                 onValueChange(
                   'startingCapital',
                   parseFloat(e.target.value) || 0
@@ -57,7 +59,7 @@ const StartingPoint = ({ bank, bankLoaded, onUpdateValue }: IProps) => {
               type="select"
               id="firstMonth"
               value={bank.headers.firstMonth}
-              onChange={e =>
+              onChange={(e) =>
                 onValueChange('firstMonth', parseInt(e.target.value) || 0)
               }
               className="ml-0 ml-sm-2 mr-0 mr-sm-2 mt-2 mt-sm-0"
@@ -72,7 +74,7 @@ const StartingPoint = ({ bank, bankLoaded, onUpdateValue }: IProps) => {
               type="select"
               id="firstYear"
               value={bank.headers.firstYear}
-              onChange={e =>
+              onChange={(e) =>
                 onValueChange('firstYear', parseInt(e.target.value) || 0)
               }
               className="mt-2 mt-sm-0"
@@ -93,11 +95,13 @@ const StartingPoint = ({ bank, bankLoaded, onUpdateValue }: IProps) => {
 const mapStateToProps = (state: AppState) => {
   return {
     bank: state.bankState.bank,
-    bankLoaded: state.bankState.bankLoaded
+    bankLoaded: state.bankState.bankLoaded,
   };
 };
 
-const mapDispatchToProps = (dispatch: Dispatch<any>) => {
+const mapDispatchToProps = (
+  dispatch: ThunkDispatch<AppState, void, AnyAction>
+) => {
   return {
     onUpdateValue: (
       index: string,
@@ -105,7 +109,7 @@ const mapDispatchToProps = (dispatch: Dispatch<any>) => {
       amount: number | boolean
     ) => {
       dispatch(updateValue(index, indexes, amount));
-    }
+    },
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(StartingPoint);

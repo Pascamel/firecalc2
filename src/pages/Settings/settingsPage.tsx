@@ -1,6 +1,8 @@
-import React, { Dispatch, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Col, Container, ListGroup, ListGroupItem, Row } from 'reactstrap';
+import { AnyAction } from 'redux';
+import { ThunkDispatch } from 'redux-thunk';
 
 import { loadBank } from '../../actions';
 import { LoadingPanel, Mobile, NavButtonGroup, NotMobile, SavePanel } from '../../components';
@@ -130,7 +132,9 @@ const mapStateToProps = (state: AppState) => {
   };
 };
 
-const mapDispatchToProps = (dispatch: Dispatch<any>) => {
+const mapDispatchToProps = (
+  dispatch: ThunkDispatch<AppState, void, AnyAction>
+) => {
   return {
     onLoadBank: (uid: string) => {
       dispatch(loadBank(uid));

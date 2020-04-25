@@ -1,8 +1,8 @@
 import React from 'react';
 
 interface IProps {
-  className?: any;
-  onClick?: any;
+  className?: string;
+  onClick?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
   children: React.ReactNode;
   color?: string;
 }

@@ -1,6 +1,8 @@
-import React, { Dispatch, useState } from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { Col, Input, Row } from 'reactstrap';
+import { AnyAction } from 'redux';
+import { ThunkDispatch } from 'redux-thunk';
 
 import { deleteIncomeHeader, switchIncomeHeaders, updateIncomeHeader } from '../../../actions';
 import Bank, { IIncomeHeader } from '../../../bank';
@@ -139,7 +141,9 @@ const mapStateToProps = (state: AppState) => {
   };
 };
 
-const mapDispatchToProps = (dispatch: Dispatch<any>) => {
+const mapDispatchToProps = (
+  dispatch: ThunkDispatch<AppState, void, AnyAction>
+) => {
   return {
     onUpdateIncomeHeader: (header: IIncomeHeader) => {
       dispatch(updateIncomeHeader(header));

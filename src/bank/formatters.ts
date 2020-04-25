@@ -19,7 +19,10 @@ const formatYear = (months: number[], value?: any) => {
   }, {});
 };
 
-export const formatIncome = (income_data: any, headers: any): I.IIncome => {
+export const formatIncome = (
+  income_data: any,
+  headers: I.IBankHeaders
+): I.IIncome => {
   let result: I.IIncome = {};
 
   let years = _.range(headers.firstYear, new Date().getFullYear() + 1);
