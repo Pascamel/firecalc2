@@ -169,7 +169,6 @@ const mapDispatchToProps = (
 ) => {
   return {
     onLoadBank: (uid: string) => {
-      console.log('I call onloadbank in monthPage');
       dispatch(loadBank(uid));
     },
   };

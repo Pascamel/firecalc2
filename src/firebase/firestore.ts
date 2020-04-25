@@ -1,3 +1,4 @@
+import { IJournal } from '../store/journal';
 import { auth, firestore } from './firebase';
 
 // Users
@@ -50,4 +51,14 @@ export const setExpenses = (uid: string, data: any) => {
 
 export const setOthers = (uid: string, data: any) => {
   return firestore.collection('others').doc(uid).set(data);
+};
+
+// journal
+
+export const getJournal = (uid: string) => {
+  return firestore.collection('journal').doc(uid).get();
+};
+
+export const setJournal = (uid: string, data: IJournal) => {
+  return firestore.collection('journal').doc(uid).set(data);
 };

@@ -99,7 +99,7 @@ const HomePageBase = ({
               </Col>
               <Col md={6} xs={12} className="pt-5">
                 <h4>Last update</h4>
-                <ListGroup flush>
+                <ListGroup flush className="pb-3">
                   <Item
                     label="Savings"
                     value={`Updated ${bank.lastupdate.savings}`}
@@ -131,7 +131,17 @@ const HomePageBase = ({
                     icon="cogs"
                   />
                 </ListGroup>
-                <ListGroup className="pt-3">
+                <h4>Activity</h4>
+                <ListGroup flush className="pb-3">
+                  <Item
+                    label="Journal"
+                    value="TODO"
+                    route={ROUTES.JOURNAL}
+                    icon={['fas', 'clipboard-list']}
+                  />
+                </ListGroup>
+                <h4>About</h4>
+                <ListGroup flush className="pb-3">
                   <Item
                     label="Build"
                     value={buildDate}

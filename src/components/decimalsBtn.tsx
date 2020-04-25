@@ -14,6 +14,7 @@ interface IProps {
   onUpdateValueLocalStorage: (
     index: string,
     indexes: string[],
+    previous: number | boolean,
     amount: number | boolean
   ) => void;
 }
@@ -26,7 +27,7 @@ const DecimalsBtn = ({ bank, onUpdateValueLocalStorage }: IProps) => {
   };
 
   const clickDecimal = (decimal: boolean) => {
-    onUpdateValueLocalStorage('showDecimals', [], decimal);
+    onUpdateValueLocalStorage('showDecimals', [], !decimal, decimal);
   };
 
   return (
@@ -65,9 +66,10 @@ const mapDispatchToProps = (
     onUpdateValueLocalStorage: (
       index: string,
       indexes: string[],
+      previous: number | boolean,
       amount: number | boolean
     ) => {
-      dispatch(updateValueLocalStorage(index, indexes, amount));
+      dispatch(updateValueLocalStorage(index, indexes, previous, amount));
     },
   };
 };

@@ -15,7 +15,12 @@ interface IProps {
   year: string;
   bank: Bank.IBank;
   bankLoaded: boolean;
-  onUpdateValue: (index: string, indexes: string[], text: string) => void;
+  onUpdateValue: (
+    index: string,
+    indexes: string[],
+    previous: string,
+    text: string
+  ) => void;
 }
 
 const HeaderNotes = ({
@@ -66,7 +71,7 @@ const HeaderNotes = ({
     } else if (e.key === 'Enter') {
       setValue(editValue);
       setEdit(false);
-      onUpdateValue('notes', [year, month], editValue);
+      onUpdateValue('notes', [year, month], value, editValue);
     } else if (e.key === 'Escape') {
       setEdit(false);
     }
@@ -124,8 +129,13 @@ const mapDispatchToProps = (
   dispatch: ThunkDispatch<AppState, void, AnyAction>
 ) => {
   return {
-    onUpdateValue: (index: string, indexes: string[], text: string) => {
-      dispatch(updateValue(index, indexes, text));
+    onUpdateValue: (
+      index: string,
+      indexes: string[],
+      previous: string,
+      text: string
+    ) => {
+      dispatch(updateValue(index, indexes, previous, text));
     },
   };
 };

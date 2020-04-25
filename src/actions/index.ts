@@ -51,12 +51,13 @@ export const unloadBank = () => {
 export const updateValue = (
   index: string,
   indexes: string[],
+  previous: number | boolean | string,
   amount: number | boolean | string
 ) => {
   return (dispatch: Dispatch<Action<string>>) => {
     dispatch({
       type: TYPES.BANK_UPDATE_VALUE,
-      payload: { index, indexes, amount },
+      payload: { index, indexes, previous, amount },
     });
   };
 };
@@ -64,12 +65,13 @@ export const updateValue = (
 export const updateValueLocalStorage = (
   index: string,
   indexes: string[],
+  previous: number | boolean,
   amount: number | boolean
 ) => {
   return (dispatch: Dispatch<Action<string>>) => {
     dispatch({
       type: TYPES.BANK_UPDATE_VALUE_LOCAL_STORAGE,
-      payload: { index, indexes, amount },
+      payload: { index, indexes, previous, amount },
     });
   };
 };

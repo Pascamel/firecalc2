@@ -17,6 +17,7 @@ interface IProps {
   onUpdateValueLocalStorage: (
     index: string,
     indexes: string[],
+    previous: number | boolean,
     amount: number | boolean
   ) => void;
 }
@@ -46,6 +47,7 @@ const ClickableItem = ({ header, bank, onUpdateValueLocalStorage }: IProps) => {
     onUpdateValueLocalStorage(
       'savingsHeadersHidden',
       [header.id, header.type],
+      hidden,
       !hidden
     );
   };
@@ -75,9 +77,10 @@ const mapDispatchToProps = (
     onUpdateValueLocalStorage: (
       index: string,
       indexes: string[],
+      previous: number | boolean,
       amount: number | boolean
     ) => {
-      dispatch(updateValueLocalStorage(index, indexes, amount));
+      dispatch(updateValueLocalStorage(index, indexes, previous, amount));
     },
   };
 };

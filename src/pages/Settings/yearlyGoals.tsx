@@ -16,6 +16,7 @@ interface IProps {
   onUpdateValue: (
     index: string,
     indexes: string[],
+    previous: number | boolean,
     amount: number | boolean
   ) => void;
 }
@@ -107,9 +108,10 @@ const mapDispatchToProps = (
     onUpdateValue: (
       index: string,
       indexes: string[],
+      previous: number | boolean,
       amount: number | boolean
     ) => {
-      dispatch(updateValue(index, indexes, amount));
+      dispatch(updateValue(index, indexes, previous, amount));
     },
   };
 };

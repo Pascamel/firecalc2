@@ -17,6 +17,7 @@ interface IProps {
   onUpdateValue: (
     index: string,
     indexes: string[],
+    previous: number | boolean,
     amount: number | boolean
   ) => void;
 }
@@ -24,8 +25,8 @@ interface IProps {
 const StartingPoint = ({ bank, bankLoaded, onUpdateValue }: IProps) => {
   const curYear = currentYear();
 
-  const onValueChange = (type: string, value: number) => {
-    onUpdateValue('headers', [type], value);
+  const onValueChange = (type: string, previous: number, value: number) => {
+    onUpdateValue('headers', [type], previous, value);
   };
 
   if (!bankLoaded) {
@@ -49,6 +50,7 @@ const StartingPoint = ({ bank, bankLoaded, onUpdateValue }: IProps) => {
               onChange={(e) =>
                 onValueChange(
                   'startingCapital',
+                  bank.headers.startingCapital,
                   parseFloat(e.target.value) || 0
                 )
               }
@@ -60,7 +62,11 @@ const StartingPoint = ({ bank, bankLoaded, onUpdateValue }: IProps) => {
               id="firstMonth"
               value={bank.headers.firstMonth}
               onChange={(e) =>
-                onValueChange('firstMonth', parseInt(e.target.value) || 0)
+                onValueChange(
+                  'firstMonth',
+                  bank.headers.firstMonth,
+                  parseInt(e.target.value) || 0
+                )
               }
               className="ml-0 ml-sm-2 mr-0 mr-sm-2 mt-2 mt-sm-0"
             >
@@ -75,7 +81,11 @@ const StartingPoint = ({ bank, bankLoaded, onUpdateValue }: IProps) => {
               id="firstYear"
               value={bank.headers.firstYear}
               onChange={(e) =>
-                onValueChange('firstYear', parseInt(e.target.value) || 0)
+                onValueChange(
+                  'firstYear',
+                  bank.headers.firstYear,
+                  parseInt(e.target.value) || 0
+                )
               }
               className="mt-2 mt-sm-0"
             >
@@ -106,9 +116,10 @@ const mapDispatchToProps = (
     onUpdateValue: (
       index: string,
       indexes: string[],
+      previous: number | boolean,
       amount: number | boolean
     ) => {
-      dispatch(updateValue(index, indexes, amount));
+      dispatch(updateValue(index, indexes, previous, amount));
     },
   };
 };

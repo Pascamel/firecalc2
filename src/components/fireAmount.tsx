@@ -17,7 +17,12 @@ interface IProps {
   classNameInput?: string;
   ['callback-props']: string[];
   ['display-if-zero']?: boolean;
-  onUpdateValue: (index: string, indexes: string[], amount: number) => void;
+  onUpdateValue: (
+    index: string,
+    indexes: string[],
+    previous: number,
+    amount: number
+  ) => void;
 }
 
 const FireAmount = ({
@@ -67,14 +72,19 @@ const FireAmount = ({
     if (!RegExp('^([0-9()*/.+-])+$').test(s)) return;
 
     const val = (math.eval(s) || 0).toString();
-
+    const previousAmount = amount;
     setEdit(false);
     setAmount(val);
 
     const indexes = callbackProps;
     const index = indexes.shift() || '';
 
-    onUpdateValue(index, indexes, parseFloat(val) || 0);
+    onUpdateValue(
+      index,
+      indexes,
+      parseFloat(previousAmount),
+      parseFloat(val) || 0
+    );
   };
 
   const cancelEdit = () => {
@@ -139,8 +149,13 @@ const mapDispatchToProps = (
   dispatch: ThunkDispatch<AppState, void, AnyAction>
 ) => {
   return {
-    onUpdateValue: (index: string, indexes: string[], amount: number) => {
-      dispatch(updateValue(index, indexes, amount));
+    onUpdateValue: (
+      index: string,
+      indexes: string[],
+      previous: number,
+      amount: number
+    ) => {
+      dispatch(updateValue(index, indexes, previous, amount));
     },
   };
 };
