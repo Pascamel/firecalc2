@@ -26,6 +26,7 @@ interface IProps {
   authUser: firebase.User | null;
   bank: Bank.IBank;
   bankLoaded: boolean;
+  bankLoading: boolean;
   onLoadBank: (uid: string) => void;
 }
 
@@ -58,16 +59,23 @@ const Item = ({ label, value, route, icon }: IItemProps) => {
   );
 };
 
-const HomePageBase = ({ bank, authUser, onLoadBank, bankLoaded }: IProps) => {
+const HomePageBase = ({
+  bank,
+  authUser,
+  onLoadBank,
+  bankLoaded,
+  bankLoading,
+}: IProps) => {
   const buildDate = moment(preval`module.exports = new Date();`)
     .utc()
     .format('YYYYMMDD-HHmmss');
 
   useEffect(() => {
-    if (bankLoaded || !authUser) return;
-
-    if (authUser) onLoadBank(authUser.uid);
-  }, [authUser, bankLoaded, onLoadBank]);
+    if (bankLoaded || bankLoading || !authUser) {
+      return;
+    }
+    onLoadBank(authUser.uid);
+  }, [authUser, bankLoaded, bankLoading, onLoadBank]);
 
   if (!bankLoaded) return <LoadingPanel color="none" />;
 
@@ -144,6 +152,7 @@ const mapStateToProps = (state: AppState) => {
   return {
     bank: state.bankState.bank,
     bankLoaded: state.bankState.bankLoaded,
+    bankLoading: state.bankState.bankLoading,
   };
 };
 

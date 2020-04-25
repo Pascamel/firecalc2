@@ -16,6 +16,7 @@ import YearlyGoals from './yearlyGoals';
 interface IProps {
   authUser: firebase.User | null;
   bankLoaded: boolean;
+  bankLoading: boolean;
   onLoadBank: (uid: string) => void;
 }
 
@@ -52,14 +53,15 @@ const tabsContent: tabsContentType = {
 const tabsKeys = Object.keys(tabsContent);
 
 const SettingsPageBase = (props: IProps) => {
-  const { authUser, bankLoaded, onLoadBank } = props;
+  const { authUser, bankLoaded, bankLoading, onLoadBank } = props;
   const [activeTab, setActiveTab] = useState('starting-point');
 
   useEffect(() => {
-    if (bankLoaded || !authUser) return;
-
+    if (bankLoaded || bankLoading || !authUser) {
+      return;
+    }
     onLoadBank(authUser.uid);
-  }, [authUser, bankLoaded, onLoadBank]);
+  }, [authUser, bankLoaded, bankLoading, onLoadBank]);
 
   const toggle = (tab: string) => {
     if (activeTab !== tab) setActiveTab(tab);
@@ -129,6 +131,7 @@ const mapStateToProps = (state: AppState) => {
   return {
     authUser: state.sessionState.authUser,
     bankLoaded: state.bankState.bankLoaded,
+    bankLoading: state.bankState.bankLoading,
   };
 };
 

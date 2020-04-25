@@ -30,7 +30,9 @@ const HeaderNotes = ({
   const [editValue, setEditValue] = useState('');
 
   useEffect(() => {
-    if (bankLoaded) setValue(_.get(bank, ['notes', year, month], ''));
+    if (bankLoaded) {
+      setValue(_.get(bank, ['notes', year, month], ''));
+    }
     setEdit(false);
   }, [bankLoaded, bank, year, month]);
 

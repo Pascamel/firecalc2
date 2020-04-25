@@ -1,12 +1,9 @@
 import _ from 'lodash';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 import { Col, CustomInput, Row } from 'reactstrap';
-import { AnyAction } from 'redux';
-import { ThunkDispatch } from 'redux-thunk';
 
-import { loadBank } from '../../actions';
 import Bank from '../../bank';
 import { LoadingPanel, NavButtonGroup } from '../../components';
 import ROUTES from '../../constants/routes';
@@ -21,7 +18,6 @@ interface IProps {
   bankLoaded: boolean;
   mobile: boolean;
   chart: string;
-  onLoadBank: (uid: string) => void;
   darkMode: boolean;
 }
 
@@ -33,15 +29,7 @@ const ProjectionChartPage = (props: IProps & RouteComponentProps) => {
   const DEFAULT_YEARS = [10, 15, 20, 25, 30];
   const DEFAULT_YEAR = 10;
 
-  const {
-    authUser,
-    bank,
-    mobile,
-    chart,
-    onLoadBank,
-    bankLoaded,
-    darkMode,
-  } = props;
+  const { bank, mobile, chart, bankLoaded, darkMode } = props;
   const [amount, setAmount] = useState(
     parseInt(_.get(props, 'match.params.amount')) || DEFAULT_AMOUNT
   );
@@ -60,12 +48,6 @@ const ProjectionChartPage = (props: IProps & RouteComponentProps) => {
   const year = parseInt(_(networthActualValues).keys().last() || '0');
   const month = parseInt(_(last_year).keys().last() || '0');
   const savings = parseFloat(_(last_year).values().last() || '0');
-
-  useEffect(() => {
-    if (!authUser || bankLoaded) return;
-
-    onLoadBank(authUser.uid);
-  }, [authUser, bankLoaded, onLoadBank]);
 
   const setRouteAmount = (s: number) => {
     const route = ROUTES.CHARTS_YEARS_AMOUNT.replace(':type', chart)
@@ -127,7 +109,9 @@ const ProjectionChartPage = (props: IProps & RouteComponentProps) => {
     data.push({ date, projection5, projection7 });
   }
 
-  if (!bankLoaded) return <LoadingPanel />;
+  if (!bankLoaded) {
+    return <LoadingPanel />;
+  }
 
   return (
     <Row>
@@ -205,15 +189,4 @@ const mapStateToProps = (state: AppState) => {
   };
 };
 
-const mapDispatchToProps = (
-  dispatch: ThunkDispatch<AppState, void, AnyAction>
-) => {
-  return {
-    onLoadBank: (uid: string) => dispatch(loadBank(uid)),
-  };
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ProjectionChartPage);
+export default connect(mapStateToProps)(ProjectionChartPage);

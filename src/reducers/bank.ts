@@ -8,6 +8,7 @@ import { deepCopy } from '../helpers';
 const INITIAL_STATE = {
   bank: {},
   bankLoaded: false,
+  bankLoading: false,
   bankSavingsUpdated: false,
   bankIncomeUpdated: false,
   bankExpensesUpdated: false,
@@ -28,6 +29,7 @@ const bankReducer = (state = INITIAL_STATE, action: any) => {
         bankOthersUpdated: false,
         bankHeadersUpdated: false,
         bankLoaded: false,
+        bankLoading: true,
       };
 
     case TYPES.BANK_LOAD_SUCCESS:
@@ -40,6 +42,7 @@ const bankReducer = (state = INITIAL_STATE, action: any) => {
         bankOthersUpdated: false,
         bankHeadersUpdated: false,
         bankLoaded: true,
+        bankLoading: false,
       };
 
     case TYPES.BANK_LOAD_FAILURE:
@@ -52,6 +55,7 @@ const bankReducer = (state = INITIAL_STATE, action: any) => {
         bankOthersUpdated: false,
         bankHeadersUpdated: false,
         bankLoaded: false,
+        bankLoading: false,
       };
 
     case TYPES.BANK_UPDATE_VALUE: {

@@ -13,6 +13,7 @@ interface IProps {
   authUser: firebase.User | null;
   bank: Bank.IBank;
   bankLoaded: boolean;
+  bankLoading: boolean;
   onLoadBank: (uid: string) => void;
 }
 
@@ -20,13 +21,15 @@ const JournalPageBase = ({
   authUser,
   // bank,
   bankLoaded,
+  bankLoading,
   onLoadBank,
 }: IProps) => {
   useEffect(() => {
-    if (bankLoaded || !authUser) return;
-
+    if (bankLoaded || bankLoading || !authUser) {
+      return;
+    }
     onLoadBank(authUser.uid);
-  }, [authUser, bankLoaded, onLoadBank]);
+  }, [authUser, bankLoaded, bankLoading, onLoadBank]);
 
   return (
     <>
@@ -53,6 +56,7 @@ const mapStateToProps = (state: AppState) => {
     authUser: state.sessionState.authUser,
     bank: state.bankState.bank,
     bankLoaded: state.bankState.bankLoaded,
+    bankLoading: state.bankState.bankLoading,
   };
 };
 

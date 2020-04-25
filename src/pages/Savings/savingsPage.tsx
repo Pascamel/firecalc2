@@ -13,16 +13,23 @@ import Table from './table';
 interface IProps {
   authUser: firebase.User | null;
   bankLoaded: boolean;
+  bankLoading: boolean;
   onLoadBank: (uid: string) => void;
   onSaveBank: (uid: string, bank: Bank.IBank) => void;
 }
 
-const SavingsPageBase = ({ authUser, onLoadBank, bankLoaded }: IProps) => {
+const SavingsPageBase = ({
+  authUser,
+  onLoadBank,
+  bankLoaded,
+  bankLoading,
+}: IProps) => {
   useEffect(() => {
-    if (bankLoaded || !authUser) return;
-
+    if (bankLoaded || bankLoading || !authUser) {
+      return;
+    }
     onLoadBank(authUser.uid);
-  }, [authUser, bankLoaded, onLoadBank]);
+  }, [authUser, bankLoaded, bankLoading, onLoadBank]);
 
   if (!bankLoaded) return <LoadingPanel />;
 
@@ -52,6 +59,7 @@ const mapStateToProps = (state: AppState) => {
   return {
     authUser: state.sessionState.authUser,
     bankLoaded: state.bankState.bankLoaded,
+    bankLoading: state.bankState.bankLoading,
   };
 };
 

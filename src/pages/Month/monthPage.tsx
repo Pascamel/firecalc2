@@ -20,6 +20,7 @@ interface IProps extends RouteComponentProps<{ month: string; year: string }> {
   authUser: firebase.User | null;
   bank: Bank.IBank;
   bankLoaded: boolean;
+  bankLoading: boolean;
   onLoadBank: (uid: string) => void;
 }
 
@@ -28,6 +29,7 @@ const MonthPageBase = (props: IProps & RouteComponentProps) => {
     authUser,
     bank,
     bankLoaded,
+    bankLoading,
     onLoadBank,
     location,
     history,
@@ -37,10 +39,11 @@ const MonthPageBase = (props: IProps & RouteComponentProps) => {
   const [month, setMonth] = useState(match.params.month || '0');
 
   useEffect(() => {
-    if (bankLoaded || !authUser) return;
-
+    if (bankLoaded || bankLoading || !authUser) {
+      return;
+    }
     onLoadBank(authUser.uid);
-  }, [authUser, bankLoaded, onLoadBank]);
+  }, [authUser, bankLoaded, bankLoading, onLoadBank]);
 
   const goPrevMonth = () => {
     const p = prevMonth(year, month);
@@ -157,6 +160,7 @@ const mapStateToProps = (state: AppState) => {
     authUser: state.sessionState.authUser,
     bank: state.bankState.bank,
     bankLoaded: state.bankState.bankLoaded,
+    bankLoading: state.bankState.bankLoading,
   };
 };
 
@@ -165,6 +169,7 @@ const mapDispatchToProps = (
 ) => {
   return {
     onLoadBank: (uid: string) => {
+      console.log('I call onloadbank in monthPage');
       dispatch(loadBank(uid));
     },
   };

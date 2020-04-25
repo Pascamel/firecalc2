@@ -26,6 +26,7 @@ interface IProps extends RouteComponentProps<{ type: string }> {
   authUser: firebase.User | null;
   bank: Bank.IBank;
   bankLoaded: boolean;
+  bankLoading: boolean;
   onLoadBank: (uid: string) => void;
   darkMode: boolean;
 }
@@ -40,14 +41,15 @@ interface IRecap {
 }
 
 const ChartsPageBase = (props: IProps & RouteComponentProps) => {
-  const { match, authUser, bank, onLoadBank, bankLoaded } = props;
+  const { match, authUser, bank, onLoadBank, bankLoading, bankLoaded } = props;
   const [type, setType] = useState(match.params.type || '');
 
   useEffect(() => {
-    if (bankLoaded || !authUser) return;
-
+    if (bankLoaded || bankLoading || !authUser) {
+      return;
+    }
     onLoadBank(authUser.uid);
-  }, [authUser, bankLoaded, onLoadBank]);
+  }, [authUser, bankLoaded, bankLoading, onLoadBank]);
 
   useEffect(() => {
     if (type === (match.params.type || '')) return;
@@ -151,6 +153,7 @@ const mapStateToProps = (state: AppState) => {
     authUser: state.sessionState.authUser,
     bank: state.bankState.bank,
     bankLoaded: state.bankState.bankLoaded,
+    bankLoading: state.bankState.bankLoading,
     darkMode: state.sessionState.darkMode,
   };
 };
