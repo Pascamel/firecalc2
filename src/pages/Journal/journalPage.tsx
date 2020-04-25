@@ -4,6 +4,7 @@ import { Col, Container, Row } from 'reactstrap';
 
 import { loadBank } from '../../actions';
 import Bank from '../../bank';
+import { HeaderPanel } from '../../components';
 import { AppState } from '../../store';
 
 interface IProps {
@@ -26,19 +27,22 @@ const JournalPageBase = ({
   }, [authUser, bankLoaded, onLoadBank]);
 
   return (
-    <Container fluid className="top-shadow">
-      <Row>
-        <Col className="pr-0 pl-0">
-          <Container>
-            <Row>
-              <Col>
-                <h1>Journal</h1>
-              </Col>
-            </Row>
-          </Container>
-        </Col>
-      </Row>
-    </Container>
+    <>
+      <HeaderPanel title="Journal" />
+      <Container fluid className="top-shadow">
+        <Row>
+          <Col className="pr-0 pl-0">
+            <Container>
+              <Row>
+                <Col>
+                  <h1>Journal</h1>
+                </Col>
+              </Row>
+            </Container>
+          </Col>
+        </Row>
+      </Container>
+    </>
   );
 };
 

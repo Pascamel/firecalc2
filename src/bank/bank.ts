@@ -11,7 +11,8 @@ export interface IBank {
   savingsHeadersHidden: I.IBankInstitutionTypeBoolean;
 
   lastupdate: { [type: string]: string };
-  headers: any;
+
+  headers: I.IBankHeaders;
   firstYear: number;
   firstMonth: number;
   startingCapital: number;
@@ -100,7 +101,7 @@ export const load = async (uid: string): Promise<IBank> => {
     bank.lastupdate['others'] = moment(othersLastUpdate).fromNow();
   }
 
-  bank.headers = snapshotHeaders.data() ?? [];
+  bank.headers = (snapshotHeaders.data() as I.IBankHeaders) ?? {};
   let savings_data = _.get(snapshotSavings.data(), 'data', []);
   let revenues_data = _.get(snapshotRevenues.data(), 'data', []);
   let expenses_data = _.get(snapshotExpenses.data(), 'data', []);
@@ -341,7 +342,7 @@ export const calculateTotals = (bank: IBank) => {
 
     bank.startOfYearAmount[year] =
       year === bank.headers.firstYear.toString()
-        ? parseFloat(bank.headers.startingCapital)
+        ? bank.headers.startingCapital
         : _.get(bank.totalHolding, [parseInt(year) - 1, '12'], 0);
     const goal_year = _.get(bank.savingsYearHeaders, ['goals', year], 0);
     bank.monthlyGoal[year] =
@@ -389,8 +390,7 @@ export const calculateTotals = (bank: IBank) => {
         year === bank.headers.firstYear.toString()
       ) {
         bank.totalHolding[year][month] =
-          parseFloat(bank.headers.startingCapital) +
-          bank.totalMonthSavings[year][month];
+          bank.headers.startingCapital + bank.totalMonthSavings[year][month];
       } else {
         const { year: pyear, month: pmonth } = prevMonth(year, month);
         bank.totalHolding[year][month] =

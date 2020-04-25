@@ -1,3 +1,13 @@
+export interface IBankHeaders {
+  expenses: IExpenseHeader[];
+  firstMonth: number;
+  firstYear: number;
+  incomes: IIncomeHeader[];
+  last_update: number;
+  savings: ISavingsHeader[];
+  startingCapital: number;
+}
+
 export interface IIncome {
   [year: string]: {
     [month: string]: {
