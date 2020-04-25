@@ -6,7 +6,7 @@ import { Col, Container, Row } from 'reactstrap';
 import { loadBank } from '../../actions';
 import Bank from '../../bank';
 import { HeaderPanel, LoadingPanel, Mobile, NotMobile } from '../../components';
-import * as CHARTS from '../../constants/charts';
+import CHARTS from '../../constants/charts';
 import { AppState } from '../../store';
 import { IAllocationEvolutionChart } from './allocationEvolutionChart';
 import { IBreakEvenPointChartData } from './breakEvenPointChart';
@@ -55,7 +55,7 @@ const ChartsPageBase = (props: IProps & RouteComponentProps) => {
 
   const chartsBlock = (mobile: boolean, recap: IRecap) => (
     <>
-      {type === CHARTS.URL.INCOME_VS_SAVINGS && (
+      {type === CHARTS.INCOME_VS_SAVINGS.URL && (
         <YearlyBreakdown
           no-switch
           chart={type}
@@ -64,7 +64,7 @@ const ChartsPageBase = (props: IProps & RouteComponentProps) => {
           {...props}
         />
       )}
-      {type === CHARTS.URL.NET_WORTH_VS_SAVINGS && (
+      {type === CHARTS.NET_WORTH_VS_SAVINGS.URL && (
         <YearlyBreakdown
           chart={type}
           data={recap.nws}
@@ -72,14 +72,14 @@ const ChartsPageBase = (props: IProps & RouteComponentProps) => {
           {...props}
         />
       )}
-      {type === CHARTS.URL.SAVINGS_BREAKDOWN && (
+      {type === CHARTS.SAVINGS_BREAKDOWN.URL && (
         <SavingsBreakdownChart
           data={recap.sb}
           mobile={mobile}
           darkMode={props.darkMode}
         />
       )}
-      {type === CHARTS.URL.ALLOCATION_EVOLUTION && (
+      {type === CHARTS.ALLOCATION_EVOLUTION.URL && (
         <YearlyBreakdown
           chart={type}
           data={recap.sae}
@@ -87,7 +87,7 @@ const ChartsPageBase = (props: IProps & RouteComponentProps) => {
           {...props}
         />
       )}
-      {type === CHARTS.URL.BREAK_EVEN_POINT && (
+      {type === CHARTS.BREAK_EVEN_POINT.URL && (
         <YearlyBreakdown
           chart={type}
           data={recap.bep}
@@ -95,7 +95,7 @@ const ChartsPageBase = (props: IProps & RouteComponentProps) => {
           {...props}
         />
       )}
-      {type === CHARTS.URL.YEARLY_GOAL_BURNUP && (
+      {type === CHARTS.YEARLY_GOAL_BURNUP.URL && (
         <YearlyBreakdown
           hide-all
           chart={type}
@@ -104,7 +104,7 @@ const ChartsPageBase = (props: IProps & RouteComponentProps) => {
           {...props}
         />
       )}
-      {type === CHARTS.URL.PROJECTION && (
+      {type === CHARTS.PROJECTION.URL && (
         <ProjectionChartPage mobile={mobile} chart={type} {...props} />
       )}
     </>

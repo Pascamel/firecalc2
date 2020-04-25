@@ -4,7 +4,7 @@ import { RouteComponentProps } from 'react-router';
 import { ListGroup, ListGroupItem } from 'reactstrap';
 
 import { Mobile, NavButtonGroup, NotMobile } from '../../components';
-import * as CHARTS from '../../constants/charts';
+import CHARTS from '../../constants/charts';
 import ROUTES from '../../constants/routes';
 
 interface IProps {
@@ -12,25 +12,25 @@ interface IProps {
 }
 
 const Selector = ({ type, history }: IProps & RouteComponentProps) => {
+  const chartsArray = Object.values(CHARTS);
+
   const goTo = (type: string) => {
-    const route = ROUTES.CHARTS.replace(':type', _.get(CHARTS.URL, type));
+    const route = ROUTES.CHARTS.replace(':type', type);
     history.push(route);
   };
 
   const prevChart = () => {
-    const newIndex =
-      (_.values(CHARTS.URL).indexOf(type) + _.keys(CHARTS.URL).length - 1) %
-      _.keys(CHARTS.URL).length;
-    const newRoute = _.get(CHARTS.URL, _.get(_.keys(CHARTS.URL), newIndex));
+    const index = chartsArray.findIndex((chart) => chart.URL === type);
+    const newIndex = (index + chartsArray.length - 1) % chartsArray.length;
+    const newRoute = chartsArray[newIndex].URL;
 
     history.push(ROUTES.CHARTS.replace(':type', newRoute));
   };
 
   const nextChart = () => {
-    const newIndex =
-      (_.values(CHARTS.URL).indexOf(type) + _.keys(CHARTS.URL).length + 1) %
-      _.keys(CHARTS.URL).length;
-    const newRoute = _.get(CHARTS.URL, _.get(_.keys(CHARTS.URL), newIndex));
+    const index = chartsArray.findIndex((chart) => chart.URL === type);
+    const newIndex = (index + 1) % chartsArray.length;
+    const newRoute = chartsArray[newIndex].URL;
 
     history.push(ROUTES.CHARTS.replace(':type', newRoute));
   };
@@ -39,14 +39,14 @@ const Selector = ({ type, history }: IProps & RouteComponentProps) => {
     <>
       <NotMobile>
         <ListGroup>
-          {Object.entries(CHARTS.URL).map((t, key: number) => (
+          {chartsArray.map((chart, key: number) => (
             <ListGroupItem
               key={key}
-              className="text-left cursor"
-              color={type === t[1] ? 'primary' : 'darker'}
-              onClick={() => goTo(t[0])}
+              className="text-left cursor nowrap-ellipsis"
+              color={type === chart.URL ? 'primary' : 'darker'}
+              onClick={() => goTo(chart.URL)}
             >
-              {_.get(CHARTS.LABELS, t[0])}
+              {chart.label}
             </ListGroupItem>
           ))}
         </ListGroup>
@@ -56,10 +56,7 @@ const Selector = ({ type, history }: IProps & RouteComponentProps) => {
           color="light"
           button-color="outline-secondary"
           on-click={[prevChart, nextChart]}
-          label={_.get(
-            _.values(CHARTS.LABELS),
-            _.values(CHARTS.URL).indexOf(type)
-          )}
+          label={_(chartsArray).keyBy('URL').get(type).label}
         />
       </Mobile>
     </>

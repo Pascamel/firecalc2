@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { Collapse, Nav, Navbar, NavbarToggler } from 'reactstrap';
 
-import * as CHARTS from '../../constants/charts';
+import CHARTS from '../../constants/charts';
 import ROUTES from '../../constants/routes';
 import { currentMonthRoute } from '../../helpers';
 import NavBarItem from './item';
@@ -19,7 +19,7 @@ const NavigationAuth = ({ location, authUser, darkMode }: IProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const DEFAULT_CHART = ROUTES.CHARTS.replace(
     ':type',
-    CHARTS.URL.INCOME_VS_SAVINGS
+    CHARTS.INCOME_VS_SAVINGS.URL
   );
 
   const toggle = () => {
