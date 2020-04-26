@@ -1,10 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Alert, Col, Row } from 'reactstrap';
-import { AnyAction } from 'redux';
-import { ThunkDispatch } from 'redux-thunk';
 
-import { updateValue } from '../../actions';
 import Bank from '../../bank';
 import { FireAmount, PanelTitle, Text } from '../../components';
 import { amount } from '../../helpers';
@@ -13,12 +10,6 @@ import { AppState } from '../../store';
 interface IProps {
   bank: Bank.IBank;
   bankLoaded: boolean;
-  onUpdateValue: (
-    index: string,
-    indexes: string[],
-    previous: number | boolean,
-    amount: number | boolean
-  ) => void;
 }
 
 interface IYoyLabel {
@@ -101,19 +92,4 @@ const mapStateToProps = (state: AppState) => {
   };
 };
 
-const mapDispatchToProps = (
-  dispatch: ThunkDispatch<AppState, void, AnyAction>
-) => {
-  return {
-    onUpdateValue: (
-      index: string,
-      indexes: string[],
-      previous: number | boolean,
-      amount: number | boolean
-    ) => {
-      dispatch(updateValue(index, indexes, previous, amount));
-    },
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(YearlyGoals);
+export default connect(mapStateToProps)(YearlyGoals);

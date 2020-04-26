@@ -1,3 +1,4 @@
+import moment from 'moment';
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Col, Container, Row } from 'reactstrap';
@@ -47,18 +48,20 @@ const JournalPageBase = ({
                   <table className="table table-striped">
                     <thead>
                       <tr>
-                        <th>oneoneoneoneone</th>
-                        <th>twotwotwotwotwo</th>
-                        <th>threethreethreethree</th>
-                        <th>fourfourfourfourfour</th>
-                        <th>fivefivefivefivefive</th>
+                        <th>Date</th>
+                        <th>Event</th>
+                        <th>Label</th>
+                        <th>Previous</th>
+                        <th>New</th>
+                        <th>Saved</th>
                       </tr>
                     </thead>
                     <tbody>
-                      {journal.events.map((event) => (
-                        <tr>
-                          <td>{event.time}</td>
+                      {journal.events.map((event, idx: number) => (
+                        <tr key={idx}>
+                          <td>{moment(event.time).fromNow()}</td>
                           <td>{event.event}</td>
+                          <td>{event.label}</td>
                           <td>{event.previous_value}</td>
                           <td>{event.new_value}</td>
                           <td>{event.notSaved ? 'NOT SAVED' : ''}</td>

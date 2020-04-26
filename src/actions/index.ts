@@ -3,6 +3,8 @@ import { Action, Dispatch } from 'redux';
 import Bank from '../bank';
 import { IExpenseHeader, IIncomeHeader, ISavingsHeader } from '../bank/interfaces';
 import { deepCopy } from '../helpers';
+import store from '../store';
+import { IJournal, load, save } from '../store/journal';
 import TYPES from './types';
 
 export const setDarkMode = (darkMode: boolean) => {
@@ -16,10 +18,9 @@ export const setDarkMode = (darkMode: boolean) => {
 
 export const loadBank = (uid: string) => {
   return (dispatch: Dispatch<Action<string>>) => {
-    const bank = {};
     dispatch({
       type: TYPES.BANK_LOAD_STARTED,
-      payload: { bank },
+      payload: { bank: {} },
     });
 
     Bank.load(uid)
@@ -28,6 +29,26 @@ export const loadBank = (uid: string) => {
           type: TYPES.BANK_LOAD_SUCCESS,
           payload: { bank },
         });
+
+        dispatch({
+          type: TYPES.JOURNAL_LOAD_STARTED,
+          payload: { journal: {} },
+        });
+
+        load(uid)
+          .then((journal: IJournal) => {
+            console.log('success', journal);
+            dispatch({
+              type: TYPES.JOURNAL_LOAD_SUCCESS,
+              payload: { journal },
+            });
+          })
+          .catch((error: Error) => {
+            dispatch({
+              type: TYPES.JOURNAL_LOAD_FAILURE,
+              payload: { error },
+            });
+          });
       })
       .catch((error: Error) => {
         dispatch({
@@ -51,13 +72,14 @@ export const unloadBank = () => {
 export const updateValue = (
   index: string,
   indexes: string[],
+  label: string | null,
   previous: number | boolean | string,
   amount: number | boolean | string
 ) => {
   return (dispatch: Dispatch<Action<string>>) => {
     dispatch({
       type: TYPES.BANK_UPDATE_VALUE,
-      payload: { index, indexes, previous, amount },
+      payload: { index, indexes, label, previous, amount },
     });
   };
 };
@@ -65,13 +87,14 @@ export const updateValue = (
 export const updateValueLocalStorage = (
   index: string,
   indexes: string[],
+  label: string | null,
   previous: number | boolean,
   amount: number | boolean
 ) => {
   return (dispatch: Dispatch<Action<string>>) => {
     dispatch({
       type: TYPES.BANK_UPDATE_VALUE_LOCAL_STORAGE,
-      payload: { index, indexes, previous, amount },
+      payload: { index, indexes, label, previous, amount },
     });
   };
 };
@@ -101,9 +124,12 @@ export const saveBank = (
         dispatch({
           type: TYPES.BANK_SAVE_SUCCESS,
           payload: {
+            uid,
             bank: deepCopy(bank),
           },
         });
+
+        saveJournal(dispatch, uid, store.getState().journalState.journal);
       })
       .catch((error: Error) => {
         dispatch({
@@ -112,6 +138,33 @@ export const saveBank = (
         });
       });
   };
+};
+
+const saveJournal = (
+  dispatch: Dispatch<Action<string>>,
+  uid: string,
+  journal: IJournal
+) => {
+  dispatch({
+    type: TYPES.JOURNAL_SAVE_STARTED,
+    payload: { journal },
+  });
+
+  save(uid, journal)
+    .then(() => {
+      dispatch({
+        type: TYPES.JOURNAL_SAVE_SUCCESS,
+        payload: {
+          journal: deepCopy(journal),
+        },
+      });
+    })
+    .catch((error: Error) => {
+      dispatch({
+        type: TYPES.JOURNAL_SAVE_FAILURE,
+        payload: { error },
+      });
+    });
 };
 
 export const newSavingHeader = () => {
@@ -245,7 +298,7 @@ export const saveHeaders = (uid: string, bank: Bank.IBank) => {
       .then(() => {
         dispatch({
           type: TYPES.HEADERS_SAVE_SUCCESS,
-          payload: { bank },
+          payload: { bank, uid },
         });
       })
       .catch((error: Error) => {

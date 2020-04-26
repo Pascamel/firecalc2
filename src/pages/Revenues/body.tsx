@@ -17,8 +17,9 @@ interface IProps {
   onUpdateValueLocalStorage: (
     index: string,
     indexes: string[],
-    previous: number | boolean,
-    amount: number | boolean
+    label: string,
+    previous: boolean,
+    amount: boolean
   ) => void;
 }
 
@@ -31,6 +32,7 @@ const Body = ({ year, bank, onUpdateValueLocalStorage }: IProps) => {
     onUpdateValueLocalStorage(
       'incomeYearHeaders',
       ['collapsed', year],
+      `Collapsed Incomes for year ${year}`,
       collapsed,
       !collapsed
     );
@@ -142,10 +144,13 @@ const mapDispatchToProps = (
     onUpdateValueLocalStorage: (
       index: string,
       indexes: string[],
-      previous: number | boolean,
-      amount: number | boolean
+      label: string,
+      previous: boolean,
+      amount: boolean
     ) => {
-      dispatch(updateValueLocalStorage(index, indexes, previous, amount));
+      dispatch(
+        updateValueLocalStorage(index, indexes, label, previous, amount)
+      );
     },
   };
 };

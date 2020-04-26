@@ -1,5 +1,3 @@
-import { Z_DEFAULT_COMPRESSION } from 'zlib';
-
 import TYPES from '../actions/types';
 import deepCopy from '../helpers/deepCopy';
 import { IEvent, IEvents, IGenericEvent, IJournal } from '../store/journal';
@@ -23,7 +21,6 @@ const journalReducer = (state = INITIAL_STATE, action: any) => {
 
   switch (action.type) {
     case TYPES.AUTH_USER_SET:
-      console.log('JOURNAL AUTH_USER_SET');
       return _appendEvent({
         time: new Date().getTime(),
         event: TYPES.AUTH_USER_SET,
@@ -32,23 +29,18 @@ const journalReducer = (state = INITIAL_STATE, action: any) => {
 
     // bank loading
     case TYPES.BANK_LOAD_STARTED:
-      console.log('JOURNAL BANK_LOAD_STARTED');
       return _appendEvent({
         time: new Date().getTime(),
         event: TYPES.BANK_LOAD_STARTED,
         notSaved: true,
       } as IGenericEvent<null>);
-
     case TYPES.BANK_LOAD_SUCCESS:
-      console.log('JOURNAL BANK_LOAD_SUCCESS');
       return _appendEvent({
         time: new Date().getTime(),
         event: TYPES.BANK_LOAD_SUCCESS,
         notSaved: true,
       } as IGenericEvent<null>);
-
     case TYPES.BANK_LOAD_FAILURE:
-      console.log('BANK_LOAD_FAILURE');
       return _appendEvent({
         time: new Date().getTime(),
         event: TYPES.BANK_LOAD_FAILUTRE,
@@ -57,42 +49,40 @@ const journalReducer = (state = INITIAL_STATE, action: any) => {
 
     // bank saving
     case TYPES.BANK_SAVE_STARTED:
-      console.log('BANK_SAVE_STARTED');
       return _appendEvent({
         time: new Date().getTime(),
         event: TYPES.BANK_SAVE_STARTED,
         notSaved: true,
       } as IGenericEvent<null>);
     case TYPES.BANK_SAVE_SUCCESS:
-      console.log('BANK_SAVE_SUCCESS');
       return _appendEvent({
         time: new Date().getTime(),
         event: TYPES.BANK_SAVE_SUCCESS,
         notSaved: true,
       } as IGenericEvent<null>);
     case TYPES.BANK_SAVE_FAILURE:
-      console.log('BANK_SAVE_FAILURE');
       return _appendEvent({
         time: new Date().getTime(),
         event: TYPES.BANK_SAVE_FAILURE,
+        label: action.payload.label,
         notSaved: true,
       } as IGenericEvent<null>);
 
     // value updating
     case TYPES.BANK_UPDATE_VALUE:
-      console.log('BANK_UPDATE_VALUE', action.payload);
       return _appendEvent({
         time: new Date().getTime(),
         event: TYPES.BANK_UPDATE_VALUE,
+        label: action.payload.label,
         previous_value: action.payload.previous,
         new_value: action.payload.amount,
         notSaved: true,
       } as IGenericEvent<typeof action.payload.amount>);
     case TYPES.BANK_UPDATE_VALUE_LOCAL_STORAGE:
-      console.log('BANK_UPDATE_VALUE_LOCAL_STORAGE', action.payload);
       return _appendEvent({
         time: new Date().getTime(),
         event: TYPES.BANK_UPDATE_VALUE_LOCAL_STORAGE,
+        label: action.payload.label,
         previous_value: action.payload.previous,
         new_value: action.payload.amount,
         notSaved: true,
@@ -142,14 +132,54 @@ const journalReducer = (state = INITIAL_STATE, action: any) => {
 
     // headers saving
     case TYPES.HEADERS_SAVE_STARTED:
-      console.log('HEADERS_SAVE_STARTED');
-      return state;
+      return _appendEvent({
+        time: new Date().getTime(),
+        event: TYPES.HEADERS_SAVE_STARTED,
+        notSaved: true,
+      } as IGenericEvent<null>);
     case TYPES.HEADERS_SAVE_SUCCESS:
-      console.log('HEADERS_SAVE_SUCCESS');
-      return state;
+      return _appendEvent({
+        time: new Date().getTime(),
+        event: TYPES.BANK_SAVE_SUCCESS,
+        notSaved: true,
+      } as IGenericEvent<null>);
     case TYPES.HEADERS_SAVE_FAILURE:
-      console.log('HEADERS_SAVE_FAILURE');
+      return _appendEvent({
+        time: new Date().getTime(),
+        event: TYPES.HEADERS_SAVE_FAILURE,
+        label: action.payload.label,
+        notSaved: true,
+      } as IGenericEvent<null>);
+
+    // journal loading
+    case TYPES.JOURNAL_LOAD_STARTED:
+      return _appendEvent({
+        time: new Date().getTime(),
+        event: TYPES.BANK_LOAD_STARTED,
+        notSaved: true,
+      } as IGenericEvent<null>);
+    case TYPES.JOURNAL_LOAD_SUCCESS:
+      return { journal: action.payload.journal };
+    case TYPES.JOURNAL_LOAD_FAILURE:
+      return { journal: [] };
+
+    // journal saving
+    case TYPES.JOURNAL_SAVE_STARTED:
       return state;
+    case TYPES.JOURNAL_SAVE_SUCCESS:
+      return {
+        journal: {
+          lastupdate: state.journal.lastupdate,
+          events: action.payload.journal.events.map((e: IEvents) => {
+            return {
+              ...e,
+              notSaved: false,
+            };
+          }),
+        },
+      };
+    case TYPES.JOURNAL_SAVE_FAILURE:
+      return { journal: [] };
 
     default:
       return state;

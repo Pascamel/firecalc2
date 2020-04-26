@@ -80,6 +80,12 @@ const NavigationAuth = ({ location, authUser, darkMode }: IProps) => {
             label="Admin"
             onClick={toggleIfOpen}
           />
+          <NavBarItem
+            to={ROUTES.JOURNAL}
+            icon={['fas', 'clipboard-list']}
+            label="Journal"
+            onClick={toggleIfOpen}
+          />
         </Nav>
         <Nav navbar className="main-nav-bar ml-auto">
           <UserDropdown authUser={authUser} />

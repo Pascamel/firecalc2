@@ -4,6 +4,7 @@ import deepCopy from '../helpers/deepCopy';
 export interface IGenericEvent<T> {
   time: number;
   event: string;
+  label?: string;
   previous_value: T;
   new_value: T;
   notSaved?: boolean;
@@ -41,15 +42,23 @@ export const formatEvent = (event: IEvent): IEvent => {
 };
 
 export const save = async (uid: string, journal: IJournal) => {
+  console.log('enter save');
   const payload: IJournal = {
     lastupdate: new Date().getTime().toString(),
     events: deepCopy(journal.events.map(formatEvent)) as IEvents,
   };
 
   try {
-    await firestore.setJournal(uid, payload);
+    firestore.setJournal(uid, payload);
     return true;
   } catch {
     return false;
   }
+
+  // try {
+  //   await firestore.setJournal(uid, payload);
+  //   return true;
+  // } catch {
+  //   return false;
+  // }
 };

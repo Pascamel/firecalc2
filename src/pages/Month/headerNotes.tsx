@@ -8,6 +8,7 @@ import { ThunkDispatch } from 'redux-thunk';
 import { updateValue } from '../../actions';
 import Bank from '../../bank';
 import { FireAmount, Icon, Text } from '../../components';
+import { labelMonth } from '../../helpers';
 import { AppState } from '../../store';
 
 interface IProps {
@@ -18,6 +19,7 @@ interface IProps {
   onUpdateValue: (
     index: string,
     indexes: string[],
+    label: string,
     previous: string,
     text: string
   ) => void;
@@ -71,7 +73,13 @@ const HeaderNotes = ({
     } else if (e.key === 'Enter') {
       setValue(editValue);
       setEdit(false);
-      onUpdateValue('notes', [year, month], value, editValue);
+      onUpdateValue(
+        'notes',
+        [year, month],
+        `Notes for month ${labelMonth(month, year)}`,
+        value,
+        editValue
+      );
     } else if (e.key === 'Escape') {
       setEdit(false);
     }
@@ -132,10 +140,11 @@ const mapDispatchToProps = (
     onUpdateValue: (
       index: string,
       indexes: string[],
+      label: string,
       previous: string,
       text: string
     ) => {
-      dispatch(updateValue(index, indexes, previous, text));
+      dispatch(updateValue(index, indexes, label, previous, text));
     },
   };
 };

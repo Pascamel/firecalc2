@@ -20,6 +20,7 @@ interface IProps {
   onUpdateValue: (
     index: string,
     indexes: string[],
+    label: string,
     previous: number,
     amount: number
   ) => void;
@@ -82,6 +83,7 @@ const FireAmount = ({
     onUpdateValue(
       index,
       indexes,
+      'todo4',
       parseFloat(previousAmount),
       parseFloat(val) || 0
     );
@@ -152,10 +154,11 @@ const mapDispatchToProps = (
     onUpdateValue: (
       index: string,
       indexes: string[],
+      label: string,
       previous: number,
       amount: number
     ) => {
-      dispatch(updateValue(index, indexes, previous, amount));
+      dispatch(updateValue(index, indexes, label, previous, amount));
     },
   };
 };
