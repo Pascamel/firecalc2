@@ -6,7 +6,8 @@ import {
     faBackward, faChartArea, faCheck, faChevronDown, faChevronRight, faChevronUp, faClipboardList,
     faCogs, faColumns, faCreditCard, faEdit, faExclamationTriangle, faEye, faEyeSlash, faForward,
     faInfo, faLaptopCode, faLightbulb, faPen, faPiggyBank, faSignInAlt, faSolarPanel, faSpinner,
-    faTimes, faTrashAlt, faUniversity, faUnlockAlt, faUserPlus, faUserTie
+    faStepBackward, faStepForward, faTimes, faTrashAlt, faUniversity, faUnlockAlt, faUserPlus,
+    faUserTie
 } from '@fortawesome/free-solid-svg-icons';
 
 library.add(
@@ -37,6 +38,8 @@ library.add(
   faSolarPanel,
   faSpinner,
   faSquare,
+  faStepBackward,
+  faStepForward,
   faTimes,
   faTrashAlt,
   faUniversity,

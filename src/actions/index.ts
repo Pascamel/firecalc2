@@ -3,8 +3,6 @@ import { Action, Dispatch } from 'redux';
 import Bank from '../bank';
 import { IExpenseHeader, IIncomeHeader, ISavingsHeader } from '../bank/interfaces';
 import { deepCopy } from '../helpers';
-import store from '../store';
-import { IJournal, load, save } from '../store/journal';
 import TYPES from './types';
 
 export const setDarkMode = (darkMode: boolean) => {
@@ -29,26 +27,6 @@ export const loadBank = (uid: string) => {
           type: TYPES.BANK_LOAD_SUCCESS,
           payload: { bank },
         });
-
-        dispatch({
-          type: TYPES.JOURNAL_LOAD_STARTED,
-          payload: { journal: {} },
-        });
-
-        load(uid)
-          .then((journal: IJournal) => {
-            console.log('success', journal);
-            dispatch({
-              type: TYPES.JOURNAL_LOAD_SUCCESS,
-              payload: { journal },
-            });
-          })
-          .catch((error: Error) => {
-            dispatch({
-              type: TYPES.JOURNAL_LOAD_FAILURE,
-              payload: { error },
-            });
-          });
       })
       .catch((error: Error) => {
         dispatch({
@@ -128,8 +106,6 @@ export const saveBank = (
             bank: deepCopy(bank),
           },
         });
-
-        saveJournal(dispatch, uid, store.getState().journalState.journal);
       })
       .catch((error: Error) => {
         dispatch({
@@ -138,33 +114,6 @@ export const saveBank = (
         });
       });
   };
-};
-
-const saveJournal = (
-  dispatch: Dispatch<Action<string>>,
-  uid: string,
-  journal: IJournal
-) => {
-  dispatch({
-    type: TYPES.JOURNAL_SAVE_STARTED,
-    payload: { journal },
-  });
-
-  save(uid, journal)
-    .then(() => {
-      dispatch({
-        type: TYPES.JOURNAL_SAVE_SUCCESS,
-        payload: {
-          journal: deepCopy(journal),
-        },
-      });
-    })
-    .catch((error: Error) => {
-      dispatch({
-        type: TYPES.JOURNAL_SAVE_FAILURE,
-        payload: { error },
-      });
-    });
 };
 
 export const newSavingHeader = () => {

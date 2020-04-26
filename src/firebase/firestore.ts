@@ -1,4 +1,7 @@
-import { IJournal } from '../store/journal';
+// import { firestore as firestoreAdmin } from 'firebase-admin';
+import firebase from 'firebase/app';
+
+import { IEvent } from '../store/journal';
 import { auth, firestore } from './firebase';
 
 // Users
@@ -59,6 +62,25 @@ export const getJournal = (uid: string) => {
   return firestore.collection('journal').doc(uid).get();
 };
 
-export const setJournal = (uid: string, data: IJournal) => {
-  return firestore.collection('journal').doc(uid).set(data);
+export const pushJournal = (event: IEvent) => {
+  const uid = firebase.auth().currentUser?.uid;
+  if (!uid) {
+    return;
+  }
+
+  var journal = firestore.collection('journal').doc(uid);
+
+  journal.get().then((snapshot) => {
+    if (snapshot.exists) {
+      journal.update({
+        last_update: new Date().getTime(),
+        events: firebase.firestore.FieldValue.arrayUnion(event),
+      });
+    } else {
+      journal.set({
+        last_update: new Date().getTime(),
+        events: [event],
+      });
+    }
+  });
 };

@@ -1,6 +1,6 @@
 import moment from 'moment';
 import preval from 'preval.macro';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Col, Container, ListGroup, ListGroupItem, Media, Row } from 'reactstrap';
 import { AnyAction } from 'redux';
@@ -12,6 +12,7 @@ import { loadBank } from '../../actions';
 import Bank from '../../bank';
 import { Icon, LoadingPanel, Mobile, NotMobile } from '../../components';
 import ROUTES from '../../constants/routes';
+import { firestore } from '../../firebase';
 import { currentMonthRoute } from '../../helpers';
 import { AppState } from '../../store';
 
@@ -66,6 +67,7 @@ const HomePageBase = ({
   bankLoaded,
   bankLoading,
 }: IProps) => {
+  const [lastUpdateJournal, setLastUpdateJournal] = useState('N/A');
   const buildDate = moment(preval`module.exports = new Date();`)
     .utc()
     .format('YYYYMMDD-HHmmss');
@@ -76,6 +78,19 @@ const HomePageBase = ({
     }
     onLoadBank(authUser.uid);
   }, [authUser, bankLoaded, bankLoading, onLoadBank]);
+
+  useEffect(() => {
+    if (!authUser) {
+      return;
+    }
+    firestore.getJournal(authUser.uid).then((data) => {
+      const object = data.data();
+      if (!object) {
+        return;
+      }
+      setLastUpdateJournal(moment(object.last_update).fromNow());
+    });
+  }, [authUser]);
 
   if (!bankLoaded) return <LoadingPanel color="none" />;
 
@@ -132,10 +147,11 @@ const HomePageBase = ({
                   />
                 </ListGroup>
                 <h4>Activity</h4>
+                lu={lastUpdateJournal}
                 <ListGroup flush className="pb-3">
                   <Item
                     label="Journal"
-                    value="TODO"
+                    value={lastUpdateJournal}
                     route={ROUTES.JOURNAL}
                     icon={['fas', 'clipboard-list']}
                   />
