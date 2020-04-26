@@ -130,6 +130,9 @@ export const updateSavingHeader = (header: ISavingsHeader) => {
     dispatch({
       type: TYPES.HEADERS_UPDATE_SAVING,
       payload: {
+        label: `${header.label}${
+          header.sublabel ? ' > ' + header.sublabel : ''
+        }`,
         header: {
           id: header.id,
           label: header.label,
@@ -166,6 +169,9 @@ export const deleteSavingHeader = (header: ISavingsHeader) => {
     dispatch({
       type: TYPES.HEADERS_DELETE_SAVING,
       payload: {
+        label: `${header.label}${
+          header.sublabel ? ' > ' + header.sublabel : ''
+        }`,
         header: {
           id: header.id,
         },
@@ -179,6 +185,7 @@ export const switchSavingHeaders = (index1: number, index2: number) => {
     dispatch({
       type: TYPES.HEADERS_SWITCH_SAVING,
       payload: {
+        label: `Switched positions ${index1} and ${index2}`,
         index1: index1,
         index2: index2,
       },
@@ -200,6 +207,7 @@ export const updateIncomeHeader = (header: IIncomeHeader) => {
     dispatch({
       type: TYPES.HEADERS_UPDATE_INCOME,
       payload: {
+        label: header.label,
         header: {
           id: header.id,
           label: header.label,
@@ -216,6 +224,7 @@ export const deleteIncomeHeader = (header: IIncomeHeader) => {
     dispatch({
       type: TYPES.HEADERS_DELETE_INCOME,
       payload: {
+        label: header.label,
         header: {
           id: header.id,
         },
@@ -229,6 +238,7 @@ export const switchIncomeHeaders = (index1: number, index2: number) => {
     dispatch({
       type: TYPES.HEADERS_SWITCH_INCOME,
       payload: {
+        label: `Switched positions ${index1} and ${index2}`,
         index1: index1,
         index2: index2,
       },
@@ -273,6 +283,7 @@ export const updateExpenseHeader = (header: IExpenseHeader) => {
     dispatch({
       type: TYPES.HEADERS_UPDATE_EXPENSE,
       payload: {
+        label: header.label,
         header: {
           id: header.id,
           label: header.label,
@@ -292,6 +303,7 @@ export const deleteExpenseHeader = (header: IExpenseHeader) => {
     dispatch({
       type: TYPES.HEADERS_DELETE_EXPENSE,
       payload: {
+        label: header.label,
         header: {
           id: header.id,
         },
@@ -304,6 +316,7 @@ export const switchExpenseHeaders = (index1: number, index2: number) => {
     dispatch({
       type: TYPES.HEADERS_SWITCH_EXPENSE,
       payload: {
+        label: `Switched positions ${index1} and ${index2}`,
         index1: index1,
         index2: index2,
       },

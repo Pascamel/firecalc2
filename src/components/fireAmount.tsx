@@ -67,6 +67,10 @@ const FireAmount = ({
     setEditMode();
   };
 
+  const v4 = new RegExp(
+    /^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i
+  );
+
   const confirmEdit = () => {
     const s = (inputValue || '').replace(',', '').replace('$', '');
 
@@ -83,7 +87,25 @@ const FireAmount = ({
     onUpdateValue(
       index,
       indexes,
-      'todo4',
+      [index, ...indexes]
+        .map((s) => {
+          if (!v4.test(s)) {
+            return s;
+          }
+          if (index === 'savings') {
+            return _(bank.savingsHeaders).keyBy('id').get([s, 'label']);
+          }
+          if (index === 'income') {
+            return _(bank.incomeHeaders).keyBy('id').get([s, 'label']);
+          }
+          if (index === 'expenses') {
+            return _(bank.expensesHeaders).keyBy('id').get([s, 'label']);
+          }
+          return s;
+        })
+        .filter((s) => s?.length > 0)
+        .filter((s) => !v4.test(s))
+        .join(' > '),
       parseFloat(previousAmount),
       parseFloat(val) || 0
     );
