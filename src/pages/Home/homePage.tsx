@@ -147,7 +147,6 @@ const HomePageBase = ({
                   />
                 </ListGroup>
                 <h4>Activity</h4>
-                lu={lastUpdateJournal}
                 <ListGroup flush className="pb-3">
                   <Item
                     label="Journal"
