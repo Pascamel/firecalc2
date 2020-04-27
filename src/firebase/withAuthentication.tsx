@@ -64,7 +64,7 @@ export const withAuthentication = (WrappedComponent: any) => {
   const mapDispatchToProps = (
     dispatch: ThunkDispatch<AppState, void, AnyAction>
   ) => ({
-    onSetAuthUser: (authUser: any) =>
+    onSetAuthUser: (authUser: firebase.User | null) =>
       dispatch({
         type: TYPES.AUTH_USER_SET,
         authUser,
