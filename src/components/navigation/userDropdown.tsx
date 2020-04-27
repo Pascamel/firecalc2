@@ -29,11 +29,7 @@ const UserDropdown = ({ authUser, onClick }: IProps) => {
             </DropdownItem>
             <DropdownItem>
               <Link className="no-link" to={ROUTES.JOURNAL} onClick={onClick}>
-                <Icon
-                  className="fa-fw"
-                  size="lg"
-                  icon={['fas', 'clipboard-list']}
-                />
+                <Icon className="fa-fw" size="lg" icon={['fas', 'history']} />
                 Journal
               </Link>
             </DropdownItem>

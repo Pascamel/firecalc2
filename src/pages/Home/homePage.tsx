@@ -152,7 +152,7 @@ const HomePageBase = ({
                     label="Journal"
                     value={lastUpdateJournal}
                     route={ROUTES.JOURNAL}
-                    icon={['fas', 'clipboard-list']}
+                    icon={['fas', 'history']}
                   />
                 </ListGroup>
                 <h4>About</h4>
