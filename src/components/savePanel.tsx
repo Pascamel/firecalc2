@@ -11,6 +11,7 @@ import { AppState } from '../store';
 import { DecimalsBtn, FiltersBtn } from './';
 
 interface IProps {
+  className?: string;
   authUser: firebase.User;
   label: string;
   bankSavingsUpdated: boolean;
@@ -38,6 +39,7 @@ interface IProps {
 
 const SavePanel = (props: IProps) => {
   const {
+    className,
     authUser,
     label,
     bankSavingsUpdated,
@@ -93,13 +95,16 @@ const SavePanel = (props: IProps) => {
     bankOthersUpdated ||
     bankHeadersUpdated;
 
+  const classNames = [
+    'alert alert-save alert-header',
+    bankUpdated ? 'updated' : null,
+    className ?? null,
+  ]
+    .filter((v) => v !== null)
+    .join(' ');
+
   return (
-    <Container
-      fluid
-      className={`alert alert-save alert-header ${
-        bankUpdated ? 'updated' : ''
-      }`}
-    >
+    <Container fluid className={classNames}>
       <Row>
         <Col className="pr-0 pl-0">
           <Container>

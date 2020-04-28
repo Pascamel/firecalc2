@@ -7,7 +7,7 @@ import { ThunkDispatch } from 'redux-thunk';
 
 import { loadBank } from '../../actions';
 import Bank from '../../bank';
-import { LoadingPanel, Mobile, NotMobile, SavePanel } from '../../components';
+import { LoadingPanel, SavePanel } from '../../components';
 import ROUTES from '../../constants/routes';
 import { currentMonthRoute, labelMonth, nextMonth, prevMonth } from '../../helpers';
 import { AppState } from '../../store';
@@ -118,35 +118,35 @@ const MonthPageBase = (props: IProps & RouteComponentProps) => {
 
   return (
     <>
-      <Mobile>
-        <SavePanel label={labelMonth(month, year, true)} {...savePanelProps} />
-      </Mobile>
-      <NotMobile>
-        <SavePanel label={labelMonth(month, year)} {...savePanelProps} />
-      </NotMobile>
+      <SavePanel
+        className="d-block d-sm-none"
+        label={labelMonth(month, year, true)}
+        {...savePanelProps}
+      />
+      <SavePanel
+        className="d-none d-sm-block"
+        label={labelMonth(month, year)}
+        {...savePanelProps}
+      />
       <Container fluid className="top-shadow">
         <Row>
           <Col className="pr-0 pl-0">
             <Container>
-              <NotMobile>
-                <Row>
-                  <Col>
-                    <Header month={month} year={year} />
-                  </Col>
-                </Row>
-              </NotMobile>
+              <Row className="d-none d-sm-block">
+                <Col>
+                  <Header month={month} year={year} />
+                </Col>
+              </Row>
               <Row>
                 <Savings month={month} year={year} />
                 <Incomes month={month} year={year} />
                 <Expenses month={month} year={year} />
               </Row>
-              <Mobile>
-                <Row>
-                  <Col>
-                    <Header month={month} year={year} />
-                  </Col>
-                </Row>
-              </Mobile>
+              <Row className="d-block d-sm-none">
+                <Col>
+                  <Header month={month} year={year} />
+                </Col>
+              </Row>
             </Container>
           </Col>
         </Row>
