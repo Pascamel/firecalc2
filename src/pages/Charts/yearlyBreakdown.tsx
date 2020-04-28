@@ -104,7 +104,16 @@ const YearlyBreakdown = ({
               darkMode={darkMode}
             />
           )}
-          {chart === CHARTS.ALLOCATION_EVOLUTION.URL && (
+          {chart === CHARTS.SAVINGS_ALLOCATION_EVOLUTION.URL && (
+            <AllocationEvolutionChart
+              percentage={percentage}
+              data={filteredData as IAllocationEvolutionChart[]}
+              smooth
+              mobile={mobile}
+              darkMode={darkMode}
+            />
+          )}
+          {chart === CHARTS.EXPENSES_ALLOCATION_EVOLUTION.URL && (
             <AllocationEvolutionChart
               percentage={percentage}
               data={filteredData as IAllocationEvolutionChart[]}

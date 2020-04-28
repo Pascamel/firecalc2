@@ -17,13 +17,17 @@ const CHARTS: IMapppingCharts = Object.freeze({
     URL: 'net-worth-vs-savings',
   },
   SAVINGS_BREAKDOWN: { label: 'Savings breakdown', URL: 'savings-breakdown' },
-  ALLOCATION_EVOLUTION: {
+  SAVINGS_ALLOCATION_EVOLUTION: {
     label: 'Savings Allocation',
-    URL: 'allocation-evolution',
+    URL: 'savings-allocation-evolution',
   },
   BREAK_EVEN_POINT: { label: 'Break-even point', URL: 'break-even-point' },
   YEARLY_GOAL_BURNUP: { label: 'Yearly burnup', URL: 'yearly-goal-burnup' },
   PROJECTION: { label: 'Projection', URL: 'projection' },
+  EXPENSES_ALLOCATION_EVOLUTION: {
+    label: 'Expenses allocation',
+    URL: 'expenses-allocation-evolution',
+  },
 });
 
 export default CHARTS;

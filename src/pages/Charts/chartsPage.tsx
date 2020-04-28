@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
+// import Responsive from 'react-responsive';
 import { RouteComponentProps } from 'react-router-dom';
 import { Col, Container, Row } from 'reactstrap';
 import { AnyAction } from 'redux';
@@ -22,6 +23,11 @@ import Selector from './selector';
 import YearlyBreakdown from './yearlyBreakdown';
 import { IYearlyGoalBurnUpChartData } from './yearlyGoalBurnUp';
 
+// export const Mobile = (props: any) => <Responsive {...props} maxWidth={767} />;
+// export const NotMobile = (props: any) => (
+//   <Responsive {...props} minWidth={768} />
+// );
+
 interface IProps extends RouteComponentProps<{ type: string }> {
   authUser: firebase.User | null;
   bank: Bank.IBank;
@@ -38,6 +44,7 @@ interface IRecap {
   sae: IAllocationEvolutionChart[];
   bep: IBreakEvenPointChartData[];
   ybu: IYearlyGoalBurnUpChartData[];
+  eae: IAllocationEvolutionChart[];
 }
 
 const ChartsPageBase = (props: IProps & RouteComponentProps) => {
@@ -83,10 +90,18 @@ const ChartsPageBase = (props: IProps & RouteComponentProps) => {
           darkMode={props.darkMode}
         />
       )}
-      {type === CHARTS.ALLOCATION_EVOLUTION.URL && (
+      {type === CHARTS.SAVINGS_ALLOCATION_EVOLUTION.URL && (
         <YearlyBreakdown
           chart={type}
           data={recap.sae}
+          mobile={mobile}
+          {...props}
+        />
+      )}
+      {type === CHARTS.EXPENSES_ALLOCATION_EVOLUTION.URL && (
+        <YearlyBreakdown
+          chart={type}
+          data={recap.eae}
           mobile={mobile}
           {...props}
         />
@@ -135,11 +150,12 @@ const ChartsPageBase = (props: IProps & RouteComponentProps) => {
                     location={props.location}
                   />
                 </Col>
+
                 <Col md={10} sm={12} className="d-block d-sm-none">
                   {chartsBlock(true, recap)}
                 </Col>
                 <Col md={10} sm={12} className="d-none d-sm-block">
-                  {chartsBlock(false, recap)}
+                  <div>{chartsBlock(false, recap)}</div>
                 </Col>
               </Row>
             </Container>
