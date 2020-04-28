@@ -3,7 +3,7 @@ import React from 'react';
 import { RouteComponentProps } from 'react-router';
 import { ListGroup, ListGroupItem } from 'reactstrap';
 
-import { Mobile, NavButtonGroup, NotMobile } from '../../components';
+import { NavButtonGroup } from '../../components';
 import CHARTS from '../../constants/charts';
 import ROUTES from '../../constants/routes';
 
@@ -37,28 +37,25 @@ const Selector = ({ type, history }: IProps & RouteComponentProps) => {
 
   return (
     <>
-      <NotMobile>
-        <ListGroup>
-          {chartsArray.map((chart, key: number) => (
-            <ListGroupItem
-              key={key}
-              className="text-left cursor nowrap-ellipsis"
-              color={type === chart.URL ? 'primary' : 'darker'}
-              onClick={() => goTo(chart.URL)}
-            >
-              {chart.label}
-            </ListGroupItem>
-          ))}
-        </ListGroup>
-      </NotMobile>
-      <Mobile>
-        <NavButtonGroup
-          color="light"
-          button-color="outline-secondary"
-          on-click={[prevChart, nextChart]}
-          label={_(chartsArray).keyBy('URL').get(type).label}
-        />
-      </Mobile>
+      <ListGroup className="d-none d-sm-block">
+        {chartsArray.map((chart, key: number) => (
+          <ListGroupItem
+            key={key}
+            className="text-left cursor nowrap-ellipsis"
+            color={type === chart.URL ? 'primary' : 'darker'}
+            onClick={() => goTo(chart.URL)}
+          >
+            {chart.label}
+          </ListGroupItem>
+        ))}
+      </ListGroup>
+      <NavButtonGroup
+        className="d-inline-blick d-sm-none"
+        color="light"
+        button-color="outline-secondary"
+        on-click={[prevChart, nextChart]}
+        label={_(chartsArray).keyBy('URL').get(type).label}
+      />
     </>
   );
 };
