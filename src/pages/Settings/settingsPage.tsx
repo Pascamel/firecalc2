@@ -5,7 +5,7 @@ import { AnyAction } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
 
 import { loadBank } from '../../actions';
-import { LoadingPanel, Mobile, NavButtonGroup, NotMobile, SavePanel } from '../../components';
+import { LoadingPanel, NavButtonGroup, SavePanel } from '../../components';
 import { AppState } from '../../store';
 import Expenses from './expenses';
 import Incomes from './incomes';
@@ -92,28 +92,25 @@ const SettingsPageBase = (props: IProps) => {
             <Container>
               <Row>
                 <Col md={2} sm={12}>
-                  <NotMobile>
-                    <ListGroup>
-                      {Object.keys(tabsContent).map((key) => (
-                        <ListGroupItem
-                          key={key}
-                          className="text-left cursor"
-                          color={activeTab === key ? 'primary' : 'darker'}
-                          onClick={() => toggle(key)}
-                        >
-                          {tabsContent[key].label}
-                        </ListGroupItem>
-                      ))}
-                    </ListGroup>
-                  </NotMobile>
-                  <Mobile>
-                    <NavButtonGroup
-                      color="light"
-                      button-color="outline-secondary"
-                      on-click={[prevSetting, nextSetting]}
-                      label={tabsContent[activeTab].label}
-                    />
-                  </Mobile>
+                  <ListGroup className="d-none d-sm-block">
+                    {Object.keys(tabsContent).map((key) => (
+                      <ListGroupItem
+                        key={key}
+                        className="text-left cursor"
+                        color={activeTab === key ? 'primary' : 'darker'}
+                        onClick={() => toggle(key)}
+                      >
+                        {tabsContent[key].label}
+                      </ListGroupItem>
+                    ))}
+                  </ListGroup>
+                  <NavButtonGroup
+                    className="d-block d-sm-none"
+                    color="light"
+                    button-color="outline-secondary"
+                    on-click={[prevSetting, nextSetting]}
+                    label={tabsContent[activeTab].label}
+                  />
                 </Col>
                 <Col md={10} sm={12}>
                   {tabsContent[activeTab].component}

@@ -10,7 +10,7 @@ import { IconProp } from '@fortawesome/fontawesome-svg-core';
 
 import { loadBank } from '../../actions';
 import Bank from '../../bank';
-import { Icon, LoadingPanel, Mobile, NotMobile } from '../../components';
+import { Icon, LoadingPanel } from '../../components';
 import ROUTES from '../../constants/routes';
 import { firestore } from '../../firebase';
 import { currentMonthRoute } from '../../helpers';
@@ -44,17 +44,13 @@ const Item = ({ label, value, route, icon }: IItemProps) => {
         </Media>
         <Media body>
           {label}
-          <Mobile>
-            <div className="display-block">
-              <b>{value}</b>
-            </div>
-          </Mobile>
-        </Media>
-        <NotMobile>
-          <Media left>
+          <div className="d-block d-sm-none">
             <b>{value}</b>
-          </Media>
-        </NotMobile>
+          </div>
+        </Media>
+        <Media left className="d-none d-sm-block">
+          <b>{value}</b>
+        </Media>
       </Media>
     </ListGroupItem>
   );
@@ -101,16 +97,16 @@ const HomePageBase = ({
           <Container>
             <Row>
               <Col md={6} xs={12}>
-                <Mobile>
+                <div className="d-block d-sm-none">
                   <div className="background-wrapper mobile">
                     <div className="background mobile piggy-bank" />
                   </div>
-                </Mobile>
-                <NotMobile>
+                </div>
+                <div className="d-none d-sm-block">
                   <div className="background-wrapper">
                     <div className="background piggy-bank" />
                   </div>
-                </NotMobile>
+                </div>
               </Col>
               <Col md={6} xs={12} className="pt-5">
                 <h4>Last update</h4>

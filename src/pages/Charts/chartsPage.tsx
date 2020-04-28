@@ -7,7 +7,7 @@ import { ThunkDispatch } from 'redux-thunk';
 
 import { loadBank } from '../../actions';
 import Bank from '../../bank';
-import { HeaderPanel, LoadingPanel, Mobile, NotMobile } from '../../components';
+import { HeaderPanel, LoadingPanel } from '../../components';
 import CHARTS from '../../constants/charts';
 import { AppState } from '../../store';
 import { IAllocationEvolutionChart } from './allocationEvolutionChart';
@@ -135,9 +135,11 @@ const ChartsPageBase = (props: IProps & RouteComponentProps) => {
                     location={props.location}
                   />
                 </Col>
-                <Col md={10} sm={12}>
-                  <Mobile>{chartsBlock(true, recap)}</Mobile>
-                  <NotMobile>{chartsBlock(false, recap)}</NotMobile>
+                <Col md={10} sm={12} className="d-block d-sm-none">
+                  {chartsBlock(true, recap)}
+                </Col>
+                <Col md={10} sm={12} className="d-none d-sm-block">
+                  {chartsBlock(false, recap)}
                 </Col>
               </Row>
             </Container>

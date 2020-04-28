@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { Collapse, Nav, Navbar, NavbarToggler } from 'reactstrap';
 
+import { DarkSwitcher, SignOutLink } from '../';
 import CHARTS from '../../constants/charts';
 import ROUTES from '../../constants/routes';
 import { currentMonthRoute } from '../../helpers';
@@ -80,8 +81,21 @@ const NavigationAuth = ({ location, authUser, darkMode }: IProps) => {
             label="Admin"
             onClick={toggleIfOpen}
           />
+          <NavBarItem
+            className="d-inline-block d-sm-none"
+            to={ROUTES.ACCOUNT}
+            icon={['far', 'user']}
+            label={authUser && authUser.email ? authUser.email : 'User'}
+            onClick={toggleIfOpen}
+          />
+          <div className="nav-link d-inline-block d-sm-none">
+            <DarkSwitcher />
+          </div>
+          <div className="nav-link d-inline-block d-sm-none">
+            <SignOutLink />
+          </div>
         </Nav>
-        <Nav navbar className="main-nav-bar ml-auto">
+        <Nav navbar className="main-nav-bar ml-auto d-none d-sm-inline-block">
           <UserDropdown authUser={authUser} />
         </Nav>
       </Collapse>
