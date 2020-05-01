@@ -7,6 +7,7 @@ import { ThunkDispatch } from 'redux-thunk';
 import { loadBank, saveBank, saveHeaders } from '../actions';
 import Bank from '../bank';
 import { Icon, Text } from '../components';
+import { joinFilter } from '../helpers';
 import { AppState } from '../store';
 import { DecimalsBtn, FiltersBtn } from './';
 
@@ -95,16 +96,17 @@ const SavePanel = (props: IProps) => {
     bankOthersUpdated ||
     bankHeadersUpdated;
 
-  const classNames = [
-    'alert alert-save alert-header',
-    bankUpdated ? 'updated' : null,
-    className ?? null,
-  ]
-    .filter((v) => v !== null)
-    .join(' ');
-
   return (
-    <Container fluid className={classNames}>
+    <Container
+      fluid
+      className={joinFilter(
+        ...[
+          'alert alert-save alert-header',
+          bankUpdated ? 'updated' : null,
+          className ?? null,
+        ]
+      )}
+    >
       <Row>
         <Col className="pr-0 pl-0">
           <Container>

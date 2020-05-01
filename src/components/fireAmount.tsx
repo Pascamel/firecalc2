@@ -8,7 +8,7 @@ import { ThunkDispatch } from 'redux-thunk';
 import { updateValue } from '../actions';
 import Bank from '../bank';
 import { Text } from '../components';
-import { amount as helper_amount } from '../helpers';
+import { amount as helper_amount, joinFilter } from '../helpers';
 import { AppState } from '../store';
 
 interface IProps {
@@ -56,7 +56,7 @@ const FireAmount = ({
     setAmount(
       helper_amount(
         _.get(bank, callbackProps, 0),
-        displayIfZero || false,
+        false,
         bank.showDecimals || false
       )
     );
@@ -129,16 +129,15 @@ const FireAmount = ({
     if (event.key === 'Escape') cancelEdit();
   };
 
-  const classname = [
-    'amount-container',
-    readonly ? 'read-only' : null,
-    extraClassName,
-  ]
-    .filter((v) => v !== null)
-    .join(' ');
-
   return (
-    <div className={classname} onKeyDown={handleKeyDown}>
+    <div
+      className={joinFilter(
+        'amount-container',
+        readonly ? 'read-only' : null,
+        extraClassName
+      )}
+      onKeyDown={handleKeyDown}
+    >
       {!edit && (
         <Text className="amount" onClick={onClick}>
           {helper_amount(
