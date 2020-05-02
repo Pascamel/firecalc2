@@ -1,4 +1,3 @@
-// import { firestore as firestoreAdmin } from 'firebase-admin';
 import firebase from 'firebase/app';
 
 import * as I from '../bank/interfaces';

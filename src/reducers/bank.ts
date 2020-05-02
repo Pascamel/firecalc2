@@ -160,7 +160,7 @@ const bankReducer = (state = INITIAL_STATE, action: IAction /*any*/) => {
         icon: '',
         type: 'P',
         types: ['P'],
-        displayFrom: false, // boolean;
+        displayFrom: false,
         displayFromYear: null,
         displayFromMonth: null,
         displayTo: false,
