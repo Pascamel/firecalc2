@@ -1,12 +1,12 @@
 import React from 'react';
 import { Button, ButtonGroup } from 'reactstrap';
 
-interface IProps<T> {
+interface IProps {
   className?: string;
-  value: number | boolean;
-  setValue: React.Dispatch<React.SetStateAction<T>>;
+  value: boolean;
+  setValue: React.Dispatch<React.SetStateAction<boolean>>;
   colors: Array<string>;
-  values: Array<T>;
+  values: Array<boolean>;
   disabled?: boolean;
   nodes: Array<string>;
 }
@@ -19,7 +19,7 @@ const ButtonGroupSwitch = ({
   values,
   disabled,
   nodes,
-}: IProps<number> | IProps<boolean>) => {
+}: IProps) => {
   value = value ?? false;
 
   return (
@@ -27,7 +27,7 @@ const ButtonGroupSwitch = ({
       <Button
         color={value === values[0] ? colors[0] : colors[1]}
         onClick={() => {
-          setValue(values[0] as any);
+          setValue(values[0]);
         }}
         disabled={disabled}
       >
@@ -36,7 +36,7 @@ const ButtonGroupSwitch = ({
       <Button
         color={value === values[1] ? colors[0] : colors[1]}
         onClick={() => {
-          setValue(values[1] as any);
+          setValue(values[1]);
         }}
         disabled={disabled}
       >

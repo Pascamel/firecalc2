@@ -33,15 +33,7 @@ const Income = ({
   const [edit, setEdit] = useState(false);
   const [editLabel, setEditLabel] = useState(header.label);
   const [editPretax, setEditPretax] = useState(header.pretax);
-  const [editCount, setEditCount] = useState(header.count);
-
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.name === 'editLabel') setEditLabel(event.target.value);
-    if (event.target.name === 'editPretax') setEditPretax(event.target.checked);
-    if (event.target.name === 'editCount') {
-      setEditCount(parseInt(event.target.value));
-    }
-  };
+  const [editCount, setEditCount] = useState(header.count === 2);
 
   const editHeader = () => {
     setEdit(true);
@@ -50,7 +42,7 @@ const Income = ({
   const editHeaderConfirm = () => {
     header.label = editLabel;
     header.pretax = editPretax;
-    header.count = editCount;
+    header.count = editCount ? 2 : 1;
 
     onUpdateIncomeHeader(header);
     setEdit(false);
@@ -60,7 +52,7 @@ const Income = ({
     setEdit(false);
     setEditLabel(header.label || '');
     setEditPretax(header.pretax || false);
-    setEditCount(header.count || 1);
+    setEditCount(header.count === 2);
   };
 
   const removeHeader = () => {
@@ -92,7 +84,7 @@ const Income = ({
             type="text"
             name="editLabel"
             value={editLabel}
-            onChange={handleInputChange}
+            onChange={(event) => setEditLabel(event.target.value)}
             className="form-control"
           />
         )}
@@ -113,7 +105,7 @@ const Income = ({
           value={editCount}
           setValue={setEditCount}
           colors={['primary', 'light']}
-          values={[1, 2]}
+          values={[false, true]}
           nodes={['1', '2']}
         />
       </Col>
