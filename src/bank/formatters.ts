@@ -12,7 +12,7 @@ export const labelSavings = (saving: string) => {
   return _.get(labels, saving, 'N/A');
 };
 
-const formatYear = (months: number[], value?: any) => {
+const formatYear = <T>(months: number[], value?: T) => {
   return _(months).reduce((acc: any, m) => {
     acc[m.toString()] = _.cloneDeep(value || {});
     return acc;
@@ -20,7 +20,7 @@ const formatYear = (months: number[], value?: any) => {
 };
 
 export const formatIncome = (
-  income_data: any,
+  income_data: I.IIncomeDataModel[],
   headers: I.IBankHeaders
 ): I.IIncome => {
   let result: I.IIncome = {};
@@ -47,7 +47,10 @@ export const formatIncome = (
   return result;
 };
 
-export const formatSavings = (data: any, headers: any) => {
+export const formatSavings = (
+  data: I.ISavingsDataModel[],
+  headers: I.IBankHeaders
+) => {
   let result: I.ISavings = {};
   let years = _.range(headers.firstYear, new Date().getFullYear() + 1);
 
@@ -70,7 +73,10 @@ export const formatSavings = (data: any, headers: any) => {
   return result;
 };
 
-export const formatExpenses = (data: any, headers: any) => {
+export const formatExpenses = (
+  data: I.IExpenseDataModel[],
+  headers: I.IBankHeaders
+) => {
   let result: I.IExpenses = {};
   let years = _.range(headers.firstYear, new Date().getFullYear() + 1);
 
@@ -144,7 +150,7 @@ export const expensesInputs = (expenses: Array<I.IExpenseHeader>) => {
   return expenses.filter((expense) => !expense.isFuture);
 };
 
-const hashHiddenColumns = (hidden: any) => {
+const hashHiddenColumns = (hidden: I.IBankInstitutionTypeBoolean) => {
   return _(hidden).reduce((acc: { [key: string]: number }, value, key) => {
     const c = _.reduce(value, (acc, v) => acc + (v ? 1 : 0), 0);
     if (c > 0) acc[key] = c;
@@ -154,7 +160,7 @@ const hashHiddenColumns = (hidden: any) => {
 
 export const savingsHeadersLine1 = (
   savings: I.ISavingsHeader[],
-  hidden: {}
+  hidden: I.IBankInstitutionTypeBoolean
 ) => {
   const h = hashHiddenColumns(hidden);
 
@@ -180,7 +186,7 @@ export const savingsHeadersLine1 = (
 
 export const savingsHeadersLine2 = (
   savings: I.ISavingsHeader[],
-  hidden: {}
+  hidden: I.IBankInstitutionTypeBoolean
 ) => {
   return _(savings)
     .map((header) => {
@@ -209,7 +215,7 @@ export const savingsHeadersLine2 = (
 };
 
 export const formatSavingstaToSave = (savings: I.ISavings) => {
-  let data: any[] = [];
+  let data: I.ISavingsDataModel[] = [];
 
   _.each(savings, (data_year, year) => {
     _.each(data_year, (data_month, month) => {
@@ -234,7 +240,7 @@ export const formatSavingstaToSave = (savings: I.ISavings) => {
 };
 
 export const formatIncomeToSave = (income: I.IIncome) => {
-  let data: any[] = [];
+  let data: I.IIncomeDataModel[] = [];
 
   _.each(income, (data_year, year) => {
     _.each(data_year, (data_month, month) => {
@@ -255,7 +261,7 @@ export const formatIncomeToSave = (income: I.IIncome) => {
 };
 
 export const formatExpensesToSave = (expenses: I.IExpenses) => {
-  let data: any[] = [];
+  let data: I.IExpenseDataModel[] = [];
 
   _.each(expenses, (data_year, year) => {
     _.each(data_year, (data_month, month) => {

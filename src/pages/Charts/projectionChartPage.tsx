@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 import { Col, CustomInput, Row } from 'reactstrap';
 
-import Bank from '../../bank';
+import Bank, { IBankYearMonthString } from '../../bank';
 import { LoadingPanel, NavButtonGroup } from '../../components';
 import ROUTES from '../../constants/routes';
 import { amount as amount_, roundFloat } from '../../helpers';
@@ -49,7 +49,9 @@ const ProjectionChartPage = ({
     .reduce((object, k) => {
       object[k] = bank.networth[k];
       return object;
-    }, {} as { [year: string]: any });
+    }, {} as IBankYearMonthString);
+
+  console.log('netWrthactualvalues', networthActualValues);
 
   const last_year = _(networthActualValues).values().last();
   const year = parseInt(_(networthActualValues).keys().last() || '0');

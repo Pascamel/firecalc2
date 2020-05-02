@@ -1,3 +1,3 @@
-const deepCopy = (data: any) => JSON.parse(JSON.stringify(data));
+const deepCopy = <T>(data: T): T => JSON.parse(JSON.stringify(data));
 
 export default deepCopy;

@@ -16,6 +16,13 @@ export interface IIncome {
   };
 }
 
+export interface IIncomeDataModel {
+  year: number;
+  month: number;
+  type: string;
+  amount: number;
+}
+
 export interface IIncomeHeader {
   id: string;
   label: string;
@@ -40,6 +47,14 @@ export interface ISavings {
   };
 }
 
+export interface ISavingsDataModel {
+  year: number;
+  month: number;
+  institution: string;
+  type: string;
+  amount: number;
+}
+
 export interface ISavingsHeader {
   id: string;
   interest: boolean;
@@ -62,6 +77,13 @@ export interface IExpenses {
       [type: string]: number;
     };
   };
+}
+
+export interface IExpenseDataModel {
+  year: number;
+  month: number;
+  type: string;
+  amount: number;
 }
 
 export interface IExpenseHeader {

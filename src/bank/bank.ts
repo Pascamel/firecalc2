@@ -223,11 +223,13 @@ export const saveLocalStorage = (bank: IBank) => {
 };
 
 export const saveHeaders = async (uid: string, bank: IBank) => {
-  const data = deepCopy(bank.headers);
-  data.last_update = new Date().getTime();
+  const payload = {
+    ...deepCopy(bank.headers),
+    last_update: new Date().getTime(),
+  };
 
   try {
-    await firestore.setHeaders(uid, data);
+    await firestore.setHeaders(uid, payload);
     return true;
   } catch {
     return false;
@@ -237,9 +239,7 @@ export const saveHeaders = async (uid: string, bank: IBank) => {
 export const saveIncome = async (uid: string, bank: IBank) => {
   const payload = {
     last_update: new Date().getTime(),
-    data: JSON.parse(
-      JSON.stringify(formatters.formatIncomeToSave(bank.income))
-    ),
+    data: deepCopy(formatters.formatIncomeToSave(bank.income)),
     yearly_data: deepCopy(bank.incomeYearHeaders),
   };
 
@@ -254,9 +254,7 @@ export const saveIncome = async (uid: string, bank: IBank) => {
 export const saveSavings = async (uid: string, bank: IBank) => {
   const payload = {
     last_update: new Date().getTime(),
-    data: JSON.parse(
-      JSON.stringify(formatters.formatSavingstaToSave(bank.savings))
-    ),
+    data: deepCopy(formatters.formatSavingstaToSave(bank.savings)),
     yearly_data: deepCopy(bank.savingsYearHeaders),
     hideDecimals: !bank.showDecimals,
   };
@@ -272,9 +270,7 @@ export const saveSavings = async (uid: string, bank: IBank) => {
 export const saveExpenses = async (uid: string, bank: IBank) => {
   const payload = {
     last_update: new Date().getTime(),
-    data: JSON.parse(
-      JSON.stringify(formatters.formatExpensesToSave(bank.expenses))
-    ),
+    data: deepCopy(formatters.formatExpensesToSave(bank.expenses)),
   };
 
   try {

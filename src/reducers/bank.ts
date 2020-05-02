@@ -1,12 +1,12 @@
 import uuid from 'uuid';
 
 import TYPES from '../actions/types';
-import Bank from '../bank';
+import Bank, { IExpenseHeader, IIncomeHeader, ISavingsHeader } from '../bank';
 import { IBank } from '../bank/bank';
 import { deepCopy } from '../helpers';
 
 const INITIAL_STATE = {
-  bank: {},
+  bank: {} as IBank,
   bankLoaded: false,
   bankLoading: false,
   bankSavingsUpdated: false,
@@ -17,7 +17,21 @@ const INITIAL_STATE = {
   saveInProgress: false,
 };
 
-const bankReducer = (state = INITIAL_STATE, action: any) => {
+interface IAction {
+  type: string;
+  payload: {
+    bank: any;
+    index: string;
+    indexes: string[];
+    amount: number;
+    index1: number;
+    index2: number;
+    header: IIncomeHeader | ISavingsHeader | IExpenseHeader;
+    isFuture: boolean;
+  };
+}
+
+const bankReducer = (state = INITIAL_STATE, action: IAction /*any*/) => {
   switch (action.type) {
     case TYPES.BANK_LOAD_STARTED:
       return {
@@ -170,7 +184,7 @@ const bankReducer = (state = INITIAL_STATE, action: any) => {
 
       new_bank.headers.savings = [
         ...new_bank.headers.savings.slice(0, idx),
-        action.payload.header,
+        action.payload.header as ISavingsHeader,
         ...new_bank.headers.savings.slice(idx + 1),
       ];
 
@@ -241,7 +255,7 @@ const bankReducer = (state = INITIAL_STATE, action: any) => {
 
       new_bank.headers.incomes = [
         ...new_bank.headers.incomes.slice(0, idx),
-        action.payload.header,
+        action.payload.header as IIncomeHeader,
         ...new_bank.headers.incomes.slice(idx + 1),
       ];
 
@@ -316,7 +330,7 @@ const bankReducer = (state = INITIAL_STATE, action: any) => {
 
       new_bank.headers.expenses = [
         ...new_bank.headers.expenses.slice(0, idx),
-        action.payload.header,
+        action.payload.header as IExpenseHeader,
         ...new_bank.headers.expenses.slice(idx + 1),
       ];
 
