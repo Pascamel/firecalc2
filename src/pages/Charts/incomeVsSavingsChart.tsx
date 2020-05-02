@@ -7,9 +7,9 @@ import ResponsiveWrapper from './responsiveWrapper';
 
 export interface IIncomeVsSavingsChartData extends IInterface {}
 
-const IncomeVsSavingsChart = (props: IProps<IInterface[]>) => (
+const IncomeVsSavingsChart = ({ data }: IProps<IInterface[]>) => (
   <ResponsiveWrapper>
-    <LineChart {...Helpers.landscapeSize} data={props.data}>
+    <LineChart {...Helpers.landscapeSize} data={data}>
       <CartesianGrid vertical={false} strokeDasharray="3 3" />
       <XAxis
         dataKey="date"

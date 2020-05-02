@@ -5,9 +5,9 @@ import Helpers from './helpers';
 import { IProjectionChartData, IProps } from './interfaces';
 import ResponsiveWrapper from './responsiveWrapper';
 
-const ProjectionChart = (props: IProps<IProjectionChartData[]>) => (
+const ProjectionChart = ({ data }: IProps<IProjectionChartData[]>) => (
   <ResponsiveWrapper>
-    <LineChart {...Helpers.landscapeSize} data={props.data}>
+    <LineChart {...Helpers.landscapeSize} data={data}>
       <CartesianGrid vertical={false} strokeDasharray="3 3" />
       <XAxis
         dataKey="date"

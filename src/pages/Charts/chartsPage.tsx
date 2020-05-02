@@ -23,11 +23,6 @@ import Selector from './selector';
 import YearlyBreakdown from './yearlyBreakdown';
 import { IYearlyGoalBurnUpChartData } from './yearlyGoalBurnUp';
 
-// export const Mobile = (props: any) => <Responsive {...props} maxWidth={767} />;
-// export const NotMobile = (props: any) => (
-//   <Responsive {...props} minWidth={768} />
-// );
-
 interface IProps extends RouteComponentProps<{ type: string }> {
   authUser: firebase.User | null;
   bank: Bank.IBank;
@@ -47,9 +42,19 @@ interface IRecap {
   eae: IAllocationEvolutionChart[];
 }
 
-const ChartsPageBase = (props: IProps & RouteComponentProps) => {
-  const { match, authUser, bank, onLoadBank, bankLoading, bankLoaded } = props;
+const ChartsPageBase = ({
+  authUser,
+  bank,
+  bankLoaded,
+  bankLoading,
+  darkMode,
+  history,
+  match,
+  location,
+  onLoadBank,
+}: IProps & RouteComponentProps) => {
   const [type, setType] = useState(match.params.type || '');
+  const routeProps = { history, match, location };
 
   useEffect(() => {
     if (bankLoaded || bankLoading || !authUser) {
@@ -72,7 +77,7 @@ const ChartsPageBase = (props: IProps & RouteComponentProps) => {
           chart={type}
           data={recap.svsi}
           mobile={mobile}
-          {...props}
+          {...routeProps}
         />
       )}
       {type === CHARTS.NET_WORTH_VS_SAVINGS.URL && (
@@ -80,14 +85,14 @@ const ChartsPageBase = (props: IProps & RouteComponentProps) => {
           chart={type}
           data={recap.nws}
           mobile={mobile}
-          {...props}
+          {...routeProps}
         />
       )}
       {type === CHARTS.SAVINGS_BREAKDOWN.URL && (
         <SavingsBreakdownChart
           data={recap.sb}
           mobile={mobile}
-          darkMode={props.darkMode}
+          darkMode={darkMode}
         />
       )}
       {type === CHARTS.SAVINGS_ALLOCATION_EVOLUTION.URL && (
@@ -95,7 +100,7 @@ const ChartsPageBase = (props: IProps & RouteComponentProps) => {
           chart={type}
           data={recap.sae}
           mobile={mobile}
-          {...props}
+          {...routeProps}
         />
       )}
       {type === CHARTS.EXPENSES_ALLOCATION_EVOLUTION.URL && (
@@ -103,7 +108,7 @@ const ChartsPageBase = (props: IProps & RouteComponentProps) => {
           chart={type}
           data={recap.eae}
           mobile={mobile}
-          {...props}
+          {...routeProps}
         />
       )}
       {type === CHARTS.BREAK_EVEN_POINT.URL && (
@@ -111,7 +116,7 @@ const ChartsPageBase = (props: IProps & RouteComponentProps) => {
           chart={type}
           data={recap.bep}
           mobile={mobile}
-          {...props}
+          {...routeProps}
         />
       )}
       {type === CHARTS.YEARLY_GOAL_BURNUP.URL && (
@@ -120,11 +125,11 @@ const ChartsPageBase = (props: IProps & RouteComponentProps) => {
           chart={type}
           data={recap.ybu}
           mobile={mobile}
-          {...props}
+          {...routeProps}
         />
       )}
       {type === CHARTS.PROJECTION.URL && (
-        <ProjectionChartPage mobile={mobile} chart={type} {...props} />
+        <ProjectionChartPage mobile={mobile} chart={type} {...routeProps} />
       )}
     </>
   );
@@ -143,12 +148,7 @@ const ChartsPageBase = (props: IProps & RouteComponentProps) => {
             <Container>
               <Row>
                 <Col md={2} sm={12}>
-                  <Selector
-                    type={type}
-                    history={props.history}
-                    match={props.match}
-                    location={props.location}
-                  />
+                  <Selector type={type} {...routeProps} />
                 </Col>
 
                 <Col md={10} sm={12} className="d-block d-sm-none">

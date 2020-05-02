@@ -53,13 +53,7 @@ const FireAmount = ({
     }
 
     setEdit(true);
-    setAmount(
-      helper_amount(
-        _.get(bank, callbackProps, 0),
-        false,
-        bank.showDecimals || false
-      )
-    );
+    setAmount(_.get(bank, callbackProps, 0));
   };
 
   const onClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {

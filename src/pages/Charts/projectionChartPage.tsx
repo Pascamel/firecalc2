@@ -21,7 +21,15 @@ interface IProps {
   darkMode: boolean;
 }
 
-const ProjectionChartPage = (props: IProps & RouteComponentProps) => {
+const ProjectionChartPage = ({
+  bank,
+  mobile,
+  chart,
+  bankLoaded,
+  darkMode,
+  match,
+  history,
+}: IProps & RouteComponentProps) => {
   const DEFAULT_AMOUNTS = [80, 90, 100, 110, 120, 130, 150].map(
     (v) => v * 1000
   );
@@ -29,12 +37,11 @@ const ProjectionChartPage = (props: IProps & RouteComponentProps) => {
   const DEFAULT_YEARS = [10, 15, 20, 25, 30];
   const DEFAULT_YEAR = 10;
 
-  const { bank, mobile, chart, bankLoaded, darkMode } = props;
   const [amount, setAmount] = useState(
-    parseInt(_.get(props, 'match.params.amount')) || DEFAULT_AMOUNT
+    parseInt(_.get(match, 'params.amount')) || DEFAULT_AMOUNT
   );
   const [years, setYears] = useState(
-    parseInt(_.get(props, 'match.params.years')) || DEFAULT_YEAR
+    parseInt(_.get(match, 'params.years')) || DEFAULT_YEAR
   );
 
   const networthActualValues = Object.keys(bank.networth)
@@ -54,7 +61,7 @@ const ProjectionChartPage = (props: IProps & RouteComponentProps) => {
       .replace(':years', years.toString())
       .replace(':amount', s.toString());
 
-    props.history.push(route);
+    history.push(route);
     setAmount(s);
   };
 
@@ -63,7 +70,7 @@ const ProjectionChartPage = (props: IProps & RouteComponentProps) => {
       .replace(':years', y.toString())
       .replace(':amount', amount.toString());
 
-    props.history.push(route);
+    history.push(route);
     setYears(y);
   };
 

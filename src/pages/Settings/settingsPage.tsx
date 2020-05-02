@@ -52,8 +52,12 @@ const tabsContent: tabsContentType = {
 
 const tabsKeys = Object.keys(tabsContent);
 
-const SettingsPageBase = (props: IProps) => {
-  const { authUser, bankLoaded, bankLoading, onLoadBank } = props;
+const SettingsPageBase = ({
+  authUser,
+  bankLoaded,
+  bankLoading,
+  onLoadBank,
+}: IProps) => {
   const [activeTab, setActiveTab] = useState('starting-point');
 
   useEffect(() => {

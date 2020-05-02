@@ -24,17 +24,16 @@ interface IProps extends RouteComponentProps<{ month: string; year: string }> {
   onLoadBank: (uid: string) => void;
 }
 
-const MonthPageBase = (props: IProps & RouteComponentProps) => {
-  const {
-    authUser,
-    bank,
-    bankLoaded,
-    bankLoading,
-    onLoadBank,
-    location,
-    history,
-    match,
-  } = props;
+const MonthPageBase = ({
+  authUser,
+  bank,
+  bankLoaded,
+  bankLoading,
+  onLoadBank,
+  location,
+  history,
+  match,
+}: IProps & RouteComponentProps) => {
   const [year, setYear] = useState<string>(match.params.year || '0');
   const [month, setMonth] = useState(match.params.month || '0');
 
