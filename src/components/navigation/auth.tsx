@@ -70,12 +70,6 @@ const NavigationAuth = ({ location, authUser, darkMode }: IProps) => {
             onClick={toggleIfOpen}
           />
           <NavBarItem
-            to={ROUTES.SETTINGS}
-            icon="cogs"
-            label="Settings"
-            onClick={toggleIfOpen}
-          />
-          <NavBarItem
             to={ROUTES.ADMIN}
             icon="solar-panel"
             label="Admin"

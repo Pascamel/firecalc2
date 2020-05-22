@@ -139,7 +139,7 @@ const HomePageBase = ({
                     label="Settings"
                     value={`Updated ${bank.lastupdate.headers}`}
                     route={ROUTES.SAVINGS}
-                    icon="cogs"
+                    icon="sliders-h"
                   />
                 </ListGroup>
                 <h4>Activity</h4>

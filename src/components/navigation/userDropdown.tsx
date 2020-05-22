@@ -36,6 +36,13 @@ const UserDropdown = ({ authUser, onClick }: IProps) => {
           </DropdownItem>
           <DropdownItem divider />
           <DropdownItem>
+            <Link className="no-link" to={ROUTES.SETTINGS} onClick={onClick}>
+              <Icon className="fa-fw" size="lg" icon={['fas', 'sliders-h']} />
+              Settings
+            </Link>
+          </DropdownItem>
+          <DropdownItem divider />
+          <DropdownItem>
             <SignOutLink />
           </DropdownItem>
         </DropdownMenu>
