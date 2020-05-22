@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import React from 'react';
 import { RouteComponentProps } from 'react-router';
-import { ListGroup, ListGroupItem } from 'reactstrap';
+import { ListGroup, ListGroupItem, UncontrolledTooltip } from 'reactstrap';
 
 import { NavButtonGroup } from '../../components';
 import CHARTS from '../../constants/charts';
@@ -39,14 +39,20 @@ const Selector = ({ type, history }: IProps & RouteComponentProps) => {
     <>
       <ListGroup className="d-none d-sm-block">
         {chartsArray.map((chart, key: number) => (
-          <ListGroupItem
-            key={key}
-            className="text-left cursor nowrap-ellipsis"
-            color={type === chart.URL ? 'primary' : 'darker'}
-            onClick={() => goTo(chart.URL)}
-          >
-            {chart.label}
-          </ListGroupItem>
+          <>
+            <ListGroupItem
+              key={key}
+              id={`selector-${key}`}
+              className="text-left cursor nowrap-ellipsis"
+              color={type === chart.URL ? 'primary' : 'darker'}
+              onClick={() => goTo(chart.URL)}
+            >
+              {chart.label}
+            </ListGroupItem>
+            <UncontrolledTooltip placement="right" target={`selector-${key}`}>
+              {chart.tooltip}
+            </UncontrolledTooltip>
+          </>
         ))}
       </ListGroup>
       <NavButtonGroup
