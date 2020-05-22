@@ -87,17 +87,22 @@ const bankReducer = (state = INITIAL_STATE, action: IAction /*any*/) => {
         ...state,
         bank: new_bank,
         bankSavingsUpdated:
+          state.bankSavingsUpdated ||
           action.payload.index === 'savings' ||
           (action.payload.index === 'savingsYearHeaders' &&
             action.payload.indexes.length > 0 &&
             action.payload.indexes[0] === 'goals'),
-        bankIncomeUpdated: action.payload.index === 'income',
-        bankExpensesUpdated: action.payload.index === 'expenses',
+        bankIncomeUpdated:
+          state.bankIncomeUpdated || action.payload.index === 'income',
+        bankExpensesUpdated:
+          state.bankExpensesUpdated || action.payload.index === 'expenses',
         bankOthersUpdated:
+          state.bankOthersUpdated ||
           action.payload.index === 'networth' ||
           action.payload.index === 'expenses' ||
           action.payload.index === 'notes',
-        bankHeadersUpdated: action.payload.index === 'headers',
+        bankHeadersUpdated:
+          state.bankHeadersUpdated || action.payload.index === 'headers',
       };
     }
 
