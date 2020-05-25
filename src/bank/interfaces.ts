@@ -1,9 +1,26 @@
+export interface IBankHeaders {
+  expenses: IExpenseHeader[];
+  firstMonth: number;
+  firstYear: number;
+  incomes: IIncomeHeader[];
+  last_update: number;
+  savings: ISavingsHeader[];
+  startingCapital: number;
+}
+
 export interface IIncome {
   [year: string]: {
     [month: string]: {
       [institution: string]: number;
     };
   };
+}
+
+export interface IIncomeDataModel {
+  year: number;
+  month: number;
+  type: string;
+  amount: number;
 }
 
 export interface IIncomeHeader {
@@ -30,6 +47,14 @@ export interface ISavings {
   };
 }
 
+export interface ISavingsDataModel {
+  year: number;
+  month: number;
+  institution: string;
+  type: string;
+  amount: number;
+}
+
 export interface ISavingsHeader {
   id: string;
   interest: boolean;
@@ -52,6 +77,13 @@ export interface IExpenses {
       [type: string]: number;
     };
   };
+}
+
+export interface IExpenseDataModel {
+  year: number;
+  month: number;
+  type: string;
+  amount: number;
 }
 
 export interface IExpenseHeader {

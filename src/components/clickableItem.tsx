@@ -1,7 +1,9 @@
 import _ from 'lodash';
-import React, { Dispatch, useState } from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { DropdownItem } from 'reactstrap';
+import { AnyAction } from 'redux';
+import { ThunkDispatch } from 'redux-thunk';
 
 import { updateValueLocalStorage } from '../actions';
 import Bank from '../bank';
@@ -15,7 +17,9 @@ interface IProps {
   onUpdateValueLocalStorage: (
     index: string,
     indexes: string[],
-    amount: number | boolean
+    label: string,
+    previous: boolean,
+    amount: boolean
   ) => void;
 }
 
@@ -44,6 +48,8 @@ const ClickableItem = ({ header, bank, onUpdateValueLocalStorage }: IProps) => {
     onUpdateValueLocalStorage(
       'savingsHeadersHidden',
       [header.id, header.type],
+      hl,
+      hidden,
       !hidden
     );
   };
@@ -66,14 +72,20 @@ const mapStateToProps = (state: AppState) => {
   };
 };
 
-const mapDispatchToProps = (dispatch: Dispatch<any>) => {
+const mapDispatchToProps = (
+  dispatch: ThunkDispatch<AppState, void, AnyAction>
+) => {
   return {
     onUpdateValueLocalStorage: (
       index: string,
       indexes: string[],
-      amount: number | boolean
+      label: string,
+      previous: boolean,
+      amount: boolean
     ) => {
-      dispatch(updateValueLocalStorage(index, indexes, amount));
+      dispatch(
+        updateValueLocalStorage(index, indexes, label, previous, amount)
+      );
     },
   };
 };

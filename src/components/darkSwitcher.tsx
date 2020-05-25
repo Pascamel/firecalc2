@@ -1,5 +1,7 @@
-import React, { Dispatch, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
+import { AnyAction } from 'redux';
+import { ThunkDispatch } from 'redux-thunk';
 
 import { setDarkMode } from '../actions';
 import { AppState } from '../store';
@@ -35,13 +37,15 @@ const DarkSwitcher = ({ darkMode, onSetDarkMode }: IProps) => {
 
 const mapStateToProps = (state: AppState) => {
   return {
-    darkMode: state.sessionState.darkMode
+    darkMode: state.sessionState.darkMode,
   };
 };
 
-const mapDispatchToProps = (dispatch: Dispatch<any>) => {
+const mapDispatchToProps = (
+  dispatch: ThunkDispatch<AppState, void, AnyAction>
+) => {
   return {
-    onSetDarkMode: (darkMode: boolean) => dispatch(setDarkMode(darkMode))
+    onSetDarkMode: (darkMode: boolean) => dispatch(setDarkMode(darkMode)),
   };
 };
 

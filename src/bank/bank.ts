@@ -11,7 +11,8 @@ export interface IBank {
   savingsHeadersHidden: I.IBankInstitutionTypeBoolean;
 
   lastupdate: { [type: string]: string };
-  headers: any;
+
+  headers: I.IBankHeaders;
   firstYear: number;
   firstMonth: number;
   startingCapital: number;
@@ -100,7 +101,7 @@ export const load = async (uid: string): Promise<IBank> => {
     bank.lastupdate['others'] = moment(othersLastUpdate).fromNow();
   }
 
-  bank.headers = snapshotHeaders.data() ?? [];
+  bank.headers = (snapshotHeaders.data() as I.IBankHeaders) ?? {};
   let savings_data = _.get(snapshotSavings.data(), 'data', []);
   let revenues_data = _.get(snapshotRevenues.data(), 'data', []);
   let expenses_data = _.get(snapshotExpenses.data(), 'data', []);
@@ -222,11 +223,13 @@ export const saveLocalStorage = (bank: IBank) => {
 };
 
 export const saveHeaders = async (uid: string, bank: IBank) => {
-  const data = deepCopy(bank.headers);
-  data.last_update = new Date().getTime();
+  const payload = {
+    ...deepCopy(bank.headers),
+    last_update: new Date().getTime(),
+  };
 
   try {
-    await firestore.setHeaders(uid, data);
+    await firestore.setHeaders(uid, payload);
     return true;
   } catch {
     return false;
@@ -236,9 +239,7 @@ export const saveHeaders = async (uid: string, bank: IBank) => {
 export const saveIncome = async (uid: string, bank: IBank) => {
   const payload = {
     last_update: new Date().getTime(),
-    data: JSON.parse(
-      JSON.stringify(formatters.formatIncomeToSave(bank.income))
-    ),
+    data: deepCopy(formatters.formatIncomeToSave(bank.income)),
     yearly_data: deepCopy(bank.incomeYearHeaders),
   };
 
@@ -253,9 +254,7 @@ export const saveIncome = async (uid: string, bank: IBank) => {
 export const saveSavings = async (uid: string, bank: IBank) => {
   const payload = {
     last_update: new Date().getTime(),
-    data: JSON.parse(
-      JSON.stringify(formatters.formatSavingstaToSave(bank.savings))
-    ),
+    data: deepCopy(formatters.formatSavingstaToSave(bank.savings)),
     yearly_data: deepCopy(bank.savingsYearHeaders),
     hideDecimals: !bank.showDecimals,
   };
@@ -271,9 +270,7 @@ export const saveSavings = async (uid: string, bank: IBank) => {
 export const saveExpenses = async (uid: string, bank: IBank) => {
   const payload = {
     last_update: new Date().getTime(),
-    data: JSON.parse(
-      JSON.stringify(formatters.formatExpensesToSave(bank.expenses))
-    ),
+    data: deepCopy(formatters.formatExpensesToSave(bank.expenses)),
   };
 
   try {
@@ -341,7 +338,7 @@ export const calculateTotals = (bank: IBank) => {
 
     bank.startOfYearAmount[year] =
       year === bank.headers.firstYear.toString()
-        ? parseFloat(bank.headers.startingCapital)
+        ? bank.headers.startingCapital
         : _.get(bank.totalHolding, [parseInt(year) - 1, '12'], 0);
     const goal_year = _.get(bank.savingsYearHeaders, ['goals', year], 0);
     bank.monthlyGoal[year] =
@@ -389,8 +386,7 @@ export const calculateTotals = (bank: IBank) => {
         year === bank.headers.firstYear.toString()
       ) {
         bank.totalHolding[year][month] =
-          parseFloat(bank.headers.startingCapital) +
-          bank.totalMonthSavings[year][month];
+          bank.headers.startingCapital + bank.totalMonthSavings[year][month];
       } else {
         const { year: pyear, month: pmonth } = prevMonth(year, month);
         bank.totalHolding[year][month] =

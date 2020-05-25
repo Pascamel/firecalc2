@@ -4,6 +4,7 @@ import { Button, ButtonGroup } from 'reactstrap';
 import { Icon } from '../components';
 
 interface IProps {
+  className?: string;
   color: string;
   'button-color': string;
   disabled?: [boolean, boolean];
@@ -16,17 +17,20 @@ interface IProps {
 }
 
 const NavButtonGroup = ({
+  className,
   color,
   'button-color': colorButton,
   disabled,
   'on-click': onClick,
-  label
+  label,
 }: IProps) => {
   const disabledLeft = disabled ? disabled[0] : false;
   const disabledRight = disabled ? disabled[1] : false;
 
+  const classNames = `d-flex mb-3 ${className}`.trim();
+
   return (
-    <ButtonGroup color={color} className="d-flex mb-3">
+    <ButtonGroup color={color} className={classNames}>
       <Button color={colorButton} onClick={onClick[0]} disabled={disabledLeft}>
         <Icon icon="backward" />
       </Button>

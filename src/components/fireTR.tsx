@@ -1,22 +1,22 @@
 import React from 'react';
 
+import { joinFilter } from '../helpers';
+
 interface IProps {
   show?: boolean;
   hide?: boolean;
-  children?: any;
+  children?: React.ReactNode;
 }
 
-const FireTR = (props: IProps) => {
-  const classNames = [];
-
-  if ('show' in props && !(props.show || false)) {
-    classNames.push('hidden');
-  }
-  if ('hide' in props && props.hide) {
-    classNames.push('hidden');
-  }
-
-  return <tr className={classNames.join(' ')}>{props.children}</tr>;
-};
+const FireTR = (props: IProps) => (
+  <tr
+    className={joinFilter(
+      'show' in props && !(props.show || false) ? 'hidden' : null,
+      'hide' in props && props.hide ? 'hidden' : null
+    )}
+  >
+    {props.children}
+  </tr>
+);
 
 export default FireTR;

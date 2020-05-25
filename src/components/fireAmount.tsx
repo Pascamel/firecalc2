@@ -1,12 +1,14 @@
 import _ from 'lodash';
 import math from 'mathjs';
-import React, { Dispatch, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
+import { AnyAction } from 'redux';
+import { ThunkDispatch } from 'redux-thunk';
 
 import { updateValue } from '../actions';
 import Bank from '../bank';
 import { Text } from '../components';
-import { amount as helper_amount } from '../helpers';
+import { amount as helper_amount, joinFilter } from '../helpers';
 import { AppState } from '../store';
 
 interface IProps {
@@ -15,7 +17,13 @@ interface IProps {
   classNameInput?: string;
   ['callback-props']: string[];
   ['display-if-zero']?: boolean;
-  onUpdateValue: (index: string, indexes: string[], amount: number) => void;
+  onUpdateValue: (
+    index: string,
+    indexes: string[],
+    label: string,
+    previous: number,
+    amount: number
+  ) => void;
 }
 
 const FireAmount = ({
@@ -45,13 +53,7 @@ const FireAmount = ({
     }
 
     setEdit(true);
-    setAmount(
-      helper_amount(
-        _.get(bank, callbackProps, 0),
-        displayIfZero || false,
-        bank.showDecimals || false
-      )
-    );
+    setAmount(_.get(bank, callbackProps, 0));
   };
 
   const onClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -59,20 +61,48 @@ const FireAmount = ({
     setEditMode();
   };
 
+  const v4 = new RegExp(
+    /^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i
+  );
+
   const confirmEdit = () => {
     const s = (inputValue || '').replace(',', '').replace('$', '');
 
     if (!RegExp('^([0-9()*/.+-])+$').test(s)) return;
 
     const val = (math.eval(s) || 0).toString();
-
+    const previousAmount = amount;
     setEdit(false);
     setAmount(val);
 
     const indexes = callbackProps;
     const index = indexes.shift() || '';
 
-    onUpdateValue(index, indexes, parseFloat(val) || 0);
+    onUpdateValue(
+      index,
+      indexes,
+      [index, ...indexes]
+        .map((s) => {
+          if (!v4.test(s)) {
+            return s;
+          }
+          if (index === 'savings') {
+            return _(bank.savingsHeaders).keyBy('id').get([s, 'label']);
+          }
+          if (index === 'income') {
+            return _(bank.incomeHeaders).keyBy('id').get([s, 'label']);
+          }
+          if (index === 'expenses') {
+            return _(bank.expensesHeaders).keyBy('id').get([s, 'label']);
+          }
+          return s;
+        })
+        .filter((s) => s?.length > 0)
+        .filter((s) => !v4.test(s))
+        .join(' > '),
+      parseFloat(previousAmount),
+      parseFloat(val) || 0
+    );
   };
 
   const cancelEdit = () => {
@@ -93,16 +123,15 @@ const FireAmount = ({
     if (event.key === 'Escape') cancelEdit();
   };
 
-  const classname = [
-    'amount-container',
-    readonly ? 'read-only' : null,
-    extraClassName,
-  ]
-    .filter((v) => v !== null)
-    .join(' ');
-
   return (
-    <div className={classname} onKeyDown={handleKeyDown}>
+    <div
+      className={joinFilter(
+        'amount-container',
+        readonly ? 'read-only' : null,
+        extraClassName
+      )}
+      onKeyDown={handleKeyDown}
+    >
       {!edit && (
         <Text className="amount" onClick={onClick}>
           {helper_amount(
@@ -133,10 +162,18 @@ const mapStateToProps = (state: AppState) => {
   };
 };
 
-const mapDispatchToProps = (dispatch: Dispatch<any>) => {
+const mapDispatchToProps = (
+  dispatch: ThunkDispatch<AppState, void, AnyAction>
+) => {
   return {
-    onUpdateValue: (index: string, indexes: string[], amount: number) => {
-      dispatch(updateValue(index, indexes, amount));
+    onUpdateValue: (
+      index: string,
+      indexes: string[],
+      label: string,
+      previous: number,
+      amount: number
+    ) => {
+      dispatch(updateValue(index, indexes, label, previous, amount));
     },
   };
 };

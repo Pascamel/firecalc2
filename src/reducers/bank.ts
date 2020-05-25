@@ -1,13 +1,14 @@
 import uuid from 'uuid';
 
 import TYPES from '../actions/types';
-import Bank from '../bank';
+import Bank, { IExpenseHeader, IIncomeHeader, ISavingsHeader } from '../bank';
 import { IBank } from '../bank/bank';
 import { deepCopy } from '../helpers';
 
 const INITIAL_STATE = {
-  bank: {},
+  bank: {} as IBank,
   bankLoaded: false,
+  bankLoading: false,
   bankSavingsUpdated: false,
   bankIncomeUpdated: false,
   bankExpensesUpdated: false,
@@ -16,7 +17,21 @@ const INITIAL_STATE = {
   saveInProgress: false,
 };
 
-const bankReducer = (state = INITIAL_STATE, action: any) => {
+interface IAction {
+  type: string;
+  payload: {
+    bank: any;
+    index: string;
+    indexes: string[];
+    amount: number;
+    index1: number;
+    index2: number;
+    header: IIncomeHeader | ISavingsHeader | IExpenseHeader;
+    isFuture: boolean;
+  };
+}
+
+const bankReducer = (state = INITIAL_STATE, action: IAction /*any*/) => {
   switch (action.type) {
     case TYPES.BANK_LOAD_STARTED:
       return {
@@ -28,6 +43,7 @@ const bankReducer = (state = INITIAL_STATE, action: any) => {
         bankOthersUpdated: false,
         bankHeadersUpdated: false,
         bankLoaded: false,
+        bankLoading: true,
       };
 
     case TYPES.BANK_LOAD_SUCCESS:
@@ -40,6 +56,7 @@ const bankReducer = (state = INITIAL_STATE, action: any) => {
         bankOthersUpdated: false,
         bankHeadersUpdated: false,
         bankLoaded: true,
+        bankLoading: false,
       };
 
     case TYPES.BANK_LOAD_FAILURE:
@@ -52,10 +69,11 @@ const bankReducer = (state = INITIAL_STATE, action: any) => {
         bankOthersUpdated: false,
         bankHeadersUpdated: false,
         bankLoaded: false,
+        bankLoading: false,
       };
 
     case TYPES.BANK_UPDATE_VALUE: {
-      let new_bank = deepCopy(state.bank);
+      let new_bank: IBank = deepCopy(state.bank);
 
       Bank.updateValue(
         new_bank,
@@ -69,22 +87,27 @@ const bankReducer = (state = INITIAL_STATE, action: any) => {
         ...state,
         bank: new_bank,
         bankSavingsUpdated:
+          state.bankSavingsUpdated ||
           action.payload.index === 'savings' ||
           (action.payload.index === 'savingsYearHeaders' &&
             action.payload.indexes.length > 0 &&
             action.payload.indexes[0] === 'goals'),
-        bankIncomeUpdated: action.payload.index === 'income',
-        bankExpensesUpdated: action.payload.index === 'expenses',
+        bankIncomeUpdated:
+          state.bankIncomeUpdated || action.payload.index === 'income',
+        bankExpensesUpdated:
+          state.bankExpensesUpdated || action.payload.index === 'expenses',
         bankOthersUpdated:
+          state.bankOthersUpdated ||
           action.payload.index === 'networth' ||
           action.payload.index === 'expenses' ||
           action.payload.index === 'notes',
-        bankHeadersUpdated: action.payload.index === 'headers',
+        bankHeadersUpdated:
+          state.bankHeadersUpdated || action.payload.index === 'headers',
       };
     }
 
     case TYPES.BANK_UPDATE_VALUE_LOCAL_STORAGE: {
-      let new_bank = deepCopy(state.bank);
+      let new_bank: IBank = deepCopy(state.bank);
 
       Bank.updateValue(
         new_bank,
@@ -133,9 +156,21 @@ const bankReducer = (state = INITIAL_STATE, action: any) => {
       };
 
     case TYPES.HEADERS_NEW_SAVING: {
-      let new_bank = deepCopy(state.bank);
+      let new_bank: IBank = deepCopy(state.bank);
       new_bank.headers.savings.push({
         id: uuid.v4(),
+        label: '',
+        sublabel: '',
+        interest: false,
+        icon: '',
+        type: 'P',
+        types: ['P'],
+        displayFrom: false,
+        displayFromYear: null,
+        displayFromMonth: null,
+        displayTo: false,
+        displayToYear: null,
+        displayToMonth: null,
       });
 
       return {
@@ -149,12 +184,12 @@ const bankReducer = (state = INITIAL_STATE, action: any) => {
       let new_bank: IBank = deepCopy(state.bank);
 
       const idx = new_bank.headers.savings.findIndex(
-        (h: any) => h.id === action.payload.header.id
+        (h) => h.id === action.payload.header.id
       );
 
       new_bank.headers.savings = [
         ...new_bank.headers.savings.slice(0, idx),
-        action.payload.header,
+        action.payload.header as ISavingsHeader,
         ...new_bank.headers.savings.slice(idx + 1),
       ];
 
@@ -168,11 +203,11 @@ const bankReducer = (state = INITIAL_STATE, action: any) => {
     }
 
     case TYPES.HEADERS_DELETE_SAVING: {
-      let new_bank = deepCopy(state.bank);
+      let new_bank: IBank = deepCopy(state.bank);
 
       new_bank.headers.savings = [
         ...new_bank.headers.savings.filter(
-          (h: any) => h.id !== action.payload.header.id
+          (h) => h.id !== action.payload.header.id
         ),
       ];
 
@@ -186,7 +221,7 @@ const bankReducer = (state = INITIAL_STATE, action: any) => {
     }
 
     case TYPES.HEADERS_SWITCH_SAVING: {
-      let new_bank = deepCopy(state.bank);
+      let new_bank: IBank = deepCopy(state.bank);
 
       var tmp = new_bank.headers.savings[action.payload.index1];
       new_bank.headers.savings[action.payload.index1] =
@@ -201,9 +236,12 @@ const bankReducer = (state = INITIAL_STATE, action: any) => {
     }
 
     case TYPES.HEADERS_NEW_INCOME: {
-      let new_bank = deepCopy(state.bank);
+      let new_bank: IBank = deepCopy(state.bank);
       new_bank.headers.incomes.push({
         id: uuid.v4(),
+        label: '',
+        pretax: false,
+        count: 1,
       });
 
       return {
@@ -214,15 +252,15 @@ const bankReducer = (state = INITIAL_STATE, action: any) => {
     }
 
     case TYPES.HEADERS_UPDATE_INCOME: {
-      let new_bank = deepCopy(state.bank);
+      let new_bank: IBank = deepCopy(state.bank);
 
       const idx = new_bank.headers.incomes.findIndex(
-        (h: any) => h.id === action.payload.header.id
+        (h) => h.id === action.payload.header.id
       );
 
       new_bank.headers.incomes = [
         ...new_bank.headers.incomes.slice(0, idx),
-        action.payload.header,
+        action.payload.header as IIncomeHeader,
         ...new_bank.headers.incomes.slice(idx + 1),
       ];
 
@@ -236,11 +274,11 @@ const bankReducer = (state = INITIAL_STATE, action: any) => {
     }
 
     case TYPES.HEADERS_DELETE_INCOME: {
-      let new_bank = deepCopy(state.bank);
+      let new_bank: IBank = deepCopy(state.bank);
 
       new_bank.headers.incomes = [
         ...new_bank.headers.incomes.filter(
-          (h: any) => h.id !== action.payload.header.id
+          (h) => h.id !== action.payload.header.id
         ),
       ];
 
@@ -254,7 +292,7 @@ const bankReducer = (state = INITIAL_STATE, action: any) => {
     }
 
     case TYPES.HEADERS_SWITCH_INCOME: {
-      let new_bank = deepCopy(state.bank);
+      let new_bank: IBank = deepCopy(state.bank);
 
       let tmp = new_bank.headers.incomes[action.payload.index1];
       new_bank.headers.incomes[action.payload.index1] =
@@ -269,10 +307,16 @@ const bankReducer = (state = INITIAL_STATE, action: any) => {
     }
 
     case TYPES.HEADERS_NEW_EXPENSE: {
-      let new_bank = deepCopy(state.bank);
+      let new_bank: IBank = deepCopy(state.bank);
       new_bank.headers.expenses.push({
         id: uuid.v4(),
+        label: '',
+        type: -1,
         isFuture: action.payload.isFuture,
+        isNecessary: false,
+        amount: 0,
+        startMonth: null,
+        startYear: null,
       });
 
       return {
@@ -283,15 +327,15 @@ const bankReducer = (state = INITIAL_STATE, action: any) => {
     }
 
     case TYPES.HEADERS_UPDATE_EXPENSE: {
-      let new_bank = deepCopy(state.bank);
+      let new_bank: IBank = deepCopy(state.bank);
 
       const idx = new_bank.headers.expenses.findIndex(
-        (h: any) => h.id === action.payload.header.id
+        (h) => h.id === action.payload.header.id
       );
 
       new_bank.headers.expenses = [
         ...new_bank.headers.expenses.slice(0, idx),
-        action.payload.header,
+        action.payload.header as IExpenseHeader,
         ...new_bank.headers.expenses.slice(idx + 1),
       ];
 
@@ -305,11 +349,11 @@ const bankReducer = (state = INITIAL_STATE, action: any) => {
     }
 
     case TYPES.HEADERS_DELETE_EXPENSE: {
-      let new_bank = deepCopy(state.bank);
+      let new_bank: IBank = deepCopy(state.bank);
 
       new_bank.headers.expenses = [
         ...new_bank.headers.expenses.filter(
-          (h: any) => h.id !== action.payload.header.id
+          (h) => h.id !== action.payload.header.id
         ),
       ];
 
@@ -323,7 +367,7 @@ const bankReducer = (state = INITIAL_STATE, action: any) => {
     }
 
     case TYPES.HEADERS_SWITCH_EXPENSE: {
-      let new_bank = deepCopy(state.bank);
+      let new_bank: IBank = deepCopy(state.bank);
 
       let tmp = new_bank.headers.expenses[action.payload.index1];
       new_bank.headers.expenses[action.payload.index1] =

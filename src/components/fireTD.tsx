@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { joinFilter } from '../helpers';
+
 interface IProps {
   show?: boolean;
   hide?: boolean;
@@ -10,27 +12,21 @@ interface IProps {
 }
 
 const FireTD = (props: IProps) => {
-  const classNames = [];
-
-  if ('show' in props && !(props.show || false)) {
-    classNames.push('hidden');
-  }
-  if ('hide' in props && props.hide) {
-    classNames.push('hidden');
-  }
-  if ('goal' in props && 'threshold' in props) {
-    classNames.push(
-      (props.goal || 0) >= (props.threshold || 0)
+  const classNames = joinFilter(
+    'show' in props && !(props.show || false) ? 'hidden' : null,
+    'hide' in props && props.hide ? 'hidden' : null,
+    'goal' in props && 'threshold' in props
+      ? (props.goal || 0) >= (props.threshold || 0)
         ? 'table-success'
         : 'table-danger'
-    );
-  }
+      : null
+  );
 
   let colSpan = 1;
   if ('span' in props) colSpan = props.span || 1;
 
   return (
-    <td className={classNames.join(' ')} colSpan={colSpan}>
+    <td className={classNames} colSpan={colSpan}>
       {props.children}
     </td>
   );

@@ -1,11 +1,10 @@
 import _ from 'lodash';
-import React, { Dispatch, useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 import { Col, CustomInput, Row } from 'reactstrap';
 
-import { loadBank } from '../../actions';
-import Bank from '../../bank';
+import Bank, { IBankYearMonthString } from '../../bank';
 import { LoadingPanel, NavButtonGroup } from '../../components';
 import ROUTES from '../../constants/routes';
 import { amount as amount_, roundFloat } from '../../helpers';
@@ -19,11 +18,18 @@ interface IProps {
   bankLoaded: boolean;
   mobile: boolean;
   chart: string;
-  onLoadBank: (uid: string) => void;
   darkMode: boolean;
 }
 
-const ProjectionChartPage = (props: IProps & RouteComponentProps) => {
+const ProjectionChartPage = ({
+  bank,
+  mobile,
+  chart,
+  bankLoaded,
+  darkMode,
+  match,
+  history,
+}: IProps & RouteComponentProps) => {
   const DEFAULT_AMOUNTS = [80, 90, 100, 110, 120, 130, 150].map(
     (v) => v * 1000
   );
@@ -31,20 +37,11 @@ const ProjectionChartPage = (props: IProps & RouteComponentProps) => {
   const DEFAULT_YEARS = [10, 15, 20, 25, 30];
   const DEFAULT_YEAR = 10;
 
-  const {
-    authUser,
-    bank,
-    mobile,
-    chart,
-    onLoadBank,
-    bankLoaded,
-    darkMode,
-  } = props;
   const [amount, setAmount] = useState(
-    parseInt(_.get(props, 'match.params.amount')) || DEFAULT_AMOUNT
+    parseInt(_.get(match, 'params.amount')) || DEFAULT_AMOUNT
   );
   const [years, setYears] = useState(
-    parseInt(_.get(props, 'match.params.years')) || DEFAULT_YEAR
+    parseInt(_.get(match, 'params.years')) || DEFAULT_YEAR
   );
 
   const networthActualValues = Object.keys(bank.networth)
@@ -52,25 +49,21 @@ const ProjectionChartPage = (props: IProps & RouteComponentProps) => {
     .reduce((object, k) => {
       object[k] = bank.networth[k];
       return object;
-    }, {} as { [year: string]: any });
+    }, {} as IBankYearMonthString);
+
+  console.log('netWrthactualvalues', networthActualValues);
 
   const last_year = _(networthActualValues).values().last();
   const year = parseInt(_(networthActualValues).keys().last() || '0');
   const month = parseInt(_(last_year).keys().last() || '0');
   const savings = parseFloat(_(last_year).values().last() || '0');
 
-  useEffect(() => {
-    if (!authUser || bankLoaded) return;
-
-    onLoadBank(authUser.uid);
-  }, [authUser, bankLoaded, onLoadBank]);
-
   const setRouteAmount = (s: number) => {
     const route = ROUTES.CHARTS_YEARS_AMOUNT.replace(':type', chart)
       .replace(':years', years.toString())
       .replace(':amount', s.toString());
 
-    props.history.push(route);
+    history.push(route);
     setAmount(s);
   };
 
@@ -79,7 +72,7 @@ const ProjectionChartPage = (props: IProps & RouteComponentProps) => {
       .replace(':years', y.toString())
       .replace(':amount', amount.toString());
 
-    props.history.push(route);
+    history.push(route);
     setYears(y);
   };
 
@@ -125,7 +118,9 @@ const ProjectionChartPage = (props: IProps & RouteComponentProps) => {
     data.push({ date, projection5, projection7 });
   }
 
-  if (!bankLoaded) return <LoadingPanel />;
+  if (!bankLoaded) {
+    return <LoadingPanel />;
+  }
 
   return (
     <Row>
@@ -203,13 +198,4 @@ const mapStateToProps = (state: AppState) => {
   };
 };
 
-const mapDispatchToProps = (dispatch: Dispatch<any>) => {
-  return {
-    onLoadBank: (uid: string) => dispatch(loadBank(uid)),
-  };
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ProjectionChartPage);
+export default connect(mapStateToProps)(ProjectionChartPage);

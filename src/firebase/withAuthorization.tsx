@@ -1,3 +1,4 @@
+import { History } from 'history';
 import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
@@ -8,13 +9,13 @@ import { firebase as fb } from '../firebase';
 import { AppState } from '../store';
 
 interface IProps {
-  history?: any;
+  history?: History;
   authUser: firebase.User;
 }
 
 export const withAuthorization = (condition: any) => (Component: any) => {
   class WithAuthorization extends React.Component<IProps, {}> {
-    listener: any = () => {};
+    listener: () => void = () => {};
 
     public componentDidMount() {
       this.listener = fb.auth.onAuthStateChanged((authUser) => {
@@ -23,7 +24,8 @@ export const withAuthorization = (condition: any) => (Component: any) => {
         // boolean based authentication
         if (typeof authCheckResult === 'boolean') {
           if (!condition(authUser)) {
-            this.props.history.push(ROUTES.NOT_AUTHORIZED);
+            this.props.history &&
+              this.props.history.push(ROUTES.NOT_AUTHORIZED);
           }
 
           return;
@@ -33,7 +35,8 @@ export const withAuthorization = (condition: any) => (Component: any) => {
         if (typeof authCheckResult === 'object') {
           condition(authUser).then((res: boolean) => {
             if (!res) {
-              this.props.history.push(ROUTES.NOT_AUTHORIZED);
+              this.props.history &&
+                this.props.history.push(ROUTES.NOT_AUTHORIZED);
             }
           });
 
@@ -41,7 +44,7 @@ export const withAuthorization = (condition: any) => (Component: any) => {
         }
 
         // unknown auth
-        this.props.history.push(ROUTES.HOME);
+        this.props.history && this.props.history.push(ROUTES.HOME);
       });
     }
 

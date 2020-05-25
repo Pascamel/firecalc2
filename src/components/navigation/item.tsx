@@ -7,6 +7,7 @@ import { NavItem } from 'reactstrap';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 
 import { Icon } from '../../components';
+import { joinFilter } from '../../helpers';
 import { AppState } from '../../store';
 
 interface IProps {
@@ -29,31 +30,23 @@ const NavBarItem = ({
   onClick,
   to,
   updated,
-}: IProps) => {
-  const navLinkClass = () => {
-    return [
-      'nav-link',
-      className,
-      active ? 'active' : null,
-      updated ? 'updated' : null,
-    ]
-      .filter((v) => v !== null && v !== undefined)
-      .join(' ');
-  };
-
-  const iconClassNames = [iconClassName, 'mr-1', 'fa-fw']
-    .filter((v) => v !== null && v !== undefined)
-    .join(' ');
-
-  return (
-    <NavItem>
-      <NavLink className={navLinkClass()} to={to} onClick={onClick}>
-        <Icon icon={icon} className={iconClassNames} />
-        {label}
-      </NavLink>
-    </NavItem>
-  );
-};
+}: IProps) => (
+  <NavItem>
+    <NavLink
+      className={joinFilter(
+        'nav-link',
+        className,
+        active ? 'active' : null,
+        updated ? 'updated' : null
+      )}
+      to={to}
+      onClick={onClick}
+    >
+      <Icon icon={icon} className={joinFilter(iconClassName, 'mr-1 fa-fw')} />
+      {label}
+    </NavLink>
+  </NavItem>
+);
 
 const mapStateToProps = (state: AppState) => {
   return {

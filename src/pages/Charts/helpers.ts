@@ -64,6 +64,7 @@ class Helpers {
     const sae: IAllocationEvolutionChart[] = [];
     const bep: IBreakEvenPointChartData[] = [];
     const ybu: IYearlyGoalBurnUpChartData[] = [];
+    const eae: IAllocationEvolutionChart[] = [];
 
     _.each(
       _.range(bank.headers.firstYear, new Date().getFullYear() + 1),
@@ -115,6 +116,18 @@ class Helpers {
               expenses: Math.max(0, automatic_expenses),
             });
           }
+
+          eae.push({
+            date: new Date(y, m, 0).getTime(),
+            allocation: _(bank.expensesInputs)
+              .filter((header) => !header.isFuture)
+              .reduce((acc, header) => {
+                const key = _(bank.expensesInputs).keyBy('id').get([header.id])
+                  .label;
+                const value = _.get(bank.expenses, [y, m, header.id]);
+                return { ...acc, [key]: value };
+              }, {} as IChartAllocationData),
+          });
         });
 
         _.each(_.range(m1, 13), (m) => {
@@ -148,7 +161,7 @@ class Helpers {
         });
       });
 
-    return { svsi, nws, sb, sae, bep, ybu };
+    return { svsi, nws, sb, sae, bep, ybu, eae };
   }
 }
 

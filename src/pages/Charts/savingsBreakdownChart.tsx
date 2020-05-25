@@ -5,19 +5,21 @@ import Helpers from './helpers';
 import { IProps, ISavingsBreakdownChartData } from './interfaces';
 import ResponsiveWrapper from './responsiveWrapper';
 
-const SavingsBreakdownChart = (props: IProps<ISavingsBreakdownChartData[]>) => {
+const SavingsBreakdownChart = ({
+  data,
+}: IProps<ISavingsBreakdownChartData[]>) => {
   return (
     <ResponsiveWrapper>
       <PieChart {...Helpers.squareSize}>
         <Pie
           dataKey="value"
-          data={props.data}
+          data={data}
           fill="#8884d8"
           isAnimationActive={false}
           label={(value) => value.name}
         >
           <LabelList dataKey="name" />
-          {props.data.map((entry, index) => (
+          {data.map((entry, index) => (
             <Cell
               key={`cell-${index}`}
               fill={Helpers.colors[index % Helpers.colors.length]}

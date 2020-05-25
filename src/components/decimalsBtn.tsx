@@ -1,6 +1,8 @@
-import React, { Dispatch, useState } from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { Dropdown, DropdownItem, DropdownMenu, DropdownToggle } from 'reactstrap';
+import { AnyAction } from 'redux';
+import { ThunkDispatch } from 'redux-thunk';
 
 import { updateValueLocalStorage } from '../actions';
 import Bank from '../bank';
@@ -12,7 +14,9 @@ interface IProps {
   onUpdateValueLocalStorage: (
     index: string,
     indexes: string[],
-    amount: number | boolean
+    label: string,
+    previous: boolean,
+    amount: boolean
   ) => void;
 }
 
@@ -24,7 +28,13 @@ const DecimalsBtn = ({ bank, onUpdateValueLocalStorage }: IProps) => {
   };
 
   const clickDecimal = (decimal: boolean) => {
-    onUpdateValueLocalStorage('showDecimals', [], decimal);
+    onUpdateValueLocalStorage(
+      'showDecimals',
+      [],
+      'Bank > Show Decimals',
+      !decimal,
+      decimal
+    );
   };
 
   return (
@@ -56,14 +66,20 @@ const mapStateToProps = (state: AppState) => {
   };
 };
 
-const mapDispatchToProps = (dispatch: Dispatch<any>) => {
+const mapDispatchToProps = (
+  dispatch: ThunkDispatch<AppState, void, AnyAction>
+) => {
   return {
     onUpdateValueLocalStorage: (
       index: string,
       indexes: string[],
+      label: string,
+      previous: number | boolean,
       amount: number | boolean
     ) => {
-      dispatch(updateValueLocalStorage(index, indexes, amount));
+      dispatch(
+        updateValueLocalStorage(index, indexes, label, previous, amount)
+      );
     },
   };
 };

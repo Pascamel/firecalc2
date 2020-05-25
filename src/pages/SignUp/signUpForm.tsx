@@ -6,7 +6,7 @@ import * as ROLES from '../../constants/roles';
 import ROUTES from '../../constants/routes';
 import { auth, firestore } from '../../firebase';
 
-export const SignUpForm = (props: RouteComponentProps) => {
+export const SignUpForm = ({ history }: RouteComponentProps) => {
   const [email, setEmail] = useState('');
   const [passwordOne, setPasswordOne] = useState('');
   const [passwordTwo, setPasswordTwo] = useState('');
@@ -29,7 +29,7 @@ export const SignUpForm = (props: RouteComponentProps) => {
         setError(null);
         setPasswordOne('');
         setPasswordTwo('');
-        props.history.push(ROUTES.HOME);
+        history.push(ROUTES.HOME);
       })
       .catch((error) => {
         setError(error);

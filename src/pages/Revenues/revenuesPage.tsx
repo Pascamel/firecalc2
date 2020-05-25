@@ -1,6 +1,8 @@
-import React, { Dispatch, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Alert, Col, Container, Row } from 'reactstrap';
+import { AnyAction } from 'redux';
+import { ThunkDispatch } from 'redux-thunk';
 
 import { loadBank, saveBank } from '../../actions';
 import Bank from '../../bank';
@@ -11,16 +13,23 @@ import Table from './table';
 interface IProps {
   authUser: firebase.User | null;
   bankLoaded: boolean;
+  bankLoading: boolean;
   onLoadBank: (uid: string) => void;
   onSaveBank: (uid: string, bank: Bank.IBank) => void;
 }
 
-const RevenuePageBase = ({ authUser, onLoadBank, bankLoaded }: IProps) => {
+const RevenuePageBase = ({
+  authUser,
+  onLoadBank,
+  bankLoaded,
+  bankLoading,
+}: IProps) => {
   useEffect(() => {
-    if (bankLoaded || !authUser) return;
-
+    if (bankLoaded || bankLoading || !authUser) {
+      return;
+    }
     onLoadBank(authUser.uid);
-  }, [authUser, bankLoaded, onLoadBank]);
+  }, [authUser, bankLoaded, bankLoading, onLoadBank]);
 
   if (!bankLoaded) return <LoadingPanel />;
 
@@ -50,10 +59,13 @@ const mapStateToProps = (state: AppState) => {
   return {
     authUser: state.sessionState.authUser,
     bankLoaded: state.bankState.bankLoaded,
+    bankLoading: state.bankState.bankLoading,
   };
 };
 
-const mapDispatchToProps = (dispatch: Dispatch<any>) => {
+const mapDispatchToProps = (
+  dispatch: ThunkDispatch<AppState, void, AnyAction>
+) => {
   return {
     onLoadBank: (uid: string) => {
       dispatch(loadBank(uid));

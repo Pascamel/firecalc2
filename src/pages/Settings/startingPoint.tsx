@@ -1,7 +1,9 @@
 import _ from 'lodash';
-import React, { Dispatch } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { Alert, Col, CustomInput, Form, Input, Label, Row } from 'reactstrap';
+import { AnyAction } from 'redux';
+import { ThunkDispatch } from 'redux-thunk';
 
 import { updateValue } from '../../actions';
 import Bank from '../../bank';
@@ -15,15 +17,22 @@ interface IProps {
   onUpdateValue: (
     index: string,
     indexes: string[],
-    amount: number | boolean
+    label: string,
+    previous: number,
+    amount: number
   ) => void;
 }
 
 const StartingPoint = ({ bank, bankLoaded, onUpdateValue }: IProps) => {
   const curYear = currentYear();
 
-  const onValueChange = (type: string, value: number) => {
-    onUpdateValue('headers', [type], value);
+  const onValueChange = (
+    type: string,
+    label: string,
+    previous: number,
+    value: number
+  ) => {
+    onUpdateValue('headers', [type], label, previous, value);
   };
 
   if (!bankLoaded) {
@@ -44,9 +53,11 @@ const StartingPoint = ({ bank, bankLoaded, onUpdateValue }: IProps) => {
             <Input
               type="text"
               value={bank.headers.startingCapital}
-              onChange={e =>
+              onChange={(e) =>
                 onValueChange(
                   'startingCapital',
+                  'Starting capital',
+                  bank.headers.startingCapital,
                   parseFloat(e.target.value) || 0
                 )
               }
@@ -57,8 +68,13 @@ const StartingPoint = ({ bank, bankLoaded, onUpdateValue }: IProps) => {
               type="select"
               id="firstMonth"
               value={bank.headers.firstMonth}
-              onChange={e =>
-                onValueChange('firstMonth', parseInt(e.target.value) || 0)
+              onChange={(e) =>
+                onValueChange(
+                  'firstMonth',
+                  'First month',
+                  bank.headers.firstMonth,
+                  parseInt(e.target.value) || 0
+                )
               }
               className="ml-0 ml-sm-2 mr-0 mr-sm-2 mt-2 mt-sm-0"
             >
@@ -72,8 +88,13 @@ const StartingPoint = ({ bank, bankLoaded, onUpdateValue }: IProps) => {
               type="select"
               id="firstYear"
               value={bank.headers.firstYear}
-              onChange={e =>
-                onValueChange('firstYear', parseInt(e.target.value) || 0)
+              onChange={(e) =>
+                onValueChange(
+                  'firstYear',
+                  'First year',
+                  bank.headers.firstYear,
+                  parseInt(e.target.value) || 0
+                )
               }
               className="mt-2 mt-sm-0"
             >
@@ -93,19 +114,23 @@ const StartingPoint = ({ bank, bankLoaded, onUpdateValue }: IProps) => {
 const mapStateToProps = (state: AppState) => {
   return {
     bank: state.bankState.bank,
-    bankLoaded: state.bankState.bankLoaded
+    bankLoaded: state.bankState.bankLoaded,
   };
 };
 
-const mapDispatchToProps = (dispatch: Dispatch<any>) => {
+const mapDispatchToProps = (
+  dispatch: ThunkDispatch<AppState, void, AnyAction>
+) => {
   return {
     onUpdateValue: (
       index: string,
       indexes: string[],
-      amount: number | boolean
+      label: string,
+      previous: number,
+      amount: number
     ) => {
-      dispatch(updateValue(index, indexes, amount));
-    }
+      dispatch(updateValue(index, indexes, label, previous, amount));
+    },
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(StartingPoint);

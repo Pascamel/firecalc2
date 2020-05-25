@@ -1,8 +1,7 @@
-import React, { Dispatch } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { Alert, Col, Row } from 'reactstrap';
 
-import { updateValue } from '../../actions';
 import Bank from '../../bank';
 import { FireAmount, PanelTitle, Text } from '../../components';
 import { amount } from '../../helpers';
@@ -11,11 +10,6 @@ import { AppState } from '../../store';
 interface IProps {
   bank: Bank.IBank;
   bankLoaded: boolean;
-  onUpdateValue: (
-    index: string,
-    indexes: string[],
-    amount: number | boolean
-  ) => void;
 }
 
 interface IYoyLabel {
@@ -67,14 +61,18 @@ const YearlyGoals = ({ bank, bankLoaded }: IProps) => {
       </Row>
       {[...Array(currentYear - bank.headers.firstYear + 2)]
         .map((_, i) => i + bank.headers.firstYear)
-        .map(year => (
+        .map((year) => (
           <Row key={year}>
             <Col sm={4} xs={8}>
               <span className="label-fake-input smaller mb-1">{year}</span>
               <div className="pull-right">
                 <FireAmount
                   extraClassName="label-fake-input"
-                  callback-props={['savingsYearHeaders', 'goals', year]}
+                  callback-props={[
+                    'savingsYearHeaders',
+                    'goals',
+                    year.toString(),
+                  ]}
                 />
               </div>
             </Col>
@@ -90,20 +88,8 @@ const YearlyGoals = ({ bank, bankLoaded }: IProps) => {
 const mapStateToProps = (state: AppState) => {
   return {
     bank: state.bankState.bank,
-    bankLoaded: state.bankState.bankLoaded
+    bankLoaded: state.bankState.bankLoaded,
   };
 };
 
-const mapDispatchToProps = (dispatch: Dispatch<any>) => {
-  return {
-    onUpdateValue: (
-      index: string,
-      indexes: string[],
-      amount: number | boolean
-    ) => {
-      dispatch(updateValue(index, indexes, amount));
-    }
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(YearlyGoals);
+export default connect(mapStateToProps)(YearlyGoals);
