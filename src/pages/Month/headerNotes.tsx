@@ -1,13 +1,14 @@
 import _ from 'lodash';
-import React, {
-    ChangeEvent, Dispatch, KeyboardEvent, MouseEvent, useEffect, useState
-} from 'react';
+import React, { ChangeEvent, KeyboardEvent, MouseEvent, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Alert, Col, Input, Row } from 'reactstrap';
+import { AnyAction } from 'redux';
+import { ThunkDispatch } from 'redux-thunk';
 
 import { updateValue } from '../../actions';
 import Bank from '../../bank';
 import { FireAmount, Icon, Text } from '../../components';
+import { labelMonth } from '../../helpers';
 import { AppState } from '../../store';
 
 interface IProps {
@@ -15,7 +16,13 @@ interface IProps {
   year: string;
   bank: Bank.IBank;
   bankLoaded: boolean;
-  onUpdateValue: (index: string, indexes: string[], text: string) => void;
+  onUpdateValue: (
+    index: string,
+    indexes: string[],
+    label: string,
+    previous: string,
+    text: string
+  ) => void;
 }
 
 const HeaderNotes = ({
@@ -30,7 +37,9 @@ const HeaderNotes = ({
   const [editValue, setEditValue] = useState('');
 
   useEffect(() => {
-    if (bankLoaded) setValue(_.get(bank, ['notes', year, month], ''));
+    if (bankLoaded) {
+      setValue(_.get(bank, ['notes', year, month], ''));
+    }
     setEdit(false);
   }, [bankLoaded, bank, year, month]);
 
@@ -64,7 +73,13 @@ const HeaderNotes = ({
     } else if (e.key === 'Enter') {
       setValue(editValue);
       setEdit(false);
-      onUpdateValue('notes', [year, month], editValue);
+      onUpdateValue(
+        'notes',
+        [year, month],
+        `Notes for month ${labelMonth(month, year)}`,
+        value,
+        editValue
+      );
     } else if (e.key === 'Escape') {
       setEdit(false);
     }
@@ -118,10 +133,18 @@ const mapStateToProps = (state: AppState) => {
   };
 };
 
-const mapDispatchToProps = (dispatch: Dispatch<any>) => {
+const mapDispatchToProps = (
+  dispatch: ThunkDispatch<AppState, void, AnyAction>
+) => {
   return {
-    onUpdateValue: (index: string, indexes: string[], text: string) => {
-      dispatch(updateValue(index, indexes, text));
+    onUpdateValue: (
+      index: string,
+      indexes: string[],
+      label: string,
+      previous: string,
+      text: string
+    ) => {
+      dispatch(updateValue(index, indexes, label, previous, text));
     },
   };
 };

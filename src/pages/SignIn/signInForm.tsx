@@ -9,7 +9,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import ROUTES from '../../constants/routes';
 import { auth } from '../../firebase';
 
-export const SignInForm = (props: RouteComponentProps) => {
+export const SignInForm = ({ history }: RouteComponentProps) => {
   const [error, setError] = useState<Error | null>(null);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -29,7 +29,7 @@ export const SignInForm = (props: RouteComponentProps) => {
         setError(null);
         setEmail('');
         setPassword('');
-        props.history.push(ROUTES.HOME);
+        history.push(ROUTES.HOME);
       })
       .catch((error) => {
         setError(error);

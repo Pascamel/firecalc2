@@ -6,7 +6,7 @@ import { Col, CustomInput, Row } from 'reactstrap';
 
 import Bank from '../../bank';
 import { ButtonGroupSwitch } from '../../components';
-import * as CHARTS from '../../constants/charts';
+import CHARTS from '../../constants/charts';
 import { AppState } from '../../store';
 import AllocationEvolutionChart, { IAllocationEvolutionChart } from './allocationEvolutionChart';
 import BreakEvenPointChart, { IBreakEvenPointChartData } from './breakEvenPointChart';
@@ -89,14 +89,14 @@ const YearlyBreakdown = ({
           </CustomInput>
         </Col>
         <Col xs={12}>
-          {chart === CHARTS.URL.INCOME_VS_SAVINGS && (
+          {chart === CHARTS.INCOME_VS_SAVINGS.URL && (
             <IncomeVsSavingsChart
               data={filteredData as IIncomeVsSavingsChartData[]}
               mobile={mobile}
               darkMode={darkMode}
             />
           )}
-          {chart === CHARTS.URL.NET_WORTH_VS_SAVINGS && (
+          {chart === CHARTS.NET_WORTH_VS_SAVINGS.URL && (
             <NetWorthVsSavingsChart
               percentage={percentage}
               data={filteredData as INetWorthVsSavingsChartData[]}
@@ -104,7 +104,16 @@ const YearlyBreakdown = ({
               darkMode={darkMode}
             />
           )}
-          {chart === CHARTS.URL.ALLOCATION_EVOLUTION && (
+          {chart === CHARTS.SAVINGS_ALLOCATION_EVOLUTION.URL && (
+            <AllocationEvolutionChart
+              percentage={percentage}
+              data={filteredData as IAllocationEvolutionChart[]}
+              smooth
+              mobile={mobile}
+              darkMode={darkMode}
+            />
+          )}
+          {chart === CHARTS.EXPENSES_ALLOCATION_EVOLUTION.URL && (
             <AllocationEvolutionChart
               percentage={percentage}
               data={filteredData as IAllocationEvolutionChart[]}
@@ -112,14 +121,14 @@ const YearlyBreakdown = ({
               darkMode={darkMode}
             />
           )}
-          {chart === CHARTS.URL.BREAK_EVEN_POINT && (
+          {chart === CHARTS.BREAK_EVEN_POINT.URL && (
             <BreakEvenPointChart
               data={filteredData as IBreakEvenPointChartData[]}
               mobile={mobile}
               darkMode={darkMode}
             />
           )}
-          {chart === CHARTS.URL.YEARLY_GOAL_BURNUP && (
+          {chart === CHARTS.YEARLY_GOAL_BURNUP.URL && (
             <YearlyGoalBurnUp
               data={filteredData as IYearlyGoalBurnUpChartData[]}
               mobile={mobile}

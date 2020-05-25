@@ -1,15 +1,18 @@
 import moment from 'moment';
 import preval from 'preval.macro';
-import React, { Dispatch, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Col, Container, ListGroup, ListGroupItem, Media, Row } from 'reactstrap';
+import { AnyAction } from 'redux';
+import { ThunkDispatch } from 'redux-thunk';
 
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 
 import { loadBank } from '../../actions';
 import Bank from '../../bank';
-import { Icon, LoadingPanel, Mobile, NotMobile } from '../../components';
+import { Icon, LoadingPanel } from '../../components';
 import ROUTES from '../../constants/routes';
+import { firestore } from '../../firebase';
 import { currentMonthRoute } from '../../helpers';
 import { AppState } from '../../store';
 
@@ -24,6 +27,7 @@ interface IProps {
   authUser: firebase.User | null;
   bank: Bank.IBank;
   bankLoaded: boolean;
+  bankLoading: boolean;
   onLoadBank: (uid: string) => void;
 }
 
@@ -40,32 +44,49 @@ const Item = ({ label, value, route, icon }: IItemProps) => {
         </Media>
         <Media body>
           {label}
-          <Mobile>
-            <div className="display-block">
-              <b>{value}</b>
-            </div>
-          </Mobile>
-        </Media>
-        <NotMobile>
-          <Media left>
+          <div className="d-block d-sm-none">
             <b>{value}</b>
-          </Media>
-        </NotMobile>
+          </div>
+        </Media>
+        <Media left className="d-none d-sm-block">
+          <b>{value}</b>
+        </Media>
       </Media>
     </ListGroupItem>
   );
 };
 
-const HomePageBase = ({ bank, authUser, onLoadBank, bankLoaded }: IProps) => {
+const HomePageBase = ({
+  bank,
+  authUser,
+  onLoadBank,
+  bankLoaded,
+  bankLoading,
+}: IProps) => {
+  const [lastUpdateJournal, setLastUpdateJournal] = useState('N/A');
   const buildDate = moment(preval`module.exports = new Date();`)
     .utc()
     .format('YYYYMMDD-HHmmss');
 
   useEffect(() => {
-    if (bankLoaded || !authUser) return;
+    if (bankLoaded || bankLoading || !authUser) {
+      return;
+    }
+    onLoadBank(authUser.uid);
+  }, [authUser, bankLoaded, bankLoading, onLoadBank]);
 
-    if (authUser) onLoadBank(authUser.uid);
-  }, [authUser, bankLoaded, onLoadBank]);
+  useEffect(() => {
+    if (!authUser) {
+      return;
+    }
+    firestore.getJournal(authUser.uid).then((data) => {
+      const object = data.data();
+      if (!object) {
+        return;
+      }
+      setLastUpdateJournal(moment(object.last_update).fromNow());
+    });
+  }, [authUser]);
 
   if (!bankLoaded) return <LoadingPanel color="none" />;
 
@@ -76,20 +97,20 @@ const HomePageBase = ({ bank, authUser, onLoadBank, bankLoaded }: IProps) => {
           <Container>
             <Row>
               <Col md={6} xs={12}>
-                <Mobile>
+                <div className="d-block d-sm-none">
                   <div className="background-wrapper mobile">
                     <div className="background mobile piggy-bank" />
                   </div>
-                </Mobile>
-                <NotMobile>
+                </div>
+                <div className="d-none d-sm-block">
                   <div className="background-wrapper">
                     <div className="background piggy-bank" />
                   </div>
-                </NotMobile>
+                </div>
               </Col>
               <Col md={6} xs={12} className="pt-5">
                 <h4>Last update</h4>
-                <ListGroup flush>
+                <ListGroup flush className="pb-3">
                   <Item
                     label="Savings"
                     value={`Updated ${bank.lastupdate.savings}`}
@@ -118,10 +139,20 @@ const HomePageBase = ({ bank, authUser, onLoadBank, bankLoaded }: IProps) => {
                     label="Settings"
                     value={`Updated ${bank.lastupdate.headers}`}
                     route={ROUTES.SAVINGS}
-                    icon="cogs"
+                    icon="sliders-h"
                   />
                 </ListGroup>
-                <ListGroup className="pt-3">
+                <h4>Activity</h4>
+                <ListGroup flush className="pb-3">
+                  <Item
+                    label="Journal"
+                    value={lastUpdateJournal}
+                    route={ROUTES.JOURNAL}
+                    icon={['fas', 'history']}
+                  />
+                </ListGroup>
+                <h4>About</h4>
+                <ListGroup flush className="pb-3">
                   <Item
                     label="Build"
                     value={buildDate}
@@ -142,10 +173,13 @@ const mapStateToProps = (state: AppState) => {
   return {
     bank: state.bankState.bank,
     bankLoaded: state.bankState.bankLoaded,
+    bankLoading: state.bankState.bankLoading,
   };
 };
 
-const mapDispatchToProps = (dispatch: Dispatch<any>) => {
+const mapDispatchToProps = (
+  dispatch: ThunkDispatch<AppState, void, AnyAction>
+) => {
   return {
     onLoadBank: (uid: string) => dispatch(loadBank(uid)),
   };

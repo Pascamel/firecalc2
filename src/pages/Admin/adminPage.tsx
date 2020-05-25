@@ -18,10 +18,10 @@ const AdminPageBase = () => {
   useEffect(() => {
     let isSubscribed = true;
 
-    firestore.getUsers().then(res => {
+    firestore.getUsers().then((res) => {
       const list: Array<UserType> = [];
 
-      res.docs.forEach(doc => list.push({ id: doc.id, ...doc.data() }));
+      res.docs.forEach((doc) => list.push({ id: doc.id, ...doc.data() }));
 
       if (isSubscribed) {
         setLoading(false);
@@ -34,27 +34,28 @@ const AdminPageBase = () => {
     };
   }, []);
 
+  if (loading) {
+    return <LoadingPanel />;
+  }
+
   return (
     <>
-      {loading && <LoadingPanel />}
-      {!loading && <HeaderPanel title="Admin" />}
-      {!loading && (
-        <Container fluid className="top-shadow">
-          <Row>
-            <Col className="pl-0 pr-0">
-              <Container>
-                <Row>
-                  <Col>
-                    <Alert color="background">
-                      <ListUsers users={users} />
-                    </Alert>
-                  </Col>
-                </Row>
-              </Container>
-            </Col>
-          </Row>
-        </Container>
-      )}
+      <HeaderPanel title="Admin" />
+      <Container fluid className="top-shadow">
+        <Row>
+          <Col className="pl-0 pr-0">
+            <Container>
+              <Row>
+                <Col>
+                  <Alert color="background">
+                    <ListUsers users={users} />
+                  </Alert>
+                </Col>
+              </Row>
+            </Container>
+          </Col>
+        </Row>
+      </Container>
     </>
   );
 };

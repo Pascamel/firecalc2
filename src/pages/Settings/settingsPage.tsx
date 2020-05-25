@@ -1,9 +1,11 @@
-import React, { Dispatch, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Col, Container, ListGroup, ListGroupItem, Row } from 'reactstrap';
+import { AnyAction } from 'redux';
+import { ThunkDispatch } from 'redux-thunk';
 
 import { loadBank } from '../../actions';
-import { LoadingPanel, Mobile, NavButtonGroup, NotMobile, SavePanel } from '../../components';
+import { LoadingPanel, NavButtonGroup, SavePanel } from '../../components';
 import { AppState } from '../../store';
 import Expenses from './expenses';
 import Incomes from './incomes';
@@ -14,6 +16,7 @@ import YearlyGoals from './yearlyGoals';
 interface IProps {
   authUser: firebase.User | null;
   bankLoaded: boolean;
+  bankLoading: boolean;
   onLoadBank: (uid: string) => void;
 }
 
@@ -49,15 +52,20 @@ const tabsContent: tabsContentType = {
 
 const tabsKeys = Object.keys(tabsContent);
 
-const SettingsPageBase = (props: IProps) => {
-  const { authUser, bankLoaded, onLoadBank } = props;
+const SettingsPageBase = ({
+  authUser,
+  bankLoaded,
+  bankLoading,
+  onLoadBank,
+}: IProps) => {
   const [activeTab, setActiveTab] = useState('starting-point');
 
   useEffect(() => {
-    if (bankLoaded || !authUser) return;
-
+    if (bankLoaded || bankLoading || !authUser) {
+      return;
+    }
     onLoadBank(authUser.uid);
-  }, [authUser, bankLoaded, onLoadBank]);
+  }, [authUser, bankLoaded, bankLoading, onLoadBank]);
 
   const toggle = (tab: string) => {
     if (activeTab !== tab) setActiveTab(tab);
@@ -88,28 +96,25 @@ const SettingsPageBase = (props: IProps) => {
             <Container>
               <Row>
                 <Col md={2} sm={12}>
-                  <NotMobile>
-                    <ListGroup>
-                      {Object.keys(tabsContent).map((key) => (
-                        <ListGroupItem
-                          key={key}
-                          className="text-left cursor"
-                          color={activeTab === key ? 'primary' : 'darker'}
-                          onClick={() => toggle(key)}
-                        >
-                          {tabsContent[key].label}
-                        </ListGroupItem>
-                      ))}
-                    </ListGroup>
-                  </NotMobile>
-                  <Mobile>
-                    <NavButtonGroup
-                      color="light"
-                      button-color="outline-secondary"
-                      on-click={[prevSetting, nextSetting]}
-                      label={tabsContent[activeTab].label}
-                    />
-                  </Mobile>
+                  <ListGroup className="d-none d-sm-block">
+                    {Object.keys(tabsContent).map((key) => (
+                      <ListGroupItem
+                        key={key}
+                        className="text-left cursor"
+                        color={activeTab === key ? 'primary' : 'darker'}
+                        onClick={() => toggle(key)}
+                      >
+                        {tabsContent[key].label}
+                      </ListGroupItem>
+                    ))}
+                  </ListGroup>
+                  <NavButtonGroup
+                    className="d-block d-sm-none"
+                    color="light"
+                    button-color="outline-secondary"
+                    on-click={[prevSetting, nextSetting]}
+                    label={tabsContent[activeTab].label}
+                  />
                 </Col>
                 <Col md={10} sm={12}>
                   {tabsContent[activeTab].component}
@@ -127,10 +132,13 @@ const mapStateToProps = (state: AppState) => {
   return {
     authUser: state.sessionState.authUser,
     bankLoaded: state.bankState.bankLoaded,
+    bankLoading: state.bankState.bankLoading,
   };
 };
 
-const mapDispatchToProps = (dispatch: Dispatch<any>) => {
+const mapDispatchToProps = (
+  dispatch: ThunkDispatch<AppState, void, AnyAction>
+) => {
   return {
     onLoadBank: (uid: string) => {
       dispatch(loadBank(uid));

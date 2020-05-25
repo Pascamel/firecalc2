@@ -7,9 +7,9 @@ import ResponsiveWrapper from './responsiveWrapper';
 
 export interface IBreakEvenPointChartData extends IInterface {}
 
-const BreakEvenPointChart = (props: IProps<IInterface[]>) => (
+const BreakEvenPointChart = ({ data }: IProps<IInterface[]>) => (
   <ResponsiveWrapper>
-    <LineChart {...Helpers.landscapeSize} data={props.data}>
+    <LineChart {...Helpers.landscapeSize} data={data}>
       <CartesianGrid vertical={false} strokeDasharray="3 3" />
       <XAxis
         dataKey="date"

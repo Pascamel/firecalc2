@@ -14,7 +14,6 @@ import MonthYearPicker from './monthYearPicker';
 import NavButtonGroup from './navButtonGroup';
 import Navigation from './navigation';
 import PanelTitle from './panelTitle';
-import { Mobile, NotMobile } from './responsive';
 import SavePanel from './savePanel';
 import SignOutLink from './signOutLink';
 import StaticAmount from './staticAmount';
@@ -34,15 +33,13 @@ export {
   HeaderPanel,
   Icon,
   LoadingPanel,
-  Mobile,
   MonthYearPicker,
   Navigation,
   NavButtonGroup,
-  NotMobile,
   PanelTitle,
   SavePanel,
   SignOutLink,
   StaticAmount,
   StaticPercentage,
-  Text
+  Text,
 };

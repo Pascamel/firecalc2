@@ -1,6 +1,8 @@
 import _ from 'lodash';
-import React, { Dispatch, useState } from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
+import { AnyAction } from 'redux';
+import { ThunkDispatch } from 'redux-thunk';
 
 import { updateValueLocalStorage } from '../../actions';
 import Bank from '../../bank';
@@ -15,7 +17,9 @@ interface IProps {
   onUpdateValueLocalStorage: (
     index: string,
     indexes: string[],
-    amount: number | boolean
+    label: string,
+    previous: boolean,
+    amount: boolean
   ) => void;
 }
 
@@ -28,6 +32,8 @@ const Body = ({ year, bank, onUpdateValueLocalStorage }: IProps) => {
     onUpdateValueLocalStorage(
       'savingsYearHeaders',
       ['collapsed', year],
+      `Collapsed Savings for year ${year}`,
+      collapsed,
       !collapsed
     );
     setCollapsed(!collapsed);
@@ -190,14 +196,20 @@ const mapStateToProps = (state: AppState) => {
   };
 };
 
-const mapDispatchToProps = (dispatch: Dispatch<any>) => {
+const mapDispatchToProps = (
+  dispatch: ThunkDispatch<AppState, void, AnyAction>
+) => {
   return {
     onUpdateValueLocalStorage: (
       index: string,
       indexes: string[],
-      amount: number | boolean
+      label: string,
+      previous: boolean,
+      amount: boolean
     ) => {
-      dispatch(updateValueLocalStorage(index, indexes, amount));
+      dispatch(
+        updateValueLocalStorage(index, indexes, label, previous, amount)
+      );
     },
   };
 };

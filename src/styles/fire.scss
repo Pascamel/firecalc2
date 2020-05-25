@@ -405,7 +405,6 @@ a.media {
 
 .chart-container {
   height: calc(100% - 125px);
-
   > div:nth-child(1) {
     height: 100%;
     > div {
@@ -414,12 +413,17 @@ a.media {
         height: 100%;
         > div:nth-child(1) {
           height: 100%;
-          > div:nth-child(2) {
-            height: calc(100% - 54px);
+          > div:last-child {
+            height: 100%;
             > div {
-              height: 100%;
-              > div:nth-child(3) {
-                height: calc(100% - 60px);
+              height: calc(100%);
+              > div {
+                height: 100%;
+                > div:last-child {
+                  height: calc(100% - 60px);
+                  vertical-align: top;
+                  max-height: 600px;
+                }
               }
             }
           }

@@ -1,11 +1,13 @@
-import React, { Dispatch, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Redirect, RouteComponentProps } from 'react-router-dom';
 import { Col, Container, Row } from 'reactstrap';
+import { AnyAction } from 'redux';
+import { ThunkDispatch } from 'redux-thunk';
 
 import { loadBank } from '../../actions';
 import Bank from '../../bank';
-import { LoadingPanel, Mobile, NotMobile, SavePanel } from '../../components';
+import { LoadingPanel, SavePanel } from '../../components';
 import ROUTES from '../../constants/routes';
 import { currentMonthRoute, labelMonth, nextMonth, prevMonth } from '../../helpers';
 import { AppState } from '../../store';
@@ -18,27 +20,29 @@ interface IProps extends RouteComponentProps<{ month: string; year: string }> {
   authUser: firebase.User | null;
   bank: Bank.IBank;
   bankLoaded: boolean;
+  bankLoading: boolean;
   onLoadBank: (uid: string) => void;
 }
 
-const MonthPageBase = (props: IProps & RouteComponentProps) => {
-  const {
-    authUser,
-    bank,
-    bankLoaded,
-    onLoadBank,
-    location,
-    history,
-    match,
-  } = props;
+const MonthPageBase = ({
+  authUser,
+  bank,
+  bankLoaded,
+  bankLoading,
+  onLoadBank,
+  location,
+  history,
+  match,
+}: IProps & RouteComponentProps) => {
   const [year, setYear] = useState<string>(match.params.year || '0');
   const [month, setMonth] = useState(match.params.month || '0');
 
   useEffect(() => {
-    if (bankLoaded || !authUser) return;
-
+    if (bankLoaded || bankLoading || !authUser) {
+      return;
+    }
     onLoadBank(authUser.uid);
-  }, [authUser, bankLoaded, onLoadBank]);
+  }, [authUser, bankLoaded, bankLoading, onLoadBank]);
 
   const goPrevMonth = () => {
     const p = prevMonth(year, month);
@@ -113,35 +117,35 @@ const MonthPageBase = (props: IProps & RouteComponentProps) => {
 
   return (
     <>
-      <Mobile>
-        <SavePanel label={labelMonth(month, year, true)} {...savePanelProps} />
-      </Mobile>
-      <NotMobile>
-        <SavePanel label={labelMonth(month, year)} {...savePanelProps} />
-      </NotMobile>
+      <SavePanel
+        className="d-block d-sm-none"
+        label={labelMonth(month, year, true)}
+        {...savePanelProps}
+      />
+      <SavePanel
+        className="d-none d-sm-block"
+        label={labelMonth(month, year)}
+        {...savePanelProps}
+      />
       <Container fluid className="top-shadow">
         <Row>
           <Col className="pr-0 pl-0">
             <Container>
-              <NotMobile>
-                <Row>
-                  <Col>
-                    <Header month={month} year={year} />
-                  </Col>
-                </Row>
-              </NotMobile>
+              <Row className="d-none d-sm-block">
+                <Col>
+                  <Header month={month} year={year} />
+                </Col>
+              </Row>
               <Row>
                 <Savings month={month} year={year} />
                 <Incomes month={month} year={year} />
                 <Expenses month={month} year={year} />
               </Row>
-              <Mobile>
-                <Row>
-                  <Col>
-                    <Header month={month} year={year} />
-                  </Col>
-                </Row>
-              </Mobile>
+              <Row className="d-block d-sm-none">
+                <Col>
+                  <Header month={month} year={year} />
+                </Col>
+              </Row>
             </Container>
           </Col>
         </Row>
@@ -155,10 +159,13 @@ const mapStateToProps = (state: AppState) => {
     authUser: state.sessionState.authUser,
     bank: state.bankState.bank,
     bankLoaded: state.bankState.bankLoaded,
+    bankLoading: state.bankState.bankLoading,
   };
 };
 
-const mapDispatchToProps = (dispatch: Dispatch<any>) => {
+const mapDispatchToProps = (
+  dispatch: ThunkDispatch<AppState, void, AnyAction>
+) => {
   return {
     onLoadBank: (uid: string) => {
       dispatch(loadBank(uid));

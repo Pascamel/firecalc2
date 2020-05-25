@@ -1,6 +1,8 @@
-import React, { Dispatch } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { Alert, Button, Col, Row } from 'reactstrap';
+import { AnyAction } from 'redux';
+import { ThunkDispatch } from 'redux-thunk';
 
 import { newIncomeHeader } from '../../actions';
 import Bank, { IIncomeHeader } from '../../bank';
@@ -48,15 +50,17 @@ const Incomes = ({ bank, bankLoaded, onNewIncomeHeader }: IProps) => {
 const mapStateToProps = (state: AppState) => {
   return {
     bank: state.bankState.bank,
-    bankLoaded: state.bankState.bankLoaded
+    bankLoaded: state.bankState.bankLoaded,
   };
 };
 
-const mapDispatchToProps = (dispatch: Dispatch<any>) => {
+const mapDispatchToProps = (
+  dispatch: ThunkDispatch<AppState, void, AnyAction>
+) => {
   return {
     onNewIncomeHeader: () => {
       dispatch(newIncomeHeader());
-    }
+    },
   };
 };
 

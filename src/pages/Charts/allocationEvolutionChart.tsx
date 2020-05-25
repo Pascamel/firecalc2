@@ -8,10 +8,14 @@ import ResponsiveWrapper from './responsiveWrapper';
 
 export interface IAllocationEvolutionChart extends IInterface {}
 
+interface ISpecificProps {
+  smooth?: boolean;
+}
 const AllocationEvolutionChart = ({
   data,
+  smooth,
   percentage,
-}: IProps<IInterface[]> & IPercentageProps) => {
+}: IProps<IInterface[]> & IPercentageProps & ISpecificProps) => {
   const d: IInterface[] = percentage
     ? deepCopy(data).map((month: IAllocationEvolutionChart) => {
         const alloc = month.allocation;
@@ -57,7 +61,7 @@ const AllocationEvolutionChart = ({
         <Legend formatter={Helpers.formatLegend} />
         {Object.keys(d[0].allocation || {}).map((key, index) => (
           <Area
-            type="monotone"
+            type={smooth ? 'monotone' : 'linear'}
             key={key}
             dataKey={key}
             stackId="1"

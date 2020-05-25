@@ -10,11 +10,11 @@ import ResponsiveWrapper from './responsiveWrapper';
 
 export interface INetWorthVsSavingsChartData extends IInterface {}
 
-const NetWorthVsSavingsChart = (
-  props: IProps<IInterface[]> & IPercentageProps
-) => {
-  const { data, percentage, darkMode } = props;
-
+const NetWorthVsSavingsChart = ({
+  data,
+  percentage,
+  darkMode,
+}: IProps<IInterface[]> & IPercentageProps) => {
   if (percentage) {
     const d: INetWorthVsSavingsChartData[] = percentage
       ? deepCopy(data).map((month: INetWorthVsSavingsChartData) => {

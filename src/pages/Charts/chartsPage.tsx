@@ -1,12 +1,14 @@
-import React, { Dispatch, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router-dom';
 import { Col, Container, Row } from 'reactstrap';
+import { AnyAction } from 'redux';
+import { ThunkDispatch } from 'redux-thunk';
 
 import { loadBank } from '../../actions';
 import Bank from '../../bank';
-import { HeaderPanel, LoadingPanel, Mobile, NotMobile } from '../../components';
-import * as CHARTS from '../../constants/charts';
+import { HeaderPanel, LoadingPanel } from '../../components';
+import CHARTS from '../../constants/charts';
 import { AppState } from '../../store';
 import { IAllocationEvolutionChart } from './allocationEvolutionChart';
 import { IBreakEvenPointChartData } from './breakEvenPointChart';
@@ -24,6 +26,7 @@ interface IProps extends RouteComponentProps<{ type: string }> {
   authUser: firebase.User | null;
   bank: Bank.IBank;
   bankLoaded: boolean;
+  bankLoading: boolean;
   onLoadBank: (uid: string) => void;
   darkMode: boolean;
 }
@@ -35,17 +38,29 @@ interface IRecap {
   sae: IAllocationEvolutionChart[];
   bep: IBreakEvenPointChartData[];
   ybu: IYearlyGoalBurnUpChartData[];
+  eae: IAllocationEvolutionChart[];
 }
 
-const ChartsPageBase = (props: IProps & RouteComponentProps) => {
-  const { match, authUser, bank, onLoadBank, bankLoaded } = props;
+const ChartsPageBase = ({
+  authUser,
+  bank,
+  bankLoaded,
+  bankLoading,
+  darkMode,
+  history,
+  match,
+  location,
+  onLoadBank,
+}: IProps & RouteComponentProps) => {
   const [type, setType] = useState(match.params.type || '');
+  const routeProps = { history, match, location };
 
   useEffect(() => {
-    if (bankLoaded || !authUser) return;
-
+    if (bankLoaded || bankLoading || !authUser) {
+      return;
+    }
     onLoadBank(authUser.uid);
-  }, [authUser, bankLoaded, onLoadBank]);
+  }, [authUser, bankLoaded, bankLoading, onLoadBank]);
 
   useEffect(() => {
     if (type === (match.params.type || '')) return;
@@ -55,57 +70,65 @@ const ChartsPageBase = (props: IProps & RouteComponentProps) => {
 
   const chartsBlock = (mobile: boolean, recap: IRecap) => (
     <>
-      {type === CHARTS.URL.INCOME_VS_SAVINGS && (
+      {type === CHARTS.INCOME_VS_SAVINGS.URL && (
         <YearlyBreakdown
           no-switch
           chart={type}
           data={recap.svsi}
           mobile={mobile}
-          {...props}
+          {...routeProps}
         />
       )}
-      {type === CHARTS.URL.NET_WORTH_VS_SAVINGS && (
+      {type === CHARTS.NET_WORTH_VS_SAVINGS.URL && (
         <YearlyBreakdown
           chart={type}
           data={recap.nws}
           mobile={mobile}
-          {...props}
+          {...routeProps}
         />
       )}
-      {type === CHARTS.URL.SAVINGS_BREAKDOWN && (
+      {type === CHARTS.SAVINGS_BREAKDOWN.URL && (
         <SavingsBreakdownChart
           data={recap.sb}
           mobile={mobile}
-          darkMode={props.darkMode}
+          darkMode={darkMode}
         />
       )}
-      {type === CHARTS.URL.ALLOCATION_EVOLUTION && (
+      {type === CHARTS.SAVINGS_ALLOCATION_EVOLUTION.URL && (
         <YearlyBreakdown
           chart={type}
           data={recap.sae}
           mobile={mobile}
-          {...props}
+          {...routeProps}
         />
       )}
-      {type === CHARTS.URL.BREAK_EVEN_POINT && (
+      {type === CHARTS.EXPENSES_ALLOCATION_EVOLUTION.URL && (
+        <YearlyBreakdown
+          chart={type}
+          data={recap.eae}
+          mobile={mobile}
+          {...routeProps}
+        />
+      )}
+      {type === CHARTS.BREAK_EVEN_POINT.URL && (
         <YearlyBreakdown
           chart={type}
           data={recap.bep}
           mobile={mobile}
-          {...props}
+          {...routeProps}
         />
       )}
-      {type === CHARTS.URL.YEARLY_GOAL_BURNUP && (
+      {type === CHARTS.YEARLY_GOAL_BURNUP.URL && (
         <YearlyBreakdown
           hide-all
           chart={type}
           data={recap.ybu}
           mobile={mobile}
-          {...props}
+          {...routeProps}
         />
       )}
-      {type === CHARTS.URL.PROJECTION && (
-        <ProjectionChartPage mobile={mobile} chart={type} {...props} />
+      {type === CHARTS.PROJECTION.URL && (
+        <ProjectionChartPage mobile={mobile} chart={type} {...routeProps} />
       )}
     </>
   );
@@ -124,16 +147,14 @@ const ChartsPageBase = (props: IProps & RouteComponentProps) => {
             <Container>
               <Row>
                 <Col md={2} sm={12}>
-                  <Selector
-                    type={type}
-                    history={props.history}
-                    match={props.match}
-                    location={props.location}
-                  />
+                  <Selector type={type} {...routeProps} />
                 </Col>
-                <Col md={10} sm={12}>
-                  <Mobile>{chartsBlock(true, recap)}</Mobile>
-                  <NotMobile>{chartsBlock(false, recap)}</NotMobile>
+
+                <Col md={10} sm={12} className="d-block d-sm-none">
+                  {chartsBlock(true, recap)}
+                </Col>
+                <Col md={10} sm={12} className="d-none d-sm-block">
+                  <div>{chartsBlock(false, recap)}</div>
                 </Col>
               </Row>
             </Container>
@@ -149,11 +170,14 @@ const mapStateToProps = (state: AppState) => {
     authUser: state.sessionState.authUser,
     bank: state.bankState.bank,
     bankLoaded: state.bankState.bankLoaded,
+    bankLoading: state.bankState.bankLoading,
     darkMode: state.sessionState.darkMode,
   };
 };
 
-const mapDispatchToProps = (dispatch: Dispatch<any>) => {
+const mapDispatchToProps = (
+  dispatch: ThunkDispatch<AppState, void, AnyAction>
+) => {
   return {
     onLoadBank: (uid: string) => dispatch(loadBank(uid)),
   };

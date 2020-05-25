@@ -2,7 +2,7 @@ $bodyText: #ddd;
 $bodyBackground: #222;
 $headerText: #bbb;
 $headerTextActive: #fff;
-$headerBackground: #375a7f;
+$headerBackground: #666;
 $headerBackgroundUpdated: #f39c12;
 $alertBackground: #333;
 $successColor: #008958;
@@ -55,7 +55,9 @@ body.dark-mode {
   }
 
   .alert-header {
-    background: $headerBackground;
+    background: $bodyBackground;
+    border-top: 1px solid $headerBackground;
+    border-bottom: 1px solid $headerBackground;
 
     .btn-link {
       &.disabled {

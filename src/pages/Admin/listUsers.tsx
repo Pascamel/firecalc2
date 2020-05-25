@@ -10,16 +10,16 @@ interface IProps {
 const ListUsers = ({ users }: IProps) => (
   <>
     <b>{users.length}</b> users
-    <table className="table mt-3">
+    <table className="table table-users mt-3">
       <thead>
         <tr>
-          <th style={{ width: '2%' }}></th>
-          <th style={{ width: '30%' }}>ID</th>
-          <th style={{ width: '58%' }}>Email</th>
-          <th style={{ width: '10%' }}>Type</th>
+          <th></th>
+          <th>ID</th>
+          <th>Email</th>
+          <th>Type</th>
         </tr>
       </thead>
-      {users.map(user => (
+      {users.map((user) => (
         <User key={user.id} user={user} />
       ))}
     </table>
