@@ -16,7 +16,7 @@
     "firebase-tools": "^6.12.0",
     "font-awesome": "^4.7.0",
     "history": "^4.10.1",
-    "mathjs": "^5.10.3",
+    "mathjs": "^7.5.1",
     "moment": "^2.24.0",
     "preval.macro": "^3.0.0",
     "react": "^16.12.0",
