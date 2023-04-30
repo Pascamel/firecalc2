@@ -13,7 +13,7 @@
     "caniuse-lite": "^1.0.30001013",
     "chart.js": "^2.9.3",
     "firebase": "^5.11.1",
-    "firebase-tools": "^6.12.0",
+    "firebase-tools": "^11.29.1",
     "font-awesome": "^4.7.0",
     "history": "^4.10.1",
     "mathjs": "^7.5.1",
